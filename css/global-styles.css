@@ -76,15 +76,12 @@
     justify-content: space-around;
 }
 
-<<<<<<< Updated upstream
-=======
 .profile {
     display: flex;
     align-items: center;
     justify-content: end;
 }
 
->>>>>>> Stashed changes
 .profile img {
     min-width: 70px;
     width: 70px;
@@ -93,8 +90,6 @@
     margin: 0 5px 0 5px;
 }
 
-<<<<<<< Updated upstream
-=======
 #profile-div-flex {
     display: flex;
     flex-direction: column;
@@ -131,7 +126,6 @@
 
 
 
->>>>>>> Stashed changes
 @media only screen and (max-width: 960px) {
     .logo {
         order: 1;
