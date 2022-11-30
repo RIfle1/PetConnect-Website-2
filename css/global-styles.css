@@ -1,5 +1,6 @@
 /* font-family: 'Inter', sans-serif;*/
 /* min-size: 960 px*/
+/*php -S localhost:4000*/
 
 
 .text-font {
@@ -75,6 +76,15 @@
     justify-content: space-around;
 }
 
+<<<<<<< Updated upstream
+=======
+.profile {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
+
+>>>>>>> Stashed changes
 .profile img {
     min-width: 70px;
     width: 70px;
@@ -83,6 +93,45 @@
     margin: 0 5px 0 5px;
 }
 
+<<<<<<< Updated upstream
+=======
+#profile-div-flex {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: end;
+}
+
+#dropdown-menu {
+    display: none;
+    margin: 70px 0 0 0;
+    width: 300px;
+    background-color: #d9d9d9;
+    border-radius: 5px;
+}
+
+#profile-logo:hover + #dropdown-menu, #dropdown-menu:hover {
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+}
+
+.dropdown-menu-line {
+    padding: 1px;
+    background-color: #808080;
+    border-radius: 1px;
+}
+
+#dropdown-menu p, #dropdown-menu a, .dropdown-menu-line {
+    margin: 10px 15px 10px 15px;
+    text-decoration: none;
+    font-weight: 100;
+    color: #808080;
+}
+
+
+
+>>>>>>> Stashed changes
 @media only screen and (max-width: 960px) {
     .logo {
         order: 1;
@@ -122,6 +171,14 @@
     .profile img {
         min-width: 50px;
         width: 50px;
+    }
+
+    #dropdown-menu {
+        margin: 50px 0 0 0;
+    }
+
+    #dropdown-menu p, #dropdown-menu a, .dropdown-menu-line {
+        margin: 5px 10px 5px 10px;
     }
 }
 
