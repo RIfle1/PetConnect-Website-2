@@ -57,15 +57,29 @@
 
 <div>
     <?php
-    $name = "aa";
-    echo "$name";
+
+    include 'dbConnection.php';
+    $conn = OpenCon();
+
+    $test_query = 'SELECT cltID, cltFirstName, cltLastName FROM Client';
+    $result = mysqli_query($conn, $test_query);
+
+    if ($result->num_rows > 0) {
+        // output data of each row
+        while($row = $result->fetch_assoc()) {
+            echo "id: " . $row["cltID"]. " - Name: " . $row["cltFirstName"]. " - LastName: " . $row["cltLastName"]. "<br>";
+        }
+    } else {
+        echo "0 results";
+    }
+
+    CloseCon($conn);
     ?>
+
+
 </div>
 
 <div>
-    <?php
-
-    ?>
 </div>
 
 </body>
