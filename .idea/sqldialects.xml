@@ -2,5 +2,6 @@
 <project version="4">
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/php/home.php" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/php/test.php" dialect="GenericSQL" />
   </component>
 </project>

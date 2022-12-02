@@ -11,7 +11,7 @@ function OpenCon()
     return $conn;
 }
 
-function CloseCon($conn)
+function CloseCon($conn): void
 {
     $conn->close();
 }
