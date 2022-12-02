@@ -24,8 +24,7 @@ include 'site-header.php';
 <?php
 include 'entities.php';
 //require __DIR__ . 'entities.php';
-$client1 = new Client("","test","test"  , "test", "test", 123, "test");
-$client1->autoSetCltID();
+$client1 = new Client("test","test"  , "test", "test", 123, "test");
 echo $client1->getCltID();
 //echo "<hr>";
 //echo returnLastIDInt("cltID", "Client", "clt");

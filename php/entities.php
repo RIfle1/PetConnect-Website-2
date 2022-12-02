@@ -21,20 +21,15 @@ class Client
      * @param $cltPassword
      */
 
-    public function __construct($cltID, $cltUsername, $cltFirstName, $cltLastName, $cltEmail, $cltPhoneNumber, $cltPassword)
+    public function __construct($cltUsername, $cltFirstName, $cltLastName, $cltEmail, $cltPhoneNumber, $cltPassword)
     {
-        $this->cltID = $cltID;
+        $this->cltID = autoSetCltID();
         $this->cltUsername = $cltUsername;
         $this->cltFirstName = $cltFirstName;
         $this->cltLastName = $cltLastName;
         $this->cltEmail = $cltEmail;
         $this->cltPhoneNumber = $cltPhoneNumber;
         $this->cltPassword = $cltPassword;
-    }
-
-    function autoSetCltID(): void
-    {
-        $this->cltID = autoSetID("cltID", "Client", "clt");
     }
 
     /**
@@ -226,4 +221,9 @@ function returnLastIDInt($id, $table, $idFormat) : int {
 function autoSetID($id, $table, $idFormat) : string {
     $newIDInt = returnLastIDInt($id, $table, $idFormat) + 1;
     return $idFormat.strval($newIDInt);
+}
+
+function autoSetCltID(): string
+{
+    return autoSetID("cltID", "Client", "clt");
 }

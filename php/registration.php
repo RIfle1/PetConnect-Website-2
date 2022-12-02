@@ -15,55 +15,54 @@ include '../html/registration-header.html';
 include 'entities.php';
 ?>
 
-<form action="registration.php" method="post">
+<form name="form" action="registration.php" method="post">
     <div class="form-body">
-
         <div class="login-form">
             <h1>Create an account</h1>
             <div>
                 Username:
-                <label for="username">
-                    <input type="text" name="username">
+                <label for="cltUsername-input">
+                    <input type="text" name="cltUsername-input">
                 </label>
             </div>
             <div>
                 First Name:
-                <label for="firstName">
-                    <input type="text" name="firstName">
+                <label for="cltFirstName-input">
+                    <input type="text" name="cltFirstName-input">
                 </label>
             </div>
             <div>
                 Last Name:
-                <label for="lastName">
-                    <input type="text" name="lastName">
+                <label for="cltLastName-input">
+                    <input type="text" name="cltLastName-input">
                 </label>
             </div>
             <div>
                 Email:
-                <label for="email">
-                    <input type="email" name="email">
+                <label for="cltEmail-input">
+                    <input type="email" name="cltEmail-input">
                 </label>
             </div>
             <div>
                 Phone Number:
-                <label for="phoneNumber">
-                    <input type="number" name="phoneNumber">
+                <label for="cltPhoneNumber-input">
+                    <input type="number" name="cltPhoneNumber-input">
                 </label>
             </div>
             <div>
                 Password:
-                <label for="password">
-                    <input type="text" name="password">
+                <label for="cltPassword-input">
+                    <input type="password" name="cltPassword-input">
                 </label>
             </div>
             <div>
                 Enter your password again:
-                <label for="password">
-                    <input type="text" name="password">
+                <label for="cltPasswordVer-input">
+                    <input type="password" name="cltPasswordVer-input">
                 </label>
             </div>
             <div>
-                <button type="submit">Create an Account</button>
+                <button type="submit" name="submit-button">Create an Account</button>
             </div>
             <div>
                 <p>By creating an account, you agree to PetConnect's <a href="#">Conditions of Use</a> and <a href="#">Privacy
@@ -73,14 +72,76 @@ include 'entities.php';
             <div>
                 <p>Already have an account? <a href="#">Sign in &rarr;</a></p>
             </div>
+
         </div>
+
     </div>
-    <?php
-//    $newUserInfo = new Client($_GET[""])
-//    echo findMax(array(1,2,3,300,5,6,7,8,9,10));
-    echo idToInt('clt_001_app_002', 'app');
-    ?>
+
 </form>
+
+<?php
+
+$inputList =
+    ["cltUsername-input",
+        "cltFirstName-input",
+        "cltLastName-input",
+        "cltEmail-input",
+        "cltPhoneNumber-input",
+        "cltPassword-input"
+    ];
+
+// Returns True if one of the fields is empty
+function checkEmptyInput($inputList): string
+{
+    $itemBoolList = array();
+    $itemBoolListSum = 0;
+
+    for ($index = 0; $index < count($inputList); $index++ ) {
+        $item = $inputList[$index];
+        $itemBool = !(empty($_POST[$item]));
+        if($itemBool == 0) {
+            $itemBoolList[] = 0;
+        }
+        else{
+            $itemBoolList[] = 1;
+        }
+    }
+    for ($index = 0; $index < count($itemBoolList); $index++) {
+        $itemBoolListSum += $itemBoolList[$index];
+    }
+
+
+    if ($itemBoolListSum < count($itemBoolList)) {
+        return "True";
+    }
+    else {
+        return "False";
+    }
+}
+
+
+if(checkEmptyInput($inputList) == "False") {
+    $newUserInfo = new Client
+    (
+        $_GET["cltUsername-input"],
+        $_GET["cltFirstName-input"],
+        $_GET["cltLastName-input"],
+        $_GET["cltEmail-input"],
+        $_GET["cltPhoneNumber-input"],
+        $_GET["cltPassword-input"]
+    );
+
+    echo $newUserInfo->getCltID(),
+    $newUserInfo->getCltUsername(),
+    $newUserInfo->getCltFirstName(),
+    $newUserInfo->getCltLastName(),
+    $newUserInfo->getCltUsername(),
+    $newUserInfo->getCltEmail(),
+    $newUserInfo->getCltPhoneNumber(),
+    $newUserInfo->getCltPassword();
+}
+
+?>
 
 <?php
 include '../html/registration-footer.html';
