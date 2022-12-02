@@ -22,43 +22,43 @@ include 'entities.php';
             <div>
                 Username:
                 <label for="cltUsername-input">
-                    <input type="text" name="cltUsername-input">
+                    <input type="text" name="cltUsername-input" required>
                 </label>
             </div>
             <div>
                 First Name:
                 <label for="cltFirstName-input">
-                    <input type="text" name="cltFirstName-input">
+                    <input type="text" name="cltFirstName-input" required>
                 </label>
             </div>
             <div>
                 Last Name:
                 <label for="cltLastName-input">
-                    <input type="text" name="cltLastName-input">
+                    <input type="text" name="cltLastName-input" required>
                 </label>
             </div>
             <div>
                 Email:
                 <label for="cltEmail-input">
-                    <input type="email" name="cltEmail-input">
+                    <input type="email" name="cltEmail-input" required>
                 </label>
             </div>
             <div>
                 Phone Number:
                 <label for="cltPhoneNumber-input">
-                    <input type="number" name="cltPhoneNumber-input">
+                    <input type="number" name="cltPhoneNumber-input" required>
                 </label>
             </div>
             <div>
                 Password:
                 <label for="cltPassword-input">
-                    <input type="password" name="cltPassword-input">
+                    <input type="password" name="cltPassword-input" required>
                 </label>
             </div>
             <div>
                 Enter your password again:
                 <label for="cltPasswordVer-input">
-                    <input type="password" name="cltPasswordVer-input">
+                    <input type="password" name="cltPasswordVer-input" required>
                 </label>
             </div>
             <div>
@@ -120,27 +120,20 @@ function checkEmptyInput($inputList): string
 }
 
 
-if(checkEmptyInput($inputList) == "False") {
+if(isset($_POST['submit-button'])) {
+    echo "test",
+    "<hr>";
     $newUserInfo = new Client
     (
-        $_GET["cltUsername-input"],
-        $_GET["cltFirstName-input"],
-        $_GET["cltLastName-input"],
-        $_GET["cltEmail-input"],
-        $_GET["cltPhoneNumber-input"],
-        $_GET["cltPassword-input"]
+        $_POST["cltUsername-input"],
+        $_POST["cltFirstName-input"],
+        $_POST["cltLastName-input"],
+        $_POST["cltEmail-input"],
+        $_POST["cltPhoneNumber-input"],
+        $_POST["cltPassword-input"]
     );
 
-    echo $newUserInfo->getCltID(),
-    $newUserInfo->getCltUsername(),
-    $newUserInfo->getCltFirstName(),
-    $newUserInfo->getCltLastName(),
-    $newUserInfo->getCltUsername(),
-    $newUserInfo->getCltEmail(),
-    $newUserInfo->getCltPhoneNumber(),
-    $newUserInfo->getCltPassword();
 }
-
 ?>
 
 <?php

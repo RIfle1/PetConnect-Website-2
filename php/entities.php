@@ -227,3 +227,11 @@ function autoSetCltID(): string
 {
     return autoSetID("cltID", "Client", "clt");
 }
+
+//function insertIntoDB($object, $table)
+//{
+//    for ($index = 0; $index < count($object); $index++) {
+//        $query = "INSERT INTO $table (`cltID`, `cltUsername`, `cltFirstName`, `cltLastName`, `cltEmail`, `cltPhoneNumber`, `cltPassword`) VALUES ($object->getCltID(), $object->getcltUsername(), )";
+//    }
+//}
+

@@ -25,13 +25,13 @@ include 'site-header.php';
 include 'entities.php';
 //require __DIR__ . 'entities.php';
 $client1 = new Client("test","test"  , "test", "test", 123, "test");
-echo $client1->getCltID();
+//echo $client1->getCltID();
 //echo "<hr>";
 //echo returnLastIDInt("cltID", "Client", "clt");
 //echo "<hr>";
 //echo returnLastIDString("cltID", "Client", "clt");
 //echo "<hr>";
-//echo autoSetID("appID", "appareil", "asjhdasjk");
+//echo autoSetID("cltID", "Client", "clt");
 //echo "<hr>";
 //echo idToInt("clt1_app3_adp4_wer66_sjfnsjf67", "clt");
 ?>
