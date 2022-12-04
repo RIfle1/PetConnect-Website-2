@@ -1,3 +1,6 @@
+<?php
+include 'site-header.php';
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -9,9 +12,6 @@
     <title>PetConnect</title>
 </head>
 <body>
-<?php
-include 'site-header.php';
-?>
 <div class="background-dog-div">
     <img id="background-img" src="../img/dogs/chien.jpg" alt="Main-Dog">
     <img id="foreground-img" src="../img/logos/iCollar_logo.png" alt="iCollar_logo">
@@ -21,19 +21,5 @@ include 'site-header.php';
     <h1>La technologie pour vos animaux</h1>
 </div>
 
-<?php
-include 'entities.php';
-//require __DIR__ . 'entities.php';
-$client1 = new Client("test","test"  , "test", "test", 123, "test");
-//echo $client1->getCltID();
-//echo "<hr>";
-//echo returnLastIDInt("cltID", "Client", "clt");
-//echo "<hr>";
-//echo returnLastIDString("cltID", "Client", "clt");
-//echo "<hr>";
-//echo autoSetID("cltID", "Client", "clt");
-//echo "<hr>";
-//echo idToInt("clt1_app3_adp4_wer66_sjfnsjf67", "clt");
-?>
 </body>
 </html>

@@ -3,13 +3,13 @@ include 'dbConnection.php';
 
 class Client
 {
-    private string $cltID;
-    private string $cltUsername;
-    private string $cltFirstName;
-    private string $cltLastName;
-    private string $cltEmail;
-    private int $cltPhoneNumber;
-    private string $cltPassword;
+    public string $cltID;
+    public string $cltUsername;
+    public string $cltFirstName;
+    public string $cltLastName;
+    public string $cltEmail;
+    public int $cltPhoneNumber;
+    public string $cltPassword;
 
     /**
      * @param $cltID
@@ -179,14 +179,6 @@ function idToInt($id, $idFormat): string{
     return intval($desiredId);
 }
 
-function runSQLResult($query) : bool|mysqli_result
-{
-    $conn = OpenCon();
-    $result = mysqli_query($conn, $query);
-    CloseCon($conn);
-    return $result;
-}
-
 function returnLastIDString($id, $table, $idFormat) : string {
 
     $lastID = returnLastIDInt($id, $table, $idFormat);
@@ -227,11 +219,4 @@ function autoSetCltID(): string
 {
     return autoSetID("cltID", "Client", "clt");
 }
-
-//function insertIntoDB($object, $table)
-//{
-//    for ($index = 0; $index < count($object); $index++) {
-//        $query = "INSERT INTO $table (`cltID`, `cltUsername`, `cltFirstName`, `cltLastName`, `cltEmail`, `cltPhoneNumber`, `cltPassword`) VALUES ($object->getCltID(), $object->getcltUsername(), )";
-//    }
-//}
 

@@ -1,3 +1,17 @@
+<?php
+session_start();
+include 'dbConnection.php';
+$cltFirstName = "";
+$cltLastName = "";
+if($_SESSION) {
+    $sql = "SELECT cltFirstName, cltLastName FROM Client WHERE cltID= '".$_SESSION["cltID"]."'";
+    $result = runSQLResult($sql);
+    $clientInfo = $result->fetch_assoc();
+    $cltFirstName = $clientInfo["cltFirstName"];
+    $cltLastName = $clientInfo["cltLastName"];
+}
+
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -28,15 +42,28 @@
     <div class="profile">
         <div id="profile-div-flex">
             <div id="profile-logo"><a href="#"><img id="profile-img-1" src="../img/profile/client.png" alt="Client-logo"></a></div>
-            <div id="dropdown-menu" class="text-font">
-                <p>Bonjour XXXXX</p>
+            <?php if($cltFirstName || $cltLastName): ?>
+            <div id="dropdown-menu-login" class="text-font">
+                <?php echo "<p>Bonjour $cltFirstName $cltLastName</p>"; ?>
                 <div class="dropdown-menu-line"></div>
                 <a href="#">Mon Compte</a>
                 <a href="#">Mes Commandes</a>
                 <a href="#">Mes Appareils</a>
                 <div class="dropdown-menu-line"></div>
-                <a href="#">Logout</a>
+                <a href="logout.php">Logout</a>
             </div>
+            <?php else: ?>
+                <div id="dropdown-menu-login" class="text-font">
+                    <a href="login.php">Sign in</a>
+                    <p>New Client?<a href="signup.php">Signup.</a></p>
+                    <div class="dropdown-menu-line"></div>
+                    <a href="#">Mon Compte</a>
+                    <a href="#">Mes Commandes</a>
+                    <a href="#">Mes Appareils</a>
+                    <div class="dropdown-menu-line"></div>
+                    <a href="logout.php">Logout</a>
+                </div>
+            <?php endif; ?>
         </div>
         <div>
             <a href="#"><img id="profile-img-2" src="../img/profile/basket.png" alt="Basket-logo"></a>
