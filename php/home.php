@@ -1,9 +1,9 @@
 <?php
 //include 'site-header.php';
 include 'dbConnection.php';
-$result = getImage('chien2');
+$result = getImage('chien');
 $row = $result->fetch_array();
-$img = "data:imgData;base128,".base64_encode($row['imgData']);
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -20,7 +20,7 @@ $img = "data:imgData;base128,".base64_encode($row['imgData']);
 
 
     <img id="foreground-img" src="../img/logos/iCollar_logo.png" alt="iCollar_logo">
-    <img id="background-img" src="<?php echo $img; ?>" alt="chien"/>
+    <img id="background-img" src="<?php echo $row['imgPath']?>" alt="chien"/>
 </div>
 
 <div class="header-font" id="slogan">
