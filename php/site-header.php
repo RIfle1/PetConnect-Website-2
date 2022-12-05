@@ -70,7 +70,6 @@ if($_SESSION) {
         </div>
 
     </div>
-
 </div>
 </body>
 </html>

@@ -10,5 +10,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="water.css" level="application" />
     <orderEntry type="library" name="just-validate" level="application" />
+    <orderEntry type="library" name="water.css" level="application" />
+    <orderEntry type="library" name="just-validate" level="application" />
   </component>
 </module>

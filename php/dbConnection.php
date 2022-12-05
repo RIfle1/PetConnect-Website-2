@@ -46,3 +46,12 @@ function insertSQL($sql): string
     }
 }
 
+function getImage($imgName): mysqli_result|bool
+{
+    $sql = "SELECT imgData FROM image WHERE imgName = '".$imgName."'";
+    return runSQLResult($sql);
+}
+
+
+
+

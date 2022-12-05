@@ -1,5 +1,9 @@
 <?php
-include 'site-header.php';
+//include 'site-header.php';
+include 'dbConnection.php';
+$result = getImage('chien2');
+$row = $result->fetch_array();
+$img = "data:imgData;base128,".base64_encode($row['imgData']);
 ?>
 <!doctype html>
 <html lang="en">
@@ -7,14 +11,16 @@ include 'site-header.php';
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <link rel="stylesheet" href="../css/home-styles.css">
     <title>PetConnect</title>
 </head>
 <body>
 <div class="background-dog-div">
-    <img id="background-img" src="../img/dogs/chien.jpg" alt="Main-Dog">
+
+
     <img id="foreground-img" src="../img/logos/iCollar_logo.png" alt="iCollar_logo">
+    <img id="background-img" src="<?php echo $img; ?>" alt="chien"/>
 </div>
 
 <div class="header-font" id="slogan">
