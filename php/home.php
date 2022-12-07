@@ -20,7 +20,7 @@ $row = $result->fetch_array();
 
 
     <img id="foreground-img" src="../img/logos/iCollar_logo.png" alt="iCollar_logo">
-    <img id="background-img" src="<?php echo $row['imgPath']?>" alt="chien"/>
+    <img id="background-img" src="../img/<?php echo $row['imgCategory']."/".$row['imgPath']?>" alt="chien"/>
 </div>
 
 <div class="header-font" id="slogan">
