@@ -2,20 +2,23 @@
 /* min-size: 960 px*/
 /*php -S localhost:4000*/
 
+body {
+    margin: 0 0 0 0;
+    min-width: 392px;
+}
 
 .text-font {
     font-family: 'Inter', sans-serif;
     font-style: normal;
-    font-weight: 500;
 }
 
-.header-font {
+.text-font-200 {
     font-family: 'Inter', sans-serif;
     font-style: normal;
-    font-weight: 500;
+    font-weight: 200;
 }
 
-.main-header-font {
+.text-font-500 {
     font-family: 'Inter', sans-serif;
     font-style: normal;
     font-weight: 500;

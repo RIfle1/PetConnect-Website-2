@@ -1147,642 +1147,640 @@ test\\_%|schema||&apos;&apos;||UPDATE|G</Grants>
     <schema id="325" parent="1" name="information_schema">
       <CollationName>utf8_general_ci</CollationName>
     </schema>
-    <schema id="326" parent="1" name="mysql">
+    <schema id="326" parent="1" name="musique">
+      <CollationName>utf8_general_ci</CollationName>
+    </schema>
+    <schema id="327" parent="1" name="mysql">
       <CollationName>utf8mb4_general_ci</CollationName>
     </schema>
-    <schema id="327" parent="1" name="performance_schema">
+    <schema id="328" parent="1" name="performance_schema">
       <CollationName>utf8_general_ci</CollationName>
     </schema>
-    <schema id="328" parent="1" name="phpmyadmin">
+    <schema id="329" parent="1" name="phpmyadmin">
       <CollationName>utf8_bin</CollationName>
     </schema>
-    <schema id="329" parent="1" name="test">
+    <schema id="330" parent="1" name="test">
       <CollationName>latin1_swedish_ci</CollationName>
     </schema>
-    <user id="330" parent="1" name="pma">
+    <user id="331" parent="1" name="pma">
       <Host>localhost</Host>
-    </user>
-    <user id="331" parent="1" name="root">
-      <Host>127.0.0.1</Host>
     </user>
     <user id="332" parent="1" name="root">
-      <Host>::1</Host>
+      <Host>127.0.0.1</Host>
     </user>
     <user id="333" parent="1" name="root">
+      <Host>::1</Host>
+    </user>
+    <user id="334" parent="1" name="root">
       <Host>localhost</Host>
     </user>
-    <table id="334" parent="324" name="administrateur">
+    <table id="335" parent="324" name="administrateur">
       <Engine>InnoDB</Engine>
       <CollationName>utf8_general_ci</CollationName>
     </table>
-    <table id="335" parent="324" name="adresse">
+    <table id="336" parent="324" name="adresse">
       <Engine>InnoDB</Engine>
       <CollationName>utf8_general_ci</CollationName>
     </table>
-    <table id="336" parent="324" name="appareil">
+    <table id="337" parent="324" name="appareil">
       <Engine>InnoDB</Engine>
       <CollationName>utf8_general_ci</CollationName>
     </table>
-    <table id="337" parent="324" name="assitance">
+    <table id="338" parent="324" name="assitance">
       <Engine>InnoDB</Engine>
       <CollationName>utf8_general_ci</CollationName>
     </table>
-    <table id="338" parent="324" name="client">
+    <table id="339" parent="324" name="client">
       <Engine>InnoDB</Engine>
       <CollationName>utf8_general_ci</CollationName>
     </table>
-    <table id="339" parent="324" name="donnees_appareil">
+    <table id="340" parent="324" name="donnees_appareil">
       <Engine>InnoDB</Engine>
       <CollationName>utf8_general_ci</CollationName>
     </table>
-    <table id="340" parent="324" name="historique de commandes">
+    <table id="341" parent="324" name="historique de commandes">
       <Engine>InnoDB</Engine>
       <CollationName>utf8_general_ci</CollationName>
     </table>
-    <table id="341" parent="324" name="image">
+    <table id="342" parent="324" name="image">
       <Engine>InnoDB</Engine>
       <CollationName>utf8_general_ci</CollationName>
     </table>
-    <table id="342" parent="324" name="messagerie">
+    <table id="343" parent="324" name="messagerie">
       <Engine>InnoDB</Engine>
       <CollationName>utf8_general_ci</CollationName>
     </table>
-    <table id="343" parent="324" name="mode_de_paiement">
+    <table id="344" parent="324" name="mode_de_paiement">
       <Engine>InnoDB</Engine>
       <CollationName>utf8_general_ci</CollationName>
     </table>
-    <table id="344" parent="324" name="panier">
+    <table id="345" parent="324" name="panier">
       <Engine>InnoDB</Engine>
       <CollationName>utf8_general_ci</CollationName>
     </table>
-    <table id="345" parent="324" name="produit">
+    <table id="346" parent="324" name="produit">
       <Engine>InnoDB</Engine>
       <CollationName>utf8_general_ci</CollationName>
     </table>
-    <table id="346" parent="324" name="produit_liste">
+    <table id="347" parent="324" name="produit_liste">
       <Engine>InnoDB</Engine>
       <CollationName>utf8_general_ci</CollationName>
     </table>
-    <table id="347" parent="324" name="question">
+    <table id="348" parent="324" name="question">
       <Engine>InnoDB</Engine>
       <CollationName>utf8_general_ci</CollationName>
     </table>
-    <table id="348" parent="324" name="question_reponses">
+    <table id="349" parent="324" name="question_reponses">
       <Engine>InnoDB</Engine>
       <CollationName>utf8_general_ci</CollationName>
     </table>
-    <column id="349" parent="334" name="admID">
+    <column id="350" parent="335" name="admID">
       <DataType>char(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="350" parent="334" name="admEmail">
+    <column id="351" parent="335" name="admEmail">
       <DataType>varchar(30)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="351" parent="334" name="admUsername">
+    <column id="352" parent="335" name="admUsername">
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="352" parent="334" name="admPassword">
+    <column id="353" parent="335" name="admPassword">
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <index id="353" parent="334" name="PRIMARY">
+    <index id="354" parent="335" name="PRIMARY">
       <ColNames>admID</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="354" parent="334" name="PRIMARY">
+    <key id="355" parent="335" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="355" parent="335" name="adrID">
+    <column id="356" parent="336" name="adrID">
       <DataType>char(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="356" parent="335" name="adrPostalCode">
+    <column id="357" parent="336" name="adrPostalCode">
       <DataType>char(5)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="357" parent="335" name="adrStreet">
+    <column id="358" parent="336" name="adrStreet">
       <DataType>varchar(80)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="358" parent="335" name="adrBuilding">
+    <column id="359" parent="336" name="adrBuilding">
       <DataType>varchar(4)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <column id="359" parent="335" name="adrApartmentNumber">
+    <column id="360" parent="336" name="adrApartmentNumber">
       <DataType>varchar(4)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
-    <column id="360" parent="335" name="adrFloor">
+    <column id="361" parent="336" name="adrFloor">
       <DataType>varchar(2)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>6</Position>
     </column>
-    <column id="361" parent="335" name="Client_cltID">
+    <column id="362" parent="336" name="Client_cltID">
       <DataType>char(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>7</Position>
     </column>
-    <foreign-key id="362" parent="335" name="fk_Adresse_Client1">
+    <foreign-key id="363" parent="336" name="fk_Adresse_Client1">
       <ColNames>Client_cltID</ColNames>
       <RefColNames>cltID</RefColNames>
       <RefTableName>client</RefTableName>
     </foreign-key>
-    <index id="363" parent="335" name="PRIMARY">
+    <index id="364" parent="336" name="PRIMARY">
       <ColNames>adrID
 Client_cltID</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="364" parent="335" name="fk_Adresse_Client1_idx">
+    <index id="365" parent="336" name="fk_Adresse_Client1_idx">
       <ColNames>Client_cltID</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="365" parent="335" name="PRIMARY">
+    <key id="366" parent="336" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="366" parent="336" name="appID">
+    <column id="367" parent="337" name="appID">
       <DataType>char(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="367" parent="336" name="Client_cltID">
+    <column id="368" parent="337" name="Client_cltID">
       <DataType>char(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <foreign-key id="368" parent="336" name="fk_Appareil_Client1">
+    <foreign-key id="369" parent="337" name="fk_Appareil_Client1">
       <ColNames>Client_cltID</ColNames>
       <RefColNames>cltID</RefColNames>
       <RefTableName>client</RefTableName>
     </foreign-key>
-    <index id="369" parent="336" name="PRIMARY">
+    <index id="370" parent="337" name="PRIMARY">
       <ColNames>appID
 Client_cltID</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="370" parent="336" name="fk_Appareil_Client1_idx">
+    <index id="371" parent="337" name="fk_Appareil_Client1_idx">
       <ColNames>Client_cltID</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="371" parent="336" name="PRIMARY">
+    <key id="372" parent="337" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="372" parent="337" name="astID">
+    <column id="373" parent="338" name="astID">
       <DataType>char(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="373" parent="337" name="astQuestion">
+    <column id="374" parent="338" name="astQuestion">
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="374" parent="337" name="astAnswer">
+    <column id="375" parent="338" name="astAnswer">
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="375" parent="337" name="astDate">
+    <column id="376" parent="338" name="astDate">
       <DataType>date|0s</DataType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <index id="376" parent="337" name="PRIMARY">
+    <index id="377" parent="338" name="PRIMARY">
       <ColNames>astID</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="377" parent="337" name="PRIMARY">
+    <key id="378" parent="338" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="378" parent="338" name="cltID">
+    <column id="379" parent="339" name="cltID">
       <DataType>char(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="379" parent="338" name="cltUsername">
+    <column id="380" parent="339" name="cltUsername">
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="380" parent="338" name="cltFirstName">
+    <column id="381" parent="339" name="cltFirstName">
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="381" parent="338" name="cltLastName">
+    <column id="382" parent="339" name="cltLastName">
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <column id="382" parent="338" name="cltEmail">
+    <column id="383" parent="339" name="cltEmail">
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
-    <column id="383" parent="338" name="cltPhoneNumber">
+    <column id="384" parent="339" name="cltPhoneNumber">
       <DataType>char(10)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>6</Position>
     </column>
-    <column id="384" parent="338" name="cltPassword">
-      <DataType>varchar(48)|0s</DataType>
+    <column id="385" parent="339" name="cltPassword">
+      <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>7</Position>
     </column>
-    <index id="385" parent="338" name="PRIMARY">
+    <index id="386" parent="339" name="PRIMARY">
       <ColNames>cltID</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="386" parent="338" name="PRIMARY">
+    <key id="387" parent="339" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="387" parent="339" name="dapID">
+    <column id="388" parent="340" name="dapID">
       <DataType>char(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="388" parent="339" name="dapBPM">
+    <column id="389" parent="340" name="dapBPM">
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="389" parent="339" name="dapLatitude">
+    <column id="390" parent="340" name="dapLatitude">
       <DataType>decimal(8,6 digit)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="390" parent="339" name="dapLongitude">
+    <column id="391" parent="340" name="dapLongitude">
       <DataType>decimal(9,6 digit)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <column id="391" parent="339" name="dapCO2">
+    <column id="392" parent="340" name="dapCO2">
       <DataType>decimal(3,2 digit)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
-    <column id="392" parent="339" name="dapGaz">
+    <column id="393" parent="340" name="dapGaz">
       <DataType>decimal(3,2 digit)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>6</Position>
     </column>
-    <column id="393" parent="339" name="dapDecibel">
+    <column id="394" parent="340" name="dapDecibel">
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>7</Position>
     </column>
-    <column id="394" parent="339" name="dapTemp">
+    <column id="395" parent="340" name="dapTemp">
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>8</Position>
     </column>
-    <column id="395" parent="339" name="dapTime">
+    <column id="396" parent="340" name="dapTime">
       <DataType>time|0s</DataType>
       <NotNull>1</NotNull>
       <Position>9</Position>
     </column>
-    <column id="396" parent="339" name="dapDate">
+    <column id="397" parent="340" name="dapDate">
       <DataType>date|0s</DataType>
       <NotNull>1</NotNull>
       <Position>10</Position>
     </column>
-    <column id="397" parent="339" name="Appareil_appID">
+    <column id="398" parent="340" name="Appareil_appID">
       <DataType>char(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>11</Position>
     </column>
-    <column id="398" parent="339" name="Appareil_Client_cltID">
+    <column id="399" parent="340" name="Appareil_Client_cltID">
       <DataType>char(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>12</Position>
     </column>
-    <foreign-key id="399" parent="339" name="fk_Donnees_Appareil_Appareil1">
+    <foreign-key id="400" parent="340" name="fk_Donnees_Appareil_Appareil1">
       <ColNames>Appareil_appID
 Appareil_Client_cltID</ColNames>
       <RefColNames>appID
 Client_cltID</RefColNames>
       <RefTableName>appareil</RefTableName>
     </foreign-key>
-    <index id="400" parent="339" name="PRIMARY">
+    <index id="401" parent="340" name="PRIMARY">
       <ColNames>dapID
 Appareil_appID
 Appareil_Client_cltID</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="401" parent="339" name="fk_Donnees_Appareil_Appareil1_idx">
+    <index id="402" parent="340" name="fk_Donnees_Appareil_Appareil1_idx">
       <ColNames>Appareil_appID
 Appareil_Client_cltID</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="402" parent="339" name="PRIMARY">
+    <key id="403" parent="340" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="403" parent="340" name="hicID">
+    <column id="404" parent="341" name="hicID">
       <DataType>char(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="404" parent="340" name="hicStatus">
+    <column id="405" parent="341" name="hicStatus">
       <DataType>varchar(10)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="405" parent="340" name="hicDate">
+    <column id="406" parent="341" name="hicDate">
       <DataType>date|0s</DataType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="406" parent="340" name="Client_cltID">
+    <column id="407" parent="341" name="Client_cltID">
       <DataType>char(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <foreign-key id="407" parent="340" name="fk_Historique de commandes_Client1">
+    <foreign-key id="408" parent="341" name="fk_Historique de commandes_Client1">
       <ColNames>Client_cltID</ColNames>
       <RefColNames>cltID</RefColNames>
       <RefTableName>client</RefTableName>
     </foreign-key>
-    <index id="408" parent="340" name="PRIMARY">
+    <index id="409" parent="341" name="PRIMARY">
       <ColNames>hicID
 Client_cltID</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="409" parent="340" name="fk_Historique de commandes_Client1_idx">
+    <index id="410" parent="341" name="fk_Historique de commandes_Client1_idx">
       <ColNames>Client_cltID</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="410" parent="340" name="PRIMARY">
+    <key id="411" parent="341" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="411" parent="341" name="imgID">
+    <column id="412" parent="342" name="imgID">
       <DataType>char(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="412" parent="341" name="imgName">
-      <DataType>varchar(20)|0s</DataType>
+    <column id="413" parent="342" name="imgPath">
+      <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="413" parent="341" name="imgPath">
-      <DataType>varchar(255)|0s</DataType>
+    <column id="414" parent="342" name="imgCategory">
+      <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="414" parent="341" name="imgCategory">
-      <DataType>varchar(50)|0s</DataType>
-      <NotNull>1</NotNull>
-      <Position>4</Position>
-    </column>
-    <index id="415" parent="341" name="PRIMARY">
+    <index id="415" parent="342" name="PRIMARY">
       <ColNames>imgID</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="416" parent="341" name="PRIMARY">
+    <key id="416" parent="342" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="417" parent="342" name="msgID">
+    <column id="417" parent="343" name="msgID">
       <DataType>char(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="418" parent="342" name="msgMessage">
+    <column id="418" parent="343" name="msgMessage">
       <DataType>varchar(100)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="419" parent="342" name="msgDate">
+    <column id="419" parent="343" name="msgDate">
       <DataType>date|0s</DataType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="420" parent="342" name="Administrateur_admID">
+    <column id="420" parent="343" name="Administrateur_admID">
       <DataType>char(7)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <column id="421" parent="342" name="Client_cltID">
+    <column id="421" parent="343" name="Client_cltID">
       <DataType>char(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
-    <foreign-key id="422" parent="342" name="fk_Messagerie_Administrateur1">
+    <foreign-key id="422" parent="343" name="fk_Messagerie_Administrateur1">
       <ColNames>Administrateur_admID</ColNames>
       <RefColNames>admID</RefColNames>
       <RefTableName>administrateur</RefTableName>
     </foreign-key>
-    <foreign-key id="423" parent="342" name="fk_Messagerie_Client1">
+    <foreign-key id="423" parent="343" name="fk_Messagerie_Client1">
       <ColNames>Client_cltID</ColNames>
       <RefColNames>cltID</RefColNames>
       <RefTableName>client</RefTableName>
     </foreign-key>
-    <index id="424" parent="342" name="PRIMARY">
+    <index id="424" parent="343" name="PRIMARY">
       <ColNames>msgID
 Administrateur_admID
 Client_cltID</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="425" parent="342" name="fk_Messagerie_Administrateur1_idx">
+    <index id="425" parent="343" name="fk_Messagerie_Administrateur1_idx">
       <ColNames>Administrateur_admID</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="426" parent="342" name="fk_Messagerie_Client1_idx">
+    <index id="426" parent="343" name="fk_Messagerie_Client1_idx">
       <ColNames>Client_cltID</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="427" parent="342" name="PRIMARY">
+    <key id="427" parent="343" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="428" parent="343" name="mdpID">
+    <column id="428" parent="344" name="mdpID">
       <DataType>char(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="429" parent="343" name="mdpType">
+    <column id="429" parent="344" name="mdpType">
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="430" parent="343" name="mdpCardNum">
+    <column id="430" parent="344" name="mdpCardNum">
       <DataType>char(16)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="431" parent="343" name="mdpCVV">
+    <column id="431" parent="344" name="mdpCVV">
       <DataType>char(3)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <column id="432" parent="343" name="mdpCardExpiryDate">
+    <column id="432" parent="344" name="mdpCardExpiryDate">
       <DataType>char(4)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
-    <column id="433" parent="343" name="Client_cltID">
+    <column id="433" parent="344" name="Client_cltID">
       <DataType>char(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>6</Position>
     </column>
-    <foreign-key id="434" parent="343" name="fk_Mode_De_Paiement_Client1">
+    <foreign-key id="434" parent="344" name="fk_Mode_De_Paiement_Client1">
       <ColNames>Client_cltID</ColNames>
       <RefColNames>cltID</RefColNames>
       <RefTableName>client</RefTableName>
     </foreign-key>
-    <index id="435" parent="343" name="PRIMARY">
+    <index id="435" parent="344" name="PRIMARY">
       <ColNames>mdpID
 Client_cltID</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="436" parent="343" name="fk_Mode_De_Paiement_Client1_idx">
+    <index id="436" parent="344" name="fk_Mode_De_Paiement_Client1_idx">
       <ColNames>Client_cltID</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="437" parent="343" name="PRIMARY">
+    <key id="437" parent="344" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="438" parent="344" name="panID">
+    <column id="438" parent="345" name="panID">
       <DataType>char(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="439" parent="344" name="panDate">
+    <column id="439" parent="345" name="panDate">
       <DataType>date|0s</DataType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="440" parent="344" name="Client_cltID">
+    <column id="440" parent="345" name="Client_cltID">
       <DataType>char(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <foreign-key id="441" parent="344" name="fk_Panier_Client1">
+    <foreign-key id="441" parent="345" name="fk_Panier_Client1">
       <ColNames>Client_cltID</ColNames>
       <RefColNames>cltID</RefColNames>
       <RefTableName>client</RefTableName>
     </foreign-key>
-    <index id="442" parent="344" name="PRIMARY">
+    <index id="442" parent="345" name="PRIMARY">
       <ColNames>panID
 Client_cltID</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="443" parent="344" name="fk_Panier_Client1_idx">
+    <index id="443" parent="345" name="fk_Panier_Client1_idx">
       <ColNames>Client_cltID</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="444" parent="344" name="PRIMARY">
+    <key id="444" parent="345" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="445" parent="345" name="prdID">
+    <column id="445" parent="346" name="prdID">
       <DataType>char(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="446" parent="345" name="prdName">
+    <column id="446" parent="346" name="prdName">
       <DataType>varchar(30)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="447" parent="345" name="prdColour">
+    <column id="447" parent="346" name="prdColour">
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="448" parent="345" name="prdPrice">
+    <column id="448" parent="346" name="prdPrice">
       <DataType>decimal(10,2 digit)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <column id="449" parent="345" name="prdReleaseDate">
+    <column id="449" parent="346" name="prdReleaseDate">
       <DataType>date|0s</DataType>
       <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
-    <index id="450" parent="345" name="PRIMARY">
+    <index id="450" parent="346" name="PRIMARY">
       <ColNames>prdID</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="451" parent="345" name="PRIMARY">
+    <key id="451" parent="346" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="452" parent="346" name="prdLstID">
+    <column id="452" parent="347" name="prdLstID">
       <DataType>char(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="453" parent="346" name="Produit_prdID">
+    <column id="453" parent="347" name="Produit_prdID">
       <DataType>char(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="454" parent="346" name="Panier_panID">
+    <column id="454" parent="347" name="Panier_panID">
       <DataType>char(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="455" parent="346" name="Panier_Client_cltID">
+    <column id="455" parent="347" name="Panier_Client_cltID">
       <DataType>char(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <foreign-key id="456" parent="346" name="fk_Produit_Liste_Produit1">
+    <foreign-key id="456" parent="347" name="fk_Produit_Liste_Produit1">
       <ColNames>Produit_prdID</ColNames>
       <RefColNames>prdID</RefColNames>
       <RefTableName>produit</RefTableName>
     </foreign-key>
-    <foreign-key id="457" parent="346" name="fk_Produit_Liste_Panier1">
+    <foreign-key id="457" parent="347" name="fk_Produit_Liste_Panier1">
       <ColNames>Panier_panID
 Panier_Client_cltID</ColNames>
       <RefColNames>panID
 Client_cltID</RefColNames>
       <RefTableName>panier</RefTableName>
     </foreign-key>
-    <index id="458" parent="346" name="PRIMARY">
+    <index id="458" parent="347" name="PRIMARY">
       <ColNames>prdLstID
 Produit_prdID
 Panier_panID
@@ -1790,76 +1788,76 @@ Panier_Client_cltID</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="459" parent="346" name="fk_Produit_Liste_Produit1_idx">
+    <index id="459" parent="347" name="fk_Produit_Liste_Produit1_idx">
       <ColNames>Produit_prdID</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="460" parent="346" name="fk_Produit_Liste_Panier1_idx">
+    <index id="460" parent="347" name="fk_Produit_Liste_Panier1_idx">
       <ColNames>Panier_panID
 Panier_Client_cltID</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="461" parent="346" name="PRIMARY">
+    <key id="461" parent="347" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="462" parent="347" name="qstID">
+    <column id="462" parent="348" name="qstID">
       <DataType>char(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="463" parent="347" name="qstQuestion">
+    <column id="463" parent="348" name="qstQuestion">
       <DataType>varchar(100)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <index id="464" parent="347" name="PRIMARY">
+    <index id="464" parent="348" name="PRIMARY">
       <ColNames>qstID</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="465" parent="347" name="PRIMARY">
+    <key id="465" parent="348" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="466" parent="348" name="qstRepID">
+    <column id="466" parent="349" name="qstRepID">
       <DataType>char(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="467" parent="348" name="qstRepAnswer">
+    <column id="467" parent="349" name="qstRepAnswer">
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="468" parent="348" name="qstRepBool">
+    <column id="468" parent="349" name="qstRepBool">
       <DataType>tinyint(4)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="469" parent="348" name="Question_qstID">
+    <column id="469" parent="349" name="Question_qstID">
       <DataType>char(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <foreign-key id="470" parent="348" name="fk_Question_Reponses_Question1">
+    <foreign-key id="470" parent="349" name="fk_Question_Reponses_Question1">
       <ColNames>Question_qstID</ColNames>
       <RefColNames>qstID</RefColNames>
       <RefTableName>question</RefTableName>
     </foreign-key>
-    <index id="471" parent="348" name="PRIMARY">
+    <index id="471" parent="349" name="PRIMARY">
       <ColNames>qstRepID
 Question_qstID</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="472" parent="348" name="fk_Question_Reponses_Question1_idx">
+    <index id="472" parent="349" name="fk_Question_Reponses_Question1_idx">
       <ColNames>Question_qstID</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="473" parent="348" name="PRIMARY">
+    <key id="473" parent="349" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>

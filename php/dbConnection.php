@@ -46,10 +46,10 @@ function insertSQL($sql): string
     }
 }
 
-function getImage($imgName): mysqli_result|bool
+function getImage($imgPath): bool|array|null
 {
-    $sql = "SELECT * FROM image WHERE imgName = '".$imgName."'";
-    return runSQLResult($sql);
+    $sql = "SELECT * FROM image WHERE imgPath = '".$imgPath."'";
+    return runSQLResult($sql)->fetch_assoc();
 }
 
 

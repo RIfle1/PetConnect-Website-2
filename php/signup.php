@@ -9,7 +9,7 @@
 <!--    <link rel="stylesheet" href="../css/signup.css">-->
     <title>PetConnect Signup</title>
     <script src="https://unpkg.com/just-validate@latest/dist/just-validate.production.min.js" defer></script>
-    <script src="../javaScript/validation.js" defer></script>
+    <script src="../javaScript/signup-validation.js" defer></script>
 </head>
 <body>
 

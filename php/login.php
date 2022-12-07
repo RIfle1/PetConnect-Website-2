@@ -30,7 +30,7 @@
                 <input type="password" id="lgPassword-input" name="lgPassword-input" required>
             </div>
             <div>
-                <button type="submit" name="submit-button">Create an Account</button>
+                <button type="submit" name="submit-button">Login</button>
             </div>
             <div class="separation-line-small"></div>
             <div>
