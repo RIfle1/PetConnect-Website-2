@@ -1,0 +1,122 @@
+#profile-main-div {
+    display: flex;
+    flex-direction: column;
+    margin: 93px 0 0 0;
+}
+
+#profile-top-div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 30px 60px 30px 60px;
+}
+#profile-top-div-column-1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#profile-top-div-column-1 img {
+    display: flex;
+    width: 10vw;
+    height: 10vw;
+    min-width: 100px;
+    min-height: 100px;
+    border-radius: 5vw;
+    margin: 0 0 0 4vw;
+}
+
+#profile-pfp-overlay {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    width: 10vw;
+    height: 10vw;
+    min-width: 100px;
+    min-height: 100px;
+    text-align: center;
+    margin: 0 0 0 4vw;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 5vw;
+}
+
+#profile-pfp-overlay-div {
+    display: flex;
+    flex-direction: column;
+}
+
+#profile-pfp-overlay label {
+    background-color: transparent;
+    border: transparent;
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    color: white;
+    padding: 5px 0 5px 0;
+}
+
+#profile-pfp-overlay label:hover {
+    color: #0356A9;
+}
+
+#profile-upload-pfp-input, #profile-submit-pfp-input {
+    display: none;
+}
+
+#profile-top-div-column-1 img:hover + #profile-pfp-overlay, #profile-pfp-overlay:hover {
+    display: flex;
+}
+
+#profile-top-div-column-2 {
+    display: flex;
+    flex-direction: column;
+    margin: 0 30px 0 30px;
+}
+
+#profile-top-div-column-2 span {
+    padding: 5px 0 5px 0;
+    color: grey;
+}
+
+#profile-bottom-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 30px 0 60px 0;
+}
+
+#profile-bottom-div a {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+    height: 15vh;
+    width: 50vh;
+    min-width: 170px;
+    min-height: 70px;
+    max-height: 200px;
+    text-decoration: none;
+    color: black;
+    background-color: #d9d9d9;
+    margin: 1vw 1vw 1vw 1vw;
+    border-radius: 20px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+#profile-bottom-div a:hover {
+    background-color: #0356A9;
+}
+
+#profile-bottom-div span {
+    padding: 0 20px 0 20px;
+}
+
+@media only screen and (max-width: 960px) {
+    #profile-top-div-column-1 img, #profile-pfp-overlay {
+        border-radius: 50px;
+    }
+    #profile-bottom-div a {
+        margin: 20px 20px 20px 20px;
+    }
+}

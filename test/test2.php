@@ -1,26 +1,32 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
-<body>
+<?php
+include '../php/dbConnection.php';
 
-<p>If the viewport is less than, or equal to, 700 pixels wide, the background color will be yellow. If it is greater than 700, it will change to pink.</p>
-<p><strong>Resize the browser window to see the effect.</strong></p>
+print_r(getPfp('clt2')['cltPfpPath']);
 
-<script>
-    function myFunction(x) {
-        if (x.matches) { // If media query matches
-            document.body.style.backgroundColor = "yellow";
-        } else {
-            document.body.style.backgroundColor = "pink";
-        }
-    }
 
-    var x = window.matchMedia("(max-width: 700px)")
-    myFunction(x) // Call listener function at run time
-    x.addListener(myFunction) // Attach listener function on state changes
-</script>
 
-</body>
-</html>
+
+
+//if (isset($_POST['profile-submit-pfp'])) {
+//    uploadImage('profile-upload','dogs', 'home.php');
+//}
+//
+//?>
+<!--<!doctype html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport"-->
+<!--          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">-->
+<!--    <meta http-equiv="X-UA-Compatible" content="ie=edge">-->
+<!--    <title>Document</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div id="profile-pfp-overlay">-->
+<!--    <form method="POST" action="" enctype="multipart/form-data">-->
+<!--        <label for="profile-upload-pfp-input">Upload Image<input id="profile-upload-pfp-input" type="file" name="profile-upload" value="" alt="aa"/></label>-->
+<!--        <label for="profile-submit-pfp-id"><input id="profile-submit-pfp-id" type="submit" name="profile-submit-pfp"></label>-->
+<!--    </form>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->

@@ -6,6 +6,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $result = runSQLResult($sql);
     $client = $result->fetch_assoc();
 
+    $sql2 = "SELECT * FROM admin WHERE admEmail = '".$_POST["lgEmail-input"]."'";
+    $result2 = runSQLResult($sql2);
+    $admin = $result2->fetch_assoc();
+
     if ($client) {
         if (password_verify($_POST["lgPassword-input"], $client["cltPassword"])) {
 
@@ -15,6 +19,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             header("Location: home.php", true, 303);
             exit;
 
+        }
+    }
+    elseif ($admin) {
+        if (password_verify($_POST["lgPassword-input"], $admin["admPassword"])) {
+
+            session_start();
+            session_regenerate_id();
+            $_SESSION["admID"] = $admin["admID"];
+            header("Location: home.php", true, 303);
+            exit;
         }
     }
 

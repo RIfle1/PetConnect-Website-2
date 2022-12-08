@@ -17,7 +17,6 @@ include 'site-header.php';
 <body>
 
 <div class="background-dog-div">
-
     <img id="foreground-img" src="../img/<?php echo getImage('iCollar_logo.png')['imgCategory']."/".getImage('iCollar_logo.png')['imgPath']?>" alt="iCollar_logo">
     <img id="background-img" src="../img/<?php echo getImage('chien.jpg')['imgCategory']."/".getImage('chien.jpg')['imgPath']?>" alt="chien"/>
 </div>

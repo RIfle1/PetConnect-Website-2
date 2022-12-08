@@ -19,3 +19,13 @@ function setMarginTop(x, fromElement, toElement) {
 }
 
 
+
+// <script type="text/javascript">
+//     const x = window.matchMedia("(max-width: 960px)");
+//     const y = window.matchMedia("(max-width: 600px)");
+//     setMarginTop(x, '.site-header-main-header', 'profile-main-div')
+//     x.addListener(function () {setMarginTop(x ,'.site-header-main-header', 'profile-main-div') })
+//     y.addListener(function () {setMarginTop(x ,'.site-header-main-header', 'profile-main-div') })
+// </script>
+
+

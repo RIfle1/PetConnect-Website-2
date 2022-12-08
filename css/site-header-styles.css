@@ -24,11 +24,18 @@ body {
     font-weight: 500;
 }
 
+.text-font-700{
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+}
+
 .site-header-main-header {
     display: flex;
     flex-direction: row;
     background: rgba(0, 0, 0, 0.7);
     width: 100%;
+    min-height: 93px;
     position: fixed;
     top: 0;
     z-index: 1;
@@ -178,7 +185,7 @@ body {
     }
 }
 
-@media only screen and (max-width: 650px) {
+@media only screen and (max-width: 615px) {
     .site-header-main-header {
         flex-wrap: wrap;
     }
