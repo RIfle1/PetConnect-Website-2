@@ -24,7 +24,7 @@ body {
     font-weight: 500;
 }
 
-.main-header {
+.site-header-main-header {
     display: flex;
     flex-direction: row;
     background: rgba(0, 0, 0, 0.7);
@@ -34,14 +34,14 @@ body {
     z-index: 1;
 }
 
-.logo {
+.site-header-logo {
     order: 1;
     flex-shrink: 0;
     flex-grow: 3;
     flex-basis: 200px;
 }
 
-.logo > img {
+.site-header-logo > img {
     width: 300px;
     min-width: 300px;
     max-width: 100%;
@@ -50,7 +50,7 @@ body {
     padding-bottom: 13px;
 }
 
-#menu {
+#site-header-menu {
     order: 2;
     flex-shrink: 1;
     flex-grow: 6;
@@ -58,14 +58,14 @@ body {
     margin: 0 20px 0 20px;
 }
 
-#menu a {
+#site-header-menu a {
     text-decoration: none;
     color: white;
     margin: 0 10px 0 10px;
     font-size: 30px;
 }
 
-.profile {
+.site-header-profile {
     order: 3;
     flex-shrink: 0;
     flex-grow: 1;
@@ -73,19 +73,19 @@ body {
     margin: 0 20px 0 0;
 }
 
-.logo, #menu, .profile {
+.site-header-logo, #site-header-menu, .site-header-profile {
     display: flex;
     align-items: center;
     justify-content: space-around;
 }
 
-.profile {
+.site-header-profile {
     display: flex;
     align-items: center;
     justify-content: end;
 }
 
-.profile img {
+.site-header-profile img {
     min-width: 70px;
     width: 70px;
     max-width: 100%;
@@ -93,14 +93,14 @@ body {
     margin: 0 5px 0 5px;
 }
 
-#profile-div-flex {
+#site-header-profile-div-flex {
     display: flex;
     flex-direction: column;
     justify-content: start;
     align-items: end;
 }
 
-#dropdown-menu-login {
+#site-header-dropdown-menu-login {
     display: none;
     margin: 70px 0 0 0;
     width: 300px;
@@ -108,19 +108,19 @@ body {
     border-radius: 5px;
 }
 
-#profile-logo:hover + #dropdown-menu-login, #dropdown-menu-login:hover {
+#site-header-profile-logo:hover + #site-header-dropdown-menu-login, #site-header-dropdown-menu-login:hover {
     display: flex;
     position: absolute;
     flex-direction: column;
 }
 
-.dropdown-menu-line {
+.site-header-dropdown-menu-line {
     padding: 1px;
     background-color: #808080;
     border-radius: 1px;
 }
 
-#dropdown-menu-login p, #dropdown-menu-login a, .dropdown-menu-line {
+#site-header-dropdown-menu-login p, #site-header-dropdown-menu-login a, .site-header-dropdown-menu-line {
     margin: 10px 15px 10px 15px;
     text-decoration: none;
     font-weight: 100;
@@ -128,23 +128,22 @@ body {
 }
 
 
-
 @media only screen and (max-width: 960px) {
-    .logo {
+    .site-header-logo {
         order: 1;
         flex-shrink: 0;
         flex-grow: 1;
         flex-basis: 50px;
     }
 
-    .logo > img {
+    .site-header-logo > img {
         width: 200px;
         min-width: 200px;
         margin: 0 0 0 0;
         padding-bottom: 0;
     }
 
-    #menu {
+    #site-header-menu {
         order: 2;
         flex-shrink: 1;
         flex-grow: 1;
@@ -152,12 +151,12 @@ body {
         margin: 10px 0 10px 0;
     }
 
-    #menu a {
+    #site-header-menu a {
         margin: 0 10px 0 10px;
         font-size: 20px;
     }
 
-    .profile {
+    .site-header-profile {
         order: 3;
         flex-shrink: 0;
         flex-grow: 1;
@@ -165,40 +164,40 @@ body {
         margin: 10px 0 7px 0;
     }
 
-    .profile img {
+    .site-header-profile img {
         min-width: 50px;
         width: 50px;
     }
 
-    #dropdown-menu-login {
+    #site-header-dropdown-menu-login {
         margin: 50px 0 0 0;
     }
 
-    #dropdown-menu-login p, #dropdown-menu-login a, .dropdown-menu-line {
+    #site-header-dropdown-menu-login p, #site-header-dropdown-menu-login a, .site-header-dropdown-menu-line {
         margin: 5px 10px 5px 10px;
     }
 }
 
 @media only screen and (max-width: 650px) {
-    .main-header {
+    .site-header-main-header {
         flex-wrap: wrap;
     }
 
-    .logo {
+    .site-header-logo {
         order: 1;
         flex-shrink: 0;
         flex-grow: 1;
         flex-basis: 50px;
     }
 
-    .logo > img {
+    .site-header-logo > img {
         width: 200px;
         min-width: 200px;
         margin: 10px 0 0 0;
         padding-bottom: 5px;
     }
 
-    #menu {
+    #site-header-menu {
         order: 3;
         flex-shrink: 1;
         flex-grow: 1;
@@ -206,12 +205,12 @@ body {
         margin: 0 0 10px 0;
     }
 
-    #menu a {
+    #site-header-menu a {
         margin: 0 10px 0 10px;
         font-size: 20px;
     }
 
-    .profile {
+    .site-header-profile {
         order: 2;
         flex-shrink: 0;
         flex-grow: 1;
@@ -219,11 +218,11 @@ body {
         margin: 0 0 0 0;
     }
 
-    .profile {
+    .site-header-profile {
         justify-content: end;
     }
 
-    .profile img {
+    .site-header-profile img {
         min-width: 50px;
         width: 50px;
     }
@@ -239,7 +238,7 @@ body {
 }
 
 @media only screen and (max-width: 350px) {
-    .profile {
+    .site-header-profile {
         justify-content: space-around;
     }
 

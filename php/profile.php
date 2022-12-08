@@ -18,10 +18,14 @@ if($_SESSION) {
 </head>
 <body>
 
-<div>
+<div id="profile-main-div">
     <div>
         <div>
-            <img src="#" alt="Profile picture">
+            <?php if ($_SESSION): ?>
+                <img src="../img/<?php echo getImage($clientInfo['cltPfp'])['imgCategory']."/".getImage($clientInfo['cltPfp'])['imgPath']?>" alt="Client Pfp">
+            <?php else: ?>
+                <img src="../img/<?php echo getImage('client.png')['imgCategory']."/".getImage('client.png')['imgPath']?>" alt="Profile picture">
+            <?php endif; ?>
         </div>
         <div>
             <?php if ($_SESSION): ?>
@@ -42,7 +46,11 @@ if($_SESSION) {
         <a href="#">Adresses</a>
     </div>
 </div>
-
+<script type="text/javascript">
+    const x = window.matchMedia("(max-width: 960px)");
+    setMarginTop(x, '.site-header-main-header', 'profile-main-div') // Call listener function at run time
+    x.addEventListener("", setMarginTop) // Attach listener function on state changes
+</script>
 <?php include 'site-footer.php'?>
 </body>
 </html>
