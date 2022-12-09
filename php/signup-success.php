@@ -12,7 +12,7 @@
 <body>
 
 <?php
-include '../html/signup-header.html';
+include '../html/signup-header.php';
 ?>
 <h1>Create an account</h1>
 
@@ -20,7 +20,7 @@ include '../html/signup-header.html';
     You can now<a href="login.php"> login</a>.</p>
 
 <?php
-include '../html/signup-footer.html';
+include '../html/signup-footer.php';
 ?>
 
 </body>

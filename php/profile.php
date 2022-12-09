@@ -98,7 +98,7 @@ if(!empty($_SESSION['cltID'])) {
         <a href="#"><span>Centre de Messagerie</span></a>
         <a href="#"><span>Adresses</span></a>
         <?php if (!empty($_SESSION['admID'])): ?>
-            <a href="#"><span>Gérer les utilisateurs</span></a>
+            <a href="manage-client.php"><span>Gérer les utilisateurs</span></a>
             <a href="#"><span>Répondre aux questions</span></a>
             <a href="#"><span>Gérer les données</span></a>
         <?php endif; ?>

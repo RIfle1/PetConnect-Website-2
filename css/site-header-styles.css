@@ -4,7 +4,7 @@
 
 body {
     margin: 0 0 0 0;
-    min-width: 392px;
+    min-width: 400px;
 }
 
 .text-font {
@@ -93,11 +93,14 @@ body {
 }
 
 .site-header-profile img {
-    min-width: 70px;
-    width: 70px;
-    max-width: 100%;
-    max-height: 100%;
     margin: 0 5px 0 5px;
+    display: flex;
+    width: 4vw;
+    height: 4vw;
+    min-width: 55px;
+    min-height: 55px;
+    border-radius: 200px;
+    background: #d9d9d9;
 }
 
 #site-header-profile-div-flex {
@@ -113,6 +116,34 @@ body {
     width: 300px;
     background-color: #d9d9d9;
     border-radius: 5px;
+}
+
+#site-header-signup {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#site-header-signup-a1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #69A6E3;
+    border: #69A6E3 solid 1px;
+    height: 40px;
+    width: 160px;
+    border-radius: 20px;
+}
+
+#site-header-signup-a1:hover {
+    color: #69A6E3;
+    background: #D9D9D9;
+    border: grey solid 1px;
+}
+
+#site-header-signup-a2:hover {
+    color: #69A6E3;
 }
 
 #site-header-profile-logo:hover + #site-header-dropdown-menu-login, #site-header-dropdown-menu-login:hover {
@@ -134,6 +165,10 @@ body {
     color: #808080;
 }
 
+#site-header-dropdown-menu-login a:hover {
+    color: #69A6E3;
+}
+
 
 @media only screen and (max-width: 960px) {
     .site-header-logo {
@@ -141,13 +176,6 @@ body {
         flex-shrink: 0;
         flex-grow: 1;
         flex-basis: 50px;
-    }
-
-    .site-header-logo > img {
-        width: 200px;
-        min-width: 200px;
-        margin: 0 0 0 0;
-        padding-bottom: 0;
     }
 
     #site-header-menu {
@@ -171,11 +199,6 @@ body {
         margin: 10px 0 7px 0;
     }
 
-    .site-header-profile img {
-        min-width: 50px;
-        width: 50px;
-    }
-
     #site-header-dropdown-menu-login {
         margin: 50px 0 0 0;
     }
@@ -195,13 +218,6 @@ body {
         flex-shrink: 0;
         flex-grow: 1;
         flex-basis: 50px;
-    }
-
-    .site-header-logo > img {
-        width: 200px;
-        min-width: 200px;
-        margin: 10px 0 0 0;
-        padding-bottom: 5px;
     }
 
     #site-header-menu {
@@ -227,11 +243,6 @@ body {
 
     .site-header-profile {
         justify-content: end;
-    }
-
-    .site-header-profile img {
-        min-width: 50px;
-        width: 50px;
     }
 
     #profile-img-1 {
