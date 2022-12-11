@@ -1,19 +1,22 @@
 <?php
-session_start();
-include 'dbConnection.php';
-if(!empty($_SESSION['cltID'])) {
-    $sql = "SELECT * FROM Client WHERE cltID= '".$_SESSION["cltID"]."'";
-    $result = runSQLResult($sql);
-    $clientInfo = $result->fetch_assoc();
-}elseif (!empty($_SESSION['admID'])) {
-    $sql = "SELECT * FROM admin WHERE admID= '".$_SESSION["admID"]."'";
-    $result = runSQLResult($sql);
-    $adminInfo = $result->fetch_assoc();
-}else {
-    $clientInfo = "";
-    $adminInfo = "";
-}
+$clientLoggedIn = false;
+$adminLoggedIn = false;
+$clientInfo = "";
+$adminInfo = "";
 
+if(!empty($_SESSION['loggedIn'])) {
+    if(!empty($_SESSION['cltID']) && $_SESSION['loggedIn'] === true) {
+        $sql = "SELECT * FROM Client WHERE cltID= '".$_SESSION["cltID"]."'";
+        $result = runSQLResult($sql);
+        $clientInfo = $result->fetch_assoc();
+        $clientLoggedIn = true;
+    }elseif (!empty($_SESSION['admID']) && $_SESSION['loggedIn'] === true) {
+        $sql = "SELECT * FROM admin WHERE admID= '".$_SESSION["admID"]."'";
+        $result = runSQLResult($sql);
+        $adminInfo = $result->fetch_assoc();
+        $adminLoggedIn = true;
+    }
+}
 
 ?>
 <!doctype html>
@@ -27,6 +30,12 @@ if(!empty($_SESSION['cltID'])) {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/site-header-styles.css">
+
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+            integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+            crossorigin="anonymous">
+    </script>
+
     <script src="../javaScript/css-functions.js"></script>
     <title>PetConnect</title>
 </head>
@@ -34,7 +43,7 @@ if(!empty($_SESSION['cltID'])) {
 <div class="site-header-main-header">
 
     <div class="site-header-logo">
-        <img src="../img/logos/PetConnect-Logo.png" alt="PetConnect-Logo">
+        <a href="home.php"><img src="../img/logos/PetConnect-Logo.png" alt="PetConnect-Logo"></a>
     </div>
 
     <div class="text-font-500" id="site-header-menu">
@@ -47,9 +56,9 @@ if(!empty($_SESSION['cltID'])) {
         <div id="site-header-profile-div-flex">
             <div id="site-header-profile-logo">
                 <a href="profile.php">
-                    <?php if(!empty($_SESSION['cltID'])): ?>
+                    <?php if($clientLoggedIn && strlen($clientInfo['cltPfpName']) > 0): ?>
                         <img src="../img/pfp/<?php echo getPfp('cltID', 'client', $clientInfo['cltID'])['cltPfpName'] ?>" alt="Profile picture">
-                    <?php elseif(!empty($_SESSION['admID'])): ?>
+                    <?php elseif($adminLoggedIn && strlen($adminInfo['admPfpName']) > 0): ?>
                         <img src="../img/pfp/<?php echo getPfp('admID', 'admin', $adminInfo['admID'])['admPfpName'] ?>" alt="Profile picture">
                     <?php else: ?>
                         <img src="../img/<?php echo getImage('client.png')['imgCategory']."/".getImage('client.png')['imgPath']?>" alt="Client-logo">
@@ -57,9 +66,9 @@ if(!empty($_SESSION['cltID'])) {
                 </a>
             </div>
             <div id="site-header-dropdown-menu-login" class="text-font-500">
-                <?php if(!empty($_SESSION['cltID'])): ?>
+                <?php if($clientLoggedIn): ?>
                     <p>Bonjour <?php echo $clientInfo["cltFirstName"]." ".$clientInfo["cltLastName"]?></p>
-                <?php elseif(!empty($_SESSION['admID'])): ?>
+                <?php elseif($adminLoggedIn): ?>
                     <p>Bonjour <?php echo $adminInfo['admUsername']?></p>
                 <?php else: ?>
                     <div id="site-header-signup">
@@ -71,8 +80,10 @@ if(!empty($_SESSION['cltID'])) {
                 <a href="profile.php">Mon Compte</a>
                 <a href="#">Mes Commandes</a>
                 <a href="#">Mes Appareils</a>
+                <?php if($clientLoggedIn || $adminLoggedIn): ?>
                 <div class="site-header-dropdown-menu-line"></div>
                 <a href="logout.php">Logout</a>
+                <?php endif; ?>
             </div>
         </div>
         <div>
@@ -81,5 +92,12 @@ if(!empty($_SESSION['cltID'])) {
 
     </div>
 </div>
+
+<script type="text/javascript">
+    setMarginTop('#site-header-profile-logo', 'site-header-dropdown-menu-login', 10)
+    window.addEventListener("resize", function(event) {
+        setMarginTop('#site-header-profile-logo', 'site-header-dropdown-menu-login', 10)
+    })
+</script>
 </body>
 </html>

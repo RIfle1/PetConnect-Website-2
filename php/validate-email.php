@@ -1,11 +1,18 @@
 <?php
 include 'dbConnection.php';
-$cltEmail = $_GET["cltEmail-input"];
-$emailSQL = "SELECT cltEmail FROM Client WHERE cltEmail='".$cltEmail."'";
-$result = runSQLResult($emailSQL);
-$userEmail = $result->fetch_assoc();
+$email = $_GET["cltEmail-input"];
+$emailSQL1 = "SELECT cltEmail FROM Client WHERE cltEmail='".$email."'";
+$emailSQL2 = "SELECT admEmail FROM admin WHERE admEmail='".$email."'";
+$result1 = runSQLResult($emailSQL1);
+$result2 = runSQLResult($emailSQL2);
 
-$isAvailable = $result->num_rows === 0;
+if($result1->num_rows === 0 && $result2->num_rows === 0) {
+   $isAvailable = true;
+}
+else {
+    $isAvailable = false;
+}
+
 
 header("Content-Type: application/json");
 echo json_encode(["available" => $isAvailable]);

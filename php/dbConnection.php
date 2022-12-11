@@ -147,3 +147,26 @@ function uploadPfp($inputName, $table, $xxxPfpName): void
         echo "<script type='text/javascript'>console.log('Failed to upload image')</script>";
     }
 }
+
+function returnLink($redirectPage): void
+{
+    if (empty($_SESSION['admID']) && empty($_SESSION['cltID'])) {
+        echo 'login.php';
+    }
+    else {
+        echo $redirectPage;
+    }
+}
+
+function isModerator($cltID): bool {
+    $sql = "SELECT cltIsModerator FROM client WHERE cltID = '".$cltID."'";
+    $result = runSQLResult($sql);
+    $isModerator = $result->fetch_assoc();
+
+    if($isModerator['cltIsModerator'] == 1) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}

@@ -3,5 +3,5 @@
 session_start();
 session_destroy();
 
-header('Location: home.php', true, 303);
+header('Location: login.php', true, 303);
 

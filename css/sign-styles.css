@@ -1,5 +1,5 @@
 #sign-form-body {
-    margin: 93px 0 0 0;
+    margin: 0 0 0 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -13,7 +13,9 @@
     align-items: center;
     border: #d9d9d9 solid 1px;
     border-radius: 20px;
-    margin: 10vh 0 10vh 0;
+    width: 450px;
+    margin: 1vh 0 5vh 0;
+    padding: 10px 0 10px 0;
 }
 
 .sign-form-elem h1 {
@@ -21,24 +23,46 @@
 }
 
 #sign-form-body-div .sign-form-elem {
-    padding: 20px 20px 20px 20px;
+    padding: 10px 10px 10px 10px;
+}
+
+.sign-form-elem span {
+    text-align: center;
+}
+
+.sign-form-error-span {
+    color: #B81111;
+}
+
+.sign-form-elem label {
+    align-self: start;
+}
+
+#sign-form-robot, #sign-form-validate-error {
+    display: none;
+    color: #B81111;
 }
 
 .sign-separation-line-small {
-    height: 1px;
+    /*height: 1px;*/
     width: 80%;
-    background-color: #d9d9d9;
-    padding: 0 0 0 0;
+    /*background-color: #d9d9d9;*/
+    /*padding: 0 0 0 0;*/
+    /*border-radius: 1px;*/
+    padding: 1px;
+    background: radial-gradient(#494848 30%, #D9D9D9, #D9D9D9);
     border-radius: 1px;
+    margin: 10px 15px 10px 15px;
 }
 
 .sign-form-elem {
     display: flex;
+    align-items: center;
     flex-direction: column;
 }
 
 .sign-form-elem input {
-    background: #D9D9D9;
+    background: #E2E2E2;
     border-radius: 10px;
     border: grey solid 1px;
     height: 2vw;
@@ -70,7 +94,7 @@
     border: #69A6E3 solid 2px;
 }
 
-.sign-form-elem a {
+a {
     text-decoration: none;
     color: #69A6E3;
 }

@@ -1,4 +1,7 @@
-<?php include '../php/site-header.php' ?>
+<?php
+include 'dbConnection.php';
+include 'site-header.php'
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -10,11 +13,28 @@
     <link rel="stylesheet" href="../css/sign-styles.css">
     <title>PetConnect Signup</title>
     <script src="https://unpkg.com/just-validate@latest/dist/just-validate.production.min.js" defer></script>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+            integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+            crossorigin="anonymous">
+    </script>
+
     <script src="../javaScript/signup-validation.js" defer></script>
+
+    <script type="text/javascript">
+        var onloadCallback = function() {
+            // Renders the HTML element with id 'example1' as a reCAPTCHA widget.
+            // The id of the reCAPTCHA widget is assigned to 'widgetId1'.
+            widgetId1 = grecaptcha.render('recaptcha-div', {
+                'sitekey' : '6Lev8m0jAAAAALf97k2YBnzcl9_a6Pemmr2kf-pW',
+                'theme' : 'dark'
+            });
+        };
+    </script>
+
 </head>
 <body>
 
-<form name="signup-form" action="signup-process.php" id="signup-form" method="post" novalidate>
+<form id="signup-form" name="signup-form" action="signup-process.php" method="post">
     <div id="sign-form-body" class="text-font-700">
         <div id="sign-form-body-div">
             <div class="sign-form-elem"><h1>Create an account</h1></div>
@@ -46,12 +66,23 @@
                 <label for="cltPasswordConfirmation-input">Enter your password again:</label>
                 <input type="password" id="cltPasswordConfirmation-input" name="cltPasswordConfirmation-input">
             </div>
+            <div class="sign-separation-line-small"></div>
+
+            <div class="sign-form-elem">
+                <div id="recaptcha-div" class="g-recaptcha"></div>
+            </div>
+
+            <div class="sign-form-elem" id="sign-form-robot">
+                <span>Please verify that you are not a robot.</span>
+            </div>
+
+            <div class="sign-separation-line-small"></div>
             <div class="sign-form-elem">
                 <button type="submit" name="submit-button">Create an Account</button>
             </div>
             <div class="sign-form-elem">
-                <p>By creating an account, you agree to PetConnect's <a href="#">Conditions of Use</a> and <a href="#">Privacy
-                        Notice</a>.</p>
+                <span>By creating an account, you agree to PetConnect's <a href="#">Conditions of Use</a> and <a href="#">Privacy
+                        Notice</a>.</span>
             </div>
             <div class="sign-separation-line-small"></div>
             <div class="sign-form-elem">
@@ -65,6 +96,17 @@
 </form>
 
 <?php include '../php/site-footer.php' ?>
+<script type="text/javascript">
+    setMarginTop('.site-header-main-header', 'sign-form-body', 50)
+    window.addEventListener("resize", function() {
+        setMarginTop('.site-header-main-header', 'sign-form-body', 50)
+    })
+</script>
+
+<script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
+        async defer>
+</script>
+<script src="../javaScript/css-functions.js"></script>
 
 </body>
 </html>

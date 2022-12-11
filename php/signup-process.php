@@ -1,6 +1,7 @@
 <?php
-include 'entities.php';
 
+include 'entities.php';
+include 'php-mailer.php';
 $newUserInfo = new Client
 (
     $_POST["cltUsername-input"],
@@ -63,18 +64,27 @@ if (!(is_null($userEmail))) {
     die("Email already Taken");
 }
 
-$cltPasswordHash = password_hash($cltPassword, PASSWORD_DEFAULT);
+$verificationCode = generateVerificationCode();
+$body = '<p>Verification code is: <b style = "font-size: 30px;">'.$verificationCode.'</b></p>';
+$subject = "Email Verification";
 
-$insertSQL = "INSERT INTO client (`cltID`, `cltUsername`, `cltFirstName`, `cltLastName`, `cltEmail`, `cltPhoneNumber`, `cltPassword`) 
-        VALUES ('".$cltID."', '".$cltUsername."', '".$cltFirstName."', '".$cltLastName."', '".$cltEmail."', '".$cltPhoneNumber."', '".$cltPasswordHash."')";
+if(sendEmail($cltEmail, $cltFirstName, $body, $subject)) {
+    $cltPasswordHash = password_hash($cltPassword, PASSWORD_DEFAULT);
 
-if(insertSQL($insertSQL) == "Success") {
-    header("Location: signup-success.php", true, 303);
-    exit;
+    $insertSQL = "INSERT INTO client (`cltID`, `cltUsername`, `cltFirstName`, `cltLastName`, `cltEmail`, `cltPhoneNumber`, `cltPassword`, `cltIsModerator`, `cltVerifiedEmail`)
+        VALUES ('".$cltID."', '".$cltUsername."', '".$cltFirstName."', '".$cltLastName."', '".$cltEmail."', '".$cltPhoneNumber."', '".$cltPasswordHash."', 0, 0)";
+
+    if(insertSQL($insertSQL) == "Success") {
+        session_start();
+        $_SESSION['verificationCode'] = $verificationCode;
+        $_SESSION['newCltID'] = $cltID;
+        $_SESSION['cltVerifiedEmail'] = 0;
+        $_SESSION['message'] = "Signup Successful, Please verify your email address";
+
+        header("Location: signup-success.php", true, 303);
+        exit;
+    }
+    else {
+        echo insertSQL($insertSQL);
+    }
 }
-else {
-    echo insertSQL($insertSQL);
-}
-
-//print_r($_POST);
-//var_dump($cltPasswordHash);

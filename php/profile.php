@@ -1,30 +1,43 @@
 <?php
+session_start();
+include 'dbConnection.php';
 include 'site-header.php';
 
-if (isset($_POST['profile-submit-pfp'])) {
-    if(!empty($_FILES['profile-upload']['name'])) {
-        if(!empty($_SESSION['cltID'])) {
-            uploadPfp('profile-upload',"client", 'cltPfpName');
-        }
-        elseif(!empty($_SESSION['admID'])) {
-            uploadPfp('profile-upload',"admin", 'admPfpName');
-        }
+$clientLoggedIn = false;
+$adminLoggedIn = false;
+$loggedIn = false;
+$clientInfo = "";
+$adminInfo = "";
 
+if(!empty($_SESSION['loggedIn'])) {
+    $loggedIn = $_SESSION['loggedIn'];
+    if (isset($_POST['profile-submit-pfp'])) {
+        if(!empty($_FILES['profile-upload']['name'])) {
+            if(!empty($_SESSION['cltID'])) {
+                uploadPfp('profile-upload',"client", 'cltPfpName');
+            }
+            elseif(!empty($_SESSION['admID'])) {
+                uploadPfp('profile-upload',"admin", 'admPfpName');
+            }
+
+        }
+    }
+
+    if(!empty($_SESSION['cltID']) && $_SESSION['loggedIn'] === true) {
+        $sql = "SELECT * FROM Client WHERE cltID = '".$_SESSION["cltID"]."'";
+        $result = runSQLResult($sql);
+        $clientInfo = $result->fetch_assoc();
+        $clientLoggedIn = true;
+
+    } elseif(!empty($_SESSION['admID']) && $_SESSION['loggedIn'] === true){
+        $sql = "SELECT * FROM admin WHERE admID = '".$_SESSION["admID"]."'";
+        $result = runSQLResult($sql);
+        $adminInfo = $result->fetch_assoc();
+        $adminLoggedIn = true;
     }
 }
 
-if(!empty($_SESSION['cltID'])) {
-    $sql = "SELECT * FROM Client WHERE cltID = '".$_SESSION["cltID"]."'";
-    $result = runSQLResult($sql);
-    $clientInfo = $result->fetch_assoc();
-} elseif(!empty($_SESSION['admID'])){
-    $sql = "SELECT * FROM admin WHERE admID = '".$_SESSION["admID"]."'";
-    $result = runSQLResult($sql);
-    $adminInfo = $result->fetch_assoc();
-}else {
-    $clientInfo="";
-    $adminInfo="";
-}
+
 ?>
 
 <!doctype html>
@@ -45,14 +58,14 @@ if(!empty($_SESSION['cltID'])) {
 <div id="profile-main-div" class="text-font-700">
     <div id="profile-top-div">
         <div id="profile-top-div-column-1">
-            <?php if ($_SESSION): ?>
-                <?php if(!empty($_SESSION['cltID'])): ?>
+            <?php if ($loggedIn): ?>
+                <?php if($clientLoggedIn): ?>
                     <?php if(strlen($clientInfo['cltPfpName']) > 0): ?>
                         <img src="../img/pfp/<?php echo getPfp('cltID', 'client', $clientInfo['cltID'])['cltPfpName'] ?>" alt="Profile picture">
                     <?php else: ?>
                         <img src="../img/<?php echo getImage('client.png')['imgCategory'] . "/" . getImage('client.png')['imgPath'] ?>" alt="Client Pfp">
                     <?php endif; ?>
-                <?php elseif(!empty($_SESSION['admID'])): ?>
+                <?php elseif($adminLoggedIn): ?>
                     <?php if($adminInfo['admPfpName']): ?>
                         <img src="../img/pfp/<?php echo getPfp('admID', 'admin', $adminInfo['admID'])['admPfpName'] ?>" alt="Profile picture">
                     <?php else: ?>
@@ -76,12 +89,12 @@ if(!empty($_SESSION['cltID'])) {
             <?php endif; ?>
         </div>
         <div id="profile-top-div-column-2">
-            <?php if ($_SESSION): ?>
-                <?php if (!empty($_SESSION['cltID'])): ?>
+            <?php if ($loggedIn): ?>
+                <?php if ($clientLoggedIn): ?>
                     <span><?php echo $clientInfo["cltUsername"] ?></span>
                     <span><?php echo $clientInfo["cltFirstName"] . " " . $clientInfo["cltLastName"] ?></span>
                     <span><?php echo $clientInfo["cltEmail"] ?></span>
-                <?php elseif (!empty($_SESSION['admID'])): ?>
+                <?php elseif ($adminLoggedIn): ?>
                     <span><?php echo $adminInfo["admUsername"] ?></span>
                     <span><?php echo $adminInfo["admEmail"] ?></span>
                 <?php endif; ?>
@@ -91,20 +104,28 @@ if(!empty($_SESSION['cltID'])) {
         </div>
     </div>
     <div id="profile-bottom-div">
-        <a href="#"><span>Gérer mes appareils</span></a>
-        <a href="#"><span>Mon historique de commandes</span></a>
-        <a href="#"><span>Connexion et sécurité</span></a>
-        <a href="#"><span>Mode de paiement</span></a>
-        <a href="#"><span>Centre de Messagerie</span></a>
-        <a href="#"><span>Adresses</span></a>
-        <?php if (!empty($_SESSION['admID'])): ?>
+        <a href="<?php returnLink('devices.php') ?>"><span>Gérer mes appareils</span></a>
+        <a href="<?php returnLink('order-history.php') ?>"><span>Mon historique de commandes</span></a>
+        <a href="<?php returnLink('connection-security.php') ?>"><span>Connexion et sécurité</span></a>
+        <a href="<?php returnLink('payment-method.php') ?>"><span>Mode de paiement</span></a>
+        <a href="<?php returnLink('message-center.php') ?>"><span>Centre de Messagerie</span></a>
+        <a href="<?php returnLink('addresses.php') ?>"><span>Adresses</span></a>
+        <?php if ($adminLoggedIn): ?>
             <a href="manage-client.php"><span>Gérer les utilisateurs</span></a>
             <a href="#"><span>Répondre aux questions</span></a>
             <a href="#"><span>Gérer les données</span></a>
         <?php endif; ?>
     </div>
 </div>
+
 <?php include 'site-footer.php'?>
+<script type="text/javascript">
+    setMarginTop('.site-header-main-header', 'profile-main-div', 40)
+    window.addEventListener("resize", function(event) {
+        setMarginTop('.site-header-main-header', 'profile-main-div', 40)
+    })
+</script>
+<script src="../javaScript/manage-client-buttons.js"></script>
 
 </body>
 </html>
