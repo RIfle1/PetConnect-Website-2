@@ -1,7 +1,7 @@
 <?php
 session_start();
 session_destroy();
-include 'dbConnection.php';
+include '../php-processes/dbConnection.php';
 include 'site-header.php'
 ?>
 <!doctype html>
@@ -35,25 +35,28 @@ include 'site-header.php'
 </head>
 <body>
 
-<form id="password-recovery-input-form" name="password-recovery-input-form" action="password-recovery-process.php" method="post">
+<form id = "login-form" name="login-form" action="../php-processes/login-process.php" method="post">
     <div id="sign-form-body" class="text-font-700">
         <div id="sign-form-body-div">
-            <div class="sign-form-elem"><h1>Password Recovery</h1></div>
-
-            <div class="sign-form-elem">
-                <label for="cltEmail-input">Email:</label>
-                <input type="email" id="cltEmail-input" name="cltEmail-input"
-                       value="<?= htmlspecialchars($_GET["cltEmail-input"] ?? "") ?>" required>
+            <div class="sign-form-elem"><h1>Sign in</h1></div>
+            <div id="login-Invalid">
+                <?php if ($_GET['isInvalid'] ?? ""): ?>
+                    <em>Invalid Login</em>
+                <?php endif; ?>
             </div>
-            <?php if(!empty($_GET['isInvalid'])): ?>
-                <div class="sign-form-elem">
-                    <span class="sign-form-error-span"><?php echo 'This email does not have an account';?></span>
-                </div>
-            <?php endif; ?>
+            <div class="sign-form-elem">
+                <label for="lgEmail-input">Email:</label>
+                <input type="email" id="lgEmail-input" name="lgEmail-input"
+                       value="<?= htmlspecialchars($_GET["lgEmail-input"] ?? "") ?>" required>
+            </div>
+            <div class="sign-form-elem">
+                <label for="lgPassword-input">Password:</label>
+                <input type="password" id="lgPassword-input" name="lgPassword-input" required>
+            </div>
             <div class="sign-separation-line-small"></div>
 
             <div class="sign-form-elem">
-                <div id="recaptcha-div" class="g-recaptcha"></div>
+                    <div id="recaptcha-div" class="g-recaptcha"></div>
             </div>
 
             <div class="sign-form-elem" id="sign-form-robot">
@@ -63,20 +66,21 @@ include 'site-header.php'
             <div class="sign-separation-line-small"></div>
 
             <div class="sign-form-elem">
-                <button id="submit-password-recovery-button" type="button">Send verification link</button>
+                <button id="submit-login-button" type="button">Login</button>
             </div>
 
             <div class="sign-separation-line-small"></div>
-
-<!--            <div class="sign-form-elem">-->
-<!--                <a href="login.php">Login</a>-->
-<!--            </div>-->
-
+            <div class="sign-form-elem">
+                <a href="password-recovery-input.php">Forgot Password</a>
+            </div>
+            <div class="sign-form-elem">
+                <a href="signup.php"><span>Don't have an account?</span> Signup</a>
+            </div>
         </div>
     </div>
 </form>
 
-<?php include '../php/site-footer.php' ?>
+<?php include '../php-pages/site-footer.php' ?>
 <script type="text/javascript">
     setMarginTop('.site-header-main-header', 'sign-form-body', 50)
     window.addEventListener("resize", function(event) {

@@ -46,7 +46,9 @@ body {
 
 #mg-table-div {
     display: flex;
+    height: 500px;
     overflow-x : auto;
+    overflow-y: auto;
 }
 
 #mg-table-div table {

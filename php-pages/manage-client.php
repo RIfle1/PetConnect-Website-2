@@ -4,7 +4,7 @@ if(empty($_SESSION['admID'])) {
     header("Location: login.php", true, 303);
     exit;
 } else {
-    include 'dbConnection.php';
+    include '../php-processes/dbConnection.php';
     include 'site-header.php';
 
     $sql = "SELECT * FROM client ORDER BY cltUsername";

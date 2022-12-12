@@ -1,10 +1,7 @@
 <?php
 session_start();
-include 'dbConnection.php';
+include '../php-processes/dbConnection.php';
 include 'site-header.php';
-
-
-
 ?>
 
 <!doctype html>
@@ -43,7 +40,7 @@ include 'site-header.php';
 </div>
 
 
-<?php include '../php/site-footer.php' ?>
+<?php include '../php-pages/site-footer.php' ?>
 <script type="text/javascript">
     setMarginTop('.site-header-main-header', 'sign-form-body', 50)
     window.addEventListener("resize", function(event) {

@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'dbConnection.php';
+include '../php-processes/dbConnection.php';
 include 'site-header.php';
 ?>
 <!doctype html>

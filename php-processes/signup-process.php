@@ -81,7 +81,7 @@ if(sendEmail($cltEmail, $cltFirstName, $body, $subject)) {
         $_SESSION['cltVerifiedEmail'] = 0;
         $_SESSION['message'] = "Signup Successful, Please verify your email address";
 
-        header("Location: signup-success.php", true, 303);
+        header("Location: ../php-pages/signup-success.php", true, 303);
         exit;
     }
     else {

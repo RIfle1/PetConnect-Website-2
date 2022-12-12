@@ -45,7 +45,7 @@ validation
         },
         {
             validator: (value) => () => {
-                return fetch("validate-email.php?cltEmail-input=" +
+                return fetch("../php-processes/validate-email.php?cltEmail-input=" +
                     encodeURIComponent(value))
                     .then(function(response) {
                         return response.json();

@@ -42,3 +42,10 @@ function generateToken($cltID): string {
     } catch (Exception|\Exception $e) {
     }
 }
+
+//$serverName = $_SERVER['SERVER_PORT'];
+//
+//$cltEmail='philipe.barakat@yahoo.com';
+//$cltToken = 'wsfgwergergijuergfuiernger';
+//$url = "https://localhost:".$serverName."/password-recovery.php?cltEmail=".$cltEmail."&cltToken=".$cltToken;
+//sendEmail('philipe.barakat@yahoo.com', 'Philipe',$url, 'test');

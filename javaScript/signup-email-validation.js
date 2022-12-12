@@ -1,5 +1,5 @@
 $("#submit-button").click(function() {
-    $.getJSON("signup-email-validation.php", function(json) {
+    $.getJSON("../php-pages/signup-email-validation.php", function(json) {
 
         const clientInfo = json.clientInfo;
         const verificationCode = clientInfo['verificationCode']
@@ -14,7 +14,7 @@ $("#submit-button").click(function() {
             console.log('verified')
             $.ajax({
                 type: "POST",
-                url: "signup-email-validation.php",
+                url: "../php-pages/signup-email-validation.php",
                 data: {
                     newCltID: newCltID,
                     verificationCode: verificationCode
@@ -38,7 +38,7 @@ $("#submit-button").click(function() {
 });
 
 
-$.getJSON("signup-email-validation.php", function(json) {
+$.getJSON("../php-pages/signup-email-validation.php", function(json) {
     const clientInfo = json.clientInfo;
     const cltVerifiedEmail = clientInfo['cltVerifiedEmail']
     if(cltVerifiedEmail === 1) {
@@ -48,7 +48,7 @@ $.getJSON("signup-email-validation.php", function(json) {
 
 function changeSignupSuccessPage() {
     $("#sign-form-header").html('Email Validated');
-    $("#sign-form-message").html('Your email has been validated. You can now <a href="login.php">Login<a/>.');
+    $("#sign-form-message").html('Your email has been validated. You can now <a href="../php-pages/login.php">Login<a/>.');
     $("#submit-button-div").remove();
     $("#sign-form-input-div").remove();
     $("#sign-form-validate-error").remove();

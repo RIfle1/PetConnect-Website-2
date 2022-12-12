@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'dbConnection.php';
+include '../php-processes/dbConnection.php';
 include 'site-header.php';
 
 if (!empty($_SESSION['cltToken'])) {
@@ -8,7 +8,7 @@ if (!empty($_SESSION['cltToken'])) {
 }
 elseif(empty($_SESSION['newCltID']) || empty($_SESSION['verificationCode'])) {
     $_SESSION['errorMsg'] = 'You do not have access to this page. If you think this is an error, contact a web developper.';
-    header("Location: restricted-access.php");
+    header("Location: restricted-access.php-pages");
     exit;
 }
 
@@ -57,7 +57,7 @@ elseif(empty($_SESSION['newCltID']) || empty($_SESSION['verificationCode'])) {
 </div>
 
 
-<?php include '../php/site-footer.php' ?>
+<?php include '../php-pages/site-footer.php' ?>
 <script type="text/javascript">
     setMarginTop('.site-header-main-header', 'sign-form-body', 50)
     window.addEventListener("resize", function(event) {

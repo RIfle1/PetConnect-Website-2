@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-include 'dbConnection.php';
+include '../php-processes/dbConnection.php';
 
 // TO SEND JSON, ALL FIELDS MUST BE SENT IN SESSION => newCltID, verificationCode and cltVerifiedEmail !!!!!!!!!!!!!!
 

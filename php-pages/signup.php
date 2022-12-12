@@ -1,5 +1,5 @@
 <?php
-include 'dbConnection.php';
+include '../php-processes/dbConnection.php';
 include 'site-header.php'
 ?>
 <!doctype html>
@@ -34,7 +34,7 @@ include 'site-header.php'
 </head>
 <body>
 
-<form id="signup-form" name="signup-form" action="signup-process.php" method="post">
+<form id="signup-form" name="signup-form" action="../php-processes/signup-process.php" method="post">
     <div id="sign-form-body" class="text-font-700">
         <div id="sign-form-body-div">
             <div class="sign-form-elem"><h1>Create an account</h1></div>
@@ -95,7 +95,7 @@ include 'site-header.php'
 
 </form>
 
-<?php include '../php/site-footer.php' ?>
+<?php include '../php-pages/site-footer.php' ?>
 <script type="text/javascript">
     setMarginTop('.site-header-main-header', 'sign-form-body', 50)
     window.addEventListener("resize", function() {

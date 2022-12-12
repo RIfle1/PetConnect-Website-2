@@ -1,5 +1,5 @@
 <?php
-include 'dbConnection.php';
+include '../php-processes/dbConnection.php';
 session_start();
 
 if(empty($_SESSION['admID'])) {

@@ -46,13 +46,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     $_SESSION['message'] = 'A validation code could not be sent to your email, please contact a web developer';
                 }
 
-                header("Location: signup-success.php", true, 303);
+                header("Location: signup-success.php-pages", true, 303);
                 exit;
 
             } elseif ($clientInfo["cltVerifiedEmail"] === '1') {
                 $_SESSION['loggedIn'] = true;
                 $_SESSION["cltID"] = $clientInfo["cltID"];
-                header("Location: home.php", true, 303);
+                header("Location: ../php-pages/home.php", true, 303);
                 exit;
             }
 
@@ -77,13 +77,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             $_SESSION['loggedIn'] = true;
             $_SESSION["admID"] = $adminInfo["admID"];
-            header("Location: home.php", true, 303);
+            header("Location: ../php-pages/home.php", true, 303);
             exit;
         }
     }
     else {
         $isInvalid = true;
-        header('Location: login.php?isInvalid='.$isInvalid.'&lgEmail-input='.$_POST["lgEmail-input"], true, 303);
+        header('Location: ../php-pages/login.php?isInvalid='.$isInvalid.'&lgEmail-input='.$_POST["lgEmail-input"], true, 303);
         exit;
     }
 

@@ -27,12 +27,9 @@ if($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if($clientInfo) {
 
-
         $cltFirstName = $clientInfo['cltFirstName'];
         $cltID = $clientInfo['cltID'];
         $cltVerifiedEmail = $clientInfo['cltVerifiedEmail'];
-
-
 
         $_SERVER['cltToken'] = $cltToken;
         $_SESSION['resetPassword'] = true;
@@ -41,26 +38,22 @@ if($_SERVER["REQUEST_METHOD"] === "POST") {
         $cltEmail = $clientInfo['cltEmail'];
 
         $test = "test";
-        $url = 'https://localhost:'.$serverName.'/password-recovery.php?cltEmail='.$cltEmail.'&cltToken='.$cltToken;
-
-        echo strlen($url);
-        echo $url;
-
-        // THIS FUCKING SHIT IS ANNOYING AS FUCK
+        $url = "localhost:".$serverName."/password-recovery.php?cltEmail=".$cltEmail."&cltToken=".$cltToken;
 
         $body = "<div>We got a request from you to reset your Password!. Please click this link to reset your password:<a>Test</a></div>";
 
         $subject = "Email Verification";
 
-        if(sendEmail($cltEmail, $cltFirstName, $test, $subject)) {
+        if(sendEmail($cltEmail, $cltFirstName, $url, $subject)) {
             $_SESSION['message'] = 'A recovery link has been sent to '.$cltEmail.' please follow the link to reset your password.';
         } else {
             $_SESSION['message'] = 'The recovery link could not be sent to '.$cltEmail.'. Contact a web developer if you think this is a mistake.';
         }
-        header("Location: password-recovery-output.php", true, 303);
+//        header("Location: ../php-pages/password-recovery-output.php", true, 303);
+        exit;
     }
     else {
-        header("Location: password-recovery-input.php?isInvalid=1", true, 303);
+//        header("Location: ../php-pages/password-recovery-input.php?isInvalid=1", true, 303);
     }
     exit;
 }
