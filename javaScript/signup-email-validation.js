@@ -1,23 +1,26 @@
 $("#submit-button").click(function() {
-    $.getJSON("../php-pages/signup-email-validation.php", function(json) {
+    $.getJSON("../php-processes/signup-email-validation.php", function(json) {
 
         const clientInfo = json.clientInfo;
         const verificationCode = clientInfo['verificationCode']
         const cltVerifiedEmail = clientInfo['cltVerifiedEmail']
         const newCltID = clientInfo['newCltID']
+        const cltToken = clientInfo['cltToken']
         const verificationCodeInput = $("#verificationCode-input").val();
 
         console.log(verificationCode);
-        console.log(cltVerifiedEmail);
+        console.log(typeof cltVerifiedEmail);
+        // console.log(cltToken);
 
         if(verificationCode === verificationCodeInput) {
-            console.log('verified')
+            console.log('cltVerified Email set to 1')
             $.ajax({
                 type: "POST",
-                url: "../php-pages/signup-email-validation.php",
+                url: "../php-processes/signup-email-validation.php",
                 data: {
                     newCltID: newCltID,
-                    verificationCode: verificationCode
+                    verificationCode: verificationCode,
+                    cltToken: cltToken
                 },
                 success: function(result) {
                 },
@@ -26,10 +29,12 @@ $("#submit-button").click(function() {
                     alert(errorThrown);
                 }
             })
-
+            console.log('verified')
             changeSignupSuccessPage();
 
-        } else {
+        }
+
+        else {
             console.log('false code')
             $("#sign-form-validate-error").css('display', "flex");
         }
@@ -38,7 +43,7 @@ $("#submit-button").click(function() {
 });
 
 
-$.getJSON("../php-pages/signup-email-validation.php", function(json) {
+$.getJSON("../php-processes/signup-email-validation.php", function(json) {
     const clientInfo = json.clientInfo;
     const cltVerifiedEmail = clientInfo['cltVerifiedEmail']
     if(cltVerifiedEmail === 1) {

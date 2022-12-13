@@ -151,7 +151,7 @@ function uploadPfp($inputName, $table, $xxxPfpName): void
 function returnLink($redirectPage): void
 {
     if (empty($_SESSION['admID']) && empty($_SESSION['cltID'])) {
-        echo 'login.php-pages';
+        echo '../php-pages/login.php';
     }
     else {
         echo $redirectPage;

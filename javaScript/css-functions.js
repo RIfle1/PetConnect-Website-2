@@ -8,6 +8,9 @@ function setMarginTop(fromElement, toElement, extraPx) {
     document.getElementById(toElement).style.marginTop = divElement.offsetHeight+extraPx+"px";
 }
 
+// function setMarginTopInt(toElement, minusValue, value) {
+//     // console.log(document.getElementById(toElement).style.marginTop = value-minusValue+"px");
+// }
 
 
 // <script type="text/javascript">

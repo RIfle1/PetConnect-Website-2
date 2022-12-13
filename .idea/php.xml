@@ -8,12 +8,12 @@
   </component>
   <component name="PhpInterpreters">
     <interpreters>
-      <interpreter id="80c5bea4-9de7-4573-bb76-8b2c495b8e91" name="PHP" home="C:\xampp\php\php.exe" debugger_id="php.debugger.XDebug" />
+      <interpreter id="80c5bea4-9de7-4573-bb76-8b2c495b8e91" name="PHP (project level)" home="C:\xampp\php\php.exe" debugger_id="php.debugger.XDebug" />
     </interpreters>
   </component>
   <component name="PhpInterpretersPhpInfoCache">
     <phpInfoCache>
-      <interpreter name="PHP">
+      <interpreter name="PHP (project level)">
         <phpinfo binary_type="PHP" php_cgi="C:\xampp\php\php-cgi.exe" php_cli="C:\xampp\php\php.exe" path_separator=";" version="8.1.10">
           <additional_php_ini />
           <configuration_file>C:\xampp\php\php.ini</configuration_file>

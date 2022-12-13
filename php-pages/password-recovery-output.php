@@ -19,7 +19,7 @@ include 'site-header.php';
             crossorigin="anonymous">
     </script>
 
-    <title>PetConnect Signup</title>
+    <title>PetConnect Password Recovery</title>
 </head>
 <body class="text-font-700">
 

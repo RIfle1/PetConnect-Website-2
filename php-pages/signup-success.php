@@ -3,10 +3,7 @@ session_start();
 include '../php-processes/dbConnection.php';
 include 'site-header.php';
 
-if (!empty($_SESSION['cltToken'])) {
-    $cltToken = $_SESSION['cltToken'];
-}
-elseif(empty($_SESSION['newCltID']) || empty($_SESSION['verificationCode'])) {
+if(empty($_SESSION['newCltID']) || empty($_SESSION['verificationCode']) || empty($_SESSION['Token'])) {
     $_SESSION['errorMsg'] = 'You do not have access to this page. If you think this is an error, contact a web developper.';
     header("Location: restricted-access.php-pages");
     exit;

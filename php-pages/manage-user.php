@@ -46,7 +46,7 @@ $tableCell = 0;
     <div class="mg-table-separation-line"></div>
 
     <div id="mg-search-div">
-        <form id="submit-filter" name="search-form" action="manage-client-table.php" method="post">
+        <form id="submit-filter" name="search-form" action="manage-user-table.php" method="post">
             <label for="filter-selector">Filter By</label>
             <select name="filter-selector" id="filter-selector">
                 <option value="cltUsername">Client Username</option>

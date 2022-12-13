@@ -2,6 +2,7 @@
 
 include 'entities.php';
 include 'php-mailer.php';
+include 'verification-functions.php';
 $newUserInfo = new Client
 (
     $_POST["cltUsername-input"],
@@ -19,6 +20,7 @@ $cltLastName = $newUserInfo->getCltLastName();
 $cltEmail = $newUserInfo->getCltEmail();
 $cltPhoneNumber = $newUserInfo->getCltPhoneNumber();
 $cltPassword = $newUserInfo->getCltPassword();
+$cltToken = $newUserInfo->getCltToken();
 
 if(empty($cltUsername)) {
     die("Username Is Required");
@@ -40,21 +42,13 @@ if (! filter_var($cltEmail, FILTER_VALIDATE_EMAIL)) {
     die("Valid Email is Required");
 }
 
-if (strlen($cltPassword) < 8){
-    die("Password must be at least 8 characters");
-}
 
-if (! preg_match("/[a-z]/i", $cltPassword)){
-    die("Password must contain at least one letter");
-}
+$newPasswordConfirmation = $_POST["cltPasswordConfirmation-input"];
 
-if (! preg_match("/[0-9]/i", $cltPassword)){
-    die("Password must contain at least one number");
-}
-
-if ($cltPassword !== $_POST["cltPasswordConfirmation-input"]) {
-    die("Passwords must match");
-}
+checkPasswordLength($cltPassword);
+checkPasswordLetter($cltPassword);
+checkPasswordNumber($cltPassword);
+checkPasswordMatch($cltPassword, $newPasswordConfirmation);
 
 $emailSQL = "SELECT cltEmail FROM Client WHERE cltEmail='".$cltEmail."'";
 $result = runSQLResult($emailSQL);
@@ -68,16 +62,18 @@ $verificationCode = generateVerificationCode();
 $body = '<p>Verification code is: <b style = "font-size: 30px;">'.$verificationCode.'</b></p>';
 $subject = "Email Verification";
 
-if(sendEmail($cltEmail, $cltFirstName, $body, $subject)) {
-    $cltPasswordHash = password_hash($cltPassword, PASSWORD_DEFAULT);
+if(sendGmail($cltEmail, $cltFirstName, $body, $subject)) {
+    $cltPasswordHash = returnPasswordHash($cltPassword);
 
-    $insertSQL = "INSERT INTO client (`cltID`, `cltUsername`, `cltFirstName`, `cltLastName`, `cltEmail`, `cltPhoneNumber`, `cltPassword`, `cltIsModerator`, `cltVerifiedEmail`)
-        VALUES ('".$cltID."', '".$cltUsername."', '".$cltFirstName."', '".$cltLastName."', '".$cltEmail."', '".$cltPhoneNumber."', '".$cltPasswordHash."', 0, 0)";
+    $insertSQL = "INSERT INTO client (`cltID`, `cltUsername`, `cltFirstName`, `cltLastName`, `cltEmail`, `cltPhoneNumber`, `cltPassword`, `cltIsModerator`, `cltVerifiedEmail`, cltToken)
+        VALUES ('".$cltID."', '".$cltUsername."', '".$cltFirstName."', '".$cltLastName."', '".$cltEmail."', '".$cltPhoneNumber."', '".$cltPasswordHash."', 0, 0,'".$cltToken."')";
 
     if(insertSQL($insertSQL) == "Success") {
         session_start();
+        // Variables in the session
         $_SESSION['verificationCode'] = $verificationCode;
         $_SESSION['newCltID'] = $cltID;
+        $_SESSION['Token'] = $cltToken;
         $_SESSION['cltVerifiedEmail'] = 0;
         $_SESSION['message'] = "Signup Successful, Please verify your email address";
 

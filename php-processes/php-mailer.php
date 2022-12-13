@@ -3,7 +3,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 require '../vendor/autoload.php';
 
-function sendEmail($cltEmail, $cltFirstName, $body, $subject): bool {
+function sendGmail($cltEmail, $cltFirstName, $body, $subject): bool {
     $mail = new PHPMailer(True);
 
     try {
@@ -32,6 +32,35 @@ function sendEmail($cltEmail, $cltFirstName, $body, $subject): bool {
     }
 }
 
+//function sendYahooMail($cltEmail, $cltFirstName, $body, $subject): bool {
+//    $mail = new PHPMailer(True);
+//
+//    try {
+//        $mail->SMTPDebug = 2;                   // Enable verbose debug output
+//        $mail->isSMTP();                        // Set mailer to use SMTP
+//        $mail->Host       = 'smtp.mail.yahoo.fr;';    // Specify main SMTP server
+//        $mail->SMTPAuth   = true;               // Enable SMTP authentication
+//        $mail->Username   = 'petconnecttech@yahoo.com';     // SMTP username
+//        $mail->Password   = '$n95!yMC^-%sayU';         // SMTP password
+//        $mail->SMTPSecure = 'ssl';              // Enable TLS encryption, 'ssl' also accepted
+//        $mail->Port       = 465;                // TCP port to connect to
+//
+//        $mail->setFrom('petconecttech@gmail.com', 'PetConnect Support');
+//        $mail->addAddress($cltEmail, $cltFirstName);
+//        $mail->isHTML();
+//
+//        $mail->Subject = $subject;
+//        $mail->Body = $body;
+//
+//        $mail->send();
+//        return true;
+//
+//    } catch (Exception $e) {
+//        echo "Email could not be sent. Mailer Error: {$mail->ErrorInfo}";
+//        return false;
+//    }
+//}
+
 function generateVerificationCode():string {
     return substr(number_format(time() * rand(), 0, '', ''), 0, 6);
 }
@@ -47,5 +76,5 @@ function generateToken($cltID): string {
 //
 //$cltEmail='philipe.barakat@yahoo.com';
 //$cltToken = 'wsfgwergergijuergfuiernger';
-//$url = "https://localhost:".$serverName."/password-recovery.php?cltEmail=".$cltEmail."&cltToken=".$cltToken;
+//$url = "https://localhost:".$serverName."/password-reset.php?cltEmail=".$cltEmail."&cltToken=".$cltToken;
 //sendEmail('philipe.barakat@yahoo.com', 'Philipe',$url, 'test');

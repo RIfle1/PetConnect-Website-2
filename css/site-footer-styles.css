@@ -1,13 +1,11 @@
-.site-footer-main-div {
+#site-footer-main-div {
     background-color: #101010;
     display: flex;
     flex-direction: column;
     width: 100%;
-}
-
-.site-footer-main-div a {
     text-decoration: none;
 }
+
 
 .site-footer-top-div {
     display: flex;

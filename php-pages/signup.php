@@ -12,12 +12,12 @@ include 'site-header.php'
 <!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">-->
     <link rel="stylesheet" href="../css/sign-styles.css">
     <title>PetConnect Signup</title>
-    <script src="https://unpkg.com/just-validate@latest/dist/just-validate.production.min.js" defer></script>
+
     <script src="https://code.jquery.com/jquery-3.6.1.min.js"
             integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
             crossorigin="anonymous">
     </script>
-
+    <script src="https://unpkg.com/just-validate@latest/dist/just-validate.production.min.js" defer></script>
     <script src="../javaScript/signup-validation.js" defer></script>
 
     <script type="text/javascript">
@@ -107,6 +107,7 @@ include 'site-header.php'
         async defer>
 </script>
 <script src="../javaScript/css-functions.js"></script>
+<script src='../javaScript/recaptcha-functions.js'></script>
 
 </body>
 </html>

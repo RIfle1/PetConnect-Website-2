@@ -1,8 +1,18 @@
 <?php
 session_start();
-session_destroy();
 include '../php-processes/dbConnection.php';
-include 'site-header.php'
+include 'site-header.php';
+
+// Security stuff
+if(empty($_SESSION['Token']) || empty($_SESSION['resetPassword'])) {
+    header("Location: restricted-access.php", true, 303);
+    exit;
+}
+if($_SESSION['Token'] !== $_GET['Token']) {
+    header("Location: restricted-access.php", true, 303);
+    exit;
+}
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -11,9 +21,7 @@ include 'site-header.php'
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
+    <!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">-->
     <link rel="stylesheet" href="../css/sign-styles.css">
     <title>PetConnect Password Recovery</title>
 
@@ -21,6 +29,9 @@ include 'site-header.php'
             integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
             crossorigin="anonymous">
     </script>
+
+    <script src="https://unpkg.com/just-validate@latest/dist/just-validate.production.min.js" defer></script>
+    <script src="../javaScript/password-reset-validation.js" defer></script>
 
     <script type="text/javascript">
         var onloadCallback = function() {
@@ -32,24 +43,30 @@ include 'site-header.php'
             });
         };
     </script>
+
 </head>
 <body>
 
-<form id="password-recovery-input-form" name="password-recovery-input-form" action="../php-processes/password-recovery-process.php" method="post">
+<form id="password-reset-form" name="password-reset-form" action="../php-processes/password-reset-process.php" method="post">
     <div id="sign-form-body" class="text-font-700">
         <div id="sign-form-body-div">
-            <div class="sign-form-elem"><h1>Password Recovery</h1></div>
+            <div class="sign-form-elem"><h1>Reset your password</h1></div>
 
             <div class="sign-form-elem">
-                <label for="email-input">Email:</label>
-                <input type="email" id="email-input" name="email-input"
-                       value="<?= htmlspecialchars($_GET["email-input"] ?? "") ?>" required>
+                <label for="newPassword-input">New Password:</label>
+                <input type="password" id="newPassword-input" name="newPassword-input" value="">
             </div>
-            <?php if(!empty($_GET['isInvalid'])): ?>
+            <div class="sign-form-elem">
+                <label for="newPasswordConfirmation-input">Enter your new password again:</label>
+                <input type="password" id="newPasswordConfirmation-input" name="newPasswordConfirmation-input" value="">
+            </div>
+
+            <?php if ($_GET['isInvalid'] ?? ""): ?>
                 <div class="sign-form-elem">
-                    <span class="sign-form-error-span"><?php echo 'This email does not have an account';?></span>
+                    <span>Your new password has to be different from your old password.</span>
                 </div>
             <?php endif; ?>
+
             <div class="sign-separation-line-small"></div>
 
             <div class="sign-form-elem">
@@ -61,25 +78,21 @@ include 'site-header.php'
             </div>
 
             <div class="sign-separation-line-small"></div>
-
             <div class="sign-form-elem">
-                <button id="submit-password-recovery-button" type="button">Send verification link</button>
+                <button type="submit" id="submit-password-reset-button">Change Password</button>
             </div>
 
-            <div class="sign-separation-line-small"></div>
-
-<!--            <div class="sign-form-elem">-->
-<!--                <a href="login.php">Login</a>-->
-<!--            </div>-->
 
         </div>
+
     </div>
+
 </form>
 
 <?php include '../php-pages/site-footer.php' ?>
 <script type="text/javascript">
     setMarginTop('.site-header-main-header', 'sign-form-body', 50)
-    window.addEventListener("resize", function(event) {
+    window.addEventListener("resize", function() {
         setMarginTop('.site-header-main-header', 'sign-form-body', 50)
     })
 </script>
@@ -89,5 +102,6 @@ include 'site-header.php'
 </script>
 <script src="../javaScript/css-functions.js"></script>
 <script src='../javaScript/recaptcha-functions.js'></script>
+
 </body>
 </html>

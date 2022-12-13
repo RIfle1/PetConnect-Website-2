@@ -12,7 +12,7 @@
     <title>Site-footer</title>
 </head>
 <body>
-<div class="site-footer-main-div">
+<div id="site-footer-main-div">
     <div class="site-footer-top-div">
         <div id="site-footer-first-colum" class="text-font-200">
             <a href="#">CARTES CADEAUX</a>

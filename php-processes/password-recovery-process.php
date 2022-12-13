@@ -3,57 +3,114 @@
 include 'dbConnection.php';
 include 'php-mailer.php';
 
+/**
+ * @param string $url
+ * @param mixed $email
+ * @param mixed $firstName
+ * @return void
+ */
+
+function variablesToSendTheEmail(string $url, mixed $email, mixed $firstName): void
+{
+    $body = "<div>We got a request from you to reset your Password!. <a href=$url>Please click this link to reset your password</a></div>";
+    $subject = "Email Verification";
+
+    // Send email
+    if (sendGmail($email, $firstName, $body, $subject)) {
+        $_SESSION['message'] = 'A recovery link has been sent to ' . $email . ' please follow the link to reset your password.';
+    } else {
+        $_SESSION['message'] = 'The recovery link could not be sent to ' . $email . '. Contact a web developer if you think this is a mistake.';
+    }
+
+    // Redirect to the page to reset the password
+    header("Location: ../php-pages/password-recovery-output.php", true, 303);
+}
+
 if($_SERVER["REQUEST_METHOD"] === "POST") {
 
     //Verify that the input email exists in the database
-    $cltEmailInput = $_POST['cltEmail-input'];
-    $selectSql = "SELECT * FROM client WHERE cltEmail='".$cltEmailInput."'";
-    $result = runSQLResult($selectSql);
-    $clientInfo = $result->fetch_assoc();
-    $cltToken = $clientInfo['cltToken'];
+    $emailInput = $_POST['email-input'];
 
-    if(strlen($cltToken) === 0) {
-        $newCltToken = $token = generateToken($clientInfo['cltID']);
-        $updateSQL = "UPDATE client SET cltToken = '".$newCltToken."'";
-        runSQLResult($updateSQL);
+    $selectClientSql = "SELECT * FROM client WHERE cltEmail='".$emailInput."'";
+    $cltResult = runSQLResult($selectClientSql);
+    $clientInfo = $cltResult->fetch_assoc();
 
-        $result2 = runSQLResult($selectSql);
-        $clientInfo = $result2->fetch_assoc();
-        $cltToken = $clientInfo['cltToken'];
-    }
+    $selectAdminSql = "SELECT * FROM admin WHERE admEmail='".$emailInput."'";
+    $admResult = runSQLResult($selectAdminSql);
+    $adminInfo = $admResult->fetch_assoc();
+
 
 
     session_start();
 
     if($clientInfo) {
+        // Generate new token for the client
+        $newToken = generateToken($clientInfo['cltID']);
+        // Update client token and get new client info
+        $updateCltTokenSQL = "UPDATE client SET cltToken = '".$newToken."' WHERE cltEmail='".$emailInput."' ";
+        runSQLResult($updateCltTokenSQL);
+        $cltResult2 = runSQLResult($selectClientSql);
+        $clientInfo = $cltResult2->fetch_assoc();
 
+        // Get new client variables
         $cltFirstName = $clientInfo['cltFirstName'];
         $cltID = $clientInfo['cltID'];
         $cltVerifiedEmail = $clientInfo['cltVerifiedEmail'];
+        $newCltToken = $clientInfo['cltToken'];
 
-        $_SERVER['cltToken'] = $cltToken;
+        // Store variables in the session
+        $_SESSION['Token'] = $newCltToken;
         $_SESSION['resetPassword'] = true;
+        $_SESSION['ID'] = 'client';
 
+        // Get variables for the link to reset the password
         $serverName = $_SERVER['SERVER_PORT'];
         $cltEmail = $clientInfo['cltEmail'];
+        $serverHost= $_SERVER['HTTP_HOST'];
+        $serverName = explode('/', $_SERVER['SCRIPT_NAME'])[1];
 
-        $test = "test";
-        $url = "localhost:".$serverName."/password-recovery.php?cltEmail=".$cltEmail."&cltToken=".$cltToken;
+        // Create a url
+        $url = "https://".$serverHost."/".$serverName."/php-pages/password-reset.php?cltEmail=".$cltEmail."&Token=".$newCltToken;
 
-        $body = "<div>We got a request from you to reset your Password!. Please click this link to reset your password:<a>Test</a></div>";
+        // Send the email
+        variablesToSendTheEmail($url, $cltEmail, $cltFirstName);
+    }
 
-        $subject = "Email Verification";
+    elseif($adminInfo) {
+        // Generate new token for the admin
+        $newToken = generateToken($adminInfo['admID']);
+        // Update client token and get new client info
+        $updateAdmTokenSQL = "UPDATE admin SET admToken = '" . $newToken . "' WHERE admEmail='" . $emailInput . "' ";
+        runSQLResult($updateAdmTokenSQL);
+        $admResult2 = runSQLResult($selectAdminSql);
+        $adminInfo = $admResult2->fetch_assoc();
 
-        if(sendEmail($cltEmail, $cltFirstName, $url, $subject)) {
-            $_SESSION['message'] = 'A recovery link has been sent to '.$cltEmail.' please follow the link to reset your password.';
-        } else {
-            $_SESSION['message'] = 'The recovery link could not be sent to '.$cltEmail.'. Contact a web developer if you think this is a mistake.';
-        }
-//        header("Location: ../php-pages/password-recovery-output.php", true, 303);
-        exit;
+        // Get new client variables
+        $admFirstName = $adminInfo['admFirstName'];
+        $admID = $adminInfo['admID'];
+        $admVerifiedEmail = $adminInfo['admVerifiedEmail'];
+        $newAdmToken = $adminInfo['admToken'];
+
+        // Store variables in the session
+        $_SESSION['Token'] = $newAdmToken;
+        $_SESSION['resetPassword'] = true;
+        $_SESSION['ID'] = 'admin';
+
+        // Get variables for the link to reset the password
+        $serverName = $_SERVER['SERVER_PORT'];
+        $admEmail = $adminInfo['admEmail'];
+        $serverHost = $_SERVER['HTTP_HOST'];
+        $serverName = explode('/', $_SERVER['SCRIPT_NAME'])[1];
+
+        // Create a url
+        $url = "https://" . $serverHost . "/" . $serverName . "/php-pages/password-reset.php?admEmail=" . $admEmail . "&Token=" . $newAdmToken;
+
+        // Send the email
+        variablesToSendTheEmail($url, $admEmail, $admFirstName);
+
     }
     else {
-//        header("Location: ../php-pages/password-recovery-input.php?isInvalid=1", true, 303);
+        header("Location: ../php-pages/password-recovery-input.php?isInvalid=1&email-input=".$emailInput, true, 303);
     }
     exit;
 }

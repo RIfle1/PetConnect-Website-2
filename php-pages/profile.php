@@ -104,14 +104,14 @@ if(!empty($_SESSION['loggedIn'])) {
         </div>
     </div>
     <div id="profile-bottom-div">
-        <a href="<?php returnLink('devices.php-pages') ?>"><span>Gérer mes appareils</span></a>
-        <a href="<?php returnLink('order-history.php-pages') ?>"><span>Mon historique de commandes</span></a>
-        <a href="<?php returnLink('connection-security.php-pages') ?>"><span>Connexion et sécurité</span></a>
-        <a href="<?php returnLink('payment-method.php-pages') ?>"><span>Mode de paiement</span></a>
-        <a href="<?php returnLink('message-center.php-pages') ?>"><span>Centre de Messagerie</span></a>
-        <a href="<?php returnLink('addresses.php-pages') ?>"><span>Adresses</span></a>
+        <a href="<?php returnLink('../php-pages/devices.php') ?>"><span>Gérer mes appareils</span></a>
+        <a href="<?php returnLink('../php-pages/order-history.php') ?>"><span>Mon historique de commandes</span></a>
+        <a href="<?php returnLink('../php-pages/connection-security.php') ?>"><span>Connexion et sécurité</span></a>
+        <a href="<?php returnLink('../php-pages/payment-method.php') ?>"><span>Mode de paiement</span></a>
+        <a href="<?php returnLink('../php-pages/message-center.php') ?>"><span>Centre de Messagerie</span></a>
+        <a href="<?php returnLink('../php-pages/addresses.php') ?>"><span>Adresses</span></a>
         <?php if ($adminLoggedIn): ?>
-            <a href="manage-client.php"><span>Gérer les utilisateurs</span></a>
+            <a href="manage-user.php"><span>Gérer les utilisateurs</span></a>
             <a href="#"><span>Répondre aux questions</span></a>
             <a href="#"><span>Gérer les données</span></a>
         <?php endif; ?>

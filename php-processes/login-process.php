@@ -2,7 +2,9 @@
 include 'dbConnection.php';
 include 'php-mailer.php';
 $isInvalid = false;
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
     $sql = "SELECT * FROM client WHERE cltEmail = '" . $_POST["lgEmail-input"] . "'";
     $result = runSQLResult($sql);
     $clientInfo = $result->fetch_assoc();
@@ -12,6 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $adminInfo = $result2->fetch_assoc();
 
     if ($clientInfo) {
+
         if (password_verify($_POST["lgPassword-input"], $clientInfo["cltPassword"])) {
 
 
@@ -22,10 +25,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             session_start();
 
-            $_SESSION['cltToken'] = $token;
+            $_SESSION['Token'] = $token;
 
             if($clientInfo["cltVerifiedEmail"] === '0') {
-
                 $_SESSION['loggedIn'] = false;
 
                 $verificationCode = generateVerificationCode();
@@ -36,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $cltID = $clientInfo['cltID'];
                 $cltVerifiedEmail = $clientInfo['cltVerifiedEmail'];
 
-                if(sendEmail($cltEmail, $cltFirstName, $body, $subject)) {
+                if(sendGmail($cltEmail, $cltFirstName, $body, $subject)) {
                     $_SESSION['message'] = 'Your account has been created but your email is still not validated. 
                 A code has been sent to your email to validate your account';
                     $_SESSION['verificationCode'] = $verificationCode;
@@ -46,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     $_SESSION['message'] = 'A validation code could not be sent to your email, please contact a web developer';
                 }
 
-                header("Location: signup-success.php-pages", true, 303);
+                header("Location: ../php-pages/signup-success.php", true, 303);
                 exit;
 
             } elseif ($clientInfo["cltVerifiedEmail"] === '1') {
@@ -62,10 +64,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     elseif ($adminInfo) {
         if (password_verify($_POST["lgPassword-input"], $adminInfo["admPassword"])) {
 
-            try {
-                $token = $adminInfo['admID']."-".bin2hex(random_bytes(16));
-            } catch (Exception $e) {
-            }
+            // Generate an admin Token
+            $token = generateToken($adminInfo['admID']);
 
             $insertTokenSql = "UPDATE admin SET admToken = '".$token."' WHERE admID='".$adminInfo['admID']."'";
             insertSQL($insertTokenSql);
@@ -73,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             session_start();
             session_regenerate_id();
 
-            $_SESSION['cltToken'] = $token;
+            $_SESSION['Token'] = $token;
 
             $_SESSION['loggedIn'] = true;
             $_SESSION["admID"] = $adminInfo["admID"];
@@ -81,13 +81,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             exit;
         }
     }
-    else {
-        $isInvalid = true;
-        header('Location: ../php-pages/login.php?isInvalid='.$isInvalid.'&lgEmail-input='.$_POST["lgEmail-input"], true, 303);
-        exit;
-    }
-
-
+    $isInvalid = true;
+    header('Location: ../php-pages/login.php?isInvalid='.$isInvalid.'&lgEmail-input='.$_POST["lgEmail-input"], true, 303);
+    exit;
 }
 
 

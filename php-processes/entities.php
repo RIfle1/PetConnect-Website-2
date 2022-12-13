@@ -10,6 +10,7 @@ class Client
     public string $cltEmail;
     public int $cltPhoneNumber;
     public string $cltPassword;
+    public string $cltToken;
 
     /**
      * @param $cltID
@@ -30,6 +31,7 @@ class Client
         $this->cltEmail = $cltEmail;
         $this->cltPhoneNumber = $cltPhoneNumber;
         $this->cltPassword = $cltPassword;
+        $this->cltToken = generateToken(autoSetCltID());
     }
 
     /**
@@ -142,6 +144,22 @@ class Client
     public function setCltPassword(string $cltPassword): void
     {
         $this->cltPassword = $cltPassword;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCltToken(): string
+    {
+        return $this->cltToken;
+    }
+
+    /**
+     * @param string $cltToken
+     */
+    public function setCltToken(string $cltToken): void
+    {
+        $this->cltToken = $cltToken;
     }
 
 }
