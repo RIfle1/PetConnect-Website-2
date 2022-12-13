@@ -15,7 +15,7 @@ function onClickButton(buttonClass, buttonID) {
     const cltID = ButtonIdClass.val()
     $.ajax({
         type: "POST",
-        url: "manage-client-process.php",
+        url: "../php-processes/manage-client-process.php",
         data: {
             buttonClass: buttonClass,
             buttonID: buttonID,
@@ -66,7 +66,7 @@ $("#submit-filter").click(function () {
     const selectorValue = $('#filter-selector').val()
     // console.log(selectorValue);
 
-    $.getJSON("manage-client-table.php?sortBy="+encodeURIComponent(selectorValue), function(json) {
+    $.getJSON("../php/php-processes/manage-client-table.php?sortBy="+encodeURIComponent(selectorValue), function(json) {
         const clientList = json.clientList;
         for(let i = 1; i < clientList.length + 1; i++) {
 
