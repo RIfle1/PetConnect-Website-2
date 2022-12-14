@@ -67,29 +67,39 @@ body {
 
 .mg-table-div {
     display: flex;
-    max-height: 463px;
     overflow-x : auto;
     overflow-y: auto;
 }
 
 .mg-table-header-row {
     border: solid black 1px;
+    max-height: 60px;
+    height: 60px;
 }
 
 .mg-table-div table {
     border-collapse: collapse;
     width: 100%;
+    min-height: 463px;
+    height: 463px;
+    max-height: 463px;
 }
 
 .mg-table-div td, th {
-    height: 3vw;
+    max-height: 60px;
+    height: 60px;
     text-align: left;
     width: 10vw;
     padding: 0 0 0 20px;
 }
 
 .mg-table-div th {
-    background: #B1B1B1;
+    background: #B1B1B1
+}
+
+.mg-table-header-row tr {
+    max-height: 60px;
+    height: 60px;
 }
 
 #mg-table-control-panel {
@@ -122,11 +132,11 @@ body {
     background: #69A6E3;
 }
 
-.mg-table-row-1 {
+tr[class*="mg-table-row-2"] {
     background: #D6D6D6;
 }
 
-.mg-table-row-2 {
+tr[class*="mg-table-row-2"] {
     background: #e6e6e6;
 }
 

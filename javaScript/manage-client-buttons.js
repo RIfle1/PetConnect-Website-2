@@ -128,7 +128,7 @@ function sortingButton(inputElementID, action, IDLetters) {
     const tableRowCommonID = 'mg-table-row-'
 
     //Remove everything inside table
-    $("tr").remove("."+tableRowCommonID+'1').remove("."+tableRowCommonID+'2');
+    $("tr[class*='mg-table-row']").remove();
 
     $.getJSON(url, function(json) {
         const entityList = json.entityList;
@@ -143,33 +143,30 @@ function sortingButton(inputElementID, action, IDLetters) {
             }
 
             //Define constants to avoid repetitions
-            const entityID = entityList[i-1][attributeList.id];
-            const entityIDAtr = $(cellList.idCell+i);
 
-            const entityUsername = entityList[i-1][attributeList.userName];
-            const entityUsernameAtr = $(cellList.userNameCell+i);
+            // const entityIDAtr = $(cellList.idCell+i);
+            // const entityUsernameAtr = $(cellList.userNameCell+i);
+            // const entityFirstNameAtr = $(cellList.firstNameCell+i);
+            // const entityLastNameAtr = $(cellList.lastNameCell+i);
+            // const entityEmailAtr = $(cellList.emailCell+i);
+            // const entityPhoneNumberAtr = $(cellList.phoneNumberCell+i);
 
-            const entityFirstName = entityList[i-1][attributeList.firstName];
-            const entityFirstNameAtr = $(cellList.firstNameCell+i);
+            // const deleteButtonAtr = $(deleteButtonCommonID+i);
+            // const promoteButtonAtr = $(promoteButtonCommonID+i);
+            // const submitButtonAtr = $(submitButtonCommonID+i);
+            //
+            // const deleteCellAtr = $(deleteCellCommonID+i);
+            // const promoteCellAtr = $(promoteCellCommonID+i);
+            // const submitCellAtr = $(submitCellCommonID+i);
 
-            const entityLastName = entityList[i-1][attributeList.lastName];
-            const entityLastNameAtr = $(cellList.lastNameCell+i);
 
-            const entityEmail = entityList[i-1][attributeList.email];
-            const entityEmailAtr = $(cellList.emailCell+i);
-
-            const entityPhoneNumber = entityList[i-1][attributeList.phoneNumber];
-            const entityPhoneNumberAtr = $(cellList.phoneNumberCell+i);
-
-            const entityIsModerator = entityList[i-1][attributeList.isModerator];
-
-            const deleteButtonAtr = $(deleteButtonCommonID+i);
-            const promoteButtonAtr = $(promoteButtonCommonID+i);
-            const submitButtonAtr = $(submitButtonCommonID+i);
-
-            const deleteCellAtr = $(deleteCellCommonID+i);
-            const promoteCellAtr = $(promoteCellCommonID+i);
-            const submitCellAtr = $(submitCellCommonID+i);
+            let entityID = entityList[i-1][attributeList.id];
+            let entityUsername = entityList[i-1][attributeList.userName];
+            let entityFirstName = entityList[i-1][attributeList.firstName];
+            let entityLastName = entityList[i-1][attributeList.lastName];
+            let entityEmail = entityList[i-1][attributeList.email];
+            let entityPhoneNumber = entityList[i-1][attributeList.phoneNumber];
+            let entityIsModerator = entityList[i-1][attributeList.isModerator];
 
             const tableRowID = tableRowCommonID+tableRowNumber+"-"+i;
             const personalClass = commonRowClass+entityID
@@ -187,12 +184,12 @@ function sortingButton(inputElementID, action, IDLetters) {
 
             $(tableID).append("<tr class="+tableRowID+">");
             $('.'+tableRowID).append(
-                "    <td class="+personalClass+" id="+personalIDID+"></td>\n" +
-                "    <td class="+personalClass+" id="+personalUsernameID+"></td>\n" +
-                "    <td class="+personalClass+" id="+personalFirstNameID+"></td>\n" +
-                "    <td class="+personalClass+" id="+personalLastNameID+"></td>\n" +
-                "    <td class="+personalClass+" id="+personalEmailID+"></td>\n" +
-                "    <td class="+personalClass+" id="+personalPhoneNumberID+"></td>\n" +
+                "    <td class="+personalClass+" id="+personalIDID+">"+entityID+"</td>\n" +
+                "    <td class="+personalClass+" id="+personalUsernameID+">"+entityUsername+"</td>\n" +
+                "    <td class="+personalClass+" id="+personalFirstNameID+">"+entityFirstName+"</td>\n" +
+                "    <td class="+personalClass+" id="+personalLastNameID+">"+entityLastName+"</td>\n" +
+                "    <td class="+personalClass+" id="+personalEmailID+">"+entityEmail+"</td>\n" +
+                "    <td class="+personalClass+" id="+personalPhoneNumberID+">"+entityPhoneNumber+"</td>\n" +
                 "    <!--                        Delete Button-->\n" +
                 "    <td class="+personalClass+" id="+personalDeleteButtonID+">Delete User</td>\n" +
                 "    <!--                        Promote Button-->\n" +
@@ -201,39 +198,39 @@ function sortingButton(inputElementID, action, IDLetters) {
                 "    <td class="+personalClass+" id="+personalSubmitButtonID+">Submit Changes</td>"
             )
 
-            // Change the classes and texts of each client attribute
-            entityIDAtr.attr('class', commonRowClass+entityID);
-            entityIDAtr.text(entityID);
-
-            entityUsernameAtr.attr('class', commonRowClass+entityID);
-            entityUsernameAtr.text(entityUsername);
-
-            entityFirstNameAtr.attr('class', commonRowClass+entityID);
-            entityFirstNameAtr.text(entityFirstName);
-
-            entityLastNameAtr.attr('class', commonRowClass+entityID);
-            entityLastNameAtr.text(entityLastName);
-
-            entityEmailAtr.attr('class', commonRowClass+entityID);
-            entityEmailAtr.text(entityEmail);
-
-            entityPhoneNumberAtr.attr('class', commonRowClass+entityID);
-            entityPhoneNumberAtr.text(entityPhoneNumber);
-
-            // Change the classes of the buttons themselves
-            deleteButtonAtr.attr('class', deleteButtonCommonClass+entityID);
-            promoteButtonAtr.attr('class', promoteButtonCommonClass+entityID);
-            submitButtonAtr.attr('class', submitButtonCommonClass+entityID);
-
-            // Change the classes of the cells where the buttons are located
-            deleteCellAtr.attr('class', commonRowClass+entityID);
-            promoteCellAtr.attr('class', commonRowClass+entityID);
-            submitCellAtr.attr('class', commonRowClass+entityID);
-
-            // Change the values of the buttons
-            deleteButtonAtr.attr('value', entityID);
-            promoteButtonAtr.attr('value', entityID);
-            submitButtonAtr.attr('value', entityID);
+            // // Change the classes and texts of each client attribute
+            // entityIDAtr.attr('class', commonRowClass+entityID);
+            // entityIDAtr.text(entityID);
+            //
+            // entityUsernameAtr.attr('class', commonRowClass+entityID);
+            // entityUsernameAtr.text(entityUsername);
+            //
+            // entityFirstNameAtr.attr('class', commonRowClass+entityID);
+            // entityFirstNameAtr.text(entityFirstName);
+            //
+            // entityLastNameAtr.attr('class', commonRowClass+entityID);
+            // entityLastNameAtr.text(entityLastName);
+            //
+            // entityEmailAtr.attr('class', commonRowClass+entityID);
+            // entityEmailAtr.text(entityEmail);
+            //
+            // entityPhoneNumberAtr.attr('class', commonRowClass+entityID);
+            // entityPhoneNumberAtr.text(entityPhoneNumber);
+            //
+            // // Change the classes of the buttons themselves
+            // deleteButtonAtr.attr('class', deleteButtonCommonClass+entityID);
+            // promoteButtonAtr.attr('class', promoteButtonCommonClass+entityID);
+            // submitButtonAtr.attr('class', submitButtonCommonClass+entityID);
+            //
+            // // Change the classes of the cells where the buttons are located
+            // deleteCellAtr.attr('class', commonRowClass+entityID);
+            // promoteCellAtr.attr('class', commonRowClass+entityID);
+            // submitCellAtr.attr('class', commonRowClass+entityID);
+            //
+            // // Change the values of the buttons
+            // deleteButtonAtr.attr('value', entityID);
+            // promoteButtonAtr.attr('value', entityID);
+            // submitButtonAtr.attr('value', entityID);
 
             if(entityIsModerator === '1') {
                 setPromoteButtonStyle(entityID, "grey", '#69A6E3', "Promoted");
