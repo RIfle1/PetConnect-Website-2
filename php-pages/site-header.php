@@ -1,21 +1,33 @@
 <?php
-$clientLoggedIn = false;
-$adminLoggedIn = false;
-$clientInfo = "";
-$adminInfo = "";
+include '../php-processes/authenticity-check.php';
+$user = returnLoggedUser();
 
-if(!empty($_SESSION['loggedIn'])) {
-    if(!empty($_SESSION['cltID']) && $_SESSION['loggedIn'] === true) {
-        $sql = "SELECT * FROM Client WHERE cltID= '".$_SESSION["cltID"]."'";
-        $result = runSQLResult($sql);
-        $clientInfo = $result->fetch_assoc();
-        $clientLoggedIn = true;
-    }elseif (!empty($_SESSION['admID']) && $_SESSION['loggedIn'] === true) {
-        $sql = "SELECT * FROM admin WHERE admID= '".$_SESSION["admID"]."'";
-        $result = runSQLResult($sql);
-        $adminInfo = $result->fetch_assoc();
-        $adminLoggedIn = true;
-    }
+// CHECK WHO'S LOGGED IN
+if($user === 'client'){
+    $clientLoggedIn = $_SESSION['clientLoggedIn'] = true;
+    $adminLoggedIn = $_SESSION['adminLoggedIn'] = false;
+    $loggedIn = $_SESSION['loggedIn'];
+
+    $sql = "SELECT * FROM Client WHERE cltID = '".$_SESSION["cltID"]."'";
+    $result = runSQLResult($sql);
+    $clientInfo = $result->fetch_assoc();
+}
+elseif($user === 'admin') {
+    $clientLoggedIn = $_SESSION['clientLoggedIn'] = false;
+    $adminLoggedIn = $_SESSION['adminLoggedIn'] = true;
+    $loggedIn = $_SESSION['loggedIn'];
+
+    $sql = "SELECT * FROM admin WHERE admID = '".$_SESSION["admID"]."'";
+    $result = runSQLResult($sql);
+    $adminInfo = $result->fetch_assoc();
+}
+else {
+    // Set default values
+    $clientLoggedIn = $_SESSION['clientLoggedIn'] = false;
+    $adminLoggedIn = $_SESSION['adminLoggedIn'] = false;
+    $loggedIn = $_SESSION['loggedIn'] = false;
+    $clientInfo = "";
+    $adminInfo = "";
 }
 
 ?>
@@ -43,7 +55,7 @@ if(!empty($_SESSION['loggedIn'])) {
 <div class="site-header-main-header">
 
     <div class="site-header-logo">
-        <a href="home.php"><img src="../img/logos/PetConnect-Logo.png" alt="PetConnect-Logo"></a>
+        <a href="home.php"><img src="../img/<?php echo getImage('PetConnect-Logo.png')['imgCategory']."/".getImage('PetConnect-Logo.png')['imgPath']?>" alt="PetConnect-Logo"></a>
     </div>
 
     <div class="text-font-500" id="site-header-menu">

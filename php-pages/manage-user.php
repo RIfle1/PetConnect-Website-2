@@ -1,18 +1,26 @@
 <?php
 session_start();
-if(empty($_SESSION['admID'])) {
-    header("Location: login.php", true, 303);
+include '../php-processes/dbConnection.php';
+include '../php-processes/manage-user-table-generator.php';
+include 'site-header.php';
+
+$clientLoggedIn = $_SESSION['clientLoggedIn'];
+$adminLoggedIn = $_SESSION['adminLoggedIn'];
+$loggedIn = $_SESSION['loggedIn'];
+$clientInfo = "";
+$adminInfo = "";
+
+if ($clientLoggedIn || !$loggedIn) {
+    header("Location: ../php-pages/restricted-access.php", true,303);
     exit;
-} else {
-    include '../php-processes/dbConnection.php';
-    include 'site-header.php';
-
-    $sql = "SELECT * FROM client ORDER BY cltUsername";
-
-    $result = runSQLResult($sql);
 }
+
+$clientInfoSql = "SELECT * FROM client ORDER BY cltUsername";
+$result = runSQLResult($clientInfoSql);
+
 $tableRowNumber = 1;
 $tableCell = 0;
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -24,7 +32,7 @@ $tableCell = 0;
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/manage-client-styles.css">
+    <link rel="stylesheet" href="../css/manage-user-styles.css">
 
     <script src="https://code.jquery.com/jquery-3.6.1.min.js"
             integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
@@ -45,100 +53,44 @@ $tableCell = 0;
 
     <div class="mg-table-separation-line"></div>
 
-    <div id="mg-search-div">
-        <form id="submit-filter" name="search-form" action="../php-processes/manage-client-table.php" method="post">
-            <label for="filter-selector">Filter By</label>
-            <select name="filter-selector" id="filter-selector">
+    <div class="mg-search-filter-div">
+        <!--CLIENT FILTER DIV-->
+        <div class="mg-filter-div">
+            <label for="clt-filter-selector">Filter By</label>
+            <select name="clt-filter-selector" id="clt-filter-selector">
                 <option value="cltUsername">Client Username</option>
                 <option value="cltFirstName">Client First Name</option>
                 <option value="cltLastName">Client Last Name</option>
                 <option value="cltEmail">Client Email</option>
             </select>
-
-<!--            <button id="submit-filter"-->
-<!--                    type="button">-->
-<!--                Submit Filter-->
-<!--            </button>-->
-
-        </form>
+        </div>
+        <!--CLIENT FILTER DIV-->
+<!--        CLIENT SEARCH DIV-->
+        <div class="mg-search-div">
+            <input id="clt-search-input" name="clt-search-input" type="text" placeholder="Search in client...">
+            <button></button>
+        </div>
+<!--        CLIENT SEARCH DIV-->
     </div>
+
+
 
     <div class="mg-table-separation-line"></div>
 
-    <div id="mg-table-div">
-        <table>
-            <tr>
+    <div class="mg-table-div">
+        <table id="mg-table-info-clt">
+            <tr class="mg-table-header-row">
                 <th class="mg-table-header">Client ID</th>
                 <th class="mg-table-header">Client Username</th>
                 <th class="mg-table-header">Client First Name</th>
                 <th class="mg-table-header">Client Last Name</th>
                 <th class="mg-table-header">Client Email</th>
                 <th class="mg-table-header">Client Phone Number</th>
-                <th colspan="3" id="mg-table-control-panel">Control Panel</th>
+                <th colspan="3" id="mg-table-control-panel">Client Control Panel</th>
             </tr>
-
-            <?php while($clientInfo = $result->fetch_array()): ?>
-                <?php
-                $commonClass =  "mg-info-row-".$clientInfo['cltID'];
-                $personalCellID = "mg-cell-";
-                $cltID = $clientInfo['cltID'];
-                if ($tableRowNumber == 1) {
-                    $tableRowNumber = 2;
-                }
-                else {
-                    $tableRowNumber = 1;
-                }
-                $tableCell ++;
-                ?>
-                <tr class="mg-table-row-<?php echo $tableRowNumber ?>">
-                    <td class="<?php echo $commonClass ?>" id="<?php echo $personalCellID ?>cltID-<?php echo $tableCell?>"><?php echo $clientInfo['cltID'] ?></td>
-                    <td class="<?php echo $commonClass ?>" id="<?php echo $personalCellID ?>cltUsername-<?php echo $tableCell?>"><?php echo $clientInfo['cltUsername'] ?></td>
-                    <td class="<?php echo $commonClass ?>" id="<?php echo $personalCellID ?>cltFirstName-<?php echo $tableCell?>"><?php echo $clientInfo['cltFirstName'] ?></td>
-                    <td class="<?php echo $commonClass ?>" id="<?php echo $personalCellID ?>cltLastName-<?php echo $tableCell?>"><?php echo $clientInfo['cltLastName'] ?></td>
-                    <td class="<?php echo $commonClass ?>" id="<?php echo $personalCellID ?>cltEmail-<?php echo $tableCell?>"><?php echo $clientInfo['cltEmail'] ?></td>
-                    <td class="<?php echo $commonClass ?>" id="<?php echo $personalCellID ?>cltPhoneNumber-<?php echo $tableCell?>"><?php echo $clientInfo['cltPhoneNumber'] ?></td>
-                    <!--                        Delete Button-->
-                    <td class="<?php echo $commonClass ?>" id="<?php echo $personalCellID ?>delete-control-<?php echo $tableCell?>">
-                        <button class="delete-button-id-<?php echo $cltID ?>"
-                                id="<?php echo $personalCellID ?>deleteBtn-<?php echo $tableCell?>"
-                                name="delete-button"
-                                type="button"
-                                value="<?php echo $cltID ?>">Delete User</button>
-                        <script>
-                            setButton("delete-button-id", "<?php echo $personalCellID ?>deleteBtn-<?php echo $tableCell?>")
-                        </script>
-                    </td>
-                    <!--                        Promote Button-->
-                    <td class="<?php echo $commonClass ?>" id="<?php echo $personalCellID ?>promote-control-<?php echo $tableCell?>">
-                        <button class="promote-button-id-<?php echo $cltID ?>"
-                                id="<?php echo $personalCellID ?>promoteBtn-<?php echo $tableCell?>"
-                                name="promote-button"
-                                type="button"
-                                value="<?php echo $cltID ?>">Promote User</button>
-                        <script>
-                            setButton("promote-button-id", "<?php echo $personalCellID ?>promoteBtn-<?php echo $tableCell?>")
-                        </script>
-                        <?php if (isModerator($cltID)): ?>
-                            <script>
-                                setPromoteButtonStyle('<?php echo $cltID ?>', "grey", '#69A6E3', "Promoted");
-                            </script>
-                        <?php endif; ?>
-                    </td>
-                    <!--                        Submit Button-->
-                    <td class="<?php echo $commonClass ?>" id="<?php echo $personalCellID ?>submit-control-<?php echo $tableCell?>">
-
-                        <button class="submit-button-id-<?php echo $cltID ?>"
-                                id="<?php echo $personalCellID ?>submitBtn-<?php echo $tableCell?>"
-                                name="submit-button"
-                                type="button"
-                                value="<?php echo $cltID ?>">Submit Changes</button>
-                        <script>
-                            setButton("submit-button-id", "<?php echo $personalCellID ?>submitBtn-<?php echo $tableCell?>")
-                        </script>
-                    </td>
-                </tr>
-            <?php endwhile; ?>
-
+<!--            CLIENT TABLE GENERATION-->
+            <?php  generateTable('client','cltUsername','cltID','clt'); ?>
+<!--            CLIENT TABLE GENERATION-->
         </table>
     </div>
 
@@ -149,6 +101,36 @@ $tableCell = 0;
     </div>
 
     <div class="mg-table-separation-line"></div>
+    <div class="mg-filter-div">
+        <form id="adm-submit-filter" name="search-form" action="../php-processes/manage-client-table.php" method="post">
+            <label for="adm-filter-selector">Filter By</label>
+            <select name="adm-filter-selector" id="adm-filter-selector">
+                <option value="admUsername">Admin Username</option>
+                <option value="admFirstName">Admin First Name</option>
+                <option value="admLastName">Admin Last Name</option>
+                <option value="admEmail">Admin Email</option>
+            </select>
+        </form>
+    </div>
+
+    <div class="mg-table-separation-line"></div>
+
+    <div class="mg-table-div">
+        <table>
+            <tr class="mg-table-header-row">
+                <th class="mg-table-header">Admin ID</th>
+                <th class="mg-table-header">Admin Username</th>
+                <th class="mg-table-header">Admin First Name</th>
+                <th class="mg-table-header">Admin Last Name</th>
+                <th class="mg-table-header">Admin Email</th>
+                <th class="mg-table-header">Admin Phone Number</th>
+                <th colspan="3" id="mg-table-control-panel">Admin Control Panel</th>
+            </tr>
+<!--            ADMIN TABLE GENERATION-->
+            <?php  generateTable('admin','admUsername','admID','adm'); ?>
+<!--            ADMIN TABLE GENERATION-->
+        </table>
+    </div>
 
 </div>
 <?php include "site-footer.php";?>

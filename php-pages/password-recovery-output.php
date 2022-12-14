@@ -2,6 +2,16 @@
 session_start();
 include '../php-processes/dbConnection.php';
 include 'site-header.php';
+
+if(empty($_SESSION['resetPassword'])) {
+    header("Location: ../php-pages/restricted-access.php", true,303);
+    exit;
+}
+elseif($_SESSION['resetPassword'] === false) {
+    header("Location: ../php-pages/restricted-access.php", true,303);
+    exit;
+}
+
 ?>
 
 <!doctype html>

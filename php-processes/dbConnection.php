@@ -170,3 +170,55 @@ function isModerator($cltID): bool {
         return false;
     }
 }
+
+function compareIdAndToken($idToCheck, $tokenInput, $table): bool {
+    if($table === 'client') {
+        // CHECK IF TOKEN MATCHES NEW CLIENT ID
+        $checkCltTokenSql = "SELECT cltID FROM client WHERE cltToken = '".$tokenInput."'";
+        $cltResult = runSQLResult($checkCltTokenSql);
+        $clientInfo = $cltResult->fetch_assoc();
+
+        // Check if current cltID is the same as the cltID found from the token
+        if($idToCheck === $clientInfo['cltID']){return true;}
+        else{return false;}
+    }
+    elseif($table === 'admin') {
+        // CHECK IF TOKEN MATCHES NEW CLIENT ID
+        $checkAdmTokenSql = "SELECT admID FROM admin WHERE admToken = '".$tokenInput."'";
+        $admResult = runSQLResult($checkAdmTokenSql);
+        $admInfo = $admResult->fetch_assoc();
+
+        // Check if current cltID is the same as the cltID found from the token
+        if($idToCheck === $admInfo['admID']){return true;}
+        else{return false;}
+    }
+    else {
+        return false;
+    }
+}
+
+function compareEmailAndToken($emailToCheck, $tokenInput, $table): bool {
+    if($table === 'client') {
+        // CHECK IF TOKEN MATCHES NEW CLIENT ID
+        $checkCltTokenSql = "SELECT cltEmail FROM client WHERE cltToken = '".$tokenInput."'";
+        $cltResult = runSQLResult($checkCltTokenSql);
+        $clientInfo = $cltResult->fetch_assoc();
+
+        // Check if current cltID is the same as the cltID found from the token
+        if($emailToCheck === $clientInfo['cltEmail']){return true;}
+        else{return false;}
+    }
+    elseif($table === 'admin') {
+        // CHECK IF TOKEN MATCHES NEW CLIENT ID
+        $checkAdmTokenSql = "SELECT admEmail FROM admin WHERE admToken = '".$tokenInput."'";
+        $admResult = runSQLResult($checkAdmTokenSql);
+        $admInfo = $admResult->fetch_assoc();
+
+        // Check if current cltID is the same as the cltID found from the token
+        if($emailToCheck === $admInfo['admEmail']){return true;}
+        else{return false;}
+    }
+    else {
+        return false;
+    }
+}

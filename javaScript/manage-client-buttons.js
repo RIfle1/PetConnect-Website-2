@@ -13,6 +13,7 @@ function onClickButton(buttonClass, buttonID) {
 
     const ButtonIdClass = $('#'+buttonID);
     const cltID = ButtonIdClass.val()
+    // EXECUTE BUTTON CODE IN THE DATABASE
     $.ajax({
         type: "POST",
         url: "../php-processes/manage-client-process.php",
@@ -28,11 +29,13 @@ function onClickButton(buttonClass, buttonID) {
             alert(errorThrown);
         }
     })
+    // DELETE ROW FROM THE TABLE
     if(buttonClass === 'delete-button-id') {
         // console.log("On Press", buttonClass, buttonID, ButtonIdClass.val())
         $(".mg-info-row-"+cltID).remove();
 
     }
+    // PROMOTES A USER ON THE TABLE --> CHANGES TEXT AND COLOR OF THE BUTTON
     else if(buttonClass === 'promote-button-id') {
         // console.log("On Press", buttonClass, buttonID, ButtonIdClass.val())
 
@@ -62,86 +65,203 @@ function setButton(buttonClass, buttonID) {
     button.addEventListener('click', function(){onClickButton(buttonClass, buttonID)})
 }
 
-$("#submit-filter").click(function () {
-    const selectorValue = $('#filter-selector').val()
-    // console.log(selectorValue);
+function sortingButton(inputElementID, action, IDLetters) {
+    const elementValue = $(inputElementID).val()
+    // console.log(elementValue);
+    let url;
 
-    $.getJSON("../php/php-processes/manage-client-table.php?sortBy="+encodeURIComponent(selectorValue), function(json) {
-        const clientList = json.clientList;
-        for(let i = 1; i < clientList.length + 1; i++) {
+    // Check which action needs to be performed
+    if (action === 'filter') {
+        if(IDLetters === 'clt') {
+            url = "../php-processes/manage-client-table.php?sortBy=" + encodeURIComponent(elementValue) + "&action=filter&ID=client";
+        }
+        else if(IDLetters === 'adm') {
+            url = "../php-processes/manage-client-table.php?sortBy=" + encodeURIComponent(elementValue) + "&action=filter&ID=admin";
+        }
+    } else if (action === 'search') {
+        if(IDLetters === 'clt') {
+            url = "../php-processes/manage-client-table.php?searchBy=" + encodeURIComponent(elementValue) + "&action=search&ID=client";
+        }
+        else if(IDLetters === 'adm') {
+            url = "../php-processes/manage-client-table.php?searchBy=" + encodeURIComponent(elementValue) + "&action=search&ID=admin";
+        }
+    } else {
+        url = "";
+    }
+
+    // Define attributes according to IDLetters
+    let attributeList = {
+        id: IDLetters + "ID",
+        userName: IDLetters + "Username",
+        firstName: IDLetters + "FirstName",
+        lastName: IDLetters + "LastName",
+        email: IDLetters + "Email",
+        phoneNumber: IDLetters + "PhoneNumber",
+        isModerator: IDLetters + "IsModerator",
+    };
+
+    let cellList = {
+        idCell: "#mg-cell-"+IDLetters+"ID-",
+        userNameCell: "#mg-cell-"+IDLetters+"Username-",
+        firstNameCell: "#mg-cell-"+IDLetters+"FirstName-",
+        lastNameCell: "#mg-cell-"+IDLetters+"LastName-",
+        emailCell: "#mg-cell-"+IDLetters+"Email-",
+        phoneNumberCell: "#mg-cell-"+IDLetters+"PhoneNumber-",
+    }
+
+    const commonRowClass = "mg-info-row-";
+    const commonCellClass = "mg-cell-"+IDLetters;
+
+    const deleteButtonCommonID = "#mg-cell-deleteBtn-";
+    const promoteButtonCommonID = "#mg-cell-promoteBtn-";
+    const submitButtonCommonID = "#mg-cell-submitBtn-";
+
+    const deleteButtonCommonClass = "delete-button-id-";
+    const promoteButtonCommonClass = "promote-button-id-";
+    const submitButtonCommonClass = "submit-button-id-";
+
+    const deleteCellCommonID = "#mg-cell-delete-control-";
+    const promoteCellCommonID = "#mg-cell-promote-control-";
+    const submitCellCommonID = "#mg-cell-submit-control-";
+
+    const tableID = "#mg-table-info-"+IDLetters;
+    const tableRowCommonID = 'mg-table-row-'
+
+    //Remove everything inside table
+    $("tr").remove("."+tableRowCommonID+'1').remove("."+tableRowCommonID+'2');
+
+    $.getJSON(url, function(json) {
+        const entityList = json.entityList;
+        let tableRowNumber = 1;
+        for(let i = 1; i < entityList.length + 1; i++) {
+            // Table row number rotation
+            if(tableRowNumber === 1) {
+                tableRowNumber = 2;
+            }
+            else {
+                tableRowNumber = 1;
+            }
 
             //Define constants to avoid repetitions
-            const cltID = clientList[i-1]['cltID'];
-            const cltIDAtr = $("#mg-cell-cltID-"+i);
+            const entityID = entityList[i-1][attributeList.id];
+            const entityIDAtr = $(cellList.idCell+i);
 
-            const cltUsername = clientList[i-1]['cltUsername'];
-            const cltUsernameAtr = $("#mg-cell-cltUsername-"+i);
+            const entityUsername = entityList[i-1][attributeList.userName];
+            const entityUsernameAtr = $(cellList.userNameCell+i);
 
-            const cltFirstName = clientList[i-1]['cltFirstName'];
-            const cltFirstNameAtr = $("#mg-cell-cltFirstName-"+i);
+            const entityFirstName = entityList[i-1][attributeList.firstName];
+            const entityFirstNameAtr = $(cellList.firstNameCell+i);
 
-            const cltLastName = clientList[i-1]['cltLastName'];
-            const cltLastNameAtr = $("#mg-cell-cltLastName-"+i);
+            const entityLastName = entityList[i-1][attributeList.lastName];
+            const entityLastNameAtr = $(cellList.lastNameCell+i);
 
-            const cltEmail = clientList[i-1]['cltEmail'];
-            const cltEmailAtr = $("#mg-cell-cltEmail-"+i);
+            const entityEmail = entityList[i-1][attributeList.email];
+            const entityEmailAtr = $(cellList.emailCell+i);
 
-            const cltPhoneNumber = clientList[i-1]['cltPhoneNumber'];
-            const cltPhoneNumberAtr = $("#mg-cell-cltPhoneNumber-"+i);
+            const entityPhoneNumber = entityList[i-1][attributeList.phoneNumber];
+            const entityPhoneNumberAtr = $(cellList.phoneNumberCell+i);
 
-            const cltIsModerator = clientList[i-1]['cltIsModerator'];
+            const entityIsModerator = entityList[i-1][attributeList.isModerator];
 
-            const deleteButtonAtr = $("#mg-cell-deleteBtn-"+i);
-            const promoteButtonAtr = $("#mg-cell-promoteBtn-"+i);
-            const submitButtonAtr = $("#mg-cell-submitBtn-"+i);
+            const deleteButtonAtr = $(deleteButtonCommonID+i);
+            const promoteButtonAtr = $(promoteButtonCommonID+i);
+            const submitButtonAtr = $(submitButtonCommonID+i);
 
-            const deleteCellAtr = $("#mg-cell-delete-control-"+i);
-            const promoteCellAtr = $("#mg-cell-promote-control-"+i);
-            const submitCellAtr = $("#mg-cell-submit-control-"+i);
+            const deleteCellAtr = $(deleteCellCommonID+i);
+            const promoteCellAtr = $(promoteCellCommonID+i);
+            const submitCellAtr = $(submitCellCommonID+i);
+
+            const tableRowID = tableRowCommonID+tableRowNumber+"-"+i;
+            const personalClass = commonRowClass+entityID
+
+            const personalIDID = commonCellClass+"ID-"+i;
+            const personalUsernameID = commonCellClass+"Username-"+i;
+            const personalFirstNameID = commonCellClass+"FirstName-"+i;
+            const personalLastNameID = commonCellClass+"LastName-"+i;
+            const personalEmailID = commonCellClass+"Email-"+i;
+            const personalPhoneNumberID = commonCellClass+"PhoneNumber-"+i;
+
+            const personalDeleteButtonID = commonCellClass+"delete-control-"+i;
+            const personalPromoteButtonID = commonCellClass+"promote-control-"+i;
+            const personalSubmitButtonID = commonCellClass+"submit-control-"+i;
+
+            $(tableID).append("<tr class="+tableRowID+">");
+            $('.'+tableRowID).append(
+                "    <td class="+personalClass+" id="+personalIDID+"></td>\n" +
+                "    <td class="+personalClass+" id="+personalUsernameID+"></td>\n" +
+                "    <td class="+personalClass+" id="+personalFirstNameID+"></td>\n" +
+                "    <td class="+personalClass+" id="+personalLastNameID+"></td>\n" +
+                "    <td class="+personalClass+" id="+personalEmailID+"></td>\n" +
+                "    <td class="+personalClass+" id="+personalPhoneNumberID+"></td>\n" +
+                "    <!--                        Delete Button-->\n" +
+                "    <td class="+personalClass+" id="+personalDeleteButtonID+">Delete User</td>\n" +
+                "    <!--                        Promote Button-->\n" +
+                "    <td class="+personalClass+" id="+personalPromoteButtonID+">Promote User</td>\n" +
+                "    <!--                        Submit Button-->\n" +
+                "    <td class="+personalClass+" id="+personalSubmitButtonID+">Submit Changes</td>"
+            )
 
             // Change the classes and texts of each client attribute
-            cltIDAtr.attr('class', "mg-info-row-"+cltID)
-            cltIDAtr.text(cltID)
+            entityIDAtr.attr('class', commonRowClass+entityID);
+            entityIDAtr.text(entityID);
 
-            cltUsernameAtr.attr('class', "mg-info-row-"+cltID)
-            cltUsernameAtr.text(cltUsername)
+            entityUsernameAtr.attr('class', commonRowClass+entityID);
+            entityUsernameAtr.text(entityUsername);
 
-            cltFirstNameAtr.attr('class', "mg-info-row-"+cltID)
-            cltFirstNameAtr.text(cltFirstName)
+            entityFirstNameAtr.attr('class', commonRowClass+entityID);
+            entityFirstNameAtr.text(entityFirstName);
 
-            cltLastNameAtr.attr('class', "mg-info-row-"+cltID)
-            cltLastNameAtr.text(cltLastName)
+            entityLastNameAtr.attr('class', commonRowClass+entityID);
+            entityLastNameAtr.text(entityLastName);
 
-            cltEmailAtr.attr('class', "mg-info-row-"+cltID)
-            cltEmailAtr.text(cltEmail)
+            entityEmailAtr.attr('class', commonRowClass+entityID);
+            entityEmailAtr.text(entityEmail);
 
-            cltPhoneNumberAtr.attr('class', "mg-info-row-"+cltID)
-            cltPhoneNumberAtr.text(cltPhoneNumber)
+            entityPhoneNumberAtr.attr('class', commonRowClass+entityID);
+            entityPhoneNumberAtr.text(entityPhoneNumber);
 
             // Change the classes of the buttons themselves
-            deleteButtonAtr.attr('class', "delete-button-id-"+cltID)
-            promoteButtonAtr.attr('class', "promote-button-id-"+cltID)
-            submitButtonAtr.attr('class', "submit-button-id-"+cltID)
+            deleteButtonAtr.attr('class', deleteButtonCommonClass+entityID);
+            promoteButtonAtr.attr('class', promoteButtonCommonClass+entityID);
+            submitButtonAtr.attr('class', submitButtonCommonClass+entityID);
 
             // Change the classes of the cells where the buttons are located
-            deleteCellAtr.attr('class', "mg-info-row-"+cltID)
-            promoteCellAtr.attr('class', "mg-info-row-"+cltID)
-            submitCellAtr.attr('class', "mg-info-row-"+cltID)
+            deleteCellAtr.attr('class', commonRowClass+entityID);
+            promoteCellAtr.attr('class', commonRowClass+entityID);
+            submitCellAtr.attr('class', commonRowClass+entityID);
 
             // Change the values of the buttons
-            deleteButtonAtr.attr('value', cltID)
-            promoteButtonAtr.attr('value', cltID)
-            submitButtonAtr.attr('value', cltID)
+            deleteButtonAtr.attr('value', entityID);
+            promoteButtonAtr.attr('value', entityID);
+            submitButtonAtr.attr('value', entityID);
 
-            if(cltIsModerator === '1') {
-                setPromoteButtonStyle(cltID, "grey", '#69A6E3', "Promoted");
+            if(entityIsModerator === '1') {
+                setPromoteButtonStyle(entityID, "grey", '#69A6E3', "Promoted");
             }
-            else if(cltIsModerator === '0') {
-                setPromoteButtonStyle(cltID, "#d9d9d9", '#69A6E3', "Promote User");
+            else if(entityIsModerator === '0') {
+                setPromoteButtonStyle(entityID, "#d9d9d9", '#69A6E3', "Promote User");
             }
 
         }
     });
+}
 
+function setSortingButton(inputElementID, submitElementID, action, IDLetters, submitType) {
+    if(submitType === 'click') {
+        $(submitElementID).click(function () {
+                sortingButton(inputElementID, action, IDLetters);
+            }
+        )
+    } else if (submitType === 'keyup') {
+        $(submitElementID).keyup(function(e){
+            if(e.keyCode === 13) {
+                sortingButton(inputElementID, action, IDLetters);
+            }
+        });
     }
-)
+
+}
+
+setSortingButton('#clt-filter-selector','#clt-filter-selector','filter','clt','click');
+setSortingButton('#clt-search-input','#clt-search-input','search','clt','keyup');
+

@@ -24,6 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             runSQLResult($insertTokenSql);
 
             session_start();
+            session_regenerate_id();
 
             $_SESSION['Token'] = $token;
 
@@ -52,8 +53,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 exit;
 
             } elseif ($clientInfo["cltVerifiedEmail"] === '1') {
-                $_SESSION['loggedIn'] = true;
                 $_SESSION["cltID"] = $clientInfo["cltID"];
+                $_SESSION['ID'] = 'client';
+                $_SESSION['loggedIn'] = true;
+
                 header("Location: ../php-pages/home.php", true, 303);
                 exit;
             }
@@ -72,11 +75,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             session_start();
             session_regenerate_id();
-
             $_SESSION['Token'] = $token;
+            $_SESSION["admID"] = $adminInfo["admID"];
+            $_SESSION['ID'] = 'admin';
 
             $_SESSION['loggedIn'] = true;
-            $_SESSION["admID"] = $adminInfo["admID"];
+
             header("Location: ../php-pages/home.php", true, 303);
             exit;
         }

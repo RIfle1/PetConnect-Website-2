@@ -1,16 +1,38 @@
 <?php
 session_start();
+session_destroy();
+session_start();
 include '../php-processes/dbConnection.php';
 include 'site-header.php';
 
 // Security stuff
-if(empty($_SESSION['Token']) || empty($_SESSION['resetPassword'])) {
+if((empty($_GET['cltEmail']) || empty($_GET['admEmail'])) && empty($_GET['Token']) && empty($_GET['isInvalid'])) {
+    $_SESSION['errorMsg'] = "We don't know what you want to reset.";
     header("Location: restricted-access.php", true, 303);
     exit;
 }
-if($_SESSION['Token'] !== $_GET['Token']) {
-    header("Location: restricted-access.php", true, 303);
-    exit;
+
+if(!empty($_GET['cltEmail'])) {
+    if(!compareEmailAndToken($_GET['cltEmail'], $_GET['Token'], 'client')){
+        $_SESSION['errorMsg'] = 'The Link you are using to reset your password has expired or has already been used';
+        header("Location: restricted-access.php", true, 303);
+        exit;
+    }
+    $_SESSION['Token'] = $_GET['Token'];
+    $_SESSION['ID'] = 'client';
+    $_SESSION['resetPassword'] = true;
+    $_SESSION['cltEmail'] = $_GET['cltEmail'];
+}
+elseif(!empty($_GET['admEmail'])) {
+    if(!compareEmailAndToken($_GET['admEmail'], $_GET['Token'], 'admin')){
+        $_SESSION['errorMsg'] = 'The Link you are using to reset your password has expired or has already been used';
+        header("Location: restricted-access.php", true, 303);
+        exit;
+    }
+    $_SESSION['Token'] = $_GET['Token'];
+    $_SESSION['ID'] = 'admin';
+    $_SESSION['resetPassword'] = true;
+    $_SESSION['admEmail'] = $_GET['admEmail'];
 }
 
 ?>
@@ -63,7 +85,7 @@ if($_SESSION['Token'] !== $_GET['Token']) {
 
             <?php if ($_GET['isInvalid'] ?? ""): ?>
                 <div class="sign-form-elem">
-                    <span>Your new password has to be different from your old password.</span>
+                    <span class="sign-form-error-span">Your new password has to be different from your old password.</span>
                 </div>
             <?php endif; ?>
 

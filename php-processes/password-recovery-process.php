@@ -26,6 +26,8 @@ function variablesToSendTheEmail(string $url, mixed $email, mixed $firstName): v
     header("Location: ../php-pages/password-recovery-output.php", true, 303);
 }
 
+
+
 if($_SERVER["REQUEST_METHOD"] === "POST") {
 
     //Verify that the input email exists in the database
@@ -38,8 +40,6 @@ if($_SERVER["REQUEST_METHOD"] === "POST") {
     $selectAdminSql = "SELECT * FROM admin WHERE admEmail='".$emailInput."'";
     $admResult = runSQLResult($selectAdminSql);
     $adminInfo = $admResult->fetch_assoc();
-
-
 
     session_start();
 
@@ -58,10 +58,8 @@ if($_SERVER["REQUEST_METHOD"] === "POST") {
         $cltVerifiedEmail = $clientInfo['cltVerifiedEmail'];
         $newCltToken = $clientInfo['cltToken'];
 
-        // Store variables in the session
-        $_SESSION['Token'] = $newCltToken;
+        // Store variable in the session
         $_SESSION['resetPassword'] = true;
-        $_SESSION['ID'] = 'client';
 
         // Get variables for the link to reset the password
         $serverName = $_SERVER['SERVER_PORT'];
@@ -91,10 +89,8 @@ if($_SERVER["REQUEST_METHOD"] === "POST") {
         $admVerifiedEmail = $adminInfo['admVerifiedEmail'];
         $newAdmToken = $adminInfo['admToken'];
 
-        // Store variables in the session
-        $_SESSION['Token'] = $newAdmToken;
+        // Store variable in the session
         $_SESSION['resetPassword'] = true;
-        $_SESSION['ID'] = 'admin';
 
         // Get variables for the link to reset the password
         $serverName = $_SERVER['SERVER_PORT'];

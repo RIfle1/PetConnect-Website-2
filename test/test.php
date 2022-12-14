@@ -1,26 +1,13 @@
-<?php
 
-include '../php-processes/php-mailer.php';
-
-$serverPort = $_SERVER['SERVER_PORT'];
-$serverScriptName = $_SERVER['SCRIPT_NAME'];
-
-
-
-
-//echo "$serverTest<br>";
-
-$cltEmail='philipe.barakat@yahoo.com';
-$cltToken = 'wsfgwergergijuergfuiernger';
-//echo 'https://localhost:63342/PetConnect-Website-2/php-pages/password-recovery.php?cltEmail=philipe.barakat@yahoo.com&cltToken=clt13-0d04bd97856b88c85073df4cd1bafef2<br>';
-
-$serverHost= $_SERVER['HTTP_HOST'];
-$serverName = explode('/', $_SERVER['SCRIPT_NAME'])[1];
-
-$url = "https://".$serverHost."/".$serverName."/php-pages/password-reset.php?cltEmail=".$cltEmail."&cltToken=".$cltToken;
-//echo $url;
-$url = "https://".$serverHost."/".$serverName."/php-pages/password-reset.php?cltEmail=".$cltEmail."&cltToken=".$cltToken;
-$body = "<div>We got a request from you to reset your Password!. <a href=$url>Please click this link to reset your password</a></div>";
-
-echo $body;
-
+    <td class="" id="<?php echo $personalCellID ?><?php echo $IDLetters ?>ID-<?php echo $tableCell?>"><?php echo $entityInfo[$ID] ?></td>
+    <td class="" id="<?php echo $personalCellID ?><?php echo $IDLetters ?>Username-<?php echo $tableCell?>"><?php echo $entityInfo[$IDLetters.'Username'] ?></td>
+    <td class="" id="<?php echo $personalCellID ?><?php echo $IDLetters ?>FirstName-<?php echo $tableCell?>"><?php echo $entityInfo[$IDLetters.'FirstName'] ?></td>
+    <td class="" id="<?php echo $personalCellID ?><?php echo $IDLetters ?>LastName-<?php echo $tableCell?>"><?php echo $entityInfo[$IDLetters.'LastName'] ?></td>
+    <td class="" id="<?php echo $personalCellID ?><?php echo $IDLetters ?>Email-<?php echo $tableCell?>"><?php echo $entityInfo[$IDLetters.'Email'] ?></td>
+    <td class="" id="<?php echo $personalCellID ?><?php echo $IDLetters ?>PhoneNumber-<?php echo $tableCell?>"><?php echo $entityInfo[$IDLetters.'PhoneNumber'] ?></td>
+    <!--                        Delete Button-->
+    <td class="" id="<?php echo $personalCellID ?>delete-control-<?php echo $tableCell?>"></td>
+    <!--                        Promote Button-->
+    <td class="" id="<?php echo $personalCellID ?>promote-control-<?php echo $tableCell?>"></td>
+    <!--                        Submit Button-->
+    <td class="" id="<?php echo $personalCellID ?>submit-control-<?php echo $tableCell?>"></td>

@@ -1,0 +1,135 @@
+body {
+    margin: 0 0 0 0;
+}
+
+#mg-main-div {
+    margin-left: 90px;
+    margin-right: 90px;
+    margin-bottom: 50px;
+}
+
+.mg-search-filter-div {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    min-width: 280px;
+    justify-content: start;
+}
+
+.mg-search-filter-div input, .mg-search-filter-div select {
+    width: 100%;
+    height: 70%;
+    min-height: 26px;
+    padding: 0 0 0 10px;
+    border: solid black 1px;
+    border-radius: 2px;
+    text-align: center;
+}
+
+.mg-search-filter-div label {
+    min-width: 65px;
+}
+
+.mg-filter-div, .mg-search-div {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    width: 25%;
+    min-width: 250px;
+    margin: 10px 0 10px 0;
+
+}
+
+.mg-filter-div *, .mg-search-div * {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+}
+
+.mg-filter-div label, .mg-filter-div select, .mg-search-div label, .mg-search-div input {
+    margin: 0 2px 0 2px;
+}
+
+/*.mg-filter-div button {*/
+/*    background: #d9d9d9;*/
+/*    border: black solid 1px;*/
+/*    border-radius: 10px;*/
+/*    height: 20px;*/
+/*    width: 160px;*/
+/*    min-width: 80px;*/
+/*    font-family: 'Inter', sans-serif;*/
+/*    font-weight: 700;*/
+/*    transition: background-color 0.2s ease-in-out;*/
+/*    text-align: center;*/
+/*    margin: 0 10px 0 5px;*/
+/*}*/
+
+.mg-table-div {
+    display: flex;
+    max-height: 463px;
+    overflow-x : auto;
+    overflow-y: auto;
+}
+
+.mg-table-header-row {
+    border: solid black 1px;
+}
+
+.mg-table-div table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.mg-table-div td, th {
+    height: 3vw;
+    text-align: left;
+    width: 10vw;
+    padding: 0 0 0 20px;
+}
+
+.mg-table-div th {
+    background: #B1B1B1;
+}
+
+#mg-table-control-panel {
+    text-align: center;
+    padding: 0 10px 0 0;
+}
+
+.mg-table-div button {
+    background: #d9d9d9;
+    border: black solid 1px;
+    border-radius: 10px;
+    height: 70%;
+    min-height: 35px;
+    width: 80%;
+    min-width: 80px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    transition: background-color 0.2s ease-in-out;
+    text-align: center;
+}
+
+.mg-table-separation-line {
+    padding: 1px;
+    background: radial-gradient(#494848 30%, #D9D9D9, #D9D9D9);
+    border-radius: 1px;
+    margin: 10px 15px 10px 15px;
+}
+
+.mg-table-div button:hover {
+    background: #69A6E3;
+}
+
+.mg-table-row-1 {
+    background: #D6D6D6;
+}
+
+.mg-table-row-2 {
+    background: #e6e6e6;
+}
+
+.mg-table-row-1:hover, .mg-table-row-2:hover {
+    background: #8BCCF3;
+}

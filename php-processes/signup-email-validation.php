@@ -23,23 +23,15 @@ if(!empty($_SESSION['verificationCode']) && !empty($_SESSION['newCltID'] && !emp
 
 else if(!empty($_POST['newCltID']) && !empty($_POST['verificationCode']) && !empty($_POST['cltToken'])) {
 
-
-
     // CHECK IF TOKEN MATCHES NEW CLIENT ID
-    $checkCltTokenSql = "SELECT * FROM client WHERE cltToken = '".$_POST['cltToken']."'";
-    $cltResult = runSQLResult($checkCltTokenSql);
-    $clientInfo = $cltResult->fetch_assoc();
-
-    // Check if current cltID is the same as the cltID found from the token
-    if($_POST['newCltID'] === $clientInfo['cltID']) {
+    if(compareIdAndToken(($_POST['newCltID']), $_POST['cltToken'], 'client')) {
         $sql = "UPDATE client SET cltVerifiedEmail = 1 WHERE cltID = '".$_POST['newCltID']."'";
         $_SESSION['cltVerifiedEmail'] = 1;
         runSQLResult($sql);
-
-    }else {
+    }
+    else {
         $_SESSION['errorMsg'] = 'The new Client ID does not match the cltID fetched with the token. Review signup-email-validation';
         header("Location: ../php-pages/restricted-access");
     }
-
 }
 

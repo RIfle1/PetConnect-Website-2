@@ -5,7 +5,7 @@ include 'site-header.php';
 
 if(empty($_SESSION['newCltID']) || empty($_SESSION['verificationCode']) || empty($_SESSION['Token'])) {
     $_SESSION['errorMsg'] = 'You do not have access to this page. If you think this is an error, contact a web developper.';
-    header("Location: restricted-access.php-pages");
+    header("Location: ../php-pages/restricted-access.php");
     exit;
 }
 

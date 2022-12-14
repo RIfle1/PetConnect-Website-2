@@ -3,40 +3,35 @@ session_start();
 include '../php-processes/dbConnection.php';
 include 'site-header.php';
 
-$clientLoggedIn = false;
-$adminLoggedIn = false;
-$loggedIn = false;
+// CHECK WHO'S LOGGED IN
+$clientLoggedIn = $_SESSION['clientLoggedIn'];
+$adminLoggedIn = $_SESSION['adminLoggedIn'];
+$loggedIn = $_SESSION['loggedIn'];
 $clientInfo = "";
 $adminInfo = "";
 
-if(!empty($_SESSION['loggedIn'])) {
-    $loggedIn = $_SESSION['loggedIn'];
-    if (isset($_POST['profile-submit-pfp'])) {
-        if(!empty($_FILES['profile-upload']['name'])) {
-            if(!empty($_SESSION['cltID'])) {
-                uploadPfp('profile-upload',"client", 'cltPfpName');
-            }
-            elseif(!empty($_SESSION['admID'])) {
-                uploadPfp('profile-upload',"admin", 'admPfpName');
-            }
-
-        }
-    }
-
-    if(!empty($_SESSION['cltID']) && $_SESSION['loggedIn'] === true) {
-        $sql = "SELECT * FROM Client WHERE cltID = '".$_SESSION["cltID"]."'";
-        $result = runSQLResult($sql);
-        $clientInfo = $result->fetch_assoc();
-        $clientLoggedIn = true;
-
-    } elseif(!empty($_SESSION['admID']) && $_SESSION['loggedIn'] === true){
-        $sql = "SELECT * FROM admin WHERE admID = '".$_SESSION["admID"]."'";
-        $result = runSQLResult($sql);
-        $adminInfo = $result->fetch_assoc();
-        $adminLoggedIn = true;
-    }
+if($clientLoggedIn){
+    $sql = "SELECT * FROM Client WHERE cltID = '".$_SESSION["cltID"]."'";
+    $result = runSQLResult($sql);
+    $clientInfo = $result->fetch_assoc();
+}
+elseif($adminLoggedIn) {
+    $sql = "SELECT * FROM admin WHERE admID = '".$_SESSION["admID"]."'";
+    $result = runSQLResult($sql);
+    $adminInfo = $result->fetch_assoc();
 }
 
+// CHANGE PROFILE PICTURE FUNCTION
+if (isset($_POST['profile-submit-pfp'])) {
+    if(!empty($_FILES['profile-upload']['name'])) {
+        if(!empty($_SESSION['cltID'])) {
+            uploadPfp('profile-upload',"client", 'cltPfpName');
+        }
+        elseif(!empty($_SESSION['admID'])) {
+            uploadPfp('profile-upload',"admin", 'admPfpName');
+        }
+    }
+}
 
 ?>
 
@@ -66,7 +61,7 @@ if(!empty($_SESSION['loggedIn'])) {
                         <img src="../img/<?php echo getImage('client.png')['imgCategory'] . "/" . getImage('client.png')['imgPath'] ?>" alt="Client Pfp">
                     <?php endif; ?>
                 <?php elseif($adminLoggedIn): ?>
-                    <?php if($adminInfo['admPfpName']): ?>
+                    <?php if(strlen($adminInfo['admPfpName']) > 0): ?>
                         <img src="../img/pfp/<?php echo getPfp('admID', 'admin', $adminInfo['admID'])['admPfpName'] ?>" alt="Profile picture">
                     <?php else: ?>
                         <img src="../img/<?php echo getImage('client.png')['imgCategory'] . "/" . getImage('client.png')['imgPath'] ?>" alt="Client Pfp">
@@ -96,6 +91,9 @@ if(!empty($_SESSION['loggedIn'])) {
                     <span><?php echo $clientInfo["cltEmail"] ?></span>
                 <?php elseif ($adminLoggedIn): ?>
                     <span><?php echo $adminInfo["admUsername"] ?></span>
+                    <?php if(strlen($adminInfo['admFirstName'] && strlen($adminInfo['admLastName']))): ?>
+                    <span><?php echo $adminInfo["admFirstName"] . " " . $adminInfo["admLastName"] ?></span>
+                    <?php endif; ?>
                     <span><?php echo $adminInfo["admEmail"] ?></span>
                 <?php endif; ?>
             <?php else: ?>
