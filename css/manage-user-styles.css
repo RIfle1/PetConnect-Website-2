@@ -71,12 +71,6 @@ body {
     overflow-y: auto;
 }
 
-.mg-table-header-row {
-    border: solid black 1px;
-    max-height: 60px;
-    height: 60px;
-}
-
 .mg-table-div table {
     border-collapse: collapse;
     width: 100%;
@@ -100,6 +94,10 @@ body {
 .mg-table-header-row tr {
     max-height: 60px;
     height: 60px;
+}
+
+.mg-table-header-row {
+    border: solid black 1px;
 }
 
 #mg-table-control-panel {
