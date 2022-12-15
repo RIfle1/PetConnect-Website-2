@@ -7,27 +7,26 @@ include 'site-header.php';
 $clientLoggedIn = $_SESSION['clientLoggedIn'];
 $adminLoggedIn = $_SESSION['adminLoggedIn'];
 $loggedIn = $_SESSION['loggedIn'];
-$clientInfo = "";
-$adminInfo = "";
+$entityInfo = returnEntityInfo();
 
-if($clientLoggedIn){
-    $sql = "SELECT * FROM Client WHERE cltID = '".$_SESSION["cltID"]."'";
-    $result = runSQLResult($sql);
-    $clientInfo = $result->fetch_assoc();
-}
-elseif($adminLoggedIn) {
-    $sql = "SELECT * FROM admin WHERE admID = '".$_SESSION["admID"]."'";
-    $result = runSQLResult($sql);
-    $adminInfo = $result->fetch_assoc();
-}
+//if($clientLoggedIn){
+//    $sql = "SELECT * FROM Client WHERE cltID = '".$_SESSION["cltID"]."'";
+//    $result = runSQLResult($sql);
+//    $clientInfo = $result->fetch_assoc();
+//}
+//elseif($adminLoggedIn) {
+//    $sql = "SELECT * FROM admin WHERE admID = '".$_SESSION["admID"]."'";
+//    $result = runSQLResult($sql);
+//    $adminInfo = $result->fetch_assoc();
+//}
 
 // CHANGE PROFILE PICTURE FUNCTION
 if (isset($_POST['profile-submit-pfp'])) {
     if(!empty($_FILES['profile-upload']['name'])) {
-        if(!empty($_SESSION['cltID'])) {
+        if($clientLoggedIn) {
             uploadPfp('profile-upload',"client", 'cltPfpName');
         }
-        elseif(!empty($_SESSION['admID'])) {
+        elseif($adminLoggedIn) {
             uploadPfp('profile-upload',"admin", 'admPfpName');
         }
     }
@@ -55,14 +54,14 @@ if (isset($_POST['profile-submit-pfp'])) {
         <div id="profile-top-div-column-1">
             <?php if ($loggedIn): ?>
                 <?php if($clientLoggedIn): ?>
-                    <?php if(strlen($clientInfo['cltPfpName']) > 0): ?>
-                        <img src="../img/pfp/<?php echo getPfp('cltID', 'client', $clientInfo['cltID'])['cltPfpName'] ?>" alt="Profile picture">
+                    <?php if(strlen($entityInfo['cltPfpName']) > 0): ?>
+                        <img src="../img/pfp/<?php echo getPfp('cltID', 'client', $entityInfo['cltID'])['cltPfpName'] ?>" alt="Profile picture">
                     <?php else: ?>
                         <img src="../img/<?php echo getImage('client.png')['imgCategory'] . "/" . getImage('client.png')['imgPath'] ?>" alt="Client Pfp">
                     <?php endif; ?>
                 <?php elseif($adminLoggedIn): ?>
-                    <?php if(strlen($adminInfo['admPfpName']) > 0): ?>
-                        <img src="../img/pfp/<?php echo getPfp('admID', 'admin', $adminInfo['admID'])['admPfpName'] ?>" alt="Profile picture">
+                    <?php if(strlen($entityInfo['admPfpName']) > 0): ?>
+                        <img src="../img/pfp/<?php echo getPfp('admID', 'admin', $entityInfo['admID'])['admPfpName'] ?>" alt="Profile picture">
                     <?php else: ?>
                         <img src="../img/<?php echo getImage('client.png')['imgCategory'] . "/" . getImage('client.png')['imgPath'] ?>" alt="Client Pfp">
                     <?php endif; ?>
@@ -86,15 +85,15 @@ if (isset($_POST['profile-submit-pfp'])) {
         <div id="profile-top-div-column-2">
             <?php if ($loggedIn): ?>
                 <?php if ($clientLoggedIn): ?>
-                    <span><?php echo $clientInfo["cltUsername"] ?></span>
-                    <span><?php echo $clientInfo["cltFirstName"] . " " . $clientInfo["cltLastName"] ?></span>
-                    <span><?php echo $clientInfo["cltEmail"] ?></span>
+                    <span><?php echo $entityInfo["cltUsername"] ?></span>
+                    <span><?php echo $entityInfo["cltFirstName"] . " " . $entityInfo["cltLastName"] ?></span>
+                    <span><?php echo $entityInfo["cltEmail"] ?></span>
                 <?php elseif ($adminLoggedIn): ?>
-                    <span><?php echo $adminInfo["admUsername"] ?></span>
-                    <?php if(strlen($adminInfo['admFirstName'] && strlen($adminInfo['admLastName']))): ?>
-                    <span><?php echo $adminInfo["admFirstName"] . " " . $adminInfo["admLastName"] ?></span>
+                    <span><?php echo $entityInfo["admUsername"] ?></span>
+                    <?php if(strlen($entityInfo['admFirstName'] && strlen($entityInfo['admLastName']))): ?>
+                    <span><?php echo $entityInfo["admFirstName"] . " " . $entityInfo["admLastName"] ?></span>
                     <?php endif; ?>
-                    <span><?php echo $adminInfo["admEmail"] ?></span>
+                    <span><?php echo $entityInfo["admEmail"] ?></span>
                 <?php endif; ?>
             <?php else: ?>
                 <span>Votre Compte</span>
@@ -102,12 +101,12 @@ if (isset($_POST['profile-submit-pfp'])) {
         </div>
     </div>
     <div id="profile-bottom-div">
-        <a href="<?php returnLink('../php-pages/devices.php') ?>"><span>Gérer mes appareils</span></a>
-        <a href="<?php returnLink('../php-pages/order-history.php') ?>"><span>Mon historique de commandes</span></a>
-        <a href="<?php returnLink('../php-pages/connection-security.php') ?>"><span>Connexion et sécurité</span></a>
-        <a href="<?php returnLink('../php-pages/payment-method.php') ?>"><span>Mode de paiement</span></a>
-        <a href="<?php returnLink('../php-pages/message-center.php') ?>"><span>Centre de Messagerie</span></a>
-        <a href="<?php returnLink('../php-pages/addresses.php') ?>"><span>Adresses</span></a>
+        <a href="<?php returnToHomePage('../php-pages/devices.php') ?>"><span>Gérer mes appareils</span></a>
+        <a href="<?php returnToHomePage('../php-pages/order-history.php') ?>"><span>Mon historique de commandes</span></a>
+        <a href="<?php returnToHomePage('../php-pages/connection-security.php') ?>"><span>Connexion et sécurité</span></a>
+        <a href="<?php returnToHomePage('../php-pages/payment-method.php') ?>"><span>Mode de paiement</span></a>
+        <a href="<?php returnToHomePage('../php-pages/message-center.php') ?>"><span>Centre de Messagerie</span></a>
+        <a href="<?php returnToHomePage('../php-pages/addresses.php') ?>"><span>Adresses</span></a>
         <?php if ($adminLoggedIn): ?>
             <a href="manage-user.php"><span>Gérer les utilisateurs</span></a>
             <a href="#"><span>Répondre aux questions</span></a>
@@ -123,7 +122,7 @@ if (isset($_POST['profile-submit-pfp'])) {
         setMarginTop('.site-header-main-header', 'profile-main-div', 40)
     })
 </script>
-<script src="../javaScript/manage-client-buttons.js"></script>
+<script src="../javaScript/manage-user-buttons.js"></script>
 
 </body>
 </html>

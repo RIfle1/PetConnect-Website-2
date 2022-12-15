@@ -1,0 +1,124 @@
+#cs-form-body {
+    margin: 0 0 0 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#cs-form-body-div {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    border: #d9d9d9 solid 1px;
+    border-radius: 20px;
+    width: 800px;
+    margin: 1vh 0 5vh 0;
+}
+
+#cs-form-body-div form {
+    width: 100%;
+}
+
+.cs-form-elem {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    border-bottom: #D9D9D9 solid 1px;
+}
+
+#cs-form-elem-last {
+    border-bottom: none;
+}
+
+.cs-form-elem-content {
+    display: flex;
+    justify-content: start;
+    flex-direction: column;
+    margin: 10px 30px 10px 30px;
+    flex-basis: 80%;
+}
+
+.cs-form-elem-button {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    margin: 23px 30px 23px 30px;
+    flex-basis: 20%;
+}
+
+.cs-form-elem h1 {
+    margin: 20px 0 20px 0;
+    text-align: center;
+    width: 100%;
+}
+
+.cs-form-elem span {
+    text-align: left;
+    width: 100%;
+    padding: 2px 0 2px 0;
+}
+
+.cs-form-error-span {
+    color: #B81111;
+}
+
+/*.cs-form-elem input {*/
+/*    padding: 0 0 0 10px;*/
+/*    font-family: 'Inter', sans-serif;*/
+/*    font-size: 15px;*/
+/*    font-weight: 500;*/
+/*    width: 40%;*/
+/*}*/
+
+.cs-form-elem input {
+    background: #E2E2E2;
+    border-radius: 10px;
+    border: grey solid 1px;
+    height: 2vw;
+    min-height: 40px;
+    width: 20vw;
+    min-width: 350px;
+    max-width: 395px;
+    max-height: 92px;
+    margin: 5px 0 5px 0;
+    padding: 0 0 0 10px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+}
+
+.cs-separation-line-small {
+    width: 80%;
+    padding: 1px;
+    background: radial-gradient(#494848 30%, #D9D9D9, #D9D9D9);
+    border-radius: 1px;
+    margin: 10px 15px 10px 15px;
+}
+
+.cs-form-elem button, .cs-form-elem a {
+    text-align: center;
+    background: #d9d9d9;
+    border-radius: 40px;
+    border: #d9d9d9 solid 2px;
+    height: 50px;
+    width: 150px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.cs-form-temporary-element {
+    display: none;
+}
+
+.cs-form-elem a {
+    line-height: 50px;
+    text-decoration: none;
+    color: black;
+}
+
+.cs-form-elem button:hover, .cs-form-elem a:hover {
+    background: #69A6E3;;
+    border: #69A6E3 solid 2px;
+}

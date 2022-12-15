@@ -13,6 +13,5 @@ else {
     $isAvailable = false;
 }
 
-
 header("Content-Type: application/json");
 echo json_encode(["available" => $isAvailable]);

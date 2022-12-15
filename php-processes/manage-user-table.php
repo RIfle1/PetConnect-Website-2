@@ -37,30 +37,37 @@ elseif($_GET['ID'] === 'admin') {
     );
 }
 
-if($_GET['action'] === 'filter') {
-    if(!empty($_GET['sortBy']) && !empty($_GET['ID'])) {
-        $sql = "SELECT * FROM ".$_GET['ID']." ORDER BY ".$_GET['sortBy'];
-    } else {
-        $sql = "SELECT * FROM ".$_GET['ID'];
-    }
-    $result = runSQLResult($sql);
-
-}elseif($_GET['action'] === 'search') {
+if(!empty($_GET['ID'])) {
     if(!empty($_GET['searchBy'])) {
         $searchBy = $_GET['searchBy'];
-        $sql = "SELECT * FROM client WHERE cltID LIKE '%".$searchBy."%' 
-        OR cltUsername LIKE '%".$searchBy."%' 
-        OR cltFirstName LIKE '%".$searchBy."%' 
-        OR cltLastName LIKE '%".$searchBy."%'
-        OR cltEmail LIKE '%".$searchBy."%'
-        OR cltPhoneNumber LIKE '%".$searchBy."%'";
-    } else {
-        $sql = "SELECT * FROM client";
+    }else {
+        $searchBy = '';
     }
-    $result = runSQLResult($sql);
+    if(!empty($_GET['sortBy'])) {
+        $sortBy = $_GET['sortBy'];
+    }else {
+        $sortBy = '';
+    }
+
+    if(empty($_GET['searchBy'])) {
+        $sql = "SELECT * FROM ".$_GET['ID']." ORDER BY ".$sortBy;
+    }
+    else {
+        $sql = "SELECT * FROM ".$_GET['ID']." WHERE ".$entityAttributes[0]." LIKE '%".$searchBy."%' 
+    OR ".$entityAttributes[1]." LIKE '%".$searchBy."%' 
+    OR ".$entityAttributes[2]." LIKE '%".$searchBy."%' 
+    OR ".$entityAttributes[3]." LIKE '%".$searchBy."%'
+    OR ".$entityAttributes[4]." LIKE '%".$searchBy."%'
+    OR ".$entityAttributes[5]." LIKE '%".$searchBy."%' ORDER BY ".$sortBy;
+    }
+}else {
+    $sql ='';
 }
 
+$result = runSQLResult($sql);
+
 while($entityInfo = $result->fetch_array()) {
+
     $newUserInfo = array(
         $entityAttributes[0] => $entityInfo[$entityAttributes[0]],
         $entityAttributes[1] => $entityInfo[$entityAttributes[1]],
@@ -68,8 +75,10 @@ while($entityInfo = $result->fetch_array()) {
         $entityAttributes[3] => $entityInfo[$entityAttributes[3]],
         $entityAttributes[4] => $entityInfo[$entityAttributes[4]],
         $entityAttributes[5] => $entityInfo[$entityAttributes[5]],
-        $entityAttributes[6] => $entityInfo[$entityAttributes[6]],
     );
+    if($_GET['ID'] === 'client') {
+        $newUserInfo[$entityAttributes[6]] = $entityInfo[$entityAttributes[6]];
+    }
 
     $entityList[] = $newUserInfo;
 }

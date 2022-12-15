@@ -66,6 +66,8 @@
     display: flex;
     align-items: center;
     flex-direction: column;
+    max-width: 395px;
+    max-height: 92px;
 }
 
 .sign-form-elem input {
@@ -76,6 +78,8 @@
     min-height: 40px;
     width: 20vw;
     min-width: 350px;
+    max-width: 395px;
+    max-height: 92px;
     margin: 5px 0 5px 0;
     padding: 0 0 0 10px;
     font-family: 'Inter', sans-serif;

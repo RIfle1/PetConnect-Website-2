@@ -1,35 +1,5 @@
 <?php
 include '../php-processes/authenticity-check.php';
-$user = returnLoggedUser();
-
-// CHECK WHO'S LOGGED IN
-if($user === 'client'){
-    $clientLoggedIn = $_SESSION['clientLoggedIn'] = true;
-    $adminLoggedIn = $_SESSION['adminLoggedIn'] = false;
-    $loggedIn = $_SESSION['loggedIn'];
-
-    $sql = "SELECT * FROM Client WHERE cltID = '".$_SESSION["cltID"]."'";
-    $result = runSQLResult($sql);
-    $clientInfo = $result->fetch_assoc();
-}
-elseif($user === 'admin') {
-    $clientLoggedIn = $_SESSION['clientLoggedIn'] = false;
-    $adminLoggedIn = $_SESSION['adminLoggedIn'] = true;
-    $loggedIn = $_SESSION['loggedIn'];
-
-    $sql = "SELECT * FROM admin WHERE admID = '".$_SESSION["admID"]."'";
-    $result = runSQLResult($sql);
-    $adminInfo = $result->fetch_assoc();
-}
-else {
-    // Set default values
-    $clientLoggedIn = $_SESSION['clientLoggedIn'] = false;
-    $adminLoggedIn = $_SESSION['adminLoggedIn'] = false;
-    $loggedIn = $_SESSION['loggedIn'] = false;
-    $clientInfo = "";
-    $adminInfo = "";
-}
-
 ?>
 <!doctype html>
 <html lang="en">
@@ -38,16 +8,18 @@ else {
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+<!--    Google Fonts-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
+<!--    Style Sheet-->
     <link rel="stylesheet" href="../css/site-header-styles.css">
-
+<!--    Jquery-->
     <script src="https://code.jquery.com/jquery-3.6.1.min.js"
             integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
             crossorigin="anonymous">
     </script>
-
+<!--    Css Function-->
     <script src="../javaScript/css-functions.js"></script>
     <title>PetConnect</title>
 </head>

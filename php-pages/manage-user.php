@@ -1,7 +1,6 @@
 <?php
 session_start();
 include '../php-processes/dbConnection.php';
-include '../php-processes/manage-user-table-generator.php';
 include 'site-header.php';
 
 $clientLoggedIn = $_SESSION['clientLoggedIn'];
@@ -10,10 +9,7 @@ $loggedIn = $_SESSION['loggedIn'];
 $clientInfo = "";
 $adminInfo = "";
 
-if ($clientLoggedIn || !$loggedIn) {
-    header("Location: ../php-pages/restricted-access.php", true,303);
-    exit;
-}
+adminPage();
 
 $clientInfoSql = "SELECT * FROM client ORDER BY cltUsername";
 $result = runSQLResult($clientInfoSql);
@@ -40,11 +36,12 @@ $tableCell = 0;
     </script>
 
     <script src="../javaScript/css-functions.js"></script>
-    <script src="../javaScript/manage-client-buttons.js"></script>
+    <script src="../javaScript/manage-user-buttons.js"></script>
 
-    <title>manage-client</title>
+    <title>USER MANAGEMENT</title>
 </head>
 <body>
+
 <div id="mg-main-div" class="text-font-700">
 
     <div id="mg-header-1-div">
@@ -54,26 +51,24 @@ $tableCell = 0;
     <div class="mg-table-separation-line"></div>
 
     <div class="mg-search-filter-div">
-        <!--CLIENT FILTER DIV-->
+        <!--CLIENT FILTER -->
         <div class="mg-filter-div">
-            <label for="clt-filter-selector">Filter By</label>
-            <select name="clt-filter-selector" id="clt-filter-selector">
+            <label for="clt-filter-input">Filter By</label>
+            <select name="clt-filter-input" id="clt-filter-input">
                 <option value="cltUsername">Client Username</option>
                 <option value="cltFirstName">Client First Name</option>
                 <option value="cltLastName">Client Last Name</option>
                 <option value="cltEmail">Client Email</option>
             </select>
         </div>
-        <!--CLIENT FILTER DIV-->
-<!--        CLIENT SEARCH DIV-->
+        <!--CLIENT FILTER -->
+<!--        CLIENT SEARCH -->
         <div class="mg-search-div">
             <input id="clt-search-input" name="clt-search-input" type="text" placeholder="Search in client...">
-            <button></button>
+            <button id="clt-search-submit" name="clt-search-submit" type="button">Submit Search</button>
         </div>
-<!--        CLIENT SEARCH DIV-->
+<!--        CLIENT SEARCH -->
     </div>
-
-
 
     <div class="mg-table-separation-line"></div>
 
@@ -86,11 +81,14 @@ $tableCell = 0;
                 <th class="mg-table-header">Client Last Name</th>
                 <th class="mg-table-header">Client Email</th>
                 <th class="mg-table-header">Client Phone Number</th>
-                <th colspan="3" id="mg-table-control-panel">Client Control Panel</th>
+                <th class="mg-table-header" id="mg-table-header-control" colspan="3">Client Control Panel</th>
             </tr>
 <!--            CLIENT TABLE GENERATION-->
-            <?php  generateTable('client','cltUsername','cltID','clt'); ?>
+            <script>
+                printTable('clt',"../php-processes/manage-user-table.php?sortBy=cltUsername&ID=client")
+            </script>
 <!--            CLIENT TABLE GENERATION-->
+
         </table>
     </div>
 
@@ -101,22 +99,31 @@ $tableCell = 0;
     </div>
 
     <div class="mg-table-separation-line"></div>
-    <div class="mg-filter-div">
-        <form id="adm-submit-filter" name="search-form" action="../php-processes/manage-client-table.php" method="post">
-            <label for="adm-filter-selector">Filter By</label>
-            <select name="adm-filter-selector" id="adm-filter-selector">
+
+    <div class="mg-search-filter-div">
+        <!--ADMIN FILTER -->
+        <div class="mg-filter-div">
+            <label for="adm-filter-input">Filter By</label>
+            <select name="adm-filter-input" id="adm-filter-input">
                 <option value="admUsername">Admin Username</option>
                 <option value="admFirstName">Admin First Name</option>
                 <option value="admLastName">Admin Last Name</option>
                 <option value="admEmail">Admin Email</option>
             </select>
-        </form>
+        </div>
+        <!--ADMIN FILTER -->
+        <!--        ADMIN SEARCH -->
+        <div class="mg-search-div">
+            <input id="adm-search-input" name="adm-search-input" type="text" placeholder="Search in admin...">
+            <button id="adm-search-submit" name="adm-search-submit" type="button">Submit Search</button>
+        </div>
+        <!--        ADMIN SEARCH -->
     </div>
 
     <div class="mg-table-separation-line"></div>
 
     <div class="mg-table-div">
-        <table>
+        <table id="mg-table-info-adm">
             <tr class="mg-table-header-row">
                 <th class="mg-table-header">Admin ID</th>
                 <th class="mg-table-header">Admin Username</th>
@@ -124,22 +131,26 @@ $tableCell = 0;
                 <th class="mg-table-header">Admin Last Name</th>
                 <th class="mg-table-header">Admin Email</th>
                 <th class="mg-table-header">Admin Phone Number</th>
-                <th colspan="3" id="mg-table-control-panel">Admin Control Panel</th>
+                <th class="mg-table-header" id="mg-table-header-control" colspan="1">Admin Control Panel</th>
             </tr>
 <!--            ADMIN TABLE GENERATION-->
-            <?php  generateTable('admin','admUsername','admID','adm'); ?>
+            <script>
+                printTable('adm','../php-processes/manage-user-table.php?sortBy=admUsername&ID=admin')
+            </script>
 <!--            ADMIN TABLE GENERATION-->
         </table>
     </div>
-
 </div>
+
 <?php include "site-footer.php";?>
+
 <script type="text/javascript">
     setMarginTop('.site-header-main-header', 'mg-main-div', 40)
     window.addEventListener("resize", function(event) {
         setMarginTop('.site-header-main-header', 'mg-main-div', 40)
     })
 </script>
-<script src="../javaScript/manage-client-buttons.js"></script>
+<script src="../javaScript/manage-user-buttons.js"></script>
+
 </body>
 </html>

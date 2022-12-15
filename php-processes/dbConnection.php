@@ -148,9 +148,9 @@ function uploadPfp($inputName, $table, $xxxPfpName): void
     }
 }
 
-function returnLink($redirectPage): void
+function returnToHomePage($redirectPage): void
 {
-    if (empty($_SESSION['admID']) && empty($_SESSION['cltID'])) {
+    if (!$_SESSION['loggedIn'] && (!$_SESSION['clientLoggedIn'] || !$_SESSION['adminLoggedIn'])) {
         echo '../php-pages/login.php';
     }
     else {
@@ -220,5 +220,90 @@ function compareEmailAndToken($emailToCheck, $tokenInput, $table): bool {
     }
     else {
         return false;
+    }
+}
+
+function returnEntityInfo(): bool|array|null
+{
+    $clientLoggedIn = $_SESSION['clientLoggedIn'];
+    $adminLoggedIn = $_SESSION['adminLoggedIn'];
+    $loggedIn = $_SESSION['loggedIn'];
+    $sql = "";
+
+    if($loggedIn) {
+        if($clientLoggedIn){
+            $sql = "SELECT * FROM Client WHERE cltToken = '".$_SESSION["Token"]."'";
+        }
+        elseif($adminLoggedIn) {
+            $sql = "SELECT * FROM admin WHERE admToken = '".$_SESSION["Token"]."'";
+        }
+        $result = runSQLResult($sql);
+        return $result->fetch_assoc();
+    } else {
+        return null;
+    }
+}
+
+function returnEntityAttributes(): array
+{
+    $clientLoggedIn = $_SESSION['clientLoggedIn'];
+    $adminLoggedIn = $_SESSION['adminLoggedIn'];
+    $loggedIn = $_SESSION['loggedIn'];
+
+    if($loggedIn) {
+        if($clientLoggedIn) {
+            return array(
+                "cltID",
+                "cltUsername",
+                "cltFirstName",
+                "cltLastName",
+                "cltEmail",
+                "cltPhoneNumber",
+                "cltPfpName",
+                "cltIsModerator",
+                "cltPassword",
+                "cltToken"
+            );
+        }
+        elseif($adminLoggedIn) {
+            return array (
+                "admID",
+                "admUsername",
+                "admFirstName",
+                "admLastName",
+                "admEmail",
+                "admPhoneNumber",
+                "admPfpName",
+                "admPlaceHolder",
+                "admPassword",
+                "admToken",
+            );
+        }
+        else {
+            return array();
+        }
+    }
+    else {
+        return array();
+    }
+}
+
+function adminPage (): void
+{
+    $clientLoggedIn = $_SESSION['clientLoggedIn'];
+    $loggedIn = $_SESSION['loggedIn'];
+    if ($clientLoggedIn || !$loggedIn) {
+        header("Location: ../php-pages/restricted-access.php", true,303);
+        exit;
+    }
+}
+
+function clientPage(): void
+{
+    $clientLoggedIn = $_SESSION['clientLoggedIn'];
+    $adminLoggedIn = $_SESSION['adminLoggedIn'];
+    $loggedIn = $_SESSION['loggedIn'];
+    if(!$loggedIn && (!$adminLoggedIn || !$clientLoggedIn)) {
+        header("Location: ../php-pages/login.php",true,303);
     }
 }
