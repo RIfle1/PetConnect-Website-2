@@ -117,9 +117,9 @@ if (isset($_POST['profile-submit-pfp'])) {
 
 <?php include 'site-footer.php'?>
 <script type="text/javascript">
-    setMarginTop('.site-header-main-header', 'profile-main-div', 40)
+    setMarginTop('.site-header-main-header', 'profile-main-div', 30)
     window.addEventListener("resize", function(event) {
-        setMarginTop('.site-header-main-header', 'profile-main-div', 40)
+        setMarginTop('.site-header-main-header', 'profile-main-div', 30)
     })
 </script>
 <script src="../javaScript/manage-user-buttons.js"></script>

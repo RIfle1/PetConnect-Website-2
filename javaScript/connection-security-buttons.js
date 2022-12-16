@@ -145,7 +145,6 @@ function onClickButton(buttonID) {
             }
 
             processSuccessFunction(processSuccess, errorMsg);
-            console.log(errorMsg)
         }
 
 

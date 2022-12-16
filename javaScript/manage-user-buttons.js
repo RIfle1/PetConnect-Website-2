@@ -22,7 +22,6 @@ function onClickButton(buttonName, buttonID) {
         entity = 'admin';
         entityIDAttribute = 'admID';
     }
-    console.log(entity);
     // EXECUTE BUTTON CODE IN THE DATABASE
     $.ajax({
         type: "POST",
@@ -105,14 +104,13 @@ function printTable(IDLetters, url) {
     setTimeout(() => {
         $("tr[class*='"+rowClass1+"']").remove();
         $("tr[class*='"+rowClass2+"']").remove();
-    }, 300)
-
+    }, 0)
 
     setTimeout(() => {
         $.getJSON(url, function(json) {
             const entityList = json.entityList;
-            // console.log(entityList);
             let tableRowNumber = 1;
+
             for(let i = 1; i < entityList.length + 1; i++) {
                 // Table row number rotation
                 if(tableRowNumber === 1) {
@@ -204,7 +202,7 @@ function printTable(IDLetters, url) {
                     "</td>"
                     +promoteButtonHtml
                     +submitButtonHtml
-                ).css('display', 'none').fadeIn(300);
+                ).css('display', 'none').fadeIn(300*i);
 
                 setButton(deleteButtonName, deleteButtonPersonalID);
                 if(IDLetters === 'clt') {
@@ -219,13 +217,10 @@ function printTable(IDLetters, url) {
                 else if(entityIsModerator === '0') {
                     setPromoteButtonStyle(entityID, "#d9d9d9", '#69A6E3', "Promote User");
                 }
-
             }
         });
-    }, "1000")
-
+    }, 0)
 }
-
 
 function getTableUrl (sortByInputElementID, searchByInputElement, IDLetters) {
     const sortByInputValue = $(sortByInputElementID).val()
@@ -242,10 +237,8 @@ function getTableUrl (sortByInputElementID, searchByInputElement, IDLetters) {
     else {
     url = "";
     }
-    // console.log(url);
     return url;
 }
-
 
 function setSortingButton(sortByInputElementID, searchByInputElementID, submitElementID, IDLetters, submitType) {
     if(submitType === 'click') {
@@ -260,7 +253,6 @@ function setSortingButton(sortByInputElementID, searchByInputElementID, submitEl
             }
         });
     }
-
 }
 
 // // FILTER
