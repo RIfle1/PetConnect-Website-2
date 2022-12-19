@@ -47,7 +47,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     if(!empty($_POST['sesMsgID']) && !empty($_POST['markResolved'])) {
         $sesMsgID = $_POST['sesMsgID'];
 
-        $resolvedID = generateID(2);
+        $resolvedID = generateID(10);
 
         $updateSessionMessageSql = "UPDATE session_message 
                                     SET sesMsgEndDate = timestamp(NOW()),
