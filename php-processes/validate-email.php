@@ -1,5 +1,6 @@
 <?php
 include 'dbConnection.php';
+
 $email = $_GET["cltEmail-input"];
 $emailSQL1 = "SELECT cltEmail FROM Client WHERE cltEmail='".$email."'";
 $emailSQL2 = "SELECT admEmail FROM admin WHERE admEmail='".$email."'";

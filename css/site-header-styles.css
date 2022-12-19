@@ -38,7 +38,7 @@ body {
     min-height: 93px;
     position: fixed;
     top: 0;
-    z-index: 1;
+    z-index: 100;
 }
 
 .site-header-logo {
@@ -117,6 +117,7 @@ body {
     display: flex;
     flex-direction: column;
     position: absolute;
+    z-index: 100;
     width: 300px;
     padding: 10px 10px 10px 10px;
     background-color: #d9d9d9;
@@ -274,4 +275,26 @@ body {
     #profile-img-2 {
         margin: 0 0 0 0;
     }
+}
+
+/*SCROLLBAR STUFF*/
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }

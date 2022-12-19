@@ -4,7 +4,6 @@ include 'dbConnection.php';
 include 'verification-functions.php';
 clientPage();
 
-
 $loggedIn = $_SESSION['loggedIn'];
 $table = $_SESSION['ID'];
 $token = $_SESSION['Token'];

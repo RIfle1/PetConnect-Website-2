@@ -10,13 +10,6 @@ $clientInfo = "";
 $adminInfo = "";
 
 adminPage();
-
-$clientInfoSql = "SELECT * FROM client ORDER BY cltUsername";
-$result = runSQLResult($clientInfoSql);
-
-$tableRowNumber = 1;
-$tableCell = 0;
-
 ?>
 <!doctype html>
 <html lang="en">
@@ -59,6 +52,11 @@ $tableCell = 0;
                 <option value="cltFirstName">Client First Name</option>
                 <option value="cltLastName">Client Last Name</option>
                 <option value="cltEmail">Client Email</option>
+                <option value="cltSignupDate">Client Signup Date</option>
+            </select>
+            <select name="clt-order-input" id="clt-order-input">
+                <option value="ASC">Ascending</option>
+                <option value="DESC">Descending</option>
             </select>
         </div>
         <!--CLIENT FILTER -->
@@ -75,17 +73,18 @@ $tableCell = 0;
     <div class="mg-table-div">
         <table id="mg-table-info-clt">
             <tr class="mg-table-header-row">
-                <th class="mg-table-header">Client ID</th>
+<!--                <th class="mg-table-header">Client ID</th>-->
                 <th class="mg-table-header">Client Username</th>
                 <th class="mg-table-header">Client First Name</th>
                 <th class="mg-table-header">Client Last Name</th>
                 <th class="mg-table-header">Client Email</th>
                 <th class="mg-table-header">Client Phone Number</th>
+                <th class="mg-table-header">Client Signup Date</th>
                 <th class="mg-table-header" id="mg-table-header-control" colspan="3">Client Control Panel</th>
             </tr>
 <!--            CLIENT TABLE GENERATION-->
             <script>
-                printTable('clt',"../php-processes/manage-user-table.php?sortBy=cltUsername&ID=client")
+                printTable('clt',"../php-processes/manage-user-table.php?sortBy=cltUsername&orderBy=ASC&ID=client")
             </script>
 <!--            CLIENT TABLE GENERATION-->
 
@@ -109,6 +108,11 @@ $tableCell = 0;
                 <option value="admFirstName">Admin First Name</option>
                 <option value="admLastName">Admin Last Name</option>
                 <option value="admEmail">Admin Email</option>
+                <option value="admSignupDate">Admin Signup Date</option>
+            </select>
+            <select name="adm-order-input" id="adm-order-input">
+                <option value="ASC">Ascending</option>
+                <option value="DESC">Descending</option>
             </select>
         </div>
         <!--ADMIN FILTER -->
@@ -125,17 +129,18 @@ $tableCell = 0;
     <div class="mg-table-div">
         <table id="mg-table-info-adm">
             <tr class="mg-table-header-row">
-                <th class="mg-table-header">Admin ID</th>
+<!--                <th class="mg-table-header">Admin ID</th>-->
                 <th class="mg-table-header">Admin Username</th>
                 <th class="mg-table-header">Admin First Name</th>
                 <th class="mg-table-header">Admin Last Name</th>
                 <th class="mg-table-header">Admin Email</th>
                 <th class="mg-table-header">Admin Phone Number</th>
-                <th class="mg-table-header" id="mg-table-header-control" colspan="1">Admin Control Panel</th>
+                <th class="mg-table-header">Admin Signup Date</th>
+                <th class="mg-table-header" id="mg-table-header-control" colspan="2">Admin Control Panel</th>
             </tr>
 <!--            ADMIN TABLE GENERATION-->
             <script>
-                printTable('adm','../php-processes/manage-user-table.php?sortBy=admUsername&ID=admin')
+                printTable('adm','../php-processes/manage-user-table.php?sortBy=admUsername&orderBy=ASC&ID=admin')
             </script>
 <!--            ADMIN TABLE GENERATION-->
         </table>

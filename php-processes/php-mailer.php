@@ -7,7 +7,7 @@ function sendGmail($cltEmail, $cltFirstName, $body, $subject): bool {
     $mail = new PHPMailer(True);
 
     try {
-        $mail->SMTPDebug = 2;                   // Enable verbose debug output
+        $mail->SMTPDebug = 0;                   // Enable verbose debug output
         $mail->isSMTP();                        // Set mailer to use SMTP
         $mail->Host       = 'smtp.gmail.com;';    // Specify main SMTP server
         $mail->SMTPAuth   = true;               // Enable SMTP authentication
@@ -23,11 +23,10 @@ function sendGmail($cltEmail, $cltFirstName, $body, $subject): bool {
         $mail->Subject = $subject;
         $mail->Body = $body;
 
-        $mail->send();
+//        $mail->send();
         return true;
 
     } catch (Exception $e) {
-        echo "Email could not be sent. Mailer Error: {$mail->ErrorInfo}";
         return false;
     }
 }
@@ -78,3 +77,11 @@ function generateToken($cltID): string {
 //$cltToken = 'wsfgwergergijuergfuiernger';
 //$url = "https://localhost:".$serverName."/password-reset.php?cltEmail=".$cltEmail."&cltToken=".$cltToken;
 //sendEmail('philipe.barakat@yahoo.com', 'Philipe',$url, 'test');
+
+function returnEmailCodeValidationStructure($verificationCode): array
+{
+    return  array(
+        "body" => '<p>Verification code is: <b style = "font-size: 30px;">'.$verificationCode.'</b></p>',
+        "subject" => "Email Verification"
+    );
+}

@@ -58,9 +58,13 @@ if (!(is_null($userEmail))) {
     die("Email already Taken");
 }
 
+//$verificationCode = generateVerificationCode();
+//$body = '<p>Verification code is: <b style = "font-size: 30px;">'.$verificationCode.'</b></p>';
+//$subject = "Email Verification";
+
 $verificationCode = generateVerificationCode();
-$body = '<p>Verification code is: <b style = "font-size: 30px;">'.$verificationCode.'</b></p>';
-$subject = "Email Verification";
+$body = returnEmailCodeValidationStructure($verificationCode)["body"];
+$subject = returnEmailCodeValidationStructure($verificationCode)["subject"];
 
 if(sendGmail($cltEmail, $cltFirstName, $body, $subject)) {
     $cltPasswordHash = returnPasswordHash($cltPassword);

@@ -1,13 +1,15 @@
 
-    <td class="" id="<?php echo $personalCellID ?><?php echo $IDLetters ?>ID-<?php echo $tableCell?>"><?php echo $entityInfo[$ID] ?></td>
-    <td class="" id="<?php echo $personalCellID ?><?php echo $IDLetters ?>Username-<?php echo $tableCell?>"><?php echo $entityInfo[$IDLetters.'Username'] ?></td>
-    <td class="" id="<?php echo $personalCellID ?><?php echo $IDLetters ?>FirstName-<?php echo $tableCell?>"><?php echo $entityInfo[$IDLetters.'FirstName'] ?></td>
-    <td class="" id="<?php echo $personalCellID ?><?php echo $IDLetters ?>LastName-<?php echo $tableCell?>"><?php echo $entityInfo[$IDLetters.'LastName'] ?></td>
-    <td class="" id="<?php echo $personalCellID ?><?php echo $IDLetters ?>Email-<?php echo $tableCell?>"><?php echo $entityInfo[$IDLetters.'Email'] ?></td>
-    <td class="" id="<?php echo $personalCellID ?><?php echo $IDLetters ?>PhoneNumber-<?php echo $tableCell?>"><?php echo $entityInfo[$IDLetters.'PhoneNumber'] ?></td>
-    <!--                        Delete Button-->
-    <td class="" id="<?php echo $personalCellID ?>delete-control-<?php echo $tableCell?>"></td>
-    <!--                        Promote Button-->
-    <td class="" id="<?php echo $personalCellID ?>promote-control-<?php echo $tableCell?>"></td>
-    <!--                        Submit Button-->
-    <td class="" id="<?php echo $personalCellID ?>submit-control-<?php echo $tableCell?>"></td>
+<div class="cs-form-elem">
+    <div class="cs-form-elem-content">
+        <span id="cs-form-title-span-<?php echo $IDLetters ?>Email">Email :</span>
+        <span id="<?php echo $IDLetters ?>Email"><?php if ($loggedIn) {echo $entityInfo[$entityAttributes[4]];} ?></span>
+                        <span class="cs-form-email-temporary-element">A verification code has been sent to your new email address.</span>
+                        <span class="cs-form-email-temporary-element">Verification code :</span>
+                        <input class="cs-form-email-temporary-element" type='password' id="cs-form-input-<?php echo $IDLetters ?>Password-repeat">
+    </div>
+</div>
+<div class="cs-form-elem-button">
+    <button type="button" value="<?php echo $IDLetters ?>Email" class="edit-button" id="edit-email-button">Edit</button>
+    <!--                <button type="button" value="--><?php //echo $IDLetters ?><!--Email" class="cs-form-email-temporary-element" id="edit-confirm-email-button">Confirm Code</button>-->
+</div>
+</div>

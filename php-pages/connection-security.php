@@ -82,9 +82,15 @@ clientPage();
             <div class="cs-form-elem-content">
                 <span id="cs-form-title-span-<?php echo $IDLetters ?>Email">Email :</span>
                 <span id="<?php echo $IDLetters ?>Email"><?php if ($loggedIn) {echo $entityInfo[$entityAttributes[4]];} ?></span>
+                <span class="cs-form-email-temporary-element" id="cs-form-email-temporary"></span>
+                <span class="cs-form-email-temporary-element">A verification code has been sent to your new email address.</span>
+                <span class="cs-form-email-temporary-element">Input the confirmation code :</span>
+                <input class="cs-form-email-temporary-element" type='password' id="cs-form-input-Email-verificationCode">
             </div>
             <div class="cs-form-elem-button">
                 <button type="button" value="<?php echo $IDLetters ?>Email" class="edit-button" id="edit-email-button">Edit</button>
+                <button type="button" value="<?php echo $IDLetters ?>Email" class="cs-form-email-temporary-element" id="edit-confirm-email-button">Confirm Code</button>
+                <button class="cs-form-email-temporary-element" type='button' value='' id="cancel-email-button">Cancel</button>
             </div>
         </div>
         <div class="cs-form-elem">
@@ -101,17 +107,19 @@ clientPage();
                 <div class="cs-form-elem-content">
                     <span id="cs-form-title-span-<?php echo $IDLetters ?>Password">Password :</span>
                     <span id="<?php echo $IDLetters ?>Password">**********</span>
-                    <input class="cs-form-temporary-element" type='password' id="cs-form-input-<?php echo $IDLetters ?>Password-original">
-                    <span class="cs-form-temporary-element">Repeat New Password :</span>
-                    <input class="cs-form-temporary-element" type='password' id="cs-form-input-<?php echo $IDLetters ?>Password-repeat">
+                    <input class="cs-form-password-temporary-element" type='password' id="cs-form-input-<?php echo $IDLetters ?>Password-old">
+                    <span class="cs-form-password-temporary-element">New Password :</span>
+                    <input class="cs-form-password-temporary-element" type='password' id="cs-form-input-<?php echo $IDLetters ?>Password-original">
+                    <span class="cs-form-password-temporary-element">Repeat New Password :</span>
+                    <input class="cs-form-password-temporary-element" type='password' id="cs-form-input-<?php echo $IDLetters ?>Password-repeat">
                 </div>
                 <div class="cs-form-elem-button">
                     <button type="button" value="<?php echo $IDLetters ?>Password" class="edit-button" id="edit-password-button">Edit</button>
-                    <button class="cs-form-temporary-element" type='button' value='' id="cancel-password-button">Cancel</button>
+                    <button class="cs-form-password-temporary-element" type='button' value='' id="cancel-password-button">Cancel</button>
                 </div>
             </div>
-            <div class="cs-form-elem" id="cs-form-elem-last">
-                <div class="cs-form-elem-button">
+            <div class="" id="cs-form-elem-last">
+                <div class="cs-form-elem-a">
                     <a href="profile.php">Done</a>
                 </div>
             </div>

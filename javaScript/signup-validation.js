@@ -65,7 +65,11 @@ validation
         },
         {
             rule: "minLength",
-            value: 9,
+            value: 10,
+        },
+        {
+            rule: "maxLength",
+            value: 10,
         }
     ])
     .addField("#cltPassword-input", [

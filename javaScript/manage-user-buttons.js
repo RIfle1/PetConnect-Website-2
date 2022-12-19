@@ -58,7 +58,7 @@ function onClickButton(buttonName, buttonID) {
     }
 }
 
-function setButton(buttonName, buttonID) {
+function setManageUserButton(buttonName, buttonID) {
     $("#"+buttonID).click(function(){
         onClickButton(buttonName, buttonID)
     })
@@ -73,6 +73,7 @@ function printTable(IDLetters, url) {
         email: IDLetters + "Email",
         phoneNumber: IDLetters + "PhoneNumber",
         isModerator: IDLetters + "IsModerator",
+        signupDate: IDLetters + "SignupDate",
     };
 
     const tableID = "#mg-table-info-"+IDLetters;
@@ -85,26 +86,24 @@ function printTable(IDLetters, url) {
     const deleteButtonCommonClass = "delete-button-class-";
     const promoteButtonCommonClass = "promote-button-class-";
     const submitButtonCommonClass = "submit-button-class-";
+    const messageButtonCommonClass = 'message-button-class-'
 
     const deleteButtonCommonID = "delete-button-id-";
     const promoteButtonCommonID = "promote-button-id-";
     const submitButtonCommonID = "submit-button-id-";
+    const messageButtonCommonID = "message-button-id-"
 
     const deleteButtonName = "delete-button";
     const promoteButtonName = "promote-button";
     const submitButtonName = "submit-button";
+    const messageButtonName = "message-button";
 
     //Remove everything inside table
     const rowClass1 = "mg-row-class-1-"+IDLetters;
     const rowClass2 = "mg-row-class-2-"+IDLetters;
 
-    $("tr[class*='"+rowClass1+"']").fadeOut(300);
-    $("tr[class*='"+rowClass2+"']").fadeOut(300);
-
-    setTimeout(() => {
-        $("tr[class*='"+rowClass1+"']").remove();
-        $("tr[class*='"+rowClass2+"']").remove();
-    }, 0)
+    $("tr[class*='"+rowClass1+"']").remove();
+    $("tr[class*='"+rowClass2+"']").remove();
 
     setTimeout(() => {
         $.getJSON(url, function(json) {
@@ -127,6 +126,7 @@ function printTable(IDLetters, url) {
                 let entityEmail = entityList[i-1][attributeList.email];
                 let entityPhoneNumber = entityList[i-1][attributeList.phoneNumber];
                 let entityIsModerator = entityList[i-1][attributeList.isModerator];
+                let entitySignupDate = entityList[i-1][attributeList.signupDate];
 
                 const personalRowClass = commonRowClass+tableRowNumber+"-"+IDLetters+"-"+i;
 
@@ -138,37 +138,40 @@ function printTable(IDLetters, url) {
                 const personalLastNameID = commonCellID+IDLetters+"LastName-"+i;
                 const personalEmailID = commonCellID+IDLetters+"Email-"+i;
                 const personalPhoneNumberID = commonCellID+IDLetters+"PhoneNumber-"+i;
+                const personalSignupDateID = commonCellID+IDLetters+"SignupDate-"+i;
 
                 const personalDeleteButtonRowID = commonCellID+IDLetters+"-"+deleteButtonName+"-"+i;
                 const personalPromoteButtonRowID = commonCellID+IDLetters+"-"+promoteButtonName+"-"+i;
                 const personalSubmitButtonRowID = commonCellID+IDLetters+"-"+submitButtonName+"-"+i;
+                const personalMessageButtonRowID = commonCellID+IDLetters+"-"+messageButtonName+"-"+i;
+
 
                 const deleteButtonPersonalClass = deleteButtonCommonClass+i;
                 const promoteButtonPersonalClass = promoteButtonCommonClass+i;
                 const submitButtonPersonalClass = submitButtonCommonClass+i;
+                const messageButtonPersonalClass = messageButtonCommonClass+i;
 
                 const deleteButtonPersonalID = deleteButtonCommonID+entityID;
                 const promoteButtonPersonalID = promoteButtonCommonID+entityID;
                 const submitButtonPersonalID = submitButtonCommonID+entityID;
+                const messageButtonPersonalID = messageButtonCommonID+entityID;
 
+                let messageButtonHtml;
+                let deleteButtonHtml;
                 let promoteButtonHtml;
-                if(IDLetters === 'clt') {
-                    promoteButtonHtml =
-                        "\n<!--                        Promote Button-->\n" +
-                        "<td class="+cellPersonalClass+" id="+personalPromoteButtonRowID+">" +
-                        "<button class=" + promoteButtonPersonalClass +
-                        "        id=" + promoteButtonPersonalID +
-                        "        name=" + promoteButtonName +
+                let submitButtonHtml;
+
+                if(IDLetters === 'clt' || IDLetters === 'adm') {
+                    deleteButtonHtml =
+                        "\n<!--                        Delete Button-->\n" +
+                        "<td class="+cellPersonalClass+" id="+personalDeleteButtonRowID+">" +
+                        "<button class=" + deleteButtonPersonalClass +
+                        "        id=" + deleteButtonPersonalID +
+                        "        name=" + deleteButtonName +
                         "        type='button'" +
                         "        value=" + entityID +
-                        ">Promote User</button>" +
+                        ">Delete User</button>" +
                         "</td>"
-                } else{
-                    promoteButtonHtml = '';
-                }
-
-                let submitButtonHtml;
-                if(IDLetters === 'aaa') {
                     submitButtonHtml =
                         "\n<!--                        Submit Button-->\n" +
                         "<td class="+cellPersonalClass+" id="+personalSubmitButtonRowID+">" +
@@ -180,33 +183,57 @@ function printTable(IDLetters, url) {
                         ">Submit Changes</button>" +
                         "</td>"
                 } else {
+                    deleteButtonHtml = '';
                     submitButtonHtml = '';
                 }
 
+
+                if(IDLetters === 'clt') {
+                    promoteButtonHtml =
+                        "\n<!--                        Promote Button-->\n" +
+                        "<td class="+cellPersonalClass+" id="+personalPromoteButtonRowID+">" +
+                        "<button class=" + promoteButtonPersonalClass +
+                        "        id=" + promoteButtonPersonalID +
+                        "        name=" + promoteButtonName +
+                        "        type='button'" +
+                        "        value=" + entityID +
+                        ">Promote User</button>" +
+                        "</td>"
+                    // messageButtonHtml =
+                    //     "\n<!--                        Message Button-->\n" +
+                    //     "<td class="+cellPersonalClass+" id="+personalMessageButtonRowID+">" +
+                    //     "<button class=" + messageButtonPersonalClass +
+                    //     "        id=" + messageButtonPersonalID +
+                    //     "        name=" + messageButtonName +
+                    //     "        type='button'" +
+                    //     "        value=" + entityID +
+                    //     ">Message User</button>" +
+                    //     "</td>"
+
+                } else{
+                    promoteButtonHtml = '';
+                    messageButtonHtml = '';
+                }
+
+
                 $(tableID).append("<tr class="+personalRowClass+">");
                 $('.'+personalRowClass).append(
-                    "<td class="+cellPersonalClass+" id="+personalIDID+">"+entityID+"</td>\n" +
+                    // "<td class="+cellPersonalClass+" id="+personalIDID+">"+entityID+"</td>\n" +
                     "<td class="+cellPersonalClass+" id="+personalUsernameID+">"+entityUsername+"</td>\n" +
                     "<td class="+cellPersonalClass+" id="+personalFirstNameID+">"+entityFirstName+"</td>\n" +
                     "<td class="+cellPersonalClass+" id="+personalLastNameID+">"+entityLastName+"</td>\n" +
                     "<td class="+cellPersonalClass+" id="+personalEmailID+">"+entityEmail+"</td>\n" +
                     "<td class="+cellPersonalClass+" id="+personalPhoneNumberID+">"+entityPhoneNumber+"</td>" +
-                    "\n<!--                        Delete Button-->\n" +
-                    "<td class="+cellPersonalClass+" id="+personalDeleteButtonRowID+">" +
-                    "<button class=" + deleteButtonPersonalClass +
-                    "        id=" + deleteButtonPersonalID +
-                    "        name=" + deleteButtonName +
-                    "        type='button'" +
-                    "        value=" + entityID +
-                    ">Delete User</button>" +
-                    "</td>"
+                    "<td class="+cellPersonalClass+" id="+personalSignupDateID+">"+entitySignupDate+"</td>"
+                    +deleteButtonHtml
                     +promoteButtonHtml
+                    +messageButtonHtml
                     +submitButtonHtml
                 ).css('display', 'none').fadeIn(300*i);
 
-                setButton(deleteButtonName, deleteButtonPersonalID);
+                setManageUserButton(deleteButtonName, deleteButtonPersonalID);
                 if(IDLetters === 'clt') {
-                    setButton(promoteButtonName, promoteButtonPersonalID);
+                    setManageUserButton(promoteButtonName, promoteButtonPersonalID);
                 }
 
                 // setButton(submitButtonName, submitButtonPersonalID);
@@ -222,17 +249,20 @@ function printTable(IDLetters, url) {
     }, 0)
 }
 
-function getTableUrl (sortByInputElementID, searchByInputElement, IDLetters) {
-    const sortByInputValue = $(sortByInputElementID).val()
-    const searchByInputValue = $(searchByInputElement).val()
+function getTableUrl (sortByInputID, searchByInputID, orderByInputID, IDLetters) {
+    const sortByInputValue = $(sortByInputID).val()
+    const searchByInputValue = $(searchByInputID).val()
+    const orderByInputValue = $(orderByInputID).val()
     let url;
 
     // Check which action needs to be performed
     if(IDLetters === 'clt') {
-        url = "../php-processes/manage-user-table.php?sortBy=" + encodeURIComponent(sortByInputValue) +"&searchBy="+encodeURIComponent(searchByInputValue)+"&ID=client";
+        url = "../php-processes/manage-user-table.php?sortBy=" + encodeURIComponent(sortByInputValue)
+            +"&orderBy="+encodeURIComponent(orderByInputValue)+"&searchBy="+encodeURIComponent(searchByInputValue)+"&ID=client";
     }
     else if(IDLetters === 'adm') {
-        url = "../php-processes/manage-user-table.php?sortBy=" + encodeURIComponent(sortByInputValue) +"&searchBy="+encodeURIComponent(searchByInputValue)+ "&ID=admin";
+        url = "../php-processes/manage-user-table.php?sortBy=" + encodeURIComponent(sortByInputValue)
+            +"&orderBy="+encodeURIComponent(orderByInputValue)+"&searchBy="+encodeURIComponent(searchByInputValue)+ "&ID=admin";
     }
     else {
     url = "";
@@ -240,16 +270,16 @@ function getTableUrl (sortByInputElementID, searchByInputElement, IDLetters) {
     return url;
 }
 
-function setSortingButton(sortByInputElementID, searchByInputElementID, submitElementID, IDLetters, submitType) {
+function setSortingButton(sortByInputID, searchByInputID, submitButtonID, orderByInputID, IDLetters, submitType) {
     if(submitType === 'click') {
-        $(submitElementID).click(function () {
-                printTable(IDLetters, getTableUrl(sortByInputElementID, searchByInputElementID, IDLetters));
+        $(submitButtonID).click(function () {
+                printTable(IDLetters, getTableUrl(sortByInputID, searchByInputID, orderByInputID, IDLetters));
             }
         )
     } else if (submitType === 'keyup') {
-        $(submitElementID).keyup(function(e){
+        $(submitButtonID).keyup(function(e){
             if(e.keyCode === 13) {
-                printTable(IDLetters, getTableUrl(sortByInputElementID, searchByInputElementID, IDLetters));
+                printTable(IDLetters, getTableUrl(sortByInputID, searchByInputID, orderByInputID, IDLetters));
             }
         });
     }
@@ -259,9 +289,9 @@ function setSortingButton(sortByInputElementID, searchByInputElementID, submitEl
 // setSortingButton('#clt-filter-input','#clt-search-input','#clt-filter-input','clt','click');
 
 // SEARCH / FILTER FOR CLIENT
-setSortingButton( '#clt-filter-input', '#clt-search-input','#clt-search-input','clt','keyup');
-setSortingButton( '#clt-filter-input','#clt-search-input','#clt-search-submit','clt','click');
+setSortingButton( '#clt-filter-input', '#clt-search-input','#clt-search-input', '#clt-order-input','clt','keyup');
+setSortingButton( '#clt-filter-input','#clt-search-input','#clt-search-submit', '#clt-order-input', 'clt','click');
 
 // SEARCH / FILTER FOR ADMIN
-setSortingButton( '#adm-filter-input', '#adm-search-input','#adm-search-input','adm','keyup');
-setSortingButton( '#adm-filter-input','#adm-search-input','#adm-search-submit','adm','click');
+setSortingButton( '#adm-filter-input', '#adm-search-input','#adm-search-input', '#adm-order-input','adm','keyup');
+setSortingButton( '#adm-filter-input','#adm-search-input','#adm-search-submit', '#adm-order-input','adm','click');

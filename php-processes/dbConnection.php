@@ -107,9 +107,9 @@ function returnLastIDInt($id, $table, $idFormat) : int {
     return $lastID;
 }
 
-function autoSetID($id, $table, $idFormat) : string {
-    $newIDInt = returnLastIDInt($id, $table, $idFormat) + 1;
-    return $idFormat.strval($newIDInt);
+function autoSetID($attribute, $table, $attributeFormat) : string {
+    $newIDInt = returnLastIDInt($attribute, $table, $attributeFormat) + 1;
+    return $attributeFormat.strval($newIDInt);
 }
 
 function uploadImage($inputName, $imgCategory): void
@@ -225,18 +225,11 @@ function compareEmailAndToken($emailToCheck, $tokenInput, $table): bool {
 
 function returnEntityInfo(): bool|array|null
 {
-    $clientLoggedIn = $_SESSION['clientLoggedIn'];
-    $adminLoggedIn = $_SESSION['adminLoggedIn'];
     $loggedIn = $_SESSION['loggedIn'];
-    $sql = "";
+    $entityAttributesList = returnEntityAttributes();
 
     if($loggedIn) {
-        if($clientLoggedIn){
-            $sql = "SELECT * FROM Client WHERE cltToken = '".$_SESSION["Token"]."'";
-        }
-        elseif($adminLoggedIn) {
-            $sql = "SELECT * FROM admin WHERE admToken = '".$_SESSION["Token"]."'";
-        }
+        $sql = "SELECT * FROM ".$_SESSION['ID']." WHERE ".end($entityAttributesList)." = '".$_SESSION['Token']."'";
         $result = runSQLResult($sql);
         return $result->fetch_assoc();
     } else {
@@ -305,5 +298,90 @@ function clientPage(): void
     $loggedIn = $_SESSION['loggedIn'];
     if(!$loggedIn && (!$adminLoggedIn || !$clientLoggedIn)) {
         header("Location: ../php-pages/login.php",true,303);
+    }
+}
+
+function returnMessagesSessionList($sesMsgID) {
+
+    $getClientMessagesSql = "SELECT sesMsgID, cltID,  cltUsername, cltMsgDate, cltMsgMessage FROM session_message
+                             INNER JOIN client_message cm on session_message.sesMsgID = cm.Session_Message_sesMsgID
+                             INNER JOIN client c on cm.Client_cltID = c.cltID                                       
+                             WHERE sesMsgID = '".$sesMsgID."'";
+
+    $getAdminMessagesSql = "SELECT sesMsgID, admID, admUsername, admMsgDate, admMsgMessage FROM session_message
+                             INNER JOIN admin_message am on session_message.sesMsgID = am.Session_Message_sesMsgID
+                             INNER JOIN admin a on am.Admin_admID = a.admID                                          
+                             WHERE sesMsgID = '".$sesMsgID."'";
+
+
+//    echo $getSessionMessagesSql;
+    $clientMessagesResult = runSQLResult($getClientMessagesSql);
+    $adminMessagesResult = runSQLResult($getAdminMessagesSql);
+
+
+    while($clientMessages = $clientMessagesResult->fetch_assoc()) {
+        // CHECK OWNERSHIP OF THE MESSAGES => IF THEY ARE CURRENT OR FOREIGN
+        if($_SESSION['ID'] === 'client') {
+            $messageOwnership = 'current';
+        }
+        else {
+            $messageOwnership = 'foreign';
+        }
+
+        $sessionMessagesList[] = array(
+            'sesMsgID' => $clientMessages['sesMsgID'],
+            'entityID' => $clientMessages['cltID'],
+            'username' => $clientMessages['cltUsername'],
+            'msgDate' => $clientMessages['cltMsgDate'],
+            'msgMessage' => $clientMessages['cltMsgMessage'],
+            'msgOwnership' => $messageOwnership,
+        );
+
+
+
+    }
+
+    while($adminMessages = $adminMessagesResult->fetch_assoc()) {
+        // CHECK OWNERSHIP OF THE MESSAGES => IF THEY ARE CURRENT OR FOREIGN
+        if($_SESSION['ID'] === 'admin') {
+            if($_SESSION['admID'] === $adminMessages['admID']) {
+                $messageOwnership = 'current';
+            }
+            else {
+                $messageOwnership = 'foreign';
+            }
+        }
+        else {
+            $messageOwnership = 'foreign';
+        }
+
+        $sessionMessagesList[] = array(
+            'sesMsgID' => $adminMessages['sesMsgID'],
+            'entityID' => $adminMessages['admID'],
+            'username' => $adminMessages['admUsername'],
+            'msgDate' => $adminMessages['admMsgDate'],
+            'msgMessage' => $adminMessages['admMsgMessage'],
+            'msgOwnership' => $messageOwnership,
+        );
+
+    }
+
+    function date_compare($a, $b): int
+    {
+        $t1 = strtotime($a['msgDate']);
+        $t2 = strtotime($b['msgDate']);
+        return $t1 - $t2;
+    }
+    usort($sessionMessagesList, 'date_compare');
+
+    return $sessionMessagesList;
+}
+
+
+function generateID($idLength): string
+{
+    try {
+        return bin2hex(random_bytes($idLength));
+    } catch (Exception $e) {
     }
 }

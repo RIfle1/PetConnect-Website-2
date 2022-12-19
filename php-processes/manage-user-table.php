@@ -23,6 +23,7 @@ if($_GET['ID'] === 'client') {
         "cltLastName",
         "cltEmail",
         "cltPhoneNumber",
+        "cltSignupDate",
         "cltIsModerator",
     );
 }
@@ -34,6 +35,7 @@ elseif($_GET['ID'] === 'admin') {
         "admLastName",
         "admEmail",
         "admPhoneNumber",
+        "admSignupDate"
     );
 }
 
@@ -50,7 +52,7 @@ if(!empty($_GET['ID'])) {
     }
 
     if(empty($_GET['searchBy'])) {
-        $sql = "SELECT * FROM ".$_GET['ID']." ORDER BY ".$sortBy;
+        $sql = "SELECT * FROM ".$_GET['ID']." ORDER BY ".$sortBy." ".$_GET['orderBy'];
     }
     else {
         $sql = "SELECT * FROM ".$_GET['ID']." WHERE ".$entityAttributes[0]." LIKE '%".$searchBy."%' 
@@ -58,7 +60,9 @@ if(!empty($_GET['ID'])) {
     OR ".$entityAttributes[2]." LIKE '%".$searchBy."%' 
     OR ".$entityAttributes[3]." LIKE '%".$searchBy."%'
     OR ".$entityAttributes[4]." LIKE '%".$searchBy."%'
-    OR ".$entityAttributes[5]." LIKE '%".$searchBy."%' ORDER BY ".$sortBy;
+    OR ".$entityAttributes[5]." LIKE '%".$searchBy."%' 
+    OR ".$entityAttributes[6]." LIKE '%".$searchBy."%' 
+    ORDER BY ".$sortBy." ".$_GET['orderBy'];
     }
 }else {
     $sql ='';
@@ -75,9 +79,10 @@ while($entityInfo = $result->fetch_array()) {
         $entityAttributes[3] => $entityInfo[$entityAttributes[3]],
         $entityAttributes[4] => $entityInfo[$entityAttributes[4]],
         $entityAttributes[5] => $entityInfo[$entityAttributes[5]],
+        $entityAttributes[6] => $entityInfo[$entityAttributes[6]],
     );
     if($_GET['ID'] === 'client') {
-        $newUserInfo[$entityAttributes[6]] = $entityInfo[$entityAttributes[6]];
+        $newUserInfo[$entityAttributes[7]] = $entityInfo[$entityAttributes[7]];
     }
 
     $entityList[] = $newUserInfo;
