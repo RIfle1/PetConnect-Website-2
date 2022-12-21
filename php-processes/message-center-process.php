@@ -22,16 +22,14 @@ if($_SERVER['REQUEST_METHOD'] === 'GET') {
     if(!empty($_GET['sessionMessages'])) {
 
         if($_SESSION['ID'] === 'client') {
-            $sesMsgID = $_SESSION['cltID'];
+            $sessionMessages = returnSessionMessages($_SESSION['cltID']);
         }
         elseif($_SESSION['ID'] === 'admin') {
-            $sesMsgID = $_GET['sesMsgID'];
+            $sessionMessages = returnAllSessionMessages();
         }
 
-        $sessionMessagesList = returnMessagesSessionList($sesMsgID);
-
         header("Content-Type: application/json");
-        echo json_encode(["sessionMessagesList" => $sessionMessagesList]);
+        echo json_encode(["sessionMessagesList" => $sessionMessages]);
     }
 }
 

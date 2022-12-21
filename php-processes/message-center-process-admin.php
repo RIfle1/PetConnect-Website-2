@@ -10,37 +10,85 @@ $loggedIn = $_SESSION['loggedIn'];
 //$entityInfo = returnEntityInfo();
 
 if($_SERVER['REQUEST_METHOD'] === 'GET') {
-    if(!empty($_GET['activeMessages'])) {
+    if(!empty($_GET['getMessages']) && $_GET['getMessages'] === 'message') {
         $getActiveMessagesSql = "SELECT DISTINCT cltID, cltUsername FROM client
                              INNER JOIN client_message cm on client.cltID = cm.Client_cltID
                              INNER JOIN session_message sm on cm.Session_Message_sesMsgID = sm.sesMsgID
-                             WHERE sesMsgEndDate is null";
+                             WHERE sesMsgEndDate is null 
+                             ORDER BY sesMsgStartDate";
 
-        $ActiveMessagesResult = runSQLResult($getActiveMessagesSql);
+        $activeMessagesResult = runSQLResult($getActiveMessagesSql);
 
-        if(mysqli_num_rows($ActiveMessagesResult) > 0) {
-            while($ActiveMessages = $ActiveMessagesResult->fetch_assoc()) {
-                $ActiveMessagesList[] = array(
-                    'cltID' => $ActiveMessages['cltID'],
-                    'cltUsername' => $ActiveMessages['cltUsername']
+        if(mysqli_num_rows($activeMessagesResult) > 0) {
+            while($activeMessages = $activeMessagesResult->fetch_assoc()) {
+                $sesMsgID = $activeMessages['cltID'];
+
+                $sessionMessages = returnSessionMessages($sesMsgID);
+                $lastSessionMessage = end($sessionMessages[$sesMsgID]);
+
+                $activeMessagesList[] = array(
+                    'cltID' => $activeMessages['cltID'],
+                    'cltUsername' => $activeMessages['cltUsername'],
+
+                    'username' => $lastSessionMessage['username'],
+                    'msgMessage' => $lastSessionMessage['msgMessage'],
+                    'msgDate' => $lastSessionMessage['msgDate'],
                 );
             }
         }
         else {
-            $ActiveMessagesList = array();
+            $activeMessagesList = array();
         }
 
         header("Content-Type: application/json");
-        echo json_encode(["activeMessagesList" => $ActiveMessagesList]);
+        echo json_encode(["lastMessagesList" => $activeMessagesList]);
+    }
+
+    if(!empty($_GET['getMessages']) && $_GET['getMessages'] === 'resolved') {
+        $getResolvedMessagesSql = "SELECT DISTINCT sesMsgID, sesMsgStartDate ,sesMsgEndDate, cltUsername  FROM session_message 
+                                   INNER JOIN client_message cm on session_message.sesMsgID = cm.Session_Message_sesMsgID
+                                   INNER JOIN client c on cm.Client_cltID = c.cltID
+                                   WHERE sesMsgID LIKE '%resolved%'
+                                   ORDER BY sesMsgEndDate";
+
+        $resolvedMessagesResult = runSQLResult($getResolvedMessagesSql);
+
+        if(mysqli_num_rows($resolvedMessagesResult) > 0) {
+            while($resolvedMessages = $resolvedMessagesResult -> fetch_assoc()) {
+
+//                $sessionMessages = returnSessionMessages($resolvedMessages['sesMsgID']);
+//                $lastSessionMessage = end($sessionMessages);
+
+                $resolvedMessagesList[] = array(
+                    'sesMsgID' => $resolvedMessages['sesMsgID'],
+                    'cltUsername' => $resolvedMessages['cltUsername'],
+                    'sesMsgEndDate' => $resolvedMessages['sesMsgEndDate'],
+                    'sesMsgStartDate' => $resolvedMessages['sesMsgStartDate'],
+
+//                    'username' => $lastSessionMessage['username'],
+//                    'msgMessage' => $lastSessionMessage['msgMessage'],
+//                    'msgDate' => $lastSessionMessage['msgDate'],
+                );
+            }
+        }
+        else {
+            $resolvedMessagesList = array();
+        }
+
+        header("Content-Type: application/json");
+        echo json_encode(["lastMessagesList" => $resolvedMessagesList]);
     }
 
     if(!empty($_GET['sessionMessages'])) {
-        $sesMsgID = $_GET['cltID'];
-        $sessionMessagesList = returnMessagesSessionList($sesMsgID);
+
+        $sesMsgID = $_GET['sesMsgID'];
+        $sessionMessagesList = returnSessionMessages($sesMsgID);
 
         header("Content-Type: application/json");
         echo json_encode(["sessionMessagesList" => $sessionMessagesList]);
     }
+
+
 }
 
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -56,19 +104,12 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         runSQLResult($updateSessionMessageSql);
     }
-}
 
-if($_SERVER['REQUEST_METHOD'] === 'GET') {
-
-    if(!empty($_GET['sesMsgID']) && !empty($_GET['deleteConversation'])) {
-        $sesMsgID = $_GET['sesMsgID'];
+    if(!empty($_POST['sesMsgID']) && !empty($_POST['deleteConversation'])) {
+        $sesMsgID = $_POST['sesMsgID'];
 
         $deleteSessionMessageSql = "DELETE FROM session_message WHERE sesMsgID = '".$sesMsgID."'";
         echo $deleteSessionMessageSql;
         runSQLResult($deleteSessionMessageSql);
     }
 }
-
-//
-//header("Content-Type: application/json");
-//echo json_encode(["sessionMessagesList" => returnMessagesSessionList('clt19')]);

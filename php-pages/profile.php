@@ -9,16 +9,6 @@ $adminLoggedIn = $_SESSION['adminLoggedIn'];
 $loggedIn = $_SESSION['loggedIn'];
 $entityInfo = returnEntityInfo();
 
-//if($clientLoggedIn){
-//    $sql = "SELECT * FROM Client WHERE cltID = '".$_SESSION["cltID"]."'";
-//    $result = runSQLResult($sql);
-//    $clientInfo = $result->fetch_assoc();
-//}
-//elseif($adminLoggedIn) {
-//    $sql = "SELECT * FROM admin WHERE admID = '".$_SESSION["admID"]."'";
-//    $result = runSQLResult($sql);
-//    $adminInfo = $result->fetch_assoc();
-//}
 
 // CHANGE PROFILE PICTURE FUNCTION
 if (isset($_POST['profile-submit-pfp'])) {

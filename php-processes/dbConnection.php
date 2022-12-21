@@ -226,10 +226,16 @@ function compareEmailAndToken($emailToCheck, $tokenInput, $table): bool {
 function returnEntityInfo(): bool|array|null
 {
     $loggedIn = $_SESSION['loggedIn'];
-    $entityAttributesList = returnEntityAttributes();
+    $clientLoggedIn = $_SESSION['clientLoggedIn'];
+    $adminLoggedIn = $_SESSION['adminLoggedIn'];
 
     if($loggedIn) {
-        $sql = "SELECT * FROM ".$_SESSION['ID']." WHERE ".end($entityAttributesList)." = '".$_SESSION['Token']."'";
+        if($clientLoggedIn) {
+            $sql = "SELECT cltID, cltUsername, cltFirstName, cltLastName, cltEmail, cltPfpName, cltPhoneNumber, cltSignupDate, cltVerifiedEmail, cltIsModerator FROM client WHERE cltToken = '".$_SESSION['Token']."'";
+        }
+        else if($adminLoggedIn) {
+            $sql = "SELECT admID, admUsername, admFirstName, admLastName, admEmail, admPfpName, admPhoneNumber, admSignupDate, admVerifiedEmail FROM admin WHERE admToken = '".$_SESSION['Token']."'";
+        }
         $result = runSQLResult($sql);
         return $result->fetch_assoc();
     } else {
@@ -301,7 +307,14 @@ function clientPage(): void
     }
 }
 
-function returnMessagesSessionList($sesMsgID) {
+function date_compare($a, $b): int
+{
+    $t1 = strtotime($a['msgDate']);
+    $t2 = strtotime($b['msgDate']);
+    return $t1 - $t2;
+}
+
+function returnSessionMessages($sesMsgID) {
 
     $getClientMessagesSql = "SELECT sesMsgID, cltID,  cltUsername, cltMsgDate, cltMsgMessage FROM session_message
                              INNER JOIN client_message cm on session_message.sesMsgID = cm.Session_Message_sesMsgID
@@ -317,6 +330,7 @@ function returnMessagesSessionList($sesMsgID) {
 //    echo $getSessionMessagesSql;
     $clientMessagesResult = runSQLResult($getClientMessagesSql);
     $adminMessagesResult = runSQLResult($getAdminMessagesSql);
+    $sessionMessagesList = array();
 
 
     while($clientMessages = $clientMessagesResult->fetch_assoc()) {
@@ -329,7 +343,7 @@ function returnMessagesSessionList($sesMsgID) {
         }
 
         $sessionMessagesList[] = array(
-            'sesMsgID' => $clientMessages['sesMsgID'],
+//            'sesMsgID' => $clientMessages['sesMsgID'],
             'entityID' => $clientMessages['cltID'],
             'username' => $clientMessages['cltUsername'],
             'msgDate' => $clientMessages['cltMsgDate'],
@@ -356,7 +370,7 @@ function returnMessagesSessionList($sesMsgID) {
         }
 
         $sessionMessagesList[] = array(
-            'sesMsgID' => $adminMessages['sesMsgID'],
+//            'sesMsgID' => $adminMessages['sesMsgID'],
             'entityID' => $adminMessages['admID'],
             'username' => $adminMessages['admUsername'],
             'msgDate' => $adminMessages['admMsgDate'],
@@ -366,17 +380,36 @@ function returnMessagesSessionList($sesMsgID) {
 
     }
 
-    function date_compare($a, $b): int
-    {
-        $t1 = strtotime($a['msgDate']);
-        $t2 = strtotime($b['msgDate']);
-        return $t1 - $t2;
-    }
     usort($sessionMessagesList, 'date_compare');
+    $allSessionMessagesList[$sesMsgID] = $sessionMessagesList;
 
-    return $sessionMessagesList;
+//    $sessionMessagesList['test'] = 'test';
+
+    return $allSessionMessagesList;
 }
 
+function returnAllSessionMessages(): array
+{
+
+    $getAllSessionMessagesIDsSql = "SELECT sesMsgID FROM session_message";
+    $allSessionMessagesIDsResult = runSQLResult($getAllSessionMessagesIDsSql);
+    $allSessionMessagesIDsList = array();
+
+    if(mysqli_num_rows($allSessionMessagesIDsResult) > 0) {
+        while($allSessionMessagesIDs = $allSessionMessagesIDsResult ->fetch_assoc()) {
+            $allSessionMessagesIDsList[] = $allSessionMessagesIDs['sesMsgID'];
+        }
+
+
+        for($i = 0; $i < count($allSessionMessagesIDsList); $i++) {
+            $sesMsgID = $allSessionMessagesIDsList[$i];
+            $allSessionMessagesList[$sesMsgID] = returnSessionMessages($sesMsgID)[$sesMsgID];
+        }
+    }
+
+
+    return $allSessionMessagesList;
+}
 
 function generateID($idLength): string
 {

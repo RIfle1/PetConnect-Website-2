@@ -23,13 +23,12 @@ clientPage();
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/message-styles.css">
 
-    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
-            integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
-            crossorigin="anonymous">
-    </script>
+<!--    <script src="https://code.jquery.com/jquery-3.6.1.min.js"-->
+<!--            integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="-->
+<!--            crossorigin="anonymous">-->
+<!--    </script>-->
 
     <script src="../javaScript/css-functions.js"></script>
-    <script src="../javaScript/message-center-buttons.js"></script>
 
     <title>MESSAGE</title>
 </head>
@@ -42,40 +41,78 @@ clientPage();
     </div>
 
     <div class="mc-separation-line"></div>
-    <div id="mc-message-main-div">
-        <div id="mc-message-row-div">
-            <?php if($adminLoggedIn):?>
-                <div id="mc-message-active-div">
-                    <div id="mc-message-title-div">
-                        <span>Active Messages</span>
+
+<!--    ACTIVE MESSAGES TABLE-->
+
+    <div class="mc-table-main-class">
+        <div class="mc-main-div" id="mc-message-main-div">
+            <div class="mc-row-div" id="mc-message-row-div">
+                <?php if ($adminLoggedIn): ?>
+                    <div class="mc-left-side-menu" id="mc-message-active-div">
+                        <div class='mc-title-div' id="mc-message-title-div">
+                            <span>Active Messages</span>
+                        </div>
+                        <div class='mc-user-div' id="mc-message-user-div"></div>
                     </div>
-                    <div id="mc-message-user-div">
-                        <script>
-                            displayActiveMessages();
-                        </script>
-                    </div>
-                </div>
-            <?php endif; ?>
-            <div id="mc-message-exchange-div">
-                <div id="mc-message-text-div">
-                    <?php if($clientLoggedIn): ?>
-                        <script type="text/javascript">
-                            displaySessionMessages('')
-                        </script>
-                    <?php endif; ?>
+                <?php endif; ?>
+                <div class="mc-text-div" id="mc-message-text-div">
                 </div>
             </div>
+            <div id="mc-message-input-div">
+                <label for="mc-input-message"></label>
+                <input type="text" id="mc-input-message" name="mc-input-message" placeholder="Type a message...">
+            </div>
         </div>
-        <div id="mc-message-input-div">
-            <label for="mc-input-message"></label>
-            <input type="text" id="mc-input-message" name="mc-input-message" placeholder="Type a message...">
-        </div>
+
+        <?php if ($adminLoggedIn): ?>
+            <!--    ACTIVE MESSAGES BUTTONS-->
+            <div class="mc-admin-buttons-div">
+                <div class='mc-title-div'><span>Control Panel</span></div>
+                <button type="button" class="mc-button-1" name="mc-admin-show-active-button" id="mc-admin-show-message-button">Hide Active Messages</button>
+                <button type="button" class="mc-button-2" name="mc-admin-mark-resolved-button" id="mc-admin-mark-resolved-button">Mark as resolved</button>
+                <button type="button" class="mc-button-3" name="mc-admin-delete-conversation-button" id="mc-admin-delete-message-button">Delete Conversation</button>
+            </div>
+        <?php endif; ?>
     </div>
+
+
+
+
+
     <?php if($adminLoggedIn):?>
-        <div id="mc-admin-buttons-div">
-            <button type="button" name="mc-admin-show-active-button" id="mc-admin-show-active-button">Hide Active Messages</button>
-            <button type="button" name="mc-admin-mark-resolved-button" id="mc-admin-mark-resolved-button">Mark as resolved</button>
-            <button type="button" name="mc-admin-delete-conversation-button" id="mc-admin-delete-conversation-button">Delete Conversation</button>
+        <div class="mc-separation-line"></div>
+
+        <div id="mc-header-1-div">
+            <h1>Resolved Messages</h1>
+        </div>
+
+        <div class="mc-separation-line"></div>
+
+        <div class="mc-table-main-class">
+            <!--RESOLVED MESSAGES TABLE-->
+            <div class="mc-main-div" id="mc-resolved-main-div">
+
+                <div class="mc-row-div" id="mc-resolved-row-div">
+
+                    <div class="mc-left-side-menu" id="mc-resolved-active-div">
+                        <div class='mc-title-div' id="mc-resolved-title-div">
+                            <span>Resolved Messages</span>
+                        </div>
+                        <div class='mc-user-div' id="mc-resolved-user-div"></div>
+                    </div>
+
+                    <div class="mc-text-div" id="mc-resolved-text-div">
+
+                    </div>
+                </div>
+
+            </div>
+            <!--    RESOLVED MESSAGES BUTTONS-->
+            <div class="mc-admin-buttons-div">
+                <div class='mc-title-div'><span>Control panel</span></div>
+                <button type="button" class="mc-button-1" name="mc-admin-show-resolved-button" id="mc-admin-show-resolved-button">Hide Resolved Messages</button>
+                <button type="button" class="mc-button-3" name="mc-admin-delete-conversation-button" id="mc-admin-delete-resolved-button">Delete Conversation</button>
+            </div>
         </div>
     <?php endif; ?>
 </div>
@@ -85,14 +122,26 @@ clientPage();
 
 <script type="text/javascript">
     setMarginTop('.site-header-main-header', 'mc-main-div', 40)
-    window.addEventListener("resize", function(event) {
+    window.addEventListener("resize", function() {
         setMarginTop('.site-header-main-header', 'mc-main-div', 40)
     })
 </script>
 
-<?php if($adminLoggedIn): ?>
-    <script>adminMessageExchangeDiv();</script>
-<?php endif; ?>
 <script src="../javaScript/message-center-buttons.js"></script>
+
+<?php if ($clientLoggedIn): ?>
+    <script type="text/javascript">
+        displaySessionMessages('<?php echo $_SESSION['cltID']?>', 'mc-message-text-div', "mc-current-user-message-div", "mc-foreign-user-message-div");
+    </script>
+<?php endif; ?>
+
+<?php if($adminLoggedIn): ?>
+    <script>
+        updateAdminTextDiv();
+        displayActives('message');
+        displayActives('resolved');
+    </script>
+<?php endif; ?>
+
 </body>
 </html>
