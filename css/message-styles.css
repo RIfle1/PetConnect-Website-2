@@ -20,7 +20,7 @@
 
 
 
-.mc-admin-buttons-div button {
+.mc-button-1, .mc-button-2, .mc-button-3 {
     padding: 10px;
     margin: 10px;
     border: none;
@@ -106,7 +106,7 @@
     z-index: 1;
 }
 
-.mc-title-div {
+.mc-title-div, .mc-separation-title-div, .mc-select-div {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -114,9 +114,31 @@
     height: 30px;
     min-width: 283px;
     width: 100%;
+}
+
+.mc-title-div {
     border-bottom: 1px solid #494848;
 }
 
+.mc-separation-title-div {
+    border-bottom: 1px solid #494848;
+    border-top: 1px solid #494848;
+}
+
+.mc-select-div {
+    margin: 10px 0 10px 0;
+}
+
+.mc-select-div select {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    border: solid 1px #D9D9D9;
+    border-radius: 30px;
+    height: 30px;
+    margin: 0 10px 0 10px;
+    padding: 0 5px 0 5px;
+}
 
 .mc-message-active-user-button, .no-message-active-div,.mc-resolved-active-user-button, .no-resolved-active-div {
     display: flex;
@@ -252,22 +274,60 @@
     justify-content: center;
     margin: 0 0 30px 0;
     width: 100%;
-    height: 70px;
     padding: 2px 0 2px 2px;
+    height: 70px;
     border-top: solid 1px #494848;
     border-bottom: solid 1px #494848;
 }
 
+#mc-admin-main-date-input{
+    display: flex;
+    width: 100%;
+}
+
+#mc-admin-input-div {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    /*justify-content: start;*/
+    margin: 0 0 30px 0;
+    width: 100%;
+    padding: 2px 0 2px 2px;
+    height: 100px;
+}
+
 #mc-input-message {
-    border: none;
     padding: 0 0 0 20px;
     width: 90%;
     height: 90%;
+    border-radius: 30px;
+    border: none;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 17px;
+}
+
+.mc-admin-input-date {
+    padding: 0 0 0 20px;
+    border: solid 1px #D9D9D9;
+    width: 40%;
+    height: 50px;
+    margin: 10px 10px 10px 10px;
     border-radius: 30px;
     font-family: 'Inter', sans-serif;
     font-weight: 500;
     font-size: 17px;
 }
+
+.mc-admin-input-label {
+    width: 40%;
+    height: 50px;
+    line-height: 50px;
+    margin: 10px 10px 10px 10px;
+    text-align: start;
+}
+
 
 @media only screen and (max-width: 920px) {
 

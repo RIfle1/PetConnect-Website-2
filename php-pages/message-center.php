@@ -112,6 +112,21 @@ clientPage();
                 <div class='mc-title-div'><span>Control panel</span></div>
                 <button type="button" class="mc-button-1" name="mc-admin-show-resolved-button" id="mc-admin-show-resolved-button">Hide Resolved Messages</button>
                 <button type="button" class="mc-button-3" name="mc-admin-delete-conversation-button" id="mc-admin-delete-resolved-button">Delete Conversation</button>
+                <div class="mc-separation-title-div"><span>Manage Resolved Messages</span></div>
+                <div class="mc-select-div">
+                    <label for="mc-admin-select-interval">Delete all resolved messages</label>
+                    <select name="mc-admin-select-interval" id="mc-admin-select-interval">
+                        <option value="before">Before</option>
+                        <option value="after">After</option>
+                        <option value="between">Between</option>
+                    </select>
+                </div>
+                <div id="mc-admin-input-div">
+                    <label class="mc-admin-input-label" for="mc-admin-input-date-start">Select Start Date: </label>
+                    <input class="mc-admin-input-date" id="mc-admin-input-date-start" type="date" placeholder="Select a date...">
+                    <label class="mc-admin-input-label" for="mc-admin-input-date-end">Select End Date: </label>
+                    <input class="mc-admin-input-date" id="mc-admin-input-date-end" type="date" placeholder="Select a date...">
+                </div>
             </div>
         </div>
     <?php endif; ?>

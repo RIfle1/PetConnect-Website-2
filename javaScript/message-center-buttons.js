@@ -177,8 +177,15 @@ let sessionMessagesList;
     }
 
 // REMOVE ACTIVE USER ELEMENT
-    function removeActiveUserElement(entityID) {
-        let activeUserElement = $("#"+messageActiveUserButtonClass+"-"+entityID)
+    function removeActiveUserElement(entityID, type) {
+        let activeUserElement
+        if(type === "message") {
+            activeUserElement = $("#"+messageActiveUserButtonClass+"-"+entityID)
+        }
+        else if(type === 'resolved') {
+            activeUserElement = $("#"+resolvedActiveUserButtonClass+"-"+entityID)
+        }
+
         activeUserElement.remove();
     }
 
@@ -658,14 +665,14 @@ function displayMessage(currentUserDivClass, foreignUserDivClass, textDivID, ent
             })
 
             removeTextMessages(messageCurrentUserDivClass, messageForeignUserDivClass);
-            removeActiveUserElement(markedResolvedValue);
+            removeActiveUserElement(markedResolvedValue, 'message');
         }
 
     })
 
 // DELETE CONVERSATION BUTTON
-    messageDeleteConversationElement.click(function() {
-        let deleteConversationValue = $(this).val();
+    function onClickDeleteConversationButton(buttonElement, type) {
+        let deleteConversationValue = buttonElement.val();
         let markAsResolvedUrl = "../php-processes/message-center-process-admin.php"
 
         if(deleteConversationValue.length > 0) {
@@ -684,11 +691,26 @@ function displayMessage(currentUserDivClass, foreignUserDivClass, textDivID, ent
                 }
             })
 
-            removeTextMessages(messageCurrentUserDivClass, messageForeignUserDivClass);
-            removeActiveUserElement(deleteConversationValue);
+            if(type === 'message') {
+                removeTextMessages(messageCurrentUserDivClass, messageForeignUserDivClass);
+                removeActiveUserElement(deleteConversationValue, 'message');
+            }
+            else if (type ==='resolved') {
+                removeTextMessages(resolvedCurrentUserDivClass, resolvedForeignUserDivClass);
+                removeActiveUserElement(deleteConversationValue, 'resolved');
+            }
         }
+    }
 
-    })
+
+    function setDeleteConversationButton(buttonElement, type) {
+        $(buttonElement).click(function() {
+            onClickDeleteConversationButton(buttonElement, type)
+        })
+    }
+
+    setDeleteConversationButton(messageDeleteConversationElement, 'message');
+
 // ---------------------------------------------------------------------------------------------------------
 
     // RESOLVED MESSAGES TAB FUNCTIONS
@@ -702,7 +724,6 @@ function displayMessage(currentUserDivClass, foreignUserDivClass, textDivID, ent
         'resolved');
 
 
-    // $("#mc-admin-delete-resolved-button").click(function() {
-    //     console.log(getMessagesMessage);
-    // })
+// DELETE RESOLVED CONVERSATION
+    setDeleteConversationButton(resolvedDeleteConversationElement, 'resolved');
 
