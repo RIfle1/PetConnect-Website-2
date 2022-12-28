@@ -23,18 +23,13 @@ clientPage();
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/message-styles.css">
 
-<!--    <script src="https://code.jquery.com/jquery-3.6.1.min.js"-->
-<!--            integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="-->
-<!--            crossorigin="anonymous">-->
-<!--    </script>-->
-
     <script src="../javaScript/css-functions.js"></script>
 
     <title>MESSAGE</title>
 </head>
 <body>
 
-<div id="mc-main-div" class="text-font-700">
+<div id="mc-main-body-div" class="text-font-700">
 
     <div id="mc-header-1-div">
         <h1>Centre de Messagerie</h1>
@@ -70,7 +65,7 @@ clientPage();
                 <div class='mc-title-div'><span>Control Panel</span></div>
                 <button type="button" class="mc-button-1" name="mc-admin-show-active-button" id="mc-admin-show-message-button">Hide Active Messages</button>
                 <button type="button" class="mc-button-2" name="mc-admin-mark-resolved-button" id="mc-admin-mark-resolved-button">Mark as resolved</button>
-                <button type="button" class="mc-button-3" name="mc-admin-delete-conversation-button" id="mc-admin-delete-message-button">Delete Conversation</button>
+                <button type="button" class="mc-button-3" name="mc-admin-delete-conversation-button" id="mc-admin-delete-message-button">Delete Current Conversation</button>
             </div>
         <?php endif; ?>
     </div>
@@ -111,22 +106,29 @@ clientPage();
             <div class="mc-admin-buttons-div">
                 <div class='mc-title-div'><span>Control panel</span></div>
                 <button type="button" class="mc-button-1" name="mc-admin-show-resolved-button" id="mc-admin-show-resolved-button">Hide Resolved Messages</button>
-                <button type="button" class="mc-button-3" name="mc-admin-delete-conversation-button" id="mc-admin-delete-resolved-button">Delete Conversation</button>
+                <button type="button" class="mc-button-3" name="mc-admin-delete-conversation-button" id="mc-admin-delete-resolved-button">Delete Current Conversation</button>
                 <div class="mc-separation-title-div"><span>Manage Resolved Messages</span></div>
+                <label class="mc-admin-input-label" for="mc-admin-select-date">Delete resolved messages by</label>
                 <div class="mc-select-div">
-                    <label for="mc-admin-select-interval">Delete all resolved messages</label>
+                    <select name="mc-admin-select-date" id="mc-admin-select-date">
+                        <option value="sesMsgStartDate">Resolved Start Date</option>
+                        <option value="sesMsgEndDate">Resolved End Date</option>
+                    </select>
                     <select name="mc-admin-select-interval" id="mc-admin-select-interval">
+                        <option value="between">Between</option>
                         <option value="before">Before</option>
                         <option value="after">After</option>
-                        <option value="between">Between</option>
                     </select>
+                    <label for="mc-admin-select-interval"></label>
                 </div>
                 <div id="mc-admin-input-div">
-                    <label class="mc-admin-input-label" for="mc-admin-input-date-start">Select Start Date: </label>
-                    <input class="mc-admin-input-date" id="mc-admin-input-date-start" type="date" placeholder="Select a date...">
-                    <label class="mc-admin-input-label" for="mc-admin-input-date-end">Select End Date: </label>
-                    <input class="mc-admin-input-date" id="mc-admin-input-date-end" type="date" placeholder="Select a date...">
+                    <label id="mc-admin-input-label-start" class="mc-admin-input-label" for="mc-admin-input-date-start">Select Start Date: </label>
+                    <input class="mc-admin-input-date" id="mc-admin-input-date-start" type="datetime-local" placeholder="Select a date...">
+                    <label id="mc-admin-input-label-end" class="mc-admin-input-label" for="mc-admin-input-date-end">Select End Date: </label>
+                    <input class="mc-admin-input-date" id="mc-admin-input-date-end" type="datetime-local" placeholder="Select a date...">
                 </div>
+                <button type="button" class="mc-button-3" name="mc-admin-delete-interval-button" id="mc-admin-delete-interval-button">Delete Selected Messages</button>
+                <span class="mc-admin-notification-1-span" id="mc-admin-delete-notification-span"></span>
             </div>
         </div>
     <?php endif; ?>
@@ -136,9 +138,9 @@ clientPage();
 <?php include "site-footer.php";?>
 
 <script type="text/javascript">
-    setMarginTop('.site-header-main-header', 'mc-main-div', 40)
+    setMarginTop('.site-header-main-header', 'mc-main-body-div', 40)
     window.addEventListener("resize", function() {
-        setMarginTop('.site-header-main-header', 'mc-main-div', 40)
+        setMarginTop('.site-header-main-header', 'mc-main-body-div', 40)
     })
 </script>
 

@@ -6,8 +6,7 @@ $clientLoggedIn = $_SESSION['clientLoggedIn'];
 $adminLoggedIn = $_SESSION['adminLoggedIn'];
 $loggedIn = $_SESSION['loggedIn'];
 
-//adminPage();
-//$entityInfo = returnEntityInfo();
+adminPage();
 
 if($_SERVER['REQUEST_METHOD'] === 'GET') {
     if(!empty($_GET['getMessages']) && $_GET['getMessages'] === 'message') {
@@ -46,8 +45,8 @@ if($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     if(!empty($_GET['getMessages']) && $_GET['getMessages'] === 'resolved') {
         $getResolvedMessagesSql = "SELECT DISTINCT sesMsgID, sesMsgStartDate ,sesMsgEndDate, cltUsername  FROM session_message 
-                                   INNER JOIN client_message cm on session_message.sesMsgID = cm.Session_Message_sesMsgID
-                                   INNER JOIN client c on cm.Client_cltID = c.cltID
+                                   LEFT JOIN client_message cm on session_message.sesMsgID = cm.Session_Message_sesMsgID
+                                   LEFT JOIN client c on cm.Client_cltID = c.cltID
                                    WHERE sesMsgID LIKE '%resolved%'
                                    ORDER BY sesMsgEndDate";
 
@@ -109,7 +108,20 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
         $sesMsgID = $_POST['sesMsgID'];
 
         $deleteSessionMessageSql = "DELETE FROM session_message WHERE sesMsgID = '".$sesMsgID."'";
-        echo $deleteSessionMessageSql;
         runSQLResult($deleteSessionMessageSql);
     }
+
+    if(!empty($_POST['deleteInterval'])) {
+        $startDate = date($_POST['startDate']);
+        $endDate = date($_POST['endDate']);
+        $sesMsgDate = $_POST['sesMsgDate'];
+
+        $deleteSessionMessageIntervalSql = "DELETE FROM session_message WHERE ".$sesMsgDate." between '".$startDate."' 
+                                                                              AND '".$endDate."'
+                                                                              AND sesMsgID LIKE '%resolved%'";
+        runSQLResult($deleteSessionMessageIntervalSql);
+    }
+
 }
+
+

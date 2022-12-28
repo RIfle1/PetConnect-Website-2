@@ -40,7 +40,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
         $ID = $_POST['ID'];
         $entityID = $_POST['entityID'];
         $msgMessage = $_POST['msgMessage'];
-        $newMsgID = autoSetID($IDLetters.'MsgID',$ID.'_message',$IDLetters.'Msg');
+        $newMsgID = autoSetID($IDLetters.'Msg');
         $entityForeignKey = $ID."_".$IDLetters."ID";
 
         $cltID = '';

@@ -13,7 +13,7 @@ ORDER BY sesMsgEndDate;
 SELECT distinct sesMsgID, cltMsgID, admMsgID As 'MessageID' FROM session_message
                                                  INNER JOIN client_message cm on session_message.sesMsgID = cm.Session_Message_sesMsgID
                                                  INNER JOIN admin_message am on session_message.sesMsgID = am.Session_Message_sesMsgID
-WHERE sesMsgID = 'clt19-resolved-fc5e238c11b1a50da980'
-ORDER BY ;
+WHERE sesMsgID = 'clt19-resolved-fc5e238c11b1a50da980';
 
+DELETE FROM session_message WHERE sesMsgEndDate between '0-0-0' AND '2022-12-13' AND sesMsgID LIKE '%resolved%';
 

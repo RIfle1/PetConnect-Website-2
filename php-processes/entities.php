@@ -181,5 +181,5 @@ function returnLastIDString($id, $table, $idFormat) : string {
 
 function autoSetCltID(): string
 {
-    return autoSetID("cltID", "Client", "clt");
+    return autoSetID("clt");
 }

@@ -1,4 +1,5 @@
 {
   "dependencies": {
+    "css-element-queries": "^1.2.3"
   }
 }

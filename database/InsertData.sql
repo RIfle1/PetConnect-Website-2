@@ -52,4 +52,15 @@ INSERT INTO admin (admID, admEmail, admUsername, admPassword, admPfpName) VALUES
 INSERT INTO admin (admID, admEmail, admUsername, admPassword, admPfpName) VALUES ('adm4', 'philipe.barakat5@gmail.com', 'ADMIN5', '$2y$10$kOeEgAJU04emD4fT6.dW8OoEWivgwuWROTd07DvI/ETjZEuOkbuaO', 'dedpol.png');
 INSERT INTO admin (admID, admEmail, admUsername, admPassword, admPfpName) VALUES ('adm5', 'philipe.barakat6@gmail.com', 'ADMIN6', '$2y$10$kOeEgAJU04emD4fT6.dW8OoEWivgwuWROTd07DvI/ETjZEuOkbuaO', 'dedpol.png');
 
-
+INSERT INTO session_message (sesMsgID, sesMsgEndDate) VALUES ('clt11-resolved-dslkjfslkjdfnsjkf', '2022-12-11 00:00:00');
+INSERT INTO session_message (sesMsgID, sesMsgEndDate) VALUES ('clt11-resolved-dslkjfsertdfnsjkf', '2022-12-12 00:00:00');
+INSERT INTO session_message (sesMsgID, sesMsgEndDate) VALUES ('clt11-resolved-dslkjfslrhtdfnsjkf', '2022-12-13 00:00:00');
+INSERT INTO session_message (sesMsgID, sesMsgEndDate) VALUES ('clt11-resolved-dslkjfsdfnsjkf', '2022-12-14 00:00:00');
+INSERT INTO session_message (sesMsgID, sesMsgEndDate) VALUES ('clt11-resolved-dslkjfwersjkf', '2022-12-15 00:00:00');
+INSERT INTO session_message (sesMsgID, sesMsgEndDate) VALUES ('clt11-resolved-dslkjfsretdfnsjkf', '2022-12-16 00:00:00');
+INSERT INTO session_message (sesMsgID, sesMsgEndDate) VALUES ('clt11-resolved-dslkjfsdfjdfnsjkf', '2022-12-17 00:00:00');
+INSERT INTO session_message (sesMsgID, sesMsgEndDate) VALUES ('clt11-resolved-dslkjq3kjdfnsjkf', '2022-12-18 00:00:00');
+INSERT INTO session_message (sesMsgID, sesMsgEndDate) VALUES ('clt11-resolved-dslkjfslkjdrtnsjkf', '2022-12-19 00:00:00');
+INSERT INTO session_message (sesMsgID, sesMsgEndDate) VALUES ('clt11-resolved-dslkjfsq2dfnsjkf', '2022-12-20 00:00:00');
+INSERT INTO session_message (sesMsgID, sesMsgEndDate) VALUES ('clt11-resolved-dslk56jdfnsjkf', '2022-12-21 00:00:00');
+INSERT INTO session_message (sesMsgID, sesMsgEndDate) VALUES ('clt11-resolved-dslkjfsrtdfnsjkf', '2022-12-22 00:00:00');

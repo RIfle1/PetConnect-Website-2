@@ -107,11 +107,14 @@ function returnLastIDInt($id, $table, $idFormat) : int {
     return $lastID;
 }
 
-function autoSetID($attribute, $table, $attributeFormat) : string {
-    $newIDInt = returnLastIDInt($attribute, $table, $attributeFormat) + 1;
-    return $attributeFormat.strval($newIDInt);
+function autoSetID($attributeFormat) : string {
+    try {
+        return $attributeFormat.bin2hex(random_bytes(16));
+    } catch (Exception|\Exception $e) {
+    }
 }
 
+// DEPRECATED
 function uploadImage($inputName, $imgCategory): void
 {
     $filename = $_FILES[$inputName]["name"];

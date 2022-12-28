@@ -1,4 +1,4 @@
-#mc-main-div {
+#mc-main-body-div {
     display: flex;
     flex-direction: column;
     margin-left: 5vw;
@@ -37,22 +37,18 @@
 .mc-button-1 {
     background: #d9d9d9;
 }
-
 .mc-button-1:hover {
     background: #9E9E9E;
 }
-
 .mc-button-2 {
     background: #BCD97F;
 }
-
 .mc-button-2:hover {
     background: #74934A;
 }
 .mc-button-3 {
     background: #DD7E68;
 }
-
 .mc-button-3:hover {
     background: #A93D2F;
 }
@@ -99,6 +95,7 @@
     position: absolute;
     overflow-y: hidden;
     overflow-x: hidden;
+    max-width: 283px;
     /*background: white;*/
     /*border-top-left-radius: 30px; !*VISUAL GLITCH BECAUSE OF THIS*!*/
     /*border-bottom-left-radius: 30px; !*VISUAL GLITCH BECAUSE OF THIS*!*/
@@ -106,7 +103,7 @@
     z-index: 1;
 }
 
-.mc-title-div, .mc-separation-title-div, .mc-select-div {
+.mc-title-div, .mc-separation-title-div {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -126,7 +123,14 @@
 }
 
 .mc-select-div {
-    margin: 10px 0 10px 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    min-height: 30px;
+    min-width: 283px;
+    margin: 10px;
 }
 
 .mc-select-div select {
@@ -135,9 +139,10 @@
     font-size: 15px;
     border: solid 1px #D9D9D9;
     border-radius: 30px;
+    min-width: 100px;
     height: 30px;
     margin: 0 10px 0 10px;
-    padding: 0 5px 0 5px;
+    padding: 0 0 0 10px;
 }
 
 .mc-message-active-user-button, .no-message-active-div,.mc-resolved-active-user-button, .no-resolved-active-div {
@@ -146,24 +151,30 @@
     min-width: 255px;
     font-family: 'Inter', sans-serif;
     font-weight: 500;
-    /*border-bottom: 1px solid #494848;*/
-    /*border-right: 1px solid #494848;*/
     padding: 5px 0 5px 0;
     margin: 7px 5px 7px 5px;
     border: none;
     border-radius: 10px;
 
+    background: #E3E3E3;
     transition: background-color 0.2s ease-in-out;
 }
+
+.mc-message-active-user-button:hover, .mc-resolved-active-user-button:hover {
+    background: #CDCDCD;
+}
+
 
 .mc-message-active-owner, .mc-resolved-active-owner {
     padding: 5px;
     font-size: 15px;
     text-align: center;
+    width: -webkit-fill-available;
 }
 
 .mc-message-active-separation-line, .mc-resolved-active-separation-line {
     height: 1px;
+    width: 100%;
     background: radial-gradient(#494848 30%, #D9D9D9, #D9D9D9);
     border-radius: 1px;
     margin: 0 0 0 0;
@@ -188,6 +199,7 @@
     padding: 3px 20px 3px 3px;
     font-size: 13px;
     text-align: right;
+    width: -webkit-fill-available;
 }
 
 
@@ -200,6 +212,7 @@
     /*left: 245px;*/
     /*width: calc(100% - 245px);*/
     width: 100%;
+    right: 0;
     /*height: 100%;*/
     border-top: solid 1px #494848;
 
@@ -286,15 +299,13 @@
 }
 
 #mc-admin-input-div {
-    display: flex;
+    display: grid;
+    grid-template-columns: 45% 55%;
     align-items: center;
-    flex-direction: row;
-    flex-wrap: wrap;
-    /*justify-content: start;*/
-    margin: 0 0 30px 0;
+    justify-items: center;
+
     width: 100%;
     padding: 2px 0 2px 2px;
-    height: 100px;
 }
 
 #mc-input-message {
@@ -309,10 +320,10 @@
 }
 
 .mc-admin-input-date {
-    padding: 0 0 0 20px;
+    /*padding: 0 0 0 20px;*/
     border: solid 1px #D9D9D9;
-    width: 40%;
-    height: 50px;
+    text-align: center;
+    height: 30px;
     margin: 10px 10px 10px 10px;
     border-radius: 30px;
     font-family: 'Inter', sans-serif;
@@ -321,11 +332,17 @@
 }
 
 .mc-admin-input-label {
-    width: 40%;
-    height: 50px;
-    line-height: 50px;
+    height: 30px;
+    line-height: 30px;
     margin: 10px 10px 10px 10px;
     text-align: start;
+}
+
+.mc-admin-notification-1-span {
+    display: none;
+    text-align: center;
+    width: -webkit-fill-available;
+    color: #B81111;
 }
 
 
@@ -339,12 +356,8 @@
     .mc-admin-buttons-div, .mc-main-div {
         margin-left: 0;
         width: 100%;
-        /*height: 100%;*/
     }
 
 }
 
-@media only screen and (max-width: 690px) {
-
-}
 

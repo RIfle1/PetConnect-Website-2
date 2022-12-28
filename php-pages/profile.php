@@ -112,7 +112,6 @@ if (isset($_POST['profile-submit-pfp'])) {
         setMarginTop('.site-header-main-header', 'profile-main-div', 30)
     })
 </script>
-<script src="../javaScript/manage-user-buttons.js"></script>
 
 </body>
 </html>

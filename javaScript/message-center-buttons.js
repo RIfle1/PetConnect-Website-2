@@ -1,8 +1,11 @@
-// CALL JSON FUNCTION TO GET THE DATA ASAP
+    // CALL JSON FUNCTION TO GET THE DATA ASAP
+
+refreshMessagesMessageJson();
+refreshMessagesResolvedJson();
 refreshVolatileJson();
 refreshStaticJson();
 
-// CONSTANTS FOR MESSAGING SYSTEM
+    // CONSTANTS FOR MESSAGING SYSTEM
 // VOLATILE BUTTONS / DIVS / SPANS
 const messageActiveUserButtonClass = "mc-message-active-user-button";
 const messageActiveOwnerClass = "mc-message-active-owner";
@@ -27,11 +30,12 @@ const messageMarkAsResolvedID = "mc-admin-mark-resolved-button";
 const messageDeleteConversationID = "mc-admin-delete-message-button";
 
 // HARDCODED DIV ELEMENTS
-const messageTextDivElement = $('#'+messageTextDivID);
+// const messageTextDivElement = $('#'+messageTextDivID);
 const messageShowActiveElement = $("#"+messageShowActiveID)
 const messageMarkAsResolvedElement = $("#"+messageMarkAsResolvedID)
 const messageDeleteConversationElement = $("#"+messageDeleteConversationID);
 const messageUserDivElement = $("#"+messageUserDivID);
+
 // ---------------------------------------------------------------------------------------------------------
 
     // CONSTANTS FOR RESOLVED MESSAGES SYSTEM (ARCHIVED)
@@ -53,48 +57,88 @@ const resolvedActiveDivID = "mc-resolved-active-div";
 const resolvedTextDivID = 'mc-resolved-text-div'
 const resolvedUserDivID = "mc-resolved-user-div";
 
+// HARDCODED LABEL ID'S
+const resolvedInputLabelStartID = "mc-admin-input-label-start";
+const resolvedInputLabelEndID = "mc-admin-input-label-end";
+
+// HARDCODED INPUT ID'S
+const resolvedInputDateStartID = "mc-admin-input-date-start";
+const resolvedInputDateEndID = "mc-admin-input-date-end";
+
 // HARDCODED BUTTONS
 const resolvedShowActiveID = "mc-admin-show-resolved-button";
 const resolvedDeleteConversationID = "mc-admin-delete-resolved-button";
+const resolvedDeleteIntervalID = "mc-admin-delete-interval-button";
+
+// HARDCODED SELECTTs
+const resolvedSelectIntervalID = "mc-admin-select-interval";
+const resolvedSelectDateID = "mc-admin-select-date";
+
+// HARDCODED SPANS
+const resolvedDeleteNotificationSpanID = "mc-admin-delete-notification-span";
+
+// HARDCODED BUTTON ELEMENTS
+const resolvedShowActiveElement = $("#"+resolvedShowActiveID)
+const resolvedDeleteConversationElement = $("#"+resolvedDeleteConversationID);
+const resolvedDeleteIntervalElement = $("#"+resolvedDeleteIntervalID);
+
+// HARDCODED SELECT ELEMENTS
+const resolvedSelectIntervalElement = $("#"+resolvedSelectIntervalID);
+const resolvedSelectDateElement = $("#"+resolvedSelectDateID);
 
 // HARDCODED DIV ELEMENTS
-const resolvedTextDivElement = $('#'+resolvedTextDivID);
-const resolvedShowActiveElement = $("#"+resolvedShowActiveID)
-// const resolvedMarkAsResolvedElement = $("#"+resolvedMarkAsResolvedID)
-const resolvedDeleteConversationElement = $("#"+resolvedDeleteConversationID);
 const resolvedUserDivElement = $("#"+resolvedUserDivID);
+
+// HARDCODED LABEL ELEMENTS
+const resolvedInputLabelStartElement = $("#"+resolvedInputLabelStartID);
+const resolvedInputLabelEndElement = $("#"+resolvedInputLabelEndID);
+
+// HARDCODED INPUT ELEMENTS
+const resolvedInputDateStartElement = $("#"+resolvedInputDateStartID);
+const resolvedInputDateEndElement = $("#"+resolvedInputDateEndID);
+
+// HARDCODED SPAN ELEMENTS
+const resolvedDeleteNotificationSpanElement = $("#"+resolvedDeleteNotificationSpanID);
+
 // ---------------------------------------------------------------------------------------------------------
 
     // COMMON CONSTANTS
 // COMMON HARDCODED DIV CLASSES
 const textDivClass = "mc-text-div";
-const leftMenuClass = "mc-left-side-menu";
-const userDivClass = "mc-user-div";
+const mainDivClass = "mc-main-div";
+const leftSideMenuDivClass = "mc-left-side-menu"
 
 // COMMON HARDCODED DIV ELEMENTS
 const textDivClassElement = $("."+textDivClass);
-const leftMenuClassElement = $("."+leftMenuClass);
-const userDivClassElement = $("."+userDivClass)
+const mainDivClassElement = $("."+mainDivClass);
+const leftSideMenuDivClassElement = $("."+leftSideMenuDivClass)
 
     // STORE JSON INFORMATION
-let jsonInformation;
-
 let getMessagesMessage;
 let getMessagesResolved;
 let userInfo;
 let sessionMessagesList;
+
+    // MISC
+const animationSpeed = 500;
 // ---------------------------------------------------------------------------------------------------------
 // INITIALIZE JSONS
-    function refreshVolatileJson() {
 
+    function refreshMessagesMessageJson() {
         const getMessagesMessageUrl = "../php-processes/message-center-process-admin.php?getMessages=message";
         $.getJSON(getMessagesMessageUrl, function(json) {
             getMessagesMessage = json.lastMessagesList
         })
+    }
+
+    function refreshMessagesResolvedJson() {
         const getMessagesResolvedUrl = "../php-processes/message-center-process-admin.php?getMessages=resolved";
         $.getJSON(getMessagesResolvedUrl, function(json) {
             getMessagesResolved = json.lastMessagesList
         })
+    }
+
+    function refreshVolatileJson() {
         let getSessionMessagesUrl = "../php-processes/message-center-process.php?sessionMessages=True";
         $.getJSON(getSessionMessagesUrl, function(json) {
             sessionMessagesList = json.sessionMessagesList
@@ -121,9 +165,30 @@ let sessionMessagesList;
         let minute = date.getMinutes();
 
         if(minute  < 10) {
-            minute = "0"+date.getMinutes();
+            minute = "0"+minute;
         }
         return `${day}-${month}-${year} / ${hour}:${minute}`;
+    }
+
+// GET CURRENT TIME STAMP FOR DATABASE
+    function getDateAndTimeDB(date) {
+        let day = date.getDate();
+        let month = date.getMonth() + 1;
+        let year = date.getFullYear();
+
+        let hour = date.getHours();
+        let minute = date.getMinutes();
+        let second = date.getSeconds();
+
+        if(minute  < 10) {
+            minute = "0"+minute;
+        }
+
+        if(second  < 10) {
+            second = "0"+second;
+        }
+
+        return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
     }
 
 // GENERATE HTML FUNCTIONS
@@ -189,31 +254,57 @@ let sessionMessagesList;
         activeUserElement.remove();
     }
 
-// SET TEXT CLASS DIV TO THE RIGHT POSITION AND STUFF FUNCTION
-    function updateAdminTextDiv() {
-        function resizeStuff() {
-            if($(window).width() < 690) {
-                textDivClassElement.css({
+// ANIMATION FUNCTIONS
+    function updateMainDivElements(mainDivElement, textDivElement, leftSideMenuElement) {
+        let leftSideMenuClassElementObserver = new ResizeObserver(() => {
+            let leftSideMenuDivWidth = leftSideMenuElement.width();
+            let textDivWidth = mainDivElement.width() - leftSideMenuElement.width();
+
+            if(mainDivElement.width() < 650) {
+                textDivElement.css({
                     'width': '100%',
                     'left': '0px',
-                    // 'border-left': 'none',
                 })
             }
             else {
-                textDivClassElement.css({
-                    'width': 'calc(100% - 283px)',
-                    'left': '283px',
-                    // 'border-left': 'solid 1px #494848',
+                textDivElement.css({
+                    'width': textDivWidth+'px',
+                    'left': leftSideMenuDivWidth+'px',
                 })
+            }
+
+        });
+        leftSideMenuClassElementObserver.observe(leftSideMenuElement[0])
+    }
+
+    function updateAdminTextDiv() {
+
+        if(mainDivClassElement.width() < 650) {
+            if(messageShowActiveElement.text() === 'Hide Active Messages') {
+                messageShowActiveElement.trigger('click');
+            }
+            if(resolvedShowActiveElement.text() === 'Hide Resolved Messages') {
+                resolvedShowActiveElement.trigger('click');
+            }
+
+        }
+        else {
+            if(messageShowActiveElement.text() === 'Show Active Messages') {
+                messageShowActiveElement.trigger('click');
+            }
+            if(resolvedShowActiveElement.text() === 'Show Resolved Messages') {
+                resolvedShowActiveElement.trigger('click');
             }
         }
 
-        $(window).on("resize", function() {
-            resizeStuff();
-        })
-        resizeStuff();
+        updateMainDivElements(mainDivClassElement, textDivClassElement, leftSideMenuDivClassElement);
 
     }
+
+    let mainDivClassElementObserver = new ResizeObserver(() => {
+        updateAdminTextDiv();
+    });
+    mainDivClassElementObserver.observe(mainDivClassElement[0])
 
 // DISPLAY MESSAGE IN THE TEXT MESSAGES TAB
 function displayMessage(currentUserDivClass, foreignUserDivClass, textDivID, entityUsername, msgMessage, msgDate, user) {
@@ -285,12 +376,6 @@ function displayMessage(currentUserDivClass, foreignUserDivClass, textDivID, ent
                         IDLetters: IDLetters,
                         ID: ID,
                         cltID: cltID
-                    },
-                    success: function (result) {
-                    },
-                    error: function (requestObject, error, errorThrown) {
-                        alert(error);
-                        alert(errorThrown);
                     }
                 })
                 const currentTimeAndDate = getDateAndTime(new Date())
@@ -526,9 +611,17 @@ function displayMessage(currentUserDivClass, foreignUserDivClass, textDivID, ent
                 }
             } else {
                 // MESSAGE IN CASE THERE ARE NO ACTIVE MESSAGES
+                let text;
+                if(message) {
+                    text = "No Active Messages";
+                }
+                else if(resolved) {
+                    text = "No Resolved Messages";
+                }
+
                 const noActiveMessageHtml =
                     "<div class=" + noActiveUserClass + ">\n" +
-                    "                    <span  class=" + activeOwnerClass + ">No Active Messages</span>\n" +
+                    "                    <span  class=" + activeOwnerClass + ">"+text+"</span>\n" +
                     "                </div>"
 
                 userDivElement.append(noActiveMessageHtml);
@@ -574,59 +667,45 @@ function displayMessage(currentUserDivClass, foreignUserDivClass, textDivID, ent
 
     // HIDE / SHOW BUTTONS
 // SET HIDE / SHOW BUTTON
-    function setHideShowButton(buttonID, mainDivID, activeDivID, textDivID, buttonShowText, buttonHideText, type) {
+    function setHideShowButton(buttonID, mainDivID, leftSideMenuID, textDivID, buttonShowText, buttonHideText, type) {
         $(buttonID).click(function() {
-            onClickHideShowButton(buttonID, mainDivID, activeDivID, textDivID, buttonShowText, buttonHideText, type)
+            onClickHideShowButton(buttonID, mainDivID, leftSideMenuID, textDivID, buttonShowText, buttonHideText, type)
         })
     }
 
 // ON CLICK HIDE / SHOW BUTTON
-    function onClickHideShowButton(buttonID, mainDivID, activeDivID, textDivID, buttonShowText, buttonHideText, type) {
+    function onClickHideShowButton(buttonID, mainDivID, leftSideMenuID, textDivID, buttonShowText, buttonHideText, type) {
         const buttonElement = $(buttonID);
         const mainDivElement = $(mainDivID);
-        const leftSideMenuElement = $(activeDivID);
+        const leftSideMenuElement = $(leftSideMenuID);
         const textDivElement = $(textDivID);
-        const animationSpeed = 500;
 
         // REMOVE OR ADD THE ACTIVE MESSAGES TAB
-        leftSideMenuElement.animate({
-            width: 'toggle',
-        }, animationSpeed);
+
+        updateMainDivElements(mainDivElement, textDivElement, leftSideMenuElement);
 
         // CHANGE THE STATE OF THE BUTTON
         if(buttonElement.text() === buttonShowText) {
             buttonElement.text(buttonHideText)
 
-            let newWidth = mainDivElement.width() - 283;
+            leftSideMenuElement.animate({
+                width: '283px',
+            }, animationSpeed);
 
-            if($(window).width() > 690) {
-                // ANIMATE THE TEXT DIV ELEMENT
-                textDivElement.animate({
-                    left: '283px',
-                    width: newWidth+'px',
-                }, animationSpeed)
-            }
-
-            // PUT THE BORDER BACK
-            // textDivElement.css('border-left', '1px solid #494848');
-
-            // DISPLAY ACTIVE MESSAGES AGAIN (BASICALLY A REFRESH)
         }
         else if(buttonElement.text() === buttonHideText) {
             buttonElement.text(buttonShowText)
 
-            // // REMOVE THE BORDER
-            // setTimeout(() => {
-            //     textDivElement.css('border-left', 'none');
+            leftSideMenuElement.animate({
+                width: '0px',
+            }, animationSpeed);
+
+            // VISUAL GLITCH WITH THIS
+            // textDivElement.animate({
+            //         'width': '100%',
+            //         'left': '0px',
             // }, animationSpeed)
 
-            // ANIMATE THE TEXT DIV ELEMENT
-            if($(window).width() > 690 ) {
-                textDivElement.animate({
-                    left: '0px',
-                    width: '100%',
-                }, animationSpeed)
-            }
 
         }
     }
@@ -655,12 +734,6 @@ function displayMessage(currentUserDivClass, foreignUserDivClass, textDivID, ent
                 data: {
                     sesMsgID: markedResolvedValue,
                     markResolved: true,
-                },
-                success: function(result) {
-                },
-                error: function(requestObject, error, errorThrown) {
-                    alert(error);
-                    alert(errorThrown);
                 }
             })
 
@@ -682,12 +755,6 @@ function displayMessage(currentUserDivClass, foreignUserDivClass, textDivID, ent
                 data: {
                     sesMsgID: deleteConversationValue,
                     deleteConversation: true,
-                },
-                success: function(result) {
-                },
-                error: function(requestObject, error, errorThrown) {
-                    alert(error);
-                    alert(errorThrown);
                 }
             })
 
@@ -727,3 +794,106 @@ function displayMessage(currentUserDivClass, foreignUserDivClass, textDivID, ent
 // DELETE RESOLVED CONVERSATION
     setDeleteConversationButton(resolvedDeleteConversationElement, 'resolved');
 
+// SELECT RESOLVED MESSAGES DELETION INTERVAL
+    resolvedSelectIntervalElement.click(function() {
+        let resolvedSelectIntervalValue = resolvedSelectIntervalElement.val();
+
+        if(resolvedSelectIntervalValue === "before" || resolvedSelectIntervalValue === "after") {
+            resolvedInputLabelStartElement.text("Select Date:");
+
+            resolvedInputLabelEndElement.css("display", "none");
+            resolvedInputDateEndElement.css("display", "none");
+        }
+        else if(resolvedSelectIntervalValue === "between") {
+            resolvedInputLabelStartElement.text("Select Start Date:");
+
+            resolvedInputLabelEndElement.css("display", "block");
+            resolvedInputDateEndElement.css("display", "block");
+        }
+
+        resolvedDeleteNotificationSpanElement.css('display', "none");
+        resolvedInputDateStartElement.val('');
+        resolvedInputDateEndElement.val('');
+    })
+
+// DELETE SELECTED MESSAGES BUTTON
+    resolvedDeleteIntervalElement.click(function() {
+        let markAsResolvedUrl = "../php-processes/message-center-process-admin.php"
+        let resolvedSelectIntervalValue = resolvedSelectIntervalElement.val();
+        let resolvedSelectDateValue = resolvedSelectDateElement.val();
+
+        let resolvedInputDateStartValue = resolvedInputDateStartElement.val();
+        let resolvedInputDateEndValue = resolvedInputDateEndElement.val();
+
+        let startDate;
+        let endDate;
+        let ajax = false;
+        let message;
+
+        resolvedDeleteNotificationSpanElement.css('display', "block");
+
+        if(resolvedSelectIntervalValue === 'before') {
+            if(resolvedInputDateStartValue.length > 0) {
+                endDate = resolvedInputDateStartValue;
+                startDate = new Date('0-0-0');
+                message =
+                    "Resolved messages before "+getDateAndTime(new Date(resolvedInputDateStartValue))+" have been deleted"
+
+                ajax = true;
+            }
+            else {
+                message = 'Please input a Date.';
+            }
+
+        }
+        else if(resolvedSelectIntervalValue === 'after') {
+            if(resolvedInputDateStartValue.length > 0) {
+                startDate = resolvedInputDateStartValue;
+                endDate = getDateAndTimeDB(new Date());
+                message =
+                    "Resolved messages after "+getDateAndTime(new Date(resolvedInputDateStartValue))+" have been deleted"
+
+                ajax = true;
+            }
+            else {
+                message = 'Please input a Date.';
+            }
+        }
+        else if(resolvedSelectIntervalValue === 'between') {
+            if(resolvedInputDateStartValue.length > 0 && resolvedInputDateEndValue.length > 0) {
+                startDate = resolvedInputDateStartValue;
+                endDate = resolvedInputDateEndValue;
+                message =
+                    "Resolved messages between "+getDateAndTime(new Date(resolvedInputDateStartValue))+" and "
+                    +getDateAndTime(new Date(resolvedInputDateEndValue))+" have been deleted."
+                ajax = true;
+            }
+            else {
+                message = 'Please input a Start Date and an End Date.';
+            }
+        }
+
+        if(ajax) {
+            $.ajax({
+                type: "POST",
+                url: markAsResolvedUrl,
+                data: {
+                    deleteInterval: true,
+                    sesMsgDate: resolvedSelectDateValue,
+                    startDate: startDate,
+                    endDate: endDate,
+                }
+            })
+
+            resolvedInputDateStartElement.val('');
+            resolvedInputDateEndElement.val('');
+
+            setTimeout(() => {
+                refreshMessagesResolvedJson();
+                displayActives('resolved');
+            },100)
+
+        }
+
+        resolvedDeleteNotificationSpanElement.text(message);
+    })
