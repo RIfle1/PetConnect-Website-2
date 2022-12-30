@@ -155,20 +155,6 @@ const animationSpeed = 500;
 // ---------------------------------------------------------------------------------------------------------
 // FUNCTIONALITY FUNCTIONS
     // noinspection JSJQueryEfficiency
-// GET CURRENT TIME STAMP STUFF
-    function getDateAndTime(date) {
-        let day = date.getDate();
-        let month = date.getMonth() + 1;
-        let year = date.getFullYear();
-
-        let hour = date.getHours();
-        let minute = date.getMinutes();
-
-        if(minute  < 10) {
-            minute = "0"+minute;
-        }
-        return `${day}-${month}-${year} / ${hour}:${minute}`;
-    }
 
 // GET CURRENT TIME STAMP FOR DATABASE
     function getDateAndTimeDB(date) {
@@ -300,11 +286,6 @@ const animationSpeed = 500;
         updateMainDivElements(mainDivClassElement, textDivClassElement, leftSideMenuDivClassElement);
 
     }
-
-    let mainDivClassElementObserver = new ResizeObserver(() => {
-        updateAdminTextDiv();
-    });
-    mainDivClassElementObserver.observe(mainDivClassElement[0])
 
 // DISPLAY MESSAGE IN THE TEXT MESSAGES TAB
 function displayMessage(currentUserDivClass, foreignUserDivClass, textDivID, entityUsername, msgMessage, msgDate, user) {
@@ -674,7 +655,7 @@ function displayMessage(currentUserDivClass, foreignUserDivClass, textDivID, ent
     }
 
 // ON CLICK HIDE / SHOW BUTTON
-    function onClickHideShowButton(buttonID, mainDivID, leftSideMenuID, textDivID, buttonShowText, buttonHideText, type) {
+    function onClickHideShowButton(buttonID, mainDivID, leftSideMenuID, textDivID, buttonShowText, buttonHideText) {
         const buttonElement = $(buttonID);
         const mainDivElement = $(mainDivID);
         const leftSideMenuElement = $(leftSideMenuID);

@@ -32,8 +32,8 @@ include '../php-processes/authenticity-check.php';
 
     <div class="text-font-500" id="site-header-menu">
         <a href="home.php">Accueil</a>
-        <a href="#">Boutique</a>
-        <a href="#">Assistance</a>
+        <a href="shop.php">Boutique</a>
+        <a href="assistance.php">Assistance</a>
     </div>
 
     <div class="site-header-profile">

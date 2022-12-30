@@ -23,8 +23,6 @@ clientPage();
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/message-styles.css">
 
-    <script src="../javaScript/css-functions.js"></script>
-
     <title>MESSAGE</title>
 </head>
 <body>
@@ -154,7 +152,11 @@ clientPage();
 
 <?php if($adminLoggedIn): ?>
     <script>
-        updateAdminTextDiv();
+        let mainDivClassElementObserver = new ResizeObserver(() => {
+            updateAdminTextDiv();
+        });
+        mainDivClassElementObserver.observe(mainDivClassElement[0])
+
         displayActives('message');
         displayActives('resolved');
     </script>

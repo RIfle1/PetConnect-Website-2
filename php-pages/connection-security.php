@@ -42,7 +42,6 @@ clientPage();
     <script src="https://unpkg.com/just-validate@latest/dist/just-validate.production.min.js" defer></script>
     <!--    Css Function-->
     <script src="../javaScript/css-functions.js" defer></script>
-    <script src="../javaScript/connection-security-buttons.js"></script>
 
     <title>PetConnect Connection and Security</title>
 </head>
@@ -129,7 +128,7 @@ clientPage();
 
 
 <?php include 'site-footer.php'?>
-<script src="../javaScript/connection-security-buttons.js"></script>
+
 <script type="text/javascript">
     setMarginTop('.site-header-main-header', 'cs-form-body', 40)
     window.addEventListener("resize", function(event) {
@@ -137,6 +136,7 @@ clientPage();
     })
 </script>
 
+<script src="../javaScript/connection-security-buttons.js"></script>
 
 </body>
 </html>

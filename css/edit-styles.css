@@ -74,15 +74,8 @@
 
 .cs-form-error-span {
     color: #B81111;
+    text-align: center;
 }
-
-/*.cs-form-elem input {*/
-/*    padding: 0 0 0 10px;*/
-/*    font-family: 'Inter', sans-serif;*/
-/*    font-size: 15px;*/
-/*    font-weight: 500;*/
-/*    width: 40%;*/
-/*}*/
 
 .cs-form-elem input {
     background: #E2E2E2;

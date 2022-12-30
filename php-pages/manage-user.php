@@ -28,9 +28,6 @@ adminPage();
             crossorigin="anonymous">
     </script>
 
-    <script src="../javaScript/css-functions.js"></script>
-    <script src="../javaScript/manage-user-buttons.js"></script>
-
     <title>USER MANAGEMENT</title>
 </head>
 <body>
@@ -44,51 +41,39 @@ adminPage();
     <div class="mg-table-separation-line"></div>
 
     <div class="mg-search-filter-div">
-        <!--CLIENT FILTER -->
-        <div class="mg-filter-div">
-            <label for="clt-filter-input">Filter By</label>
-            <select name="clt-filter-input" id="clt-filter-input">
-                <option value="cltUsername">Client Username</option>
-                <option value="cltFirstName">Client First Name</option>
-                <option value="cltLastName">Client Last Name</option>
-                <option value="cltEmail">Client Email</option>
-                <option value="cltSignupDate">Client Signup Date</option>
-            </select>
-            <select name="clt-order-input" id="clt-order-input">
-                <option value="ASC">Ascending</option>
-                <option value="DESC">Descending</option>
-            </select>
-        </div>
-        <!--CLIENT FILTER -->
-<!--        CLIENT SEARCH -->
-        <div class="mg-search-div">
-            <input id="clt-search-input" name="clt-search-input" type="text" placeholder="Search in client...">
-            <button id="clt-search-submit" name="clt-search-submit" type="button">Submit Search</button>
-        </div>
-<!--        CLIENT SEARCH -->
+        <label for="clt-filter-input">Filter By</label>
+        <select name="clt-filter-input" id="clt-filter-input">
+            <option value="cltUsername">Client Username</option>
+            <option value="cltEmail">Client Email</option>
+            <option value="cltSignupDate">Client Signup Date</option>
+        </select>
+        <select name="clt-order-input" id="clt-order-input">
+            <option value="ASC">Ascending</option>
+            <option value="DESC">Descending</option>
+        </select>
+        <input id="clt-search-input" name="clt-search-input" type="text" placeholder="Search in client...">
+        <button id="clt-search-submit" name="clt-search-submit" type="button">Submit Search</button>
     </div>
 
     <div class="mg-table-separation-line"></div>
 
-    <div class="mg-table-div">
-        <table id="mg-table-info-clt">
-            <tr class="mg-table-header-row">
-<!--                <th class="mg-table-header">Client ID</th>-->
-                <th class="mg-table-header">Client Username</th>
-                <th class="mg-table-header">Client First Name</th>
-                <th class="mg-table-header">Client Last Name</th>
-                <th class="mg-table-header">Client Email</th>
-                <th class="mg-table-header">Client Phone Number</th>
-                <th class="mg-table-header">Client Signup Date</th>
-                <th class="mg-table-header" id="mg-table-header-control" colspan="3">Client Control Panel</th>
-            </tr>
-<!--            CLIENT TABLE GENERATION-->
-            <script>
-                printTable('clt',"../php-processes/manage-user-table.php?sortBy=cltUsername&orderBy=ASC&ID=client")
-            </script>
-<!--            CLIENT TABLE GENERATION-->
+    <div class="mg-table-flex-div">
+        <div class="mg-table-div">
+            <table id="mg-table-info-clt">
+                <tbody>
+                <tr class="mg-table-header-row">
+                    <th class="mg-table-header">Client Username</th>
+                    <th class="mg-table-header">Client Email</th>
+                    <th class="mg-table-header">Client Signup Date</th>
+                    <th id="mg-table-header-control-clt" colspan="3">Client Control Panel</th>
+                </tr>
+                </tbody>
+            </table>
+        </div>
 
-        </table>
+        <div class="mg-table-control-div">
+
+        </div>
     </div>
 
     <div class="mg-table-separation-line"></div>
@@ -100,51 +85,41 @@ adminPage();
     <div class="mg-table-separation-line"></div>
 
     <div class="mg-search-filter-div">
-        <!--ADMIN FILTER -->
-        <div class="mg-filter-div">
-            <label for="adm-filter-input">Filter By</label>
-            <select name="adm-filter-input" id="adm-filter-input">
-                <option value="admUsername">Admin Username</option>
-                <option value="admFirstName">Admin First Name</option>
-                <option value="admLastName">Admin Last Name</option>
-                <option value="admEmail">Admin Email</option>
-                <option value="admSignupDate">Admin Signup Date</option>
-            </select>
-            <select name="adm-order-input" id="adm-order-input">
-                <option value="ASC">Ascending</option>
-                <option value="DESC">Descending</option>
-            </select>
-        </div>
-        <!--ADMIN FILTER -->
-        <!--        ADMIN SEARCH -->
-        <div class="mg-search-div">
-            <input id="adm-search-input" name="adm-search-input" type="text" placeholder="Search in admin...">
-            <button id="adm-search-submit" name="adm-search-submit" type="button">Submit Search</button>
-        </div>
-        <!--        ADMIN SEARCH -->
+        <label for="adm-filter-input">Filter By</label>
+        <select name="adm-filter-input" id="adm-filter-input">
+            <option value="admUsername">Admin Username</option>
+            <option value="admEmail">Admin Email</option>
+            <option value="admSignupDate">Admin Signup Date</option>
+        </select>
+        <select name="adm-order-input" id="adm-order-input">
+            <option value="ASC">Ascending</option>
+            <option value="DESC">Descending</option>
+        </select>
+        <input id="adm-search-input" name="adm-search-input" type="text" placeholder="Search in admin...">
+        <button id="adm-search-submit" name="adm-search-submit" type="button">Submit Search</button>
     </div>
 
     <div class="mg-table-separation-line"></div>
 
-    <div class="mg-table-div">
-        <table id="mg-table-info-adm">
-            <tr class="mg-table-header-row">
-<!--                <th class="mg-table-header">Admin ID</th>-->
-                <th class="mg-table-header">Admin Username</th>
-                <th class="mg-table-header">Admin First Name</th>
-                <th class="mg-table-header">Admin Last Name</th>
-                <th class="mg-table-header">Admin Email</th>
-                <th class="mg-table-header">Admin Phone Number</th>
-                <th class="mg-table-header">Admin Signup Date</th>
-                <th class="mg-table-header" id="mg-table-header-control" colspan="2">Admin Control Panel</th>
-            </tr>
-<!--            ADMIN TABLE GENERATION-->
-            <script>
-                printTable('adm','../php-processes/manage-user-table.php?sortBy=admUsername&orderBy=ASC&ID=admin')
-            </script>
-<!--            ADMIN TABLE GENERATION-->
-        </table>
+    <div class="mg-table-flex-div">
+        <div class="mg-table-div">
+            <table id="mg-table-info-adm">
+                <tbody>
+                <tr class="mg-table-header-row">
+                    <th class="mg-table-header">Admin Username</th>
+                    <th class="mg-table-header">Admin Email</th>
+                    <th class="mg-table-header">Admin Signup Date</th>
+                    <th id="mg-table-header-control-adm" colspan="2">Admin Control Panel</th>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="mg-table-control-div">
+
+        </div>
     </div>
+
 </div>
 
 <?php include "site-footer.php";?>
@@ -155,6 +130,7 @@ adminPage();
         setMarginTop('.site-header-main-header', 'mg-main-div', 40)
     })
 </script>
+
 <script src="../javaScript/manage-user-buttons.js"></script>
 
 </body>

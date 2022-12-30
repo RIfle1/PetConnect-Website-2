@@ -47,7 +47,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if($ID === 'client') {
             $cltID = $entityID;
-            $insertMessageInNewSessionSql = "INSERT IGNORE INTO session_message (sesMsgID) VALUES ('".$cltID."')";
+            $insertMessageInNewSessionSql = "INSERT IGNORE INTO session_message (sesMsgID, Client_cltID) VALUES ('".$cltID."', '".$cltID."')";
             runSQLResult($insertMessageInNewSessionSql);
         }
         elseif($ID === 'admin') {
