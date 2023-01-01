@@ -1,13 +1,18 @@
 <?php
 session_start();
 include '../php-processes/dbConnection.php';
-include 'site-header.php';
+logoutAndRedirect("../php-pages/signup-success.php");
 
+$commonStringsLanguageList = returnLanguageList()[returnLanguage()]['common-strings'];
 if(empty($_SESSION['newCltID']) || empty($_SESSION['verificationCode']) || empty($_SESSION['Token'])) {
-    $_SESSION['errorMsg'] = 'You do not have access to this page. If you think this is an error, contact a web developper.';
+    $_SESSION['errorMsg'] = $commonStringsLanguageList["You do not have access to this page, if you think this is a mistake contact the web developer"];
     header("Location: ../php-pages/restricted-access.php");
     exit;
 }
+
+include 'site-header.php';
+
+$languageList = returnLanguageList()[returnLanguage()]['signup-success'];
 
 ?>
 
@@ -32,7 +37,9 @@ if(empty($_SESSION['newCltID']) || empty($_SESSION['verificationCode']) || empty
 
 <div id="sign-form-body">
     <div id="sign-form-body-div">
-        <h1 id="sign-form-header">Validate your email</h1>
+        <div class="sign-form-elem">
+            <h1><?php echo $languageList["Validate your email"]?></h1>
+        </div>
         <div class="sign-form-elem">
             <p id="sign-form-message">
                 <?php if (!empty($_SESSION['message'])): ?>
@@ -41,14 +48,14 @@ if(empty($_SESSION['newCltID']) || empty($_SESSION['verificationCode']) || empty
             </p>
         </div>
         <div class="sign-form-elem" id="sign-form-input-div">
-            <label for="verificationCode-input">Verification Code:</label>
+            <label for="verificationCode-input"><?php echo $languageList["Verification Code:"]?></label>
             <input type="text" id="verificationCode-input" name="verificationCode-input">
         </div>
         <div class="sign-form-elem" id="sign-form-validate-error">
-            <span>The verification code is incorrect.</span>
+            <span><?php echo $languageList["The verification code is incorrect."]?></span>
         </div>
         <div class="sign-form-elem" id="submit-button-div">
-            <button id="submit-button" type="button" name="submit-button">Validate Email</button>
+            <button id="submit-button" type="button" name="submit-button"><?php echo $languageList["Validate Email"]?></button>
         </div>
     </div>
 </div>
@@ -56,10 +63,7 @@ if(empty($_SESSION['newCltID']) || empty($_SESSION['verificationCode']) || empty
 
 <?php include '../php-pages/site-footer.php' ?>
 <script type="text/javascript">
-    setMarginTop('.site-header-main-header', 'sign-form-body', 50)
-    window.addEventListener("resize", function(event) {
-        setMarginTop('.site-header-main-header', 'sign-form-body', 50)
-    })
+    setMarginTop('site-header-main-header', 'id', 'sign-form-body', 'id', 50)
 </script>
 
 <script src="../javaScript/css-functions.js"></script>

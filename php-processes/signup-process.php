@@ -3,6 +3,9 @@
 include 'entities.php';
 include 'php-mailer.php';
 include 'verification-functions.php';
+
+$languagesList = returnLanguageList()[returnLanguage()]['signup-process'];
+
 $newUserInfo = new Client
 (
     $_POST["cltUsername-input"],
@@ -79,7 +82,7 @@ if(sendGmail($cltEmail, $cltFirstName, $body, $subject)) {
         $_SESSION['newCltID'] = $cltID;
         $_SESSION['Token'] = $cltToken;
         $_SESSION['cltVerifiedEmail'] = 0;
-        $_SESSION['message'] = "Signup Successful, Please verify your email address";
+        $_SESSION['message'] = $languagesList["Signup Successful, Please verify your email address"];
 
         header("Location: ../php-pages/signup-success.php", true, 303);
         exit;

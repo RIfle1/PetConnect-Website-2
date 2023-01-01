@@ -1,8 +1,13 @@
 <?php
-session_start();
-session_destroy();
 include '../php-processes/dbConnection.php';
-include 'site-header.php'
+logoutAndRedirect("../php-pages/login.php");
+include 'site-header.php';
+
+$languageList = returnLanguageList()[returnLanguage()]['login'];
+$commonStringsLanguageList = returnLanguageList()[returnLanguage()]['common-strings'];
+
+$captchaLanguage = strtolower(substr(returnLanguage(), 0, 2));
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -38,19 +43,19 @@ include 'site-header.php'
 <form id = "login-form" name="login-form" action="../php-processes/login-process.php" method="post">
     <div id="sign-form-body" class="text-font-700">
         <div id="sign-form-body-div">
-            <div class="sign-form-elem"><h1>Sign in</h1></div>
+            <div class="sign-form-elem"><h1><?php echo $languageList["Sign in"]?></h1></div>
             <div id="login-Invalid">
                 <?php if ($_GET['isInvalid'] ?? ""): ?>
                     <em>Invalid Login</em>
                 <?php endif; ?>
             </div>
             <div class="sign-form-elem">
-                <label for="lgEmail-input">Email:</label>
+                <label for="lgEmail-input"><?php echo $languageList["Email"]?>:</label>
                 <input type="email" id="lgEmail-input" name="lgEmail-input"
                        value="<?= htmlspecialchars($_GET["lgEmail-input"] ?? "") ?>" required>
             </div>
             <div class="sign-form-elem">
-                <label for="lgPassword-input">Password:</label>
+                <label for="lgPassword-input"><?php echo $languageList["Password"]?>:</label>
                 <input type="password" id="lgPassword-input" name="lgPassword-input" required>
             </div>
             <div class="sign-separation-line-small"></div>
@@ -60,21 +65,21 @@ include 'site-header.php'
             </div>
 
             <div class="sign-form-elem" id="sign-form-robot">
-                <span>Please verify that you are not a robot.</span>
+                <span><?php echo $commonStringsLanguageList["Please verify that you are not a robot."]?></span>
             </div>
 
             <div class="sign-separation-line-small"></div>
 
             <div class="sign-form-elem">
-                <button id="submit-login-button" type="button">Login</button>
+                <button id="submit-login-button" type="button"><?php echo $languageList["Login"]?></button>
             </div>
 
             <div class="sign-separation-line-small"></div>
             <div class="sign-form-elem">
-                <a href="password-recovery-input.php">Forgot Password</a>
+                <a href="password-recovery-input.php"><?php echo $languageList["Forgot Password"]?></a>
             </div>
             <div class="sign-form-elem">
-                <a href="signup.php"><span>Don't have an account?</span> Signup</a>
+                <a href="signup.php"><span><?php echo $languageList["Don't have an account?"]?></span> <?php echo $languageList["Signup"]?></a>
             </div>
         </div>
     </div>
@@ -82,15 +87,13 @@ include 'site-header.php'
 
 <?php include '../php-pages/site-footer.php' ?>
 <script type="text/javascript">
-    setMarginTop('.site-header-main-header', 'sign-form-body', 50)
-    window.addEventListener("resize", function(event) {
-        setMarginTop('.site-header-main-header', 'sign-form-body', 50)
-    })
+    setMarginTop('site-header-main-header', 'id', 'sign-form-body', 'id', 50)
 </script>
 
-<script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
+<script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit&hl=<?php echo $captchaLanguage ?>"
         async defer>
 </script>
+
 <script src="../javaScript/css-functions.js"></script>
 <script src='../javaScript/recaptcha-functions.js'></script>
 </body>

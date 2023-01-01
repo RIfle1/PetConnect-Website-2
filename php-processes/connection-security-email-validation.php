@@ -6,14 +6,14 @@ include 'php-mailer.php';
 clientPage();
 
 $loggedIn = $_SESSION['loggedIn'];
-$table = $_SESSION['ID'];
+$table = $_SESSION['Table'];
 $token = $_SESSION['Token'];
 $newEmail = $_GET['newEmail'];
 
 $entityInfo = returnEntityInfo();
-$entityAttributesList = returnEntityAttributes();
-$entityFirstName = $entityInfo[$entityAttributesList[2]];
-//echo $entityFirstName;
+$entityAttributes = returnEntityAttributes();
+
+$entityFirstName = $entityInfo[$entityAttributes["FirstName"]];
 
 $verificationCode = generateVerificationCode();
 $body = returnEmailCodeValidationStructure($verificationCode)["body"];

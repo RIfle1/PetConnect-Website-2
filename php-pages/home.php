@@ -2,6 +2,9 @@
 session_start();
 include '../php-processes/dbConnection.php';
 include 'site-header.php';
+
+$languageList = returnLanguageList()[returnLanguage()]['home'];
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -19,11 +22,11 @@ include 'site-header.php';
 <body>
 
 <div class="background-dog-div">
-    <img id="foreground-img" src="../img/<?php echo getImage('iCollar_logo.png')['imgCategory']."/".getImage('iCollar_logo.png')['imgPath']?>" alt="iCollar_logo">
-    <img id="background-img" src="../img/<?php echo getImage('chien.jpg')['imgCategory']."/".getImage('chien.jpg')['imgPath']?>" alt="chien"/>
+    <img id="foreground-img" src="<?php echo getImage('iCollar_logo.png')?>" alt="iCollar_logo">
+    <img id="background-img" src="<?php echo getImage('chien.jpg')?>" alt="chien"/>
 </div>
 <div class="text-font-500" id="slogan">
-    <h1>La technologie pour vos animaux</h1>
+    <h1><?php echo $languageList["Technology for your animals"] ?></h1>
 </div>
 <?php include 'site-footer.php' ?>
 </body>

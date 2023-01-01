@@ -2,6 +2,10 @@
 session_start();
 include '../php-processes/dbConnection.php';
 include 'site-header.php';
+
+$commonStringsLanguageList = returnLanguageList()[returnLanguage()]['common-strings'];
+$languageList = returnLanguageList()[returnLanguage()]['restricted-access'];
+
 ?>
 
 <!doctype html>
@@ -18,20 +22,23 @@ include 'site-header.php';
 <body class="text-font-700">
 
 <div id="sign-form-body">
-    <div id="sign-form-body-div"><h1>An error has occurred</h1>
+    <div id="sign-form-body-div">
+        <div class="sign-form-elem">
+            <h1><?php echo $languageList["An Error has occurred"]?></h1>
+        </div>
         <div class="sign-form-elem">
             <span>
                 <?php
                 if(!empty($_SESSION['errorMsg'])) {
                     echo $_SESSION['errorMsg'];
                 } else {
-                    echo 'You do not have access to this page. If you think this is an error, please contact a web developer.';
+                    echo $commonStringsLanguageList["You do not have access to this page, if you think this is a mistake contact the web developer"];
                 }
                 ?>
             </span>
         </div>
         <div class="sign-form-elem">
-            <span>Try to<a href="login.php"> login</a>.</span>
+            <span><?php echo $languageList["Try to"]?><a href="../php-pages/login.php"> <?php echo $languageList["login"]?></a>.</span>
         </div>
     </div>
 </div>
@@ -39,10 +46,7 @@ include 'site-header.php';
 
 <?php include '../php-pages/site-footer.php' ?>
 <script type="text/javascript">
-    setMarginTop('.site-header-main-header', 'sign-form-body', 50)
-    window.addEventListener("resize", function(event) {
-        setMarginTop('.site-header-main-header', 'sign-form-body', 50)
-    })
+    setMarginTop('site-header-main-header', 'id', 'sign-form-body', 'id', 50)
 </script>
 
 </body>

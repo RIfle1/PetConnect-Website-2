@@ -26,6 +26,10 @@ INSERT INTO image (imgID, imgPath, imgCategory) VALUES ('img19', 'facebook.png',
 INSERT INTO image (imgID, imgPath, imgCategory) VALUES ('img20', 'instagram.png', 'social');
 INSERT INTO image (imgID, imgPath, imgCategory) VALUES ('img21', 'twitter.png', 'social');
 
+INSERT INTO image (imgID, imgPath, imgCategory) VALUES ('img23', 'EnglishFlag.png', 'languages');
+INSERT INTO image (imgID, imgPath, imgCategory) VALUES ('img24', 'FrenchFlag.png', 'languages');
+INSERT INTO image (imgID, imgPath, imgCategory) VALUES ('img25', 'RussianFlag.png', 'languages');
+
 INSERT INTO client (cltID, cltUsername, cltFirstName, cltLastName, cltEmail, cltPhoneNumber, cltPassword, cltPfpName, cltSignupDate, cltVerifiedEmail) VALUES ('clt19', 'Jeff', 'fEFF', 'hgEtus', 'pppbbb616000@gmail.com', '123456789', '$2y$10$kOeEgAJU04emD4fT6.dW8OoEWivgwuWROTd07DvI/ETjZEuOkbuaO', 'chien.jpg', NOW(), 1);
 INSERT INTO client (cltID, cltUsername, cltFirstName, cltLastName, cltEmail, cltPhoneNumber, cltPassword, cltPfpName, cltSignupDate, cltVerifiedEmail) VALUES ('clt2', 'zenry123', 'fgenry', 'aEEtus', 'henry@yeetus.com', '123456789', '$2y$10$kOeEgAJU04emD4fT6.dW8OoEWivgwuWROTd07DvI/ETjZEuOkbuaO', 'chien.jpg', NOW(), 1);
 INSERT INTO client (cltID, cltUsername, cltFirstName, cltLastName, cltEmail, cltPhoneNumber, cltPassword, cltPfpName, cltSignupDate) VALUES ('clt3', 'park123', 'fgark', 'AEtus', 'mark2@yeet4545us.com', '123456789', '$2y$10$kOeEgAJU04emD4fT6.dW8OoEWivgwuWROTd07DvI/ETjZEuOkbuaO', 'chien.jpg', NOW());

@@ -1,57 +1,104 @@
+refreshLanguageList();
 // CONSTANTS
+// COMMON HARDCODED SPAN IDs
+const titleSpanCommonID = "cs-form-title-span-";
+const infoSpanCommonID = "cs-form-info-span-";
+const infoSpan2CommonID = "cs-form-info-span2-"
+
+// COMMON HARDCODED INPUT IDs
+const inputCommonID = "cs-form-input-";
+
+// COMMON HARDCODED BUTTON IDs
+const editButtonCommonID = "cs-form-edit-button-";
+const cancelButtonCommonID = "cs-form-cancel-button-"
+
+// COMMON HARDCODED SPAN CLASSES
+const tempSpanCommonClass = "cs-form-temp-span-";
+const tempSpanCommonClass2 = "cs-form-temp-span2-"
+
+// COMMON HARDCODED BUTTON CLASSES
+const tempButtonCommonClass = "cs-form-temp-button-";
+
+// COMMON HARDCODED INPUT CLASSES
+const tempInputCommonClass = "cs-form-temp-input-";
+
+// COMMON VOLATILE SPAN CLASSES
+const commonErrorSpanClass = "cs-form-error-span-";
+
+
 // HARDCODED BUTTON IDs
-const editUsernameButtonID = 'edit-username-button';
-const editFirstNameButtonID = 'edit-firstName-button';
-const editLastNameButtonID = 'edit-lastName-button';
-const editEmailButtonID = 'edit-email-button';
-const editPhoneNumberButtonID = 'edit-phoneNumber-button';
-const editPasswordButtonID = 'edit-password-button';
+const editButtonUsernameID = "cs-form-edit-button-username";
+const cancelButtonUsernameID = "cs-form-cancel-button-username";
 
-// HARDCODED ELEMENT CLASSES
-const passwordTempClass = 'cs-form-password-temporary-element';
-const emailTempClass = 'cs-form-email-temporary-element';
+const editButtonFirstNameID = "cs-form-edit-button-firstName";
+const cancelButtonFirstNameID = "cs-form-cancel-button-firstName";
 
-// HARDCODED ELEMENT IDs
-const emailTempID = 'cs-form-email-temporary';
-const editEmailVerificationCodeID = 'cs-form-input-Email-verificationCode'
+const editButtonLastNameID = "cs-form-edit-button-lastName";
+const cancelButtonLastNameID = "cs-form-cancel-button-lastName";
 
-// VOLATILE ELEMENT IDs
-const commonTitleSpanID = 'cs-form-title-span-';
-const cancelEmailEditButtonID = 'cancel-email-button';
+const editButtonPhoneNumberID = "cs-form-edit-button-phoneNumber";
+const cancelButtonPhoneNumberID = "cs-form-cancel-button-phoneNumber";
 
-// VOLATILE ELEMENT CLASSES
-const commonErrorSpanClass = "cs-form-error-span";
+const editButtonEmailID = "cs-form-edit-button-email";
+const cancelButtonEmailID = "cs-form-cancel-button-email";
+
+const editButtonPasswordID = "cs-form-edit-button-password";
+const cancelButtonPasswordID = "cs-form-cancel-button-password";
 
 // HARDCODED BUTTON ELEMENTS
-const editUsernameButtonElement = $("#"+editUsernameButtonID);
-const editFirstNameButtonElement = $("#"+editFirstNameButtonID);
-const editLastNameButtonElement = $("#"+editLastNameButtonID);
-const editEmailButtonElement= $("#"+editEmailButtonID);
-const editPhoneNumberButtonElement = $("#"+editPhoneNumberButtonID);
-const editPasswordButtonElement = $("#"+editPasswordButtonID);
+const editButtonUsernameElement = $("#"+editButtonUsernameID);
+const cancelButtonUsernameElement = $("#"+cancelButtonUsernameID);
+
+const editButtonFirstNameElement = $("#"+editButtonFirstNameID);
+const cancelButtonFirstNameElement = $("#"+cancelButtonFirstNameID);
+
+const editButtonLastNameElement = $("#"+editButtonLastNameID);
+const cancelButtonLastNameElement = $("#"+cancelButtonLastNameID);
+
+const editButtonPhoneNumberElement = $("#"+editButtonPhoneNumberID);
+const cancelButtonPhoneNumberElement = $("#"+cancelButtonPhoneNumberID);
+
+const editButtonEmailElement = $("#"+editButtonEmailID);
+const cancelButtonEmailElement = $("#"+cancelButtonEmailID);
+
+const editButtonPasswordElement = $("#"+editButtonPasswordID);
+const cancelButtonPasswordElement = $("#"+cancelButtonPasswordID);
+
+// HARDCODED INPUT IDs
+const editInputUsernameID = "cs-form-input-username"
+const editInputFirstNameID = "cs-form-input-firstName"
+const editInputLastNameID = "cs-form-input-lastName"
+const editInputPhoneNumberID = "cs-form-input-phoneNumber"
+const editInputEmailID = "cs-form-input-email"
+
+const editInputPasswordOldID = "cs-form-input-password-old"
+const editInputPasswordOriginalID = "cs-form-input-password"
+const editInputPasswordRepeatID = "cs-form-input-password-repeat"
 
 // HARDCODED INPUT ELEMENTS
-const editEmailVerificationCodeElement = $("#"+editEmailVerificationCodeID)
+const editInputUsernameElement = $("#"+editInputUsernameID)
+const editInputFirstNameElement = $("#"+editInputFirstNameID)
+const editInputLastNameElement = $("#"+editInputLastNameID)
+const editInputPhoneNumberElement = $("#"+editInputPhoneNumberID)
+const editInputEmailElement = $("#"+editInputEmailID)
+
+const editInputPasswordOldElement = $("#"+editInputPasswordOldID)
+const editInputPasswordOriginalElement = $("#"+editInputPasswordOriginalID)
+const editInputPasswordRepeatElement = $("#"+editInputPasswordRepeatID)
 
 // JSON VARIABLES
 let isAvailable;
 let processValues;
 let samePassword;
+let languageList
 
 // ---------------------------------------------------------------------------------------------------------
 // JSON INITIALIZATION
 
-function refreshValidateEmailJson(editInputElementValue) {
-    const validateEmailUrl = "../php-processes/validate-email.php?cltEmail-input="+encodeURIComponent(editInputElementValue);
+function refreshValidateEmailJson(inputCommonElementValue) {
+    const validateEmailUrl = "../php-processes/validate-email.php?cltEmail-input="+encodeURIComponent(inputCommonElementValue);
     $.getJSON(validateEmailUrl, function (json) {
         isAvailable = json.available
-    })
-}
-
-function refreshSendEmailJson(editInputElementValue) {
-    const sendEmailUrl = "../php-processes/connection-security-email-validation.php?newEmail="+encodeURIComponent(editInputElementValue);
-    $.getJSON(sendEmailUrl, function (json) {
-        processValues = json.processValues
     })
 }
 
@@ -63,294 +110,314 @@ function refreshSamePasswordJson(editPasswordOldValue) {
     });
 }
 
+function refreshLanguageList() {
+    let languageUrl = "../php-processes/language-list-process.php?file=connection-security-buttons"
+    $.getJSON(languageUrl, function(json) {
+        languageList = json.languageList;
+    })
+}
+
 // ---------------------------------------------------------------------------------------------------------
-function sendAjaxPost(entityAttribute, editInputElementValue) {
+function sendAjaxPost(entityAttribute, entityValue) {
     $.ajax({
         type: "POST",
         url: "../php-processes/connection-security-process.php",
         data: {
             entityAttribute: entityAttribute,
-            entityValue: editInputElementValue,
+            entityValue: entityValue,
         }
     })
 }
 
-function onClickButton(buttonElement) {
+function processSuccessFunction(editButtonElement, processSuccess, errorMsg, buttonAttribute, entityAttribute, entityValue) {
+    let cancelButtonElement = $("#"+cancelButtonCommonID+buttonAttribute)
+    $("."+commonErrorSpanClass+buttonAttribute).remove();
 
-    function processSuccessFunction(processSuccess, errorMsg, processAction) {
-        // REMOVE THE ERROR IF ANY`
-        $("."+commonErrorSpanClass).remove();
 
-        // ONLY EMAIL BUTTONS
-        // IF EMAIL IS NOT TAKEN AND CORRECT
-        if(!processSuccess && processAction === 'edit-email-process') {
-            buttonElement.css('display','none')
-            emailTempElement.text(editInputElementValue);
-            emailTempElement.css('display', 'block');
-            editInputElement.remove();
-        }
-        // IF CANCEL BUTTON IS PRESSED
-        else if(!processSuccess && processAction === 'edit-email-verification') {
-            entityElement.css('display','block');
-            buttonElement.css('display','block');
-            personalTitleSpanElement.text("Email :");
-            buttonElement.text('Edit');
-            $("#"+editInputID).remove();
-
-            emailTempClassElement.css('display', 'none');
-            emailTempClassElement.val("");
-        }
-        // IF THE CONFIRM BUTTON IS PRESSED AND THE CODE IS CORRECT
-        else if(processSuccess && processAction === 'edit-email-verification') {
-            entityElement.text(emailTempClassElement.text());
-            entityElement.css('display','block');
-            personalTitleSpanElement.text("Email :");
-
-            emailTempClassElement.css('display', 'none');
-            emailTempClassElement.val("");
-        }
-
-        // ONLY PASSWORD BUTTONS
-        //IF THE CANCEL BUTTON IS PRESSED
-        if(!processSuccess && processAction === 'edit-password-process') {
-            passwordTempClassElement.css('display', 'none');
-            passwordTempClassElement.val("");
-
-            personalTitleSpanElement.text("Password :");
-            buttonElement.text('Edit');
-            entityElement.css('display','block');
-        }
-        // IF CONFIRM BUTTON IS PRESSED AND THE PASSWORD HAS PASSED VERIFICATION
-        else if(processSuccess && processAction === 'edit-password-process') {
-            passwordTempClassElement.css('display', 'none');
-            passwordTempClassElement.val("");
-            personalTitleSpanElement.text("Password :");
-            sendAjaxPost(entityAttribute, editPasswordValue);
-        }
-
-        // ALL THE OTHER BUTONS
-        // IF CONFIRM BUTTON IS PRESSED
-        if(processSuccess && processAction === 'edit-process') {
-            personalTitleSpanElement.text(personalTitleSpanText.replace("New ", ""));
-        }
-
-        // COMMON TO ALL BUTTONS
-        // IF PROCESS FAILED
-        if(!processSuccess) {
-            buttonElement.parent().prev().append("<span class="+commonErrorSpanClass+">"+errorMsg+"</span>")
-        }
-        // IF CONFIRM BUTTON IS PRESSED AND THE VALUE HAS PASSED VERIFICATION
-        else if(processSuccess){
-            editInputElement.remove();
-            buttonElement.text('Edit');
-            buttonElement.css('display', 'block')
-            entityElement.css('display','block');
-            entityElement.text(editInputElementValue);
-        }
-        // IF CONFIRM BUTTON IS PRESSED, VALUE HAS PASSED VERIFICATION AND PROCESS IS NOT EDIT PASSWORD
-        if(processSuccess && processAction !== 'edit-password-process') {
-            sendAjaxPost(entityAttribute, editInputElementValue)
-        }
+    if(processSuccess) {
+        sendAjaxPost(entityAttribute, entityValue)
+        cancelButtonElement.trigger("click");
     }
+    else {
+        editButtonElement.parent().prev().append("<span class="+commonErrorSpanClass+buttonAttribute+">"+errorMsg+"</span>")
+    }
+}
 
-    const entityAttribute = buttonElement.val();
+function returnElementsList(buttonAttribute) {
+    return [
+        $("#"+titleSpanCommonID+buttonAttribute),
+        $("#"+infoSpanCommonID+buttonAttribute),
+        $("#"+infoSpan2CommonID+buttonAttribute),
+        $("."+tempSpanCommonClass+buttonAttribute),
+        $("."+tempSpanCommonClass2+buttonAttribute),
+        $("."+tempInputCommonClass+buttonAttribute),
+        $("."+tempButtonCommonClass+buttonAttribute),
+    ]
+}
 
-    const editInputID = 'cs-form-input-'+entityAttribute;
-    const editPasswordID= 'cs-form-input-'+entityAttribute+'-original';
-    const editOldPasswordID = 'cs-form-input-'+entityAttribute+'-old';
-    const editPasswordRepeatID = 'cs-form-input-'+entityAttribute+'-repeat';
+function onClickEditButton(editButtonElement) {
+    let buttonName = editButtonElement.attr("name");
+    let buttonAttribute = editButtonElement.attr('id').substring(20);
+    let entityAttribute = editButtonElement.val()
 
-    const personalTitleSpanID = commonTitleSpanID+entityAttribute;
+    let elementsList = returnElementsList(buttonAttribute)
+    let titleSpanElement = elementsList[0]
+    let infoSpanElement =  elementsList[1]
+    let infoSpan2Element = elementsList[2]
 
-    const entityElement = $('#'+entityAttribute);
-    const editInputElement = $('#'+editInputID);
-    const editPasswordElement = $('#'+editPasswordID);
-    const editOldPasswordElement = $('#'+editOldPasswordID)
-    const editPasswordRepeatElement = $('#'+editPasswordRepeatID);
-    const passwordTempClassElement = $('.'+passwordTempClass);
-    const emailTempClassElement = $('.'+emailTempClass);
-    const emailTempElement = $("#"+emailTempID);
+    let spanCommonElement = elementsList[3]
+    let span2CommonElement = elementsList[4]
+    let inputCommonElement = elementsList[5]
 
-    const personalTitleSpanElement = $('#'+personalTitleSpanID);
-    const cancelEmailEditButtonElement = $('#'+cancelEmailEditButtonID);
+    let buttonCommonElement = elementsList[6]
 
-    const editInputElementValue = editInputElement.val();
-    const editPasswordValue = editPasswordElement.val();
-    const editPasswordRepeatValue = editPasswordRepeatElement.val();
-    const editPasswordOldValue = editOldPasswordElement.val();
-
-    const entityElementText = entityElement.text();
-    const buttonText = buttonElement.text()
-    const personalTitleSpanText = personalTitleSpanElement.text();
+    let inputCommonElementValue = inputCommonElement.val();
 
     let processSuccess = false;
+    let entityValue;
+    let errorMsg;
 
-    if(buttonText === 'Edit') {
+    if (buttonName === 'Edit') {
+        editButtonElement.text(languageList['Confirm']);
+        editButtonElement.attr("name", "Confirm");
 
-        buttonElement.text('Confirm');
-        entityElement.css('display','none');
+        titleSpanElement.text(titleSpanElement.text().replace("", languageList["New"]+" "));
+        infoSpanElement.css('display', 'none');
 
-        if(buttonElement !== editPasswordButtonElement) {
-            personalTitleSpanElement.text('New ' + personalTitleSpanText);
-            buttonElement.parent().prev().append(
-                "<input id= " + editInputID +
-                "       value= '" + entityElementText +
-                "'>"
-            );
+        spanCommonElement.css('display', 'block');
+        inputCommonElement.css('display', 'block');
+
+        buttonCommonElement.css("display", "block")
+
+        if (editButtonElement !== editButtonPasswordElement) {
+            inputCommonElement.val(infoSpanElement.text())
         }
-        if(buttonElement === editPasswordButtonElement) {
-            personalTitleSpanElement.text('Old ' + personalTitleSpanText);
-            passwordTempClassElement.css('display', 'block');
-            $("#cancel-password-button").click(function() {
-                processSuccessFunction(false, '','edit-password-process')
-            })
-        }
-        if(buttonElement === editEmailButtonElement) {
-            cancelEmailEditButtonElement.css('display', 'block');
-            cancelEmailEditButtonElement.click(function() {
-                processSuccessFunction(false, '','edit-email-verification')
-            })
-        }
+
+
     }
-    else if(buttonText === 'Confirm') {
-        let errorMsg = '';
+    else if (buttonName === 'Confirm') {
+        if (editButtonElement === editButtonEmailElement) {
 
-        if(buttonElement === editEmailButtonElement) {
-            refreshSendEmailJson(editInputElementValue);
-            refreshValidateEmailJson(editInputElementValue);
-            setTimeout(()=> {
-            if(!editInputElementValue.match(/@/)) {
-                errorMsg = 'Input a valid email'
-                processSuccessFunction(false, errorMsg, '');
-            }
-            else {
-                if (!isAvailable) {
-                    errorMsg = 'This email is already Taken.'
-                    processSuccessFunction(false, errorMsg, '');
-                } else {
-                    let emailSent = processValues['emailSent'];
+            refreshValidateEmailJson(inputCommonElementValue);
 
-                    if (!emailSent) {
-                        errorMsg = 'The email could not be sent.'
-                        processSuccessFunction(false, errorMsg, '');
+            setTimeout(() => {
+                const sendEmailUrl = "../php-processes/connection-security-email-validation.php?newEmail=" + encodeURIComponent(inputCommonElementValue);
+                $.getJSON(sendEmailUrl, function (json) {
+                    processValues = json.processValues
+                    if (!inputCommonElementValue.match(/@/)) {
+                        errorMsg = languageList['Input a valid email']
+                    }
+                    else if(!isAvailable) {
+                        errorMsg = languageList['This email is already Taken.']
+                    }
+                    else if (!processValues['emailSent']) {
+                        errorMsg = languageList['The email could not be sent.']
                     }
                     else {
-                        processSuccessFunction(false, '', 'edit-email-process');
-                        emailTempClassElement.css('display', 'block');
+                            infoSpan2Element.text(inputCommonElement.val());
+                            infoSpan2Element.css('display', 'block');
 
-                        $("#edit-confirm-email-button").click(function() {
+                            span2CommonElement.css('display', 'block');
 
-                            console.log(processValues['verificationCode']);
-                            if(processValues['verificationCode'] === editEmailVerificationCodeElement.val()) {
-                                processSuccessFunction(true, '', 'edit-email-verification');
-                            }
-                            else {
-                                errorMsg = 'Verification code is incorrect.'
-                                processSuccessFunction(false, errorMsg, '');
-                            }
-                        })
+                            inputCommonElement.val("");
 
+                            editButtonElement.text(languageList['Confirm Code']);
+                            editButtonElement.attr("name", "Confirm Code");
+                            $("."+commonErrorSpanClass+buttonAttribute).remove();
+                            console.log(processValues);
+
+                            processSuccess = true;
                     }
-
-                }
-
-            }
+                    if (!processSuccess) {
+                       processSuccessFunction(editButtonElement, processSuccess, errorMsg, buttonAttribute, entityAttribute, entityValue)
+                    }
+                })
             }, 100)
         }
-        else if(buttonElement === editPasswordButtonElement) {
-            refreshSamePasswordJson(editPasswordOldValue);
+        else if(editButtonElement === editButtonPasswordElement) {
+
+            let editInputPasswordOldValue = editInputPasswordOldElement.val();
+            let editInputPasswordOriginalValue = editInputPasswordOriginalElement.val();
+            let editInputPasswordRepeatValue = editInputPasswordRepeatElement.val();
+
+            refreshSamePasswordJson(editInputPasswordOldValue);
 
             setTimeout(()=> {
-
-                let errorMsg;
-                let sendError = true;
-
-                if(editPasswordValue.length < 8) {
-                    errorMsg = "Password must be at least 8 characters."
+                if(editInputPasswordOriginalValue.length < 8) {
+                    errorMsg = languageList["Password must be at least 8 characters."]
                 }
-                else if(!editPasswordValue.match(/[a-z]/)) {
-                    errorMsg = "Password must contain at least one letter."
+                else if(!editInputPasswordOriginalValue.match(/[a-z]/)) {
+                    errorMsg = languageList["Password must contain at least one letter."]
                 }
-                else if(!editPasswordValue.match(/[0-9]/)) {
-                    errorMsg = "Password must contain at least one number.";
+                else if(!editInputPasswordOriginalValue.match(/[0-9]/)) {
+                    errorMsg = languageList["Password must contain at least one number."];
                 }
-                else if(editPasswordValue !== editPasswordRepeatValue) {
-                    errorMsg = "Passwords must match.";
+                else if(editInputPasswordOriginalValue !== editInputPasswordRepeatValue) {
+                    errorMsg = languageList["Passwords must match."];
                 }
                 else if (!samePassword) {
-                    errorMsg = "Your old password is incorrect.";
+                    errorMsg = languageList["Your old password is incorrect."];
                 }
-                else if (editPasswordValue === editPasswordOldValue) {
-                    errorMsg = "Your new password must be different from your old password."
+                else if (editInputPasswordOriginalValue === editInputPasswordOldValue) {
+                    errorMsg = languageList["Your new password must be different from your old password."]
                 }
                 else {
-                    processSuccessFunction(true, '', 'edit-password-process');
-                    sendError = false;
+                    processSuccess = true;
+                    entityValue = editInputPasswordOriginalValue;
                 }
-                if(sendError) {
-                    processSuccessFunction(false, errorMsg, '');
-                }
+
+                processSuccessFunction(editButtonElement, processSuccess, errorMsg, buttonAttribute, entityAttribute, entityValue);
+
 
             }, 100)
 
         }
-        else if(buttonElement !== editPasswordButtonElement && buttonElement !== editEmailButtonElement) {
-            if(buttonElement === editUsernameButtonElement) {
-                if(editInputElementValue.length < 3) {
-                    errorMsg = 'Username must be at least 3 characters long'
+        else if(editButtonElement !== editButtonPasswordElement && editButtonElement !== editButtonEmailElement) {
+            entityValue = inputCommonElementValue;
+
+            if(editButtonElement === editButtonUsernameElement) {
+                if(inputCommonElementValue.length < 3) {
+                    errorMsg = languageList['Username must be at least 3 characters long']
                 }
                 else {
                     processSuccess = true;
                 }
             }
-            else if(buttonElement === editFirstNameButtonElement) {
-                if(editInputElementValue.length < 3) {
-                    errorMsg = 'First Name must be at least 3 characters long'
+            else if(editButtonElement === editButtonFirstNameElement) {
+                if(inputCommonElementValue.length < 3) {
+                    errorMsg = languageList['First Name must be at least 3 characters long']
                 }
                 else {
                     processSuccess = true;
                 }
             }
-            else if(buttonElement === editLastNameButtonElement) {
-                if(editInputElementValue.length < 3) {
-                    errorMsg = 'Last Name must be at least 3 characters long'
+            else if(editButtonElement === editButtonLastNameElement) {
+                if(inputCommonElementValue.length < 3) {
+                    errorMsg = languageList['Last Name must be at least 3 characters long']
                 }
                 else {
                     processSuccess = true;
                 }
             }
-            else if(buttonElement === editPhoneNumberButtonElement) {
-                if(editInputElementValue.match(/[a-z]/)) {
-                    errorMsg = 'Must be a number'
+            else if(editButtonElement === editButtonPhoneNumberElement) {
+                if(inputCommonElementValue.match(/[a-z]/)) {
+                    errorMsg = languageList['Must be a number']
                 }
-                else if(editInputElementValue.length < 10) {
-                    errorMsg = 'Phone number must be 10 characters long'
-                }
-                else if(editInputElementValue.length > 10) {
-                    errorMsg = 'Phone number must be 10 characters long'
-                }
+                // else if(inputCommonElementValue.length < 10) {
+                //     errorMsg = languageList['Phone number must be 10 characters long']
+                // }
+                // else if(inputCommonElementValue.length > 10) {
+                //     errorMsg = languageList['Phone number must be 10 characters long']
+                // }
                 else {
                     processSuccess = true;
                 }
             }
-            processSuccessFunction(processSuccess, errorMsg, 'edit-process');
+
+            if(processSuccess) {
+                infoSpanElement.text(entityValue);
+            }
+
+            processSuccessFunction(editButtonElement, processSuccess, errorMsg, buttonAttribute, entityAttribute, entityValue);
         }
     }
+    else if (buttonName === 'Confirm Code') {
+        if (inputCommonElementValue === processValues['verificationCode']) {
+            entityValue = infoSpan2Element.text();
+            processSuccess = true;
+            infoSpanElement.text(entityValue);
+            processSuccessFunction(editButtonElement, processSuccess, errorMsg, buttonAttribute, entityAttribute, entityValue)
+
+        } else {
+            errorMsg = languageList['The Confirmation Code is Incorrect.']
+            processSuccessFunction(editButtonElement, processSuccess, errorMsg, buttonAttribute, entityAttribute, entityValue)
+        }
+    }
+}
+
+function onClickCancelButton(cancelButtonElement) {
+    let buttonAttribute = cancelButtonElement.attr('id').substring(22);
+    let editButtonElement = $("#"+editButtonCommonID+buttonAttribute);
+    $("."+commonErrorSpanClass+buttonAttribute).remove();
+
+    let elementsList = returnElementsList(buttonAttribute)
+
+    let titleSpanElement = elementsList[0]
+    let infoSpanElement =  elementsList[1]
+    let infoSpan2Element = elementsList[2]
+
+    let spanCommonElement = elementsList[3]
+    let span2CommonElement = elementsList[4]
+    let inputCommonElement = elementsList[5]
+
+    let buttonCommonElement = elementsList[6]
+
+    titleSpanElement.text(titleSpanElement.text().replace(languageList["New"]+" ", ""));
+    infoSpanElement.css('display', 'block');
+    infoSpan2Element.css('display', 'none');
+    infoSpan2Element.text("")
+
+    spanCommonElement.css('display', 'none');
+    span2CommonElement.css('display', 'none');
+    inputCommonElement.css('display', 'none');
+    inputCommonElement.val("");
+
+    buttonCommonElement.css("display", "none")
+
+    editButtonElement.text(languageList["Edit"]);
+    editButtonElement.attr("name", "Edit");
 
 }
 
-function setSecurityButton(buttonElement) {
-    buttonElement.click(function() {
-        onClickButton(buttonElement);
+function setEditButton(editButtonElement) {
+    editButtonElement.click(function() {
+        onClickEditButton(editButtonElement)
     })
 }
 
-setSecurityButton(editUsernameButtonElement);
-setSecurityButton(editFirstNameButtonElement);
-setSecurityButton(editLastNameButtonElement);
-setSecurityButton(editEmailButtonElement);
-setSecurityButton(editPhoneNumberButtonElement);
-setSecurityButton(editPasswordButtonElement);
+function setInputButton(inputButtonElement) {
+    let buttonAttribute = inputButtonElement.attr('id').substring(14);
+    let editButtonElement = $("#"+editButtonCommonID+buttonAttribute)
+
+    inputButtonElement.keyup(function(e){
+        if(e.keyCode === 13) {
+            editButtonElement.trigger("click");
+        }
+    });
+}
+
+function setCancelButton(cancelButtonElement) {
+    cancelButtonElement.click(function() {
+        onClickCancelButton(cancelButtonElement)
+    })
+}
+
+setEditButton(editButtonUsernameElement);
+setEditButton(editButtonFirstNameElement);
+setEditButton(editButtonLastNameElement);
+setEditButton(editButtonPhoneNumberElement);
+setEditButton(editButtonEmailElement);
+setEditButton(editButtonPasswordElement);
+
+
+setInputButton(editInputUsernameElement);
+setInputButton(editInputFirstNameElement);
+setInputButton(editInputLastNameElement);
+setInputButton(editInputPhoneNumberElement);
+setInputButton(editInputEmailElement);
+
+setInputButton(editInputPasswordOldElement);
+setInputButton(editInputPasswordOriginalElement);
+setInputButton(editInputPasswordRepeatElement);
+
+
+setCancelButton(cancelButtonUsernameElement);
+setCancelButton(cancelButtonFirstNameElement);
+setCancelButton(cancelButtonLastNameElement);
+setCancelButton(cancelButtonPhoneNumberElement);
+setCancelButton(cancelButtonEmailElement);
+setCancelButton(cancelButtonPasswordElement);
+
 
 
 

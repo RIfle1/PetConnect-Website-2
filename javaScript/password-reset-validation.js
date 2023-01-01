@@ -1,10 +1,21 @@
+refreshLanguageList();
+
+let languageList;
+
+function refreshLanguageList() {
+    let languageUrl = "../php-processes/language-list-process.php?file=password-reset-validation"
+    $.getJSON(languageUrl, function(json) {
+        languageList = json.languageList;
+    })
+}
+
 const validation = new JustValidate("#password-reset-form")
 
 validation
     .addField("#newPassword-input", [
         {
             rule: "required",
-            errorMessage: 'New Password is required'
+            errorMessage: languageList['New Password is required'],
         },
         {
             rule: "password"
@@ -16,7 +27,7 @@ validation
                 fields = $("#newPassword-input").val();
                 return value === fields;
             },
-            errorMessage: "Passwords should match"
+            errorMessage: languageList["Passwords should match"],
         }
     ])
     .onSuccess((event) => {

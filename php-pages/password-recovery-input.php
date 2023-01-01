@@ -1,8 +1,13 @@
 <?php
-session_start();
-session_destroy();
 include '../php-processes/dbConnection.php';
-include 'site-header.php'
+logoutAndRedirect('../php-pages/password-recovery-input.php');
+include 'site-header.php';
+
+$languageList = returnLanguageList()[returnLanguage()]['password-recovery-input'];
+$commonStringsLanguageList = returnLanguageList()[returnLanguage()]['common-strings'];
+
+$captchaLanguage = strtolower(substr(returnLanguage(), 0, 2));
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -38,10 +43,10 @@ include 'site-header.php'
 <form id="password-recovery-input-form" name="password-recovery-input-form" action="../php-processes/password-recovery-process.php" method="post">
     <div id="sign-form-body" class="text-font-700">
         <div id="sign-form-body-div">
-            <div class="sign-form-elem"><h1>Password Recovery</h1></div>
+            <div class="sign-form-elem"><h1><?php echo $languageList["Password Recovery"]?></h1></div>
 
             <div class="sign-form-elem">
-                <label for="email-input">Email:</label>
+                <label for="email-input"><?php echo $languageList["Email:"]?></label>
                 <input type="email" id="email-input" name="email-input"
                        value="<?= htmlspecialchars($_GET["email-input"] ?? "") ?>" required>
             </div>
@@ -57,13 +62,13 @@ include 'site-header.php'
             </div>
 
             <div class="sign-form-elem" id="sign-form-robot">
-                <span>Please verify that you are not a robot.</span>
+                <span><?php echo $commonStringsLanguageList["Please verify that you are not a robot."]?></span>
             </div>
 
             <div class="sign-separation-line-small"></div>
 
             <div class="sign-form-elem">
-                <button id="submit-password-recovery-button" type="button">Send verification link</button>
+                <button id="submit-password-recovery-button" type="button"><?php echo $languageList["Send Verification Link"]?></button>
             </div>
 
             <div class="sign-separation-line-small"></div>
@@ -78,15 +83,13 @@ include 'site-header.php'
 
 <?php include '../php-pages/site-footer.php' ?>
 <script type="text/javascript">
-    setMarginTop('.site-header-main-header', 'sign-form-body', 50)
-    window.addEventListener("resize", function(event) {
-        setMarginTop('.site-header-main-header', 'sign-form-body', 50)
-    })
+    setMarginTop('site-header-main-header', 'id', 'sign-form-body', 'id', 50)
 </script>
 
-<script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
+<script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit&hl=<?php echo $captchaLanguage ?>"
         async defer>
 </script>
+
 <script src="../javaScript/css-functions.js"></script>
 <script src='../javaScript/recaptcha-functions.js'></script>
 </body>

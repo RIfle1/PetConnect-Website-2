@@ -7,7 +7,7 @@ include '../php-processes/php-mailer.php';
 // Security stuff
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-    if (empty($_SESSION['Token']) || empty($_SESSION['resetPassword']) || empty($_SESSION['ID'])) {
+    if (empty($_SESSION['Token']) || empty($_SESSION['resetPassword']) || empty($_SESSION['Table'])) {
         header("Location: ../php-pages/restricted-access.php", true, 303);
         exit;
     }
@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 // UPDATE PASSWORD SQL
     $updateSql = '';
-    if ($_SESSION['ID'] === 'client') {
+    if ($_SESSION['Table'] === 'client') {
         // Check that the new password isn't the same as the old one
         $getPasswordSql = "SELECT cltPassword, cltID FROM client WHERE cltToken = '" . $token . "'";
         $cltResult = runSQLResult($getPasswordSql);
@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         // Generate new token to make previous link unavailable and update password
         $newCltToken = generateToken($cltID);
         $updateSql = "UPDATE client SET cltPassword = '" . $passwordHash . "', cltToken = '".$newCltToken."' WHERE cltToken = '" . $token . "'";
-    } elseif ($_SESSION['ID'] === 'admin') {
+    } elseif ($_SESSION['Table'] === 'admin') {
         // Check that the new password isn't the same as the old one
         $getPasswordSql = "SELECT admPassword FROM admin WHERE admToken = '" . $token . "'";
         $admResult = runSQLResult($getPasswordSql);
@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
 //INSERT SQL INTO DB
-    if ($_SESSION['ID'] === 'client' || $_SESSION['ID'] === 'admin') {
+    if ($_SESSION['Table'] === 'client' || $_SESSION['Table'] === 'admin') {
         runSQLResult($updateSql);
         header('Location: ../php-pages/password-reset-success.php?success=1', true, 303);
     }

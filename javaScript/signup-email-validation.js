@@ -13,7 +13,6 @@ $("#submit-button").click(function() {
         // console.log(cltToken);
 
         if(verificationCode === verificationCodeInput) {
-            console.log('cltVerified Email set to 1')
             $.ajax({
                 type: "POST",
                 url: "../php-processes/signup-email-validation.php",

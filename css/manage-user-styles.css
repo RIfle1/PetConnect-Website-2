@@ -135,13 +135,6 @@ tr[class*="mg-row-class-2"] {
     text-align: center;
 }
 
-.mg-table-separation-line {
-    padding: 1px;
-    background: radial-gradient(#494848 30%, #D9D9D9, #D9D9D9);
-    border-radius: 1px;
-    margin: 10px 15px 10px 15px;
-}
-
 .mg-table-div button:hover, .mg-search-filter-div button:hover {
     background: #69A6E3;
 }

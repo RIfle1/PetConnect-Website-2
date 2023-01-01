@@ -22,6 +22,8 @@ if (isset($_POST['profile-submit-pfp'])) {
     }
 }
 
+$languageList = returnLanguageList()[returnLanguage()]['profile'];
+
 ?>
 
 <!doctype html>
@@ -47,29 +49,29 @@ if (isset($_POST['profile-submit-pfp'])) {
                     <?php if(strlen($entityInfo['cltPfpName']) > 0): ?>
                         <img src="../img/pfp/<?php echo getPfp('cltID', 'client', $entityInfo['cltID'])['cltPfpName'] ?>" alt="Profile picture">
                     <?php else: ?>
-                        <img src="../img/<?php echo getImage('client.png')['imgCategory'] . "/" . getImage('client.png')['imgPath'] ?>" alt="Client Pfp">
+                        <img src="<?php echo getImage('client.png')?>" alt="Client Pfp">
                     <?php endif; ?>
                 <?php elseif($adminLoggedIn): ?>
                     <?php if(strlen($entityInfo['admPfpName']) > 0): ?>
                         <img src="../img/pfp/<?php echo getPfp('admID', 'admin', $entityInfo['admID'])['admPfpName'] ?>" alt="Profile picture">
                     <?php else: ?>
-                        <img src="../img/<?php echo getImage('client.png')['imgCategory'] . "/" . getImage('client.png')['imgPath'] ?>" alt="Client Pfp">
+                        <img src="<?php echo getImage('client.png')?>" alt="Client Pfp">
                     <?php endif; ?>
                 <?php endif; ?>
                 <div id="profile-pfp-overlay">
                     <form method="POST" action="" enctype="multipart/form-data">
                         <div id="profile-pfp-overlay-div">
-                            <label for="profile-upload-pfp-input">Select Image
+                            <label for="profile-upload-pfp-input"><?php echo $languageList["Select Image"]?>
                                 <input id="profile-upload-pfp-input" type="file" name="profile-upload" value=""/>
                             </label>
-                            <label for="profile-submit-pfp-input">Upload Image
+                            <label for="profile-submit-pfp-input"><?php echo $languageList["Upload Image"]?>
                                 <input id="profile-submit-pfp-input" type="submit" name="profile-submit-pfp">
                             </label>
                         </div>
                     </form>
                 </div>
             <?php else: ?>
-                <img src="../img/<?php echo getImage('client.png')['imgCategory'] . "/" . getImage('client.png')['imgPath'] ?>" alt="Profile picture">
+                <img src="<?php echo getImage('client.png')?>" alt="Profile picture">
             <?php endif; ?>
         </div>
         <div id="profile-top-div-column-2">
@@ -86,31 +88,29 @@ if (isset($_POST['profile-submit-pfp'])) {
                     <span><?php echo $entityInfo["admEmail"] ?></span>
                 <?php endif; ?>
             <?php else: ?>
-                <span>Votre Compte</span>
+                <span><?php echo $languageList["Your account"]?></span>
             <?php endif; ?>
         </div>
     </div>
     <div id="profile-bottom-div">
-        <a href="<?php returnToHomePage('../php-pages/devices.php') ?>"><span>Gérer mes appareils</span></a>
-        <a href="<?php returnToHomePage('../php-pages/order-history.php') ?>"><span>Mon historique de commandes</span></a>
-        <a href="<?php returnToHomePage('../php-pages/connection-security.php') ?>"><span>Connexion et sécurité</span></a>
-        <a href="<?php returnToHomePage('../php-pages/payment-method.php') ?>"><span>Mode de paiement</span></a>
-        <a href="<?php returnToHomePage('../php-pages/message-center.php') ?>"><span>Centre de Messagerie</span></a>
-        <a href="<?php returnToHomePage('../php-pages/addresses.php') ?>"><span>Adresses</span></a>
-        <?php if ($adminLoggedIn): ?>
-            <a href="manage-user.php"><span>Gérer les utilisateurs</span></a>
-            <a href="#"><span>Répondre aux questions</span></a>
-            <a href="#"><span>Gérer les données</span></a>
+        <?php if($clientLoggedIn || !$loggedIn): ?>
+        <a href="<?php restrictedAdminPage('../php-pages/devices.php') ?>"><span><?php echo $languageList["Devices"]?></span></a>
+        <a href="<?php restrictedAdminPage('../php-pages/order-history.php') ?>"><span><?php echo $languageList["Order History"]?></span></a>
+        <a href="<?php restrictedAdminPage('../php-pages/payment-method.php') ?>"><span><?php echo $languageList["Payment Method"]?></span></a>
+        <a href="<?php restrictedAdminPage('../php-pages/address.php') ?>"><span><?php echo $languageList["Addresses"]?></span></a>
+        <?php elseif ($adminLoggedIn): ?>
+            <a href="manage-user.php"><span><?php echo $languageList["Manage Users"]?></span></a>
+            <a href="#"><span><?php echo $languageList["Answer Questions"]?></span></a>
+<!--            <a href="#"><span>Gérer les données</span></a>-->
         <?php endif; ?>
+        <a href="<?php restrictedNoUserPage('../php-pages/connection-security.php') ?>"><span><?php echo $languageList["Connection And Security"]?></span></a>
+        <a href="<?php restrictedNoUserPage('../php-pages/message-center.php') ?>"><span><?php echo $languageList["Message Center"]?></span></a>
     </div>
 </div>
 
 <?php include 'site-footer.php'?>
 <script type="text/javascript">
-    setMarginTop('.site-header-main-header', 'profile-main-div', 30)
-    window.addEventListener("resize", function(event) {
-        setMarginTop('.site-header-main-header', 'profile-main-div', 30)
-    })
+    setMarginTop('site-header-main-header', 'id', 'profile-main-div', 'id', 30)
 </script>
 
 </body>

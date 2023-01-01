@@ -1,8 +1,14 @@
 <?php
-session_start();
-session_destroy();
-include '../php-processes/dbConnection.php';
-include 'site-header.php';
+include_once '../php-processes/dbConnection.php';
+logoutAndRedirect("../php-pages/password-reset-success.php");
+
+if(empty($_GET['success'])) {
+    header("Location: ../php-pages/restricted-access.php",true, 303);
+    exit;
+}
+
+include_once 'site-header.php';
+$languageList = returnLanguageList()[returnLanguage()]['password-reset-success'];
 ?>
 
 <!doctype html>
@@ -19,25 +25,25 @@ include 'site-header.php';
 <body id='sign-form-real-body' class="text-font-700">
 
 <div id="sign-form-body">
-    <div id="sign-form-body-div"><h1>Reset your password</h1>
+    <div id="sign-form-body-div">
+        <div class="sign-form-elem">
+            <h1><?php echo $languageList["Reset your password"]?></h1>
+        </div>
         <div class="sign-form-elem">
             <span>
                 <?php
                 if(!empty($_GET['success'])){
                     if($_GET['success'] === '1') {
-                        echo 'Your account password has been successfully changed.';
+                        echo $languageList['Your account password has been successfully changed.'];
                     }elseif($_GET['success'] === '2') {
-                        echo 'Your account password could not be changed.';
+                        echo $languageList['Your account password could not be changed.'];
                     }
-                }
-                else {
-                    echo 'You do not have access to this page. If you think this is an error, please contact a web developer.';
                 }
                 ?>
             </span>
         </div>
         <div class="sign-form-elem">
-            <span>You can now<a href="login.php"> login</a>.</span>
+            <span><?php echo $languageList["You can now"]?><a href="login.php"> <?php echo $languageList["login"]?></a>.</span>
         </div>
     </div>
 </div>
@@ -45,20 +51,7 @@ include 'site-header.php';
 
 <?php include '../php-pages/site-footer.php' ?>
 <script type="text/javascript">
-    setMarginTop('.site-header-main-header', 'sign-form-body', 50)
-    window.addEventListener("resize", function(event) {
-        setMarginTop('.site-header-main-header', 'sign-form-body', 50)
-    })
-
-    // window.addEventListener("resize", function(event) {
-    //     setMarginTopInt('site-footer-main-div', 600, window.innerHeight);
-    //     const val1 = $('.site-header-main-header').css('height').replace("px", "");
-    //     const val2 = $('#sign-form-body').css("margin-top").replace("px", "");
-    //     const valTotal = parseInt($(window).height()) - parseInt(val1) - parseInt(val2);
-    //     console.log(parseInt($(window).height()));
-    //
-    //     $('#site-footer-main-div').css('margin-top', valTotal+"px");
-    // })
+    setMarginTop('site-header-main-header', 'id', 'sign-form-body', 'id', 50)
 </script>
 
 </body>

@@ -1,16 +1,15 @@
 <?php
-session_start();
 include '../php-processes/dbConnection.php';
-include 'site-header.php';
+logoutAndRedirect('../php-pages/password-recovery-output.php');
 
+session_start();
 if(empty($_SESSION['resetPassword'])) {
     header("Location: ../php-pages/restricted-access.php", true,303);
     exit;
 }
-elseif($_SESSION['resetPassword'] === false) {
-    header("Location: ../php-pages/restricted-access.php", true,303);
-    exit;
-}
+
+include 'site-header.php';
+$languageList = returnLanguageList()[returnLanguage()]['password-recovery-output'];
 
 ?>
 
@@ -35,7 +34,9 @@ elseif($_SESSION['resetPassword'] === false) {
 
 <div id="sign-form-body">
     <div id="sign-form-body-div">
-        <h1 id="sign-form-header">Password Recovery</h1>
+        <div class="sign-form-elem">
+            <h1><?php echo $languageList["Password Recovery"]?></h1>
+        </div>
         <div class="sign-form-elem">
             <span>
                 <?php if (!empty($_SESSION['message'])): ?>
@@ -44,7 +45,7 @@ elseif($_SESSION['resetPassword'] === false) {
             </span>
         </div>
         <div class="sign-form-elem">
-            <a href="login.php">Sign in &rarr;</a>
+            <a href="login.php"><?php echo $languageList["Sign in"]?> &rarr;</a>
         </div>
     </div>
 </div>
@@ -52,10 +53,7 @@ elseif($_SESSION['resetPassword'] === false) {
 
 <?php include '../php-pages/site-footer.php' ?>
 <script type="text/javascript">
-    setMarginTop('.site-header-main-header', 'sign-form-body', 50)
-    window.addEventListener("resize", function(event) {
-        setMarginTop('.site-header-main-header', 'sign-form-body', 50)
-    })
+    setMarginTop('site-header-main-header', 'id', 'sign-form-body', 'id', 50)
 </script>
 
 <script src="../javaScript/css-functions.js"></script>

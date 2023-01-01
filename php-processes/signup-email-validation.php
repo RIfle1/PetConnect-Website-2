@@ -2,6 +2,7 @@
 session_start();
 
 include '../php-processes/dbConnection.php';
+$languagesList = returnLanguageList()[returnLanguage()]['signup-email-validation'];
 
 // .getJSON COMMAND
 // TO SEND JSON, ALL FIELDS MUST BE SENT IN SESSION => newCltID, verificationCode and cltVerifiedEmail !!!!!!!!!!!!!!
@@ -30,7 +31,7 @@ else if(!empty($_POST['newCltID']) && !empty($_POST['verificationCode']) && !emp
         runSQLResult($sql);
     }
     else {
-        $_SESSION['errorMsg'] = 'The new Client ID does not match the cltID fetched with the token. Review signup-email-validation';
+        $_SESSION['errorMsg'] = $languagesList['The new Client ID does not match the cltID fetched with the token. Review signup-email-validation'];
         header("Location: ../php-pages/restricted-access");
     }
 }

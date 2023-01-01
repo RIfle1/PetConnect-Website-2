@@ -1,0 +1,115 @@
+#ad-main-body-div {
+    display: flex;
+    flex-direction: column;
+    margin-left: 5vw;
+    margin-right: 5vw;
+    margin-bottom: 50px;
+}
+
+#ad-main-div {
+    display: flex;
+    justify-content: start;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 20px;
+}
+
+#ad-add-address-div {
+    border: dashed 2px #494848;
+    border-radius: 30px;
+    justify-content: center;
+
+    text-decoration: none;
+    color: black;
+}
+
+.ad-address-div {
+    display: flex;
+    flex-direction: column;
+
+    text-align: center;
+
+    border: solid 2px #494848;
+    border-radius: 20px;
+
+    margin: 10px;
+
+    height: 266px;
+    width: 266px;
+}
+
+.ad-plus-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 36px;
+}
+
+.ad-vertical-plus, .ad-horizontal-plus {
+    width: 36px;
+    height: 7px;
+    background: #9E9E9E;
+}
+
+.ad-vertical-plus {
+    position: absolute;
+    rotate: 90deg;
+}
+
+.ad-default-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 35px;
+    border-bottom: solid 1px #494848;
+}
+
+.ad-info-div-default, .ad-info-div-no-default{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+.ad-info-div-default {
+    margin: 10px 0 0 20px;
+}
+
+.ad-info-div-no-default {
+    margin: 20px 0 0 20px;
+}
+.ad-info-div span {
+    margin: 2px;
+}
+
+.ad-href-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    border-top: solid 1px #494848;
+
+    margin-top: 230px;
+    position: absolute;
+}
+
+.ad-href-div a{
+    text-decoration: none;
+    font-size: 14px;
+    margin: 5px;
+    padding: 3px 5px 3px 5px;
+    border-radius: 10px;
+    background-color: #d9d9d9;
+    color: #808080;
+}
+
+.ad-href-div a:hover {
+    color: #69A6E3;
+}
+
+.ad-vertical-line-small {
+    width: 2px;
+    height: 20px;
+    margin: 5px;
+    background: #9E9E9E;
+}

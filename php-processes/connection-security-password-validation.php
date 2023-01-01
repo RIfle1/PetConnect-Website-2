@@ -5,15 +5,16 @@ include 'verification-functions.php';
 clientPage();
 
 $loggedIn = $_SESSION['loggedIn'];
-$table = $_SESSION['ID'];
+$table = $_SESSION['Table'];
 $token = $_SESSION['Token'];
 $newPassword = $_GET['newPassword'];
-$entityAttributeList = returnEntityAttributes();
+$entityAttributes = returnEntityAttributes();
 
-$crossCheckPasswordSql = "SELECT * FROM ".$table." WHERE ".end($entityAttributeList)." = '".$token."'";
+$crossCheckPasswordSql = "SELECT * FROM ".$table." WHERE ".$entityAttributes['Token']." = '".$token."'";
 $result = runSQLResult($crossCheckPasswordSql);
 $entityInfo = $result->fetch_assoc();
-$oldPasswordHash = $entityInfo[$entityAttributeList[8]];
+
+$oldPasswordHash = $entityInfo[$entityAttributes['Password']];
 
 if(password_verify($newPassword, $oldPasswordHash)) {
     $samePassword = true;

@@ -1,10 +1,8 @@
 <?php
-session_start();
-session_destroy();
-session_start();
 include '../php-processes/dbConnection.php';
-include 'site-header.php';
+logoutAndRedirect('../php-pages/password-reset.php');
 
+session_start();
 // Security stuff
 if((empty($_GET['cltEmail']) || empty($_GET['admEmail'])) && empty($_GET['Token']) && empty($_GET['isInvalid'])) {
     $_SESSION['errorMsg'] = "We don't know what you want to reset.";
@@ -19,7 +17,7 @@ if(!empty($_GET['cltEmail'])) {
         exit;
     }
     $_SESSION['Token'] = $_GET['Token'];
-    $_SESSION['ID'] = 'client';
+    $_SESSION['Table'] = 'client';
     $_SESSION['resetPassword'] = true;
     $_SESSION['cltEmail'] = $_GET['cltEmail'];
 }
@@ -30,10 +28,15 @@ elseif(!empty($_GET['admEmail'])) {
         exit;
     }
     $_SESSION['Token'] = $_GET['Token'];
-    $_SESSION['ID'] = 'admin';
+    $_SESSION['Table'] = 'admin';
     $_SESSION['resetPassword'] = true;
     $_SESSION['admEmail'] = $_GET['admEmail'];
 }
+
+include 'site-header.php';
+$languageList = returnLanguageList()[returnLanguage()]['password-reset'];
+$commonStringsLanguageList = returnLanguageList()[returnLanguage()]['common-strings'];
+$captchaLanguage = strtolower(substr(returnLanguage(), 0, 2));
 
 ?>
 <!doctype html>
@@ -72,20 +75,22 @@ elseif(!empty($_GET['admEmail'])) {
 <form id="password-reset-form" name="password-reset-form" action="../php-processes/password-reset-process.php" method="post">
     <div id="sign-form-body" class="text-font-700">
         <div id="sign-form-body-div">
-            <div class="sign-form-elem"><h1>Reset your password</h1></div>
+            <div class="sign-form-elem">
+                <h1><?php echo $languageList["Reset your password"]?></h1>
+            </div>
 
             <div class="sign-form-elem">
-                <label for="newPassword-input">New Password:</label>
+                <label for="newPassword-input"><?php echo $languageList["New Password:"]?></label>
                 <input type="password" id="newPassword-input" name="newPassword-input" value="">
             </div>
             <div class="sign-form-elem">
-                <label for="newPasswordConfirmation-input">Enter your new password again:</label>
+                <label for="newPasswordConfirmation-input"><?php echo $languageList["Enter your new password again:"]?></label>
                 <input type="password" id="newPasswordConfirmation-input" name="newPasswordConfirmation-input" value="">
             </div>
 
             <?php if ($_GET['isInvalid'] ?? ""): ?>
                 <div class="sign-form-elem">
-                    <span class="sign-form-error-span">Your new password has to be different from your old password.</span>
+                    <span class="sign-form-error-span"><?php echo $languageList["Your new password has to be different from your old password."]?></span>
                 </div>
             <?php endif; ?>
 
@@ -96,12 +101,12 @@ elseif(!empty($_GET['admEmail'])) {
             </div>
 
             <div class="sign-form-elem" id="sign-form-robot">
-                <span>Please verify that you are not a robot.</span>
+                <span><?php echo $commonStringsLanguageList["Please verify that you are not a robot."]?></span>
             </div>
 
             <div class="sign-separation-line-small"></div>
             <div class="sign-form-elem">
-                <button type="submit" id="submit-password-reset-button">Change Password</button>
+                <button type="submit" id="submit-password-reset-button"><?php echo $languageList["Change Password"]?></button>
             </div>
 
 
@@ -113,15 +118,13 @@ elseif(!empty($_GET['admEmail'])) {
 
 <?php include '../php-pages/site-footer.php' ?>
 <script type="text/javascript">
-    setMarginTop('.site-header-main-header', 'sign-form-body', 50)
-    window.addEventListener("resize", function() {
-        setMarginTop('.site-header-main-header', 'sign-form-body', 50)
-    })
+    setMarginTop('site-header-main-header', 'id', 'sign-form-body', 'id', 50)
 </script>
 
-<script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
+<script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit&hl=<?php echo $captchaLanguage ?>"
         async defer>
 </script>
+
 <script src="../javaScript/css-functions.js"></script>
 <script src='../javaScript/recaptcha-functions.js'></script>
 

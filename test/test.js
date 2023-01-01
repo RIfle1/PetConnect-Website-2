@@ -1,8 +1,85 @@
+// CONSTANTS
+// HARDCODED BUTTON IDs
+const editUsernameButtonID = 'edit-username-button';
+const editFirstNameButtonID = 'edit-firstName-button';
+const editLastNameButtonID = 'edit-lastName-button';
+const editEmailButtonID = 'edit-email-button';
+const editPhoneNumberButtonID = 'edit-phoneNumber-button';
+const editPasswordButtonID = 'edit-password-button';
+
+// HARDCODED ELEMENT CLASSES
+const passwordTempClass = 'cs-form-password-temporary-element';
+const emailTempClass = 'cs-form-email-temporary-element';
+
+// HARDCODED ELEMENT IDs
+const emailTempID = 'cs-form-email-temporary';
+const editEmailVerificationCodeID = 'cs-form-input-Email-verificationCode'
+
+// VOLATILE ELEMENT IDs
+const commonTitleSpanID = 'cs-form-title-span-';
+const cancelEmailEditButtonID = 'cancel-email-button';
+
+// VOLATILE ELEMENT CLASSES
+const commonErrorSpanClass = "cs-form-error-span";
+
+// HARDCODED BUTTON ELEMENTS
+const editUsernameButtonElement = $("#"+editUsernameButtonID);
+const editFirstNameButtonElement = $("#"+editFirstNameButtonID);
+const editLastNameButtonElement = $("#"+editLastNameButtonID);
+const editEmailButtonElement= $("#"+editEmailButtonID);
+const editPhoneNumberButtonElement = $("#"+editPhoneNumberButtonID);
+const editPasswordButtonElement = $("#"+editPasswordButtonID);
+
+// HARDCODED INPUT ELEMENTS
+const editEmailVerificationCodeElement = $("#"+editEmailVerificationCodeID)
+
+// JSON VARIABLES
+let isAvailable;
+let processValues;
+let samePassword;
+
+// ---------------------------------------------------------------------------------------------------------
+// JSON INITIALIZATION
+
+function refreshValidateEmailJson(editInputElementValue) {
+    const validateEmailUrl = "../php-processes/validate-email.php?cltEmail-input="+encodeURIComponent(editInputElementValue);
+    $.getJSON(validateEmailUrl, function (json) {
+        isAvailable = json.available
+    })
+}
+
+function refreshSendEmailJson(editInputElementValue) {
+    const sendEmailUrl = "../php-processes/connection-security-email-validation.php?newEmail="+encodeURIComponent(editInputElementValue);
+    $.getJSON(sendEmailUrl, function (json) {
+        processValues = json.processValues
+    })
+}
+
+function refreshSamePasswordJson(editPasswordOldValue) {
+    const url = "../php-processes/connection-security-password-validation.php?newPassword="+
+        encodeURIComponent(editPasswordOldValue);
+    $.getJSON(url, function(json) {
+        samePassword = json.samePassword
+    });
+}
+
+// ---------------------------------------------------------------------------------------------------------
+function sendAjaxPost(entityAttribute, editInputElementValue) {
+    $.ajax({
+        type: "POST",
+        url: "../php-processes/connection-security-process.php",
+        data: {
+            entityAttribute: entityAttribute,
+            entityValue: editInputElementValue,
+        }
+    })
+}
+
 function onClickButton(buttonElement) {
 
     function processSuccessFunction(processSuccess, errorMsg, processAction) {
-        // REMOVE THE ERROR IF ANY
-        $(".cs-form-error-span").remove();
+        // REMOVE THE ERROR IF ANY`
+        $("."+commonErrorSpanClass).remove();
 
         // ONLY EMAIL BUTTONS
         // IF EMAIL IS NOT TAKEN AND CORRECT
@@ -19,7 +96,6 @@ function onClickButton(buttonElement) {
             personalTitleSpanElement.text("Email :");
             buttonElement.text('Edit');
             $("#"+editInputID).remove();
-            // console.log(editInputID);
 
             emailTempClassElement.css('display', 'none');
             emailTempClassElement.val("");
@@ -60,7 +136,7 @@ function onClickButton(buttonElement) {
 
         // COMMON TO ALL BUTTONS
         // IF PROCESS FAILED
-        if(!processSuccess && processAction) {
+        if(!processSuccess) {
             buttonElement.parent().prev().append("<span class="+commonErrorSpanClass+">"+errorMsg+"</span>")
         }
         // IF CONFIRM BUTTON IS PRESSED AND THE VALUE HAS PASSED VERIFICATION
@@ -109,10 +185,6 @@ function onClickButton(buttonElement) {
 
     let processSuccess = false;
 
-    // REFRESH NECESSARY JSONs
-    refreshValidateEmailJson(editInputElementValue);
-    refreshSendEmailJson(editInputElementValue);
-
     if(buttonText === 'Edit') {
 
         buttonElement.text('Confirm');
@@ -130,134 +202,153 @@ function onClickButton(buttonElement) {
             personalTitleSpanElement.text('Old ' + personalTitleSpanText);
             passwordTempClassElement.css('display', 'block');
             $("#cancel-password-button").click(function() {
-                processSuccessFunction(buttonElement,buttonElement, false, '','edit-password-process')
+                processSuccessFunction(false, '','edit-password-process')
             })
         }
         if(buttonElement === editEmailButtonElement) {
             cancelEmailEditButtonElement.css('display', 'block');
             cancelEmailEditButtonElement.click(function() {
-                processSuccessFunction(buttonElement,buttonElement,false, '','edit-email-verification')
+                processSuccessFunction(false, '','edit-email-verification')
             })
         }
-
-
     }
+    else if(buttonText === 'Confirm') {
+        let errorMsg = '';
 
-    setTimeout(()=> {
-        if(buttonText === 'Confirm') {
-            let errorMsg = '';
-
-            if(buttonElement === editEmailButtonElement) {
+        if(buttonElement === editEmailButtonElement) {
+            refreshSendEmailJson(editInputElementValue);
+            refreshValidateEmailJson(editInputElementValue);
+            setTimeout(()=> {
                 if(!editInputElementValue.match(/@/)) {
                     errorMsg = 'Input a valid email'
-                    processSuccessFunction(buttonElement,false, errorMsg, '');
+                    processSuccessFunction(false, errorMsg, '');
                 }
                 else {
                     if (!isAvailable) {
                         errorMsg = 'This email is already Taken.'
-                        processSuccessFunction(buttonElement,false, errorMsg, '');
+                        processSuccessFunction(false, errorMsg, '');
                     } else {
                         let emailSent = processValues['emailSent'];
 
                         if (!emailSent) {
                             errorMsg = 'The email could not be sent.'
-                            processSuccessFunction(buttonElement,false, errorMsg, '');
+                            processSuccessFunction(false, errorMsg, '');
                         }
                         else {
-                            processSuccessFunction(buttonElement,false, '', 'edit-email-process');
+                            processSuccessFunction(false, '', 'edit-email-process');
                             emailTempClassElement.css('display', 'block');
+
+                            $("#edit-confirm-email-button").click(function() {
+
+                                console.log(processValues['verificationCode']);
+                                if(processValues['verificationCode'] === editEmailVerificationCodeElement.val()) {
+                                    processSuccessFunction(true, '', 'edit-email-verification');
+                                }
+                                else {
+                                    errorMsg = 'Verification code is incorrect.'
+                                    processSuccessFunction(false, errorMsg, '');
+                                }
+                            })
+
                         }
 
                     }
 
                 }
-            }
-            else if(buttonElement === editPasswordButtonElement) {
-                const url = "../php-processes/connection-security-password-validation.php?newPassword="+
-                    encodeURIComponent(editPasswordOldValue);
-                $.getJSON(url, function(json) {
-                    let samePassword = json.samePassword;
-                    let errorMsg;
-                    let sendError = true;
-
-                    if(editPasswordValue.length < 8) {
-                        errorMsg = "Password must be at least 8 characters."
-                    }
-                    else if(!editPasswordValue.match(/[a-z]/)) {
-                        errorMsg = "Password must contain at least one letter."
-                    }
-                    else if(!editPasswordValue.match(/[0-9]/)) {
-                        errorMsg = "Password must contain at least one number.";
-                    }
-                    else if(editPasswordValue !== editPasswordRepeatValue) {
-                        errorMsg = "Passwords must match.";
-                    }
-                    else if (!samePassword) {
-                        errorMsg = "Your old password is incorrect.";
-                    }
-                    else if (editPasswordValue === editPasswordOldValue) {
-                        errorMsg = "Your new password must be different from your old password."
-                    }
-                    else {
-                        processSuccessFunction(buttonElement,true, '', 'edit-password-process');
-                        sendError = false;
-                    }
-
-                    if(sendError) {
-                        processSuccessFunction(buttonElement,false, errorMsg, '');
-                    }
-
-                });
-
-            }
-            else if(buttonElement !== editPasswordButtonElement && buttonElement !== editEmailButtonElement) {
-                if(buttonElement === editUsernameButtonElement) {
-                    if(editInputElementValue.length < 3) {
-                        errorMsg = 'Username must be at least 3 characters long'
-                        processSuccess = false;
-                    }
-                    else {
-                        processSuccess = true;
-                    }
-                }
-                else if(buttonElement === editFirstNameButtonElement) {
-                    if(editInputElementValue.length < 3) {
-                        errorMsg = 'First Name must be at least 3 characters long'
-                        processSuccess = false;
-                    }
-                    else {
-                        processSuccess = true;
-                    }
-                }
-                else if(buttonElement === editLastNameButtonElement) {
-                    if(editInputElementValue.length < 3) {
-                        errorMsg = 'Last Name must be at least 3 characters long'
-                        processSuccess = false;
-                    }
-                    else {
-                        processSuccess = true;
-                    }
-                }
-                else if(buttonElement === editPhoneNumberButtonElement) {
-                    if(editInputElementValue.match(/[a-z]/)) {
-                        errorMsg = 'Must be a number'
-                        processSuccess = false;
-                    }
-                    else if(editInputElementValue.length < 10) {
-                        errorMsg = 'Phone number must be 10 characters long'
-                        processSuccess = false;
-                    }
-                    else if(editInputElementValue.length > 10) {
-                        errorMsg = 'Phone number must be 10 characters long'
-                        processSuccess = false;
-                    }
-                    else {
-                        processSuccess = true;
-                    }
-                }
-                processSuccessFunction(buttonElement,processSuccess, errorMsg, 'edit-process');
-            }
+            }, 100)
         }
-    }, 100)
+        else if(buttonElement === editPasswordButtonElement) {
+            refreshSamePasswordJson(editPasswordOldValue);
+
+            setTimeout(()=> {
+
+                let errorMsg;
+                let sendError = true;
+
+                if(editPasswordValue.length < 8) {
+                    errorMsg = "Password must be at least 8 characters."
+                }
+                else if(!editPasswordValue.match(/[a-z]/)) {
+                    errorMsg = "Password must contain at least one letter."
+                }
+                else if(!editPasswordValue.match(/[0-9]/)) {
+                    errorMsg = "Password must contain at least one number.";
+                }
+                else if(editPasswordValue !== editPasswordRepeatValue) {
+                    errorMsg = "Passwords must match.";
+                }
+                else if (!samePassword) {
+                    errorMsg = "Your old password is incorrect.";
+                }
+                else if (editPasswordValue === editPasswordOldValue) {
+                    errorMsg = "Your new password must be different from your old password."
+                }
+                else {
+                    processSuccessFunction(true, '', 'edit-password-process');
+                    sendError = false;
+                }
+                if(sendError) {
+                    processSuccessFunction(false, errorMsg, '');
+                }
+
+            }, 100)
+
+        }
+        else if(buttonElement !== editPasswordButtonElement && buttonElement !== editEmailButtonElement) {
+            if(buttonElement === editUsernameButtonElement) {
+                if(editInputElementValue.length < 3) {
+                    errorMsg = 'Username must be at least 3 characters long'
+                }
+                else {
+                    processSuccess = true;
+                }
+            }
+            else if(buttonElement === editFirstNameButtonElement) {
+                if(editInputElementValue.length < 3) {
+                    errorMsg = 'First Name must be at least 3 characters long'
+                }
+                else {
+                    processSuccess = true;
+                }
+            }
+            else if(buttonElement === editLastNameButtonElement) {
+                if(editInputElementValue.length < 3) {
+                    errorMsg = 'Last Name must be at least 3 characters long'
+                }
+                else {
+                    processSuccess = true;
+                }
+            }
+            else if(buttonElement === editPhoneNumberButtonElement) {
+                if(editInputElementValue.match(/[a-z]/)) {
+                    errorMsg = 'Must be a number'
+                }
+                else if(editInputElementValue.length < 10) {
+                    errorMsg = 'Phone number must be 10 characters long'
+                }
+                else if(editInputElementValue.length > 10) {
+                    errorMsg = 'Phone number must be 10 characters long'
+                }
+                else {
+                    processSuccess = true;
+                }
+            }
+            processSuccessFunction(processSuccess, errorMsg, 'edit-process');
+        }
+    }
 
 }
+
+function setSecurityButton(buttonElement) {
+    buttonElement.click(function() {
+        onClickButton(buttonElement);
+    })
+}
+
+setSecurityButton(editUsernameButtonElement);
+setSecurityButton(editFirstNameButtonElement);
+setSecurityButton(editLastNameButtonElement);
+setSecurityButton(editEmailButtonElement);
+setSecurityButton(editPhoneNumberButtonElement);
+setSecurityButton(editPasswordButtonElement);
+

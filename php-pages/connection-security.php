@@ -1,23 +1,11 @@
 <?php
 session_start();
 include '../php-processes/dbConnection.php';
+clientPage();
 include 'site-header.php';
 
-$clientLoggedIn = $_SESSION['clientLoggedIn'];
-$adminLoggedIn = $_SESSION['adminLoggedIn'];
-$loggedIn = $_SESSION['loggedIn'];
-$entityInfo = returnEntityInfo();
-$entityAttributes = returnEntityAttributes();
+$languageList = returnLanguageList()[returnLanguage()]['connection-security'];
 
-$IDLetters = '';
-if($clientLoggedIn) {
-    $IDLetters = 'clt';
-}
-elseif($adminLoggedIn) {
-    $IDLetters = 'adm';
-}
-
-clientPage();
 ?>
 
 <!doctype html>
@@ -27,21 +15,10 @@ clientPage();
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <!--    Google Fonts-->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
+
     <!--    Style Sheet-->
     <link rel="stylesheet" href="../css/edit-styles.css">
     <!--    Jquery-->
-    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
-            integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
-            crossorigin="anonymous">
-    </script>
-    <!--    Just Validate-->
-    <script src="https://unpkg.com/just-validate@latest/dist/just-validate.production.min.js" defer></script>
-    <!--    Css Function-->
-    <script src="../javaScript/css-functions.js" defer></script>
 
     <title>PetConnect Connection and Security</title>
 </head>
@@ -49,80 +26,120 @@ clientPage();
 
 <div id="cs-form-body" class="text-font-500">
     <div id="cs-form-body-div">
-        <div class="cs-form-elem"><h1>Connection and Security</h1></div>
+        <div class="cs-form-elem"><h1><?php echo $languageList["Connection and Security"]?></h1></div>
+<!--        Username-->
         <div class="cs-form-elem">
             <div class="cs-form-elem-content">
-                <span id="cs-form-title-span-<?php echo $IDLetters ?>Username">Username :</span>
-                <span id="<?php echo $IDLetters ?>Username"><?php if ($loggedIn) {echo $entityInfo[$entityAttributes[1]];} ?></span>
+                <span id="cs-form-title-span-username"><?php echo $languageList["Username :"]?></span>
+                <?php if(isset($loggedIn) && isset($entityAttributes) && isset($entityInfo)): ?>
+                    <span id="cs-form-info-span-username"><?php if ($loggedIn) {echo $entityInfo[$entityAttributes['Username']];} ?></span>
+                <?php endif; ?>
+                <input class="cs-form-temp-input-username" id="cs-form-input-username" type="text">
             </div>
             <div class="cs-form-elem-button">
-                <button type="button" value="<?php echo $IDLetters ?>Username" class="edit-button" id="edit-username-button">Edit</button>
+                <?php if(isset($IDLetters)): ?>
+                    <button id="cs-form-edit-button-username" type="button" value="<?php echo $IDLetters ?>Username" name="Edit"><?php echo $languageList["Edit"]?></button>
+                    <button class="cs-form-temp-button-username" id="cs-form-cancel-button-username" type="button" value="<?php echo $IDLetters ?>Username"><?php echo $languageList["Cancel"]?></button>
+                <?php endif; ?>
             </div>
         </div>
+<!--        First Name-->
         <div class="cs-form-elem">
             <div class="cs-form-elem-content">
-                <span id="cs-form-title-span-<?php echo $IDLetters ?>FirstName">First Name :</span>
-                <span id="<?php echo $IDLetters ?>FirstName"><?php if ($loggedIn) {echo $entityInfo[$entityAttributes[2]];} ?></span>
+                <span id="cs-form-title-span-firstName"><?php echo $languageList["First Name :"]?></span>
+                <?php if(isset($loggedIn) && isset($entityAttributes) && isset($entityInfo)): ?>
+                    <span id="cs-form-info-span-firstName"><?php if ($loggedIn) {echo $entityInfo[$entityAttributes["FirstName"]];} ?></span>
+                <?php endif; ?>
+                <input class="cs-form-temp-input-firstName" id="cs-form-input-firstName" type="text">
             </div>
             <div class="cs-form-elem-button">
-                <button type="button" value="<?php echo $IDLetters ?>FirstName" class="edit-button" id="edit-firstName-button">Edit</button>
+                <?php if(isset($IDLetters)): ?>
+                    <button id="cs-form-edit-button-firstName" type="button" value="<?php echo $IDLetters ?>FirstName" name="Edit"><?php echo $languageList["Edit"]?></button>
+                    <button class="cs-form-temp-button-firstName" id="cs-form-cancel-button-firstName" type="button" value="<?php echo $IDLetters ?>FirstName"><?php echo $languageList["Cancel"]?></button>
+                <?php endif; ?>
             </div>
         </div>
+<!--        Last Name-->
         <div class="cs-form-elem">
             <div class="cs-form-elem-content">
-                <span id="cs-form-title-span-<?php echo $IDLetters ?>LastName">Last Name :</span>
-                <span id="<?php echo $IDLetters ?>LastName"><?php if ($loggedIn) {echo $entityInfo[$entityAttributes[3]];} ?></span>
+                <span id="cs-form-title-span-lastName"><?php echo $languageList["Last Name :"]?></span>
+                <?php if(isset($loggedIn) && isset($entityAttributes) && isset($entityInfo)): ?>
+                    <span id="cs-form-info-span-lastName"><?php if ($loggedIn) {echo $entityInfo[$entityAttributes['LastName']];} ?></span>
+                <?php endif; ?>
+                <input class="cs-form-temp-input-lastName" id="cs-form-input-lastName" type="text">
             </div>
             <div class="cs-form-elem-button">
-                <button type="button" value="<?php echo $IDLetters ?>LastName" class="edit-button" id="edit-lastName-button">Edit</button>
+                <?php if(isset($IDLetters)): ?>
+                    <button id="cs-form-edit-button-lastName" type="button" value="<?php echo $IDLetters ?>LastName" name="Edit"><?php echo $languageList["Edit"]?></button>
+                    <button class="cs-form-temp-button-lastName" id="cs-form-cancel-button-lastName" type="button" value="<?php echo $IDLetters ?>LastName" ><?php echo $languageList["Cancel"]?></button>
+                <?php endif; ?>
             </div>
         </div>
+<!--        Phone Number-->
         <div class="cs-form-elem">
             <div class="cs-form-elem-content">
-                <span id="cs-form-title-span-<?php echo $IDLetters ?>Email">Email :</span>
-                <span id="<?php echo $IDLetters ?>Email"><?php if ($loggedIn) {echo $entityInfo[$entityAttributes[4]];} ?></span>
-                <span class="cs-form-email-temporary-element" id="cs-form-email-temporary"></span>
-                <span class="cs-form-email-temporary-element">A verification code has been sent to your new email address.</span>
-                <span class="cs-form-email-temporary-element">Input the confirmation code :</span>
-                <input class="cs-form-email-temporary-element" type='password' id="cs-form-input-Email-verificationCode">
+                <span id="cs-form-title-span-phoneNumber"><?php echo $languageList["Phone Number :"]?></span>
+                <?php if(isset($loggedIn) && isset($entityAttributes) && isset($entityInfo)): ?>
+                    <span id="cs-form-info-span-phoneNumber"><?php if ($loggedIn) {echo $entityInfo[$entityAttributes["PhoneNumber"]];} ?></span>
+                <?php endif; ?>
+                <input class="cs-form-temp-input-phoneNumber" id="cs-form-input-phoneNumber" type="text">
             </div>
             <div class="cs-form-elem-button">
-                <button type="button" value="<?php echo $IDLetters ?>Email" class="edit-button" id="edit-email-button">Edit</button>
-                <button type="button" value="<?php echo $IDLetters ?>Email" class="cs-form-email-temporary-element" id="edit-confirm-email-button">Confirm Code</button>
-                <button class="cs-form-email-temporary-element" type='button' value='' id="cancel-email-button">Cancel</button>
+                <?php if(isset($IDLetters)): ?>
+                    <button id="cs-form-edit-button-phoneNumber" type="button" value="<?php echo $IDLetters ?>PhoneNumber" name="Edit"><?php echo $languageList["Edit"]?></button>
+                    <button class="cs-form-temp-button-phoneNumber" id="cs-form-cancel-button-phoneNumber" type="button" value="<?php echo $IDLetters ?>PhoneNumber" ><?php echo $languageList["Cancel"]?></button>
+                <?php endif; ?>
             </div>
         </div>
+<!--        Email-->
         <div class="cs-form-elem">
             <div class="cs-form-elem-content">
-                <span id="cs-form-title-span-<?php echo $IDLetters ?>PhoneNumber">Phone Number:</span>
-                <span id="<?php echo $IDLetters ?>PhoneNumber"><?php if ($loggedIn) {echo $entityInfo[$entityAttributes[5]];} ?></span>
+                <span id="cs-form-title-span-email"><?php echo $languageList["Email :"]?></span>
+                <?php if(isset($loggedIn) && isset($entityAttributes) && isset($entityInfo)): ?>
+                    <span id="cs-form-info-span-email"><?php if ($loggedIn) {echo $entityInfo[$entityAttributes["Email"]];} ?></span>
+                <?php endif; ?>
+                <span class="cs-form-temp-span2-email" id="cs-form-info-span2-email"></span>
+
+                <span id="cs-form-temp-span" class="cs-form-temp-span2-email"><?php echo $languageList["A verification code has been sent to your new email address."]?></span>
+                <span class="cs-form-temp-span2-email"><?php echo $languageList["Input the confirmation code :"]?></span>
+
+                <input class="cs-form-temp-input-email" id="cs-form-input-email" type="text">
             </div>
             <div class="cs-form-elem-button">
-                <button type="button" value="<?php echo $IDLetters ?>PhoneNumber" class="edit-button" id="edit-phoneNumber-button">Edit</button>
+                <?php if(isset($IDLetters)): ?>
+                    <button id="cs-form-edit-button-email" type="button" value="<?php echo $IDLetters ?>Email" name="Edit"><?php echo $languageList["Edit"]?></button>
+                    <button class="cs-form-temp-button-email" id="cs-form-cancel-button-email" type="button" value="<?php echo $IDLetters ?>Email" ><?php echo $languageList["Cancel"]?></button>
+                <?php endif; ?>
             </div>
         </div>
-        <form name="cs-form-password-form" id="cs-form-password-form" action="" method="post">
-            <div class="cs-form-elem">
-                <div class="cs-form-elem-content">
-                    <span id="cs-form-title-span-<?php echo $IDLetters ?>Password">Password :</span>
-                    <span id="<?php echo $IDLetters ?>Password">**********</span>
-                    <input class="cs-form-password-temporary-element" type='password' id="cs-form-input-<?php echo $IDLetters ?>Password-old">
-                    <span class="cs-form-password-temporary-element">New Password :</span>
-                    <input class="cs-form-password-temporary-element" type='password' id="cs-form-input-<?php echo $IDLetters ?>Password-original">
-                    <span class="cs-form-password-temporary-element">Repeat New Password :</span>
-                    <input class="cs-form-password-temporary-element" type='password' id="cs-form-input-<?php echo $IDLetters ?>Password-repeat">
-                </div>
-                <div class="cs-form-elem-button">
-                    <button type="button" value="<?php echo $IDLetters ?>Password" class="edit-button" id="edit-password-button">Edit</button>
-                    <button class="cs-form-password-temporary-element" type='button' value='' id="cancel-password-button">Cancel</button>
-                </div>
+<!--        Password-->
+        <div class="cs-form-elem">
+            <div class="cs-form-elem-content">
+                <span  class="cs-form-temp-span-password"><?php echo $languageList["Old Password :"]?></span>
+                <input class="cs-form-temp-input-password" type='password' id="cs-form-input-password-old">
+
+                <span id="cs-form-title-span-password"><?php echo $languageList["Password :"]?></span>
+                <span id="cs-form-info-span-password">**********</span>
+
+                <input class="cs-form-temp-input-password" type='password' id="cs-form-input-password">
+                <span  class="cs-form-temp-span-password"><?php echo $languageList["Repeat New Password :"]?></span>
+                <input class="cs-form-temp-input-password" type='password' id="cs-form-input-password-repeat">
+
             </div>
-            <div class="" id="cs-form-elem-last">
-                <div class="cs-form-elem-a">
-                    <a href="profile.php">Done</a>
-                </div>
+            <div class="cs-form-elem-button">
+                <?php if(isset($IDLetters)): ?>
+                    <button id="cs-form-edit-button-password" type="button" value="<?php echo $IDLetters ?>Password" name="Edit"><?php echo $languageList["Edit"]?></button>
+                    <button class="cs-form-temp-button-password" id="cs-form-cancel-button-password" type="button" value="<?php echo $IDLetters ?>Password" ><?php echo $languageList["Cancel"]?></button>
+                <?php endif; ?>
             </div>
-        </form>
+        </div>
+
+<!--            Done Button-->
+        <div id="cs-form-elem-last">
+            <div class="cs-form-elem-a">
+                <a href="profile.php"><?php echo $languageList["Done"]?></a>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -130,10 +147,7 @@ clientPage();
 <?php include 'site-footer.php'?>
 
 <script type="text/javascript">
-    setMarginTop('.site-header-main-header', 'cs-form-body', 40)
-    window.addEventListener("resize", function(event) {
-        setMarginTop('.site-header-main-header', 'cs-form-body', 40)
-    })
+    setMarginTop('site-header-main-header', 'id', 'cs-form-body', 'id', 40)
 </script>
 
 <script src="../javaScript/connection-security-buttons.js"></script>

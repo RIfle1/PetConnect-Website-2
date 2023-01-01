@@ -1,6 +1,7 @@
 // CALL JSON FUNCTION TO GET THE DATA ASAP
 refreshClientTableJson();
 refreshAdminTableJson();
+refreshLanguageList();
 
 // CONSTANTS
 // VOLATILE BUTTONS ID's
@@ -54,6 +55,7 @@ const adminOrderInputElement = $('#'+adminOrderInputID);
 // STORE JSON INFORMATION
 let getClientTable
 let getAdminTable
+let languageList
 
 // ---------------------------------------------------------------------------------------------------------
 // INITIALIZE JSONS
@@ -70,6 +72,14 @@ function refreshAdminTableJson() {
         getAdminTable = json.entityList;
     })
 }
+
+function refreshLanguageList() {
+    let languageUrl = "../php-processes/language-list-process.php?file=manage-user-buttons"
+    $.getJSON(languageUrl, function(json) {
+        languageList = json.languageList;
+    })
+}
+
 // ---------------------------------------------------------------------------------------------------------
 
 // SET PROMOTE BUTTON STYLE
@@ -100,8 +110,8 @@ function returnAttributeList(IDLetters){
 
 // FUNCTION WHEN THE BUTTONS ARE CLICKED
 function onClickButton(buttonName, buttonID) {
-    const ButtonIdClass = $('#'+buttonID);
-    const entityID = ButtonIdClass.val();
+    const buttonElement = $('#'+buttonID);
+    const entityID = buttonElement.val();
     let entity;
     let entityIDAttribute;
     let client = false;
@@ -148,12 +158,13 @@ function onClickButton(buttonName, buttonID) {
     }
     // PROMOTES A USER ON THE TABLE --> CHANGES TEXT AND COLOR OF THE BUTTON
     else if(buttonName === 'promote-button') {
-        if(ButtonIdClass.text() === 'Promote User') {
-            setPromoteButtonStyle(entityID, "grey", '#69A6E3', "Promoted");
+        if(buttonElement.text() === languageList["Promote User"]) {
+            setPromoteButtonStyle(entityID, "grey", '#69A6E3', languageList["Promoted"]);
 
         }
-        else if(ButtonIdClass.text() === 'Promoted') {
-            setPromoteButtonStyle(entityID, "#d9d9d9", '#69A6E3', "Promote User");
+        else if(buttonElement.text() === languageList["Promoted"]) {
+
+            setPromoteButtonStyle(entityID, "#d9d9d9", '#69A6E3', languageList["Promote User"]);
         }
 
     }
@@ -167,6 +178,7 @@ function setManageUserButton(buttonName, buttonID) {
 }
 
 // PRINT TABLE FUNCTION
+
 function printTable(IDLetters, table) {
     let attributeList = returnAttributeList(IDLetters)
 
@@ -238,7 +250,7 @@ function printTable(IDLetters, table) {
                 "        name=" + deleteButtonName +
                 "        type='button'" +
                 "        value=" + entityID +
-                ">Delete User</button>" +
+                ">"+languageList["Delete User"]+"</button>" +
                 "</td>"
             submitButtonHtml =
                 "\n<!--                        Submit Button-->\n" +
@@ -248,7 +260,7 @@ function printTable(IDLetters, table) {
                 "        name=" + submitButtonName +
                 "        type='button'" +
                 "        value=" + entityID +
-                ">Submit Changes</button>" +
+                ">"+languageList["Submit Changes"]+"</button>" +
                 "</td>"
         } else {
             deleteButtonHtml = '';
@@ -265,7 +277,7 @@ function printTable(IDLetters, table) {
                 "        name=" + promoteButtonName +
                 "        type='button'" +
                 "        value=" + entityID +
-                ">Promote User</button>" +
+                ">"+languageList["Promote User"]+"</button>" +
                 "</td>"
             // messageButtonHtml =
             //     "\n<!--                        Message Button-->\n" +
@@ -308,10 +320,10 @@ function printTable(IDLetters, table) {
         // setButton(submitButtonName, submitButtonPersonalID);
 
         if(entityIsModerator === '1') {
-            setPromoteButtonStyle(entityID, "grey", '#69A6E3', "Promoted");
+            setPromoteButtonStyle(entityID, "grey", '#69A6E3', languageList["Promoted"]);
         }
         else if(entityIsModerator === '0') {
-            setPromoteButtonStyle(entityID, "#d9d9d9", '#69A6E3', "Promote User");
+            setPromoteButtonStyle(entityID, "#d9d9d9", '#69A6E3', languageList["Promote User"]);
         }
     }
 

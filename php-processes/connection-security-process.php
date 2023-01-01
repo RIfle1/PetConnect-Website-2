@@ -2,13 +2,13 @@
 include '../php-processes/dbConnection.php';
 include 'verification-functions.php';
 session_start();
-//clientPage();
+clientPage();
 
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    $entity = $_SESSION['ID'];
+    $table = $_SESSION['Table'];
     $token = $_SESSION['Token'];
-    $entityAttributeList = returnEntityAttributes();
+    $entityAttributes = returnEntityAttributes();
     $entityAttribute = $_POST['entityAttribute'];
     $entityValue = $_POST['entityValue'];
 
@@ -16,12 +16,10 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
         $entityValue = returnPasswordHash($entityValue);
     }
 
-    $updateSql = "UPDATE ".$entity." SET ".$entityAttribute." = '".$entityValue."' WHERE ".end($entityAttributeList)." = '".$token."'";
+    $updateSql = "UPDATE ".$table." SET ".$entityAttribute." = '".$entityValue."' WHERE ".$entityAttributes['Token']." = '".$token."'";
+    echo $updateSql;
 
-    if(runSQLResult($updateSql)) {
-        $_SESSION['errorMsg'] = $updateSql;
-        header("Location ../php-pages/restricted-access");
-    }
+    runSQLResult($updateSql);
 
 }
 

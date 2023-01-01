@@ -6,8 +6,10 @@ $clientLoggedIn = $_SESSION['clientLoggedIn'];
 $adminLoggedIn = $_SESSION['adminLoggedIn'];
 $loggedIn = $_SESSION['loggedIn'];
 
+$commonStringsLanguagesList = returnLanguageList()[returnLanguage()]['common-strings'];
+
 if($clientLoggedIn || !$loggedIn || !$adminLoggedIn) {
-    $_SESSION['errorMsg'] = 'You do not have access to this page, if you think this is a mistake contact the web developer';
+    $_SESSION['errorMsg'] = $commonStringsLanguagesList['You do not have access to this page, if you think this is a mistake contact the web developer'];
     header("Location: ../php-pages/restricted-access.php", true,303);
 }
 

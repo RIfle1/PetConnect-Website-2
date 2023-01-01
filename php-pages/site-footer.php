@@ -1,3 +1,9 @@
+<?php
+
+$languageList = returnLanguageList()[returnLanguage()]['site-footer'];
+
+?>
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -15,58 +21,58 @@
 <div id="site-footer-main-div">
     <div class="site-footer-top-div">
         <div id="site-footer-first-colum" class="text-font-200">
-            <a href="#">CARTES CADEAUX</a>
-            <a href="#">TROUVER UN MAGASIN</a>
-            <a href="#">PetConnect Journal</a>
-            <a href="#">DEVENIR MEMBRE</a>
-            <a href="#">RÉDUCTION POUR ÉTUDIANTS</a>
-            <a href="#">COMMENTAIRES</a>
-            <a href="#">CODES PROMO</a>
+            <a href="#"><?php echo $languageList["GIFT CARDS"]?></a>
+            <a href="#"><?php echo $languageList["FIND A STORE"]?></a>
+            <a href="#"><?php echo $languageList["PetConnect Journal"]?></a>
+            <a href="#"><?php echo $languageList["BECOME A MEMBER"]?></a>
+            <a href="#"><?php echo $languageList["STUDENT DISCOUNT"]?></a>
+            <a href="#"><?php echo $languageList["COMMENTS"]?></a>
+            <a href="#"><?php echo $languageList["PROMO CODES"]?></a>
         </div>
         <div id="site-footer-second-colum" class="text-font-200">
-            <p>AIDE</p>
-            <a href="#">Statut de commande</a>
-            <a href="#">Expéditions et livraisons</a>
-            <a href="#">Retours</a>
-            <a href="#">Modes de paiement</a>
-            <a href="#">Nous contacter</a>
-            <a href="#">Aide - Codes promo</a>
+            <p><?php echo $languageList["HELP"]?></p>
+            <a href="#"><?php echo $languageList["Order Status"]?></a>
+            <a href="#"><?php echo $languageList["Shipping and deliveries"]?></a>
+            <a href="#"><?php echo $languageList["Returns"]?></a>
+            <a href="#"><?php echo $languageList["Payment methods"]?></a>
+            <a href="#"><?php echo $languageList["Contact us"]?></a>
+            <a href="#"><?php echo $languageList["Help - Promo codes"]?></a>
         </div>
         <div id="site-footer-third-colum" class="text-font-200">
-            <p>À PROPOS DE NOUS</p>
-            <a href="#">Actualités</a>
-            <a href="#">Carrières</a>
-            <a href="#">Investisseurs</a>
-            <a href="#">Développement durable</a>
-            <a href="#">Application mobile</a>
-            <a href="#">Quiz informative</a>
+            <p><?php echo $languageList["ABOUT US"]?></p>
+            <a href="#"><?php echo $languageList["News"]?></a>
+            <a href="#"><?php echo $languageList["Careers"]?></a>
+            <a href="#"><?php echo $languageList["Investors"]?></a>
+            <a href="#"><?php echo $languageList["Sustainable development"]?></a>
+            <a href="#"><?php echo $languageList["Mobile app"]?></a>
+            <a href="#"><?php echo $languageList["Informative quiz"]?></a>
         </div>
         <div id="site-footer-fourth-column">
             <div class="site-footer-img-div-1">
-                <a href="#"><img src="../img/<?php echo getImage('twitter.png')['imgCategory']."/".getImage('twitter.png')['imgPath']?>" alt="Twitter logo"></a>
-                <a href="#"><img src="../img/<?php echo getImage('facebook.png')['imgCategory']."/".getImage('facebook.png')['imgPath']?>" alt="Facebook logo"></a>
-                <a href="#"><img src="../img/<?php echo getImage('instagram.png')['imgCategory']."/".getImage('instagram.png')['imgPath']?>" alt="Instagram logo"></a>
+                <a href="#"><img src="<?php echo getImage('twitter.png')?>" alt="Twitter logo"></a>
+                <a href="#"><img src="<?php echo getImage('facebook.png')?>" alt="Facebook logo"></a>
+                <a href="#"><img src="<?php echo getImage('instagram.png')?>" alt="Instagram logo"></a>
             </div>
             <div class="site-footer-img-div-2">
-                <a href="#"><img src="../img/<?php echo getImage('petconnect_logo_transparent.png')['imgCategory']."/".getImage('petconnect_logo_transparent.png')['imgPath']?>" alt="PetConnect Logo"></a>
+                <a href="#"><img src="<?php echo getImage('petconnect_logo_transparent.png')?>" alt="PetConnect Logo"></a>
             </div>
         </div>
     </div>
     <div id="site-footer-bottom-div" class="text-font-200">
         <div id="site-footer-first-row">
-            <a href="#">Guides</a>
-            <a href="#">Conditions d'utilisation</a>
-            <a href="#">Conditions générales de vente</a>
-            <a href="#">Mentions légales</a>
+            <a href="#"><?php echo $languageList["Guides"]?></a>
+            <a href="#"><?php echo $languageList["Terms of Use"]?></a>
+            <a href="#"><?php echo $languageList["General conditions of sale"]?></a>
+            <a href="#"><?php echo $languageList["Legal notices"]?></a>
         </div>
         <div id="site-footer-second-row">
             <div id="site-footer-second-row-1">
-                <p>Paris, France</p>
-                <p>© 2022 PetConnect, Inc. Tous droits réservés</p>
+                <p><?php echo $languageList["Paris, France"]?></p>
+                <p><?php echo $languageList["© 2022 PetConnect, Inc. All rights reserved"]?></p>
             </div>
             <div id="site-footer-second-row-2">
-                <a href="#">Politique en matière de confidentialité et de cookies</a>
-                <a href="#">Paramètres des cookies</a>
+                <a href="#"><?php echo $languageList["Privacy and Cookies Policy"]?></a>
+                <a href="#"><?php echo $languageList["Cookie settings"]?></a>
             </div>
         </div>
     </div>

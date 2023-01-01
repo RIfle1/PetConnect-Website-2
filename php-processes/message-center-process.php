@@ -13,7 +13,7 @@ $entityInfo = returnEntityInfo();
 if($_SERVER['REQUEST_METHOD'] === 'GET') {
     if(!empty($_GET['userInfo'])) {
 
-        $entityInfo['ID'] = $_SESSION['ID'];
+        $entityInfo['Table'] = $_SESSION['Table'];
 
         header("Content-Type: application/json");
         echo json_encode(["entityInfo" => $entityInfo]);
@@ -21,10 +21,10 @@ if($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     if(!empty($_GET['sessionMessages'])) {
 
-        if($_SESSION['ID'] === 'client') {
-            $sessionMessages = returnSessionMessages($_SESSION['cltID']);
+        if($_SESSION['Table'] === 'client') {
+            $sessionMessages = returnSessionMessages($_SESSION['ID']);
         }
-        elseif($_SESSION['ID'] === 'admin') {
+        elseif($_SESSION['Table'] === 'admin') {
             $sessionMessages = returnAllSessionMessages();
         }
 
@@ -34,28 +34,32 @@ if($_SERVER['REQUEST_METHOD'] === 'GET') {
 }
 
 
-if($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if(!empty($_POST['msgMessage'])) {
-        $IDLetters = $_POST['IDLetters'];
-        $ID = $_POST['ID'];
-        $entityID = $_POST['entityID'];
-        $msgMessage = $_POST['msgMessage'];
+if($_SERVER['REQUEST_METHOD'] === 'GET') {
+    if(!empty($_GET['msgMessage'])) {
+
+        $msgMessage = $_GET['msgMessage'];
+        $entityID = $_GET['entityID'];
+        $IDLetters = $_GET['IDLetters'];
+        $Table = $_GET['Table'];
+
         $newMsgID = autoSetID($IDLetters.'Msg');
-        $entityForeignKey = $ID."_".$IDLetters."ID";
+        $entityForeignKey = $Table."_".$IDLetters."ID";
 
         $cltID = '';
 
-        if($ID === 'client') {
+        if($Table === 'client') {
             $cltID = $entityID;
             $insertMessageInNewSessionSql = "INSERT IGNORE INTO session_message (sesMsgID, Client_cltID) VALUES ('".$cltID."', '".$cltID."')";
             runSQLResult($insertMessageInNewSessionSql);
         }
-        elseif($ID === 'admin') {
-            $cltID = $_POST['cltID'];
+        elseif($Table === 'admin') {
+            $cltID = $_GET['ID'];
         }
 
-        $insertNewMessageSql = "INSERT INTO ".$ID."_message (".$IDLetters."MsgID, ".$IDLetters."MsgMessage, ".$entityForeignKey.", Session_Message_sesMsgID)
+        $insertNewMessageSql = "INSERT INTO ".$Table."_message (".$IDLetters."MsgID, ".$IDLetters."MsgMessage, ".$entityForeignKey.", Session_Message_sesMsgID)
                             VALUES ('".$newMsgID."','".$msgMessage."','".$entityID."', '".$cltID."')";
+
+        echo $insertNewMessageSql;
         runSQLResult($insertNewMessageSql);
 //        echo $insertNewMessageSql;
     }
