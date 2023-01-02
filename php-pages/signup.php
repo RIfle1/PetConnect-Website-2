@@ -23,8 +23,6 @@ $captchaLanguage = strtolower(substr(returnLanguage(), 0, 2));
             integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
             crossorigin="anonymous">
     </script>
-    <script src="https://unpkg.com/just-validate@latest/dist/just-validate.production.min.js" defer></script>
-    <script src="../javaScript/signup-validation.js" defer></script>
 
     <script type="text/javascript">
         var onloadCallback = function() {
@@ -85,7 +83,7 @@ $captchaLanguage = strtolower(substr(returnLanguage(), 0, 2));
 
         <div class="sign-separation-line-small"></div>
         <div class="sign-form-elem">
-            <button type="submit" name="submit-button"><?php echo $languageList["Create an Account"]?></button>
+            <button type="button" id="sign-submit-button" name="submit-button"><?php echo $languageList["Create an Account"]?></button>
         </div>
         <div class="sign-form-elem">
             <span><?php echo $languageList["By creating an account, you agree to PetConnect's"]?>
@@ -100,6 +98,8 @@ $captchaLanguage = strtolower(substr(returnLanguage(), 0, 2));
     </div>
 </form>
 
+<script src="../javaScript/signup-validation.js"></script>
+
 <?php include '../php-pages/site-footer.php' ?>
 <script type="text/javascript">
     setMarginTop('site-header-main-header', 'id', 'signup-form', 'id', 10)
@@ -108,6 +108,7 @@ $captchaLanguage = strtolower(substr(returnLanguage(), 0, 2));
 <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit&hl=<?php echo $captchaLanguage ?>"
         async defer>
 </script>
+
 <script src="../javaScript/css-functions.js"></script>
 <script src='../javaScript/recaptcha-functions.js'></script>
 
