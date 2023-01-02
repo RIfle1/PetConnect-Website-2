@@ -312,8 +312,10 @@ function adminPage(): void
 {
     include_once "login-check.php";
 
-    if (isset($_SESSION['clientLoggedIn'])) {
-        if($_SESSION['clientLoggedIn'] || !isset($_SESSION['loggedIn'])) {
+    if (isset($_SESSION['clientLoggedIn']) || empty($_SESSION['loggedIn'])) {
+
+        if($_SESSION['clientLoggedIn'] || empty($_SESSION['loggedIn'])) {
+
             header("Location: ../php-pages/restricted-access.php", true,303);
             exit;
         }
@@ -325,7 +327,7 @@ function clientPage(): void
 {
     include_once "login-check.php";
 
-    if(empty($_SESSION['loggedIn']) || !$_SESSION['loggedIn']) {
+    if(empty($_SESSION['loggedIn'])) {
         header("Location: ../php-pages/restricted-access.php", true,303);
         exit;
     }
@@ -336,8 +338,8 @@ function onlyClientPage(): void {
 
     include_once "login-check.php";
 
-    if (isset($_SESSION['adminLoggedIn']) && isset($_SESSION['loggedIn'])) {
-        if($_SESSION['adminLoggedIn'] || !$_SESSION['loggedIn']) {
+    if (isset($_SESSION['adminLoggedIn']) || empty($_SESSION['loggedIn'])) {
+        if($_SESSION['adminLoggedIn'] || empty($_SESSION['loggedIn'])) {
             header("Location: ../php-pages/restricted-access.php", true,303);
             exit;
         }
