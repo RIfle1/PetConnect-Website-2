@@ -46,7 +46,7 @@ $captchaLanguage = strtolower(substr(returnLanguage(), 0, 2));
             <div class="sign-form-elem"><h1><?php echo $languageList["Sign in"]?></h1></div>
             <div id="login-Invalid">
                 <?php if ($_GET['isInvalid'] ?? ""): ?>
-                    <em>Invalid Login</em>
+                    <em><?php echo $languageList['Invalid Login']?></em>
                 <?php endif; ?>
             </div>
             <div class="sign-form-elem">
