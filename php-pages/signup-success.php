@@ -1,7 +1,7 @@
 <?php
+logoutAndRedirect("../php-pages/signup-success.php");
 session_start();
 include '../php-processes/dbConnection.php';
-logoutAndRedirect("../php-pages/signup-success.php");
 
 $commonStringsLanguageList = returnLanguageList()[returnLanguage()]['common-strings'];
 if(empty($_SESSION['newCltID']) || empty($_SESSION['verificationCode']) || empty($_SESSION['Token'])) {
