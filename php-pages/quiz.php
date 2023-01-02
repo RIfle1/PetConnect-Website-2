@@ -22,39 +22,48 @@ $languageList = returnLanguageList()[returnLanguage()]['home'];
 
 <body>
 
-    <main>
-        <div class="quiz-container" id="quiz">
-            <div class="quiz-header">
-                <h2 id="question">MCQS Text</h2>
-                <ul>
-                    <li>
-                        <input class="answer" type="radio" name="answer" id="a">
-                        <label for="a" id="optionA">Option A</label>
-                    </li>
+<main id="quiz-main-div">
+    <div class="quiz-container" id="quiz">
+        <div class="quiz-header">
+            <h2 id="question">MCQS Text</h2>
+            <ul>
+                <li>
+                    <input class="answer" type="radio" name="answer" id="a">
+                    <label for="a" id="optionA">Option A</label>
+                </li>
 
-                    <li>
-                        <input class="answer" type="radio" name="answer" id="b">
-                        <label for="b" id="optionB">Option B</label>
-                    </li>
+                <li>
+                    <input class="answer" type="radio" name="answer" id="b">
+                    <label for="b" id="optionB">Option B</label>
+                </li>
 
-                    <li id="option3">
-                        <input class="answer" type="radio" name="answer" id="c">
-                        <label for="c" id="optionC">Option C</label>
-                    </li>
+                <li id="option3">
+                    <input class="answer" type="radio" name="answer" id="c">
+                    <label for="c" id="optionC">Option C</label>
+                </li>
 
-                    <li id="option4">
-                        <input class="answer" type="radio" name="answer" id="d">
-                        <label for="d" id="optionD">Option D</label>
-                    </li>
-                </ul>
-                <div id="page">1</div>
-            </div>
-
-            <button id="submit">Suivant</button>
+                <li id="option4">
+                    <input class="answer" type="radio" name="answer" id="d">
+                    <label for="d" id="optionD">Option D</label>
+                </li>
+            </ul>
+            <div id="page">1</div>
         </div>
-        <script src="../javaScript/quiz.js"></script>
-    </main>
-    <?php include 'site-footer.php' ?>
+
+        <button id="submit">Suivant</button>
+    </div>
+    <script src="../javaScript/quiz.js"></script>
+</main>
+
+<?php include '../php-pages/site-footer.php' ?>
+
+<script type="text/javascript">
+    // setMarginTop('site-header-main-header', 'id', 'quiz-main-div', 'id', 20)
+
+    setToWindowHeight('quiz-main-div', 'id', 0)
+    setMarginTopFooter('quiz-main-div', 'id', 'site-footer-main-div', 'id', 0)
+</script>
+
 </body>
 
 </html>

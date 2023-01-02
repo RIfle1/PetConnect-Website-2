@@ -86,10 +86,14 @@ $languageList = returnLanguageList()[returnLanguage()]['address'];
 
 </div>
 
-<?php include "site-footer.php";?>
+<?php include '../php-pages/site-footer.php' ?>
 
 <script type="text/javascript">
     setMarginTop('site-header-main-header', 'id', 'ad-main-body-div', 'id', 40)
+
+    // setToWindowHeight('ad-main-body-div', 'id', 0)
+    setMarginTopFooter('ad-main-body-div', 'id', 'site-footer-main-div', 'id', 0)
+
 </script>
 
 </body>

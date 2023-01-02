@@ -121,10 +121,11 @@ $languageList = returnLanguageList()[returnLanguage()]['manage-user'];
 
 </div>
 
-<?php include "site-footer.php";?>
+<?php include '../php-pages/site-footer.php' ?>
 
 <script type="text/javascript">
     setMarginTop('site-header-main-header', 'id', 'mg-main-div', 'id', 40)
+    setMarginTopFooter('mg-main-div', 'id', 'site-footer-main-div', 'id', 0)
 </script>
 
 <script src="../javaScript/manage-user-buttons.js"></script>

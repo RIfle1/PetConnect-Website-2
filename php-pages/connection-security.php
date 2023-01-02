@@ -144,10 +144,13 @@ $languageList = returnLanguageList()[returnLanguage()]['connection-security'];
 </div>
 
 
-<?php include 'site-footer.php' ?>
+<?php include '../php-pages/site-footer.php' ?>
 
 <script type="text/javascript">
-    setMarginTop('site-header-main-header', 'id', 'cs-form-body', 'id', 40)
+    setMarginTop('site-header-main-header', 'id', 'cs-form-body', 'id', -40)
+
+    setToWindowHeight('cs-form-body', 'id', 0)
+    setMarginTopFooter('cs-form-body', 'id', 'site-footer-main-div', 'id', 0)
 </script>
 
 <script src="../javaScript/connection-security-buttons.js"></script>

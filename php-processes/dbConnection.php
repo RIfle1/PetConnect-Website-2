@@ -575,6 +575,10 @@ function returnLanguageList(): array
                 "Your new password has to be different from your old password." =>
                     "Your new password has to be different from your old password.",
                 "Change Password" => "Change Password",
+                "The Link you are using to reset your password has expired or has already been used" =>
+                "The Link you are using to reset your password has expired or has already been used",
+                "We don't know what you want to reset." =>
+                    "We don't know what you want to reset.",
             ),
             "password-reset-success" => array(
                 "Reset your password" => "Reset your password",
@@ -946,6 +950,10 @@ function returnLanguageList(): array
                 "Your new password has to be different from your old password." =>
                     "Votre nouveau mot de passe doit être différent de votre ancien mot de passe.",
                 "Change Password" => "Changer de mot de passe",
+                "The Link you are using to reset your password has expired or has already been used" =>
+                    "Le lien que vous utilisez pour réinitialiser votre mot de passe a expiré ou a déjà été utilisé",
+                "We don't know what you want to reset." =>
+                    "Nous ne savons pas ce que vous souhaitez réinitialiser.",
             ),
             "password-reset-success" => array(
                 "Reset your password" => "Réinitialiser votre mot de passe",

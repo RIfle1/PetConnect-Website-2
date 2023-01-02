@@ -66,7 +66,9 @@ $languageList = returnLanguageList()[returnLanguage()]['signup-success'];
 
 <?php include '../php-pages/site-footer.php' ?>
 <script type="text/javascript">
-    setMarginTop('site-header-main-header', 'id', 'sign-form-body', 'id', 50)
+
+    setToWindowHeight('sign-form-body', 'id', 0)
+    setMarginTopFooter('sign-form-body', 'id', 'site-footer-main-div', 'id', 0)
 </script>
 
 <script src="../javaScript/css-functions.js"></script>

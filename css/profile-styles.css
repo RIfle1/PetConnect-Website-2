@@ -92,15 +92,12 @@
     justify-content: space-around;
     align-items: center;
     text-align: center;
-    height: 15vh;
-    width: 50vh;
-    min-width: 170px;
-    min-height: 70px;
-    max-height: 200px;
+    height: 200px;
+    width: 500px;
     text-decoration: none;
     color: black;
     background-color: #d9d9d9;
-    margin: 1vw 1vw 1vw 1vw;
+    margin: 20px;
     border-radius: 20px;
     transition: background-color 0.2s ease-in-out;
 }
@@ -116,8 +113,5 @@
 @media only screen and (max-width: 960px) {
     #profile-top-div-column-1 img, #profile-pfp-overlay {
         border-radius: 50px;
-    }
-    #profile-bottom-div a {
-        margin: 20px 20px 20px 20px;
     }
 }

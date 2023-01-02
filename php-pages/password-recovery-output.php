@@ -1,9 +1,8 @@
 <?php
 include '../php-processes/dbConnection.php';
-logoutAndRedirect('../php-pages/password-recovery-output.php');
 
 session_start();
-if(empty($_SESSION['resetPassword'])) {
+if(empty($_SESSION['resetPassword']) || empty($_SESSION['message'])) {
     header("Location: ../php-pages/restricted-access.php", true,303);
     exit;
 }
@@ -53,7 +52,10 @@ $languageList = returnLanguageList()[returnLanguage()]['password-recovery-output
 
 <?php include '../php-pages/site-footer.php' ?>
 <script type="text/javascript">
-    setMarginTop('site-header-main-header', 'id', 'sign-form-body', 'id', 50)
+    // setMarginTop('site-header-main-header', 'id', 'sign-form-body', 'id', -60)
+
+    setToWindowHeight('sign-form-body', 'id', 0)
+    setMarginTopFooter('sign-form-body', 'id', 'site-footer-main-div', 'id', 0)
 </script>
 
 <script src="../javaScript/css-functions.js"></script>

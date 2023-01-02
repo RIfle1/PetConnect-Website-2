@@ -102,7 +102,12 @@ $captchaLanguage = strtolower(substr(returnLanguage(), 0, 2));
 
 <?php include '../php-pages/site-footer.php' ?>
 <script type="text/javascript">
-    setMarginTop('site-header-main-header', 'id', 'signup-form', 'id', 10)
+    setMarginTop('site-header-main-header', 'id', 'signup-form', 'id', 20)
+
+    setTimeout(() => {
+        setMarginTopFooter('signup-form', 'id', 'site-footer-main-div', 'id', 20)
+    }, 1);
+
 </script>
 
 <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit&hl=<?php echo $captchaLanguage ?>"

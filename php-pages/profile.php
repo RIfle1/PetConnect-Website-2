@@ -105,9 +105,12 @@ $languageList = returnLanguageList()[returnLanguage()]['profile'];
     </div>
 </div>
 
-<?php include 'site-footer.php' ?>
+<?php include '../php-pages/site-footer.php' ?>
 <script type="text/javascript">
-    setMarginTop('site-header-main-header', 'id', 'profile-main-div', 'id', 30)
+    setMarginTop('site-header-main-header', 'id', 'profile-main-div', 'id', 20)
+
+    // setToWindowHeight('profile-main-div', 'id', 0)
+    setMarginTopFooter('profile-main-div', 'id', 'site-footer-main-div', 'id', 0)
 </script>
 
 </body>

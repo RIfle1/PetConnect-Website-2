@@ -68,7 +68,7 @@ $captchaLanguage = strtolower(substr(returnLanguage(), 0, 2));
                 <button id="submit-password-recovery-button" type="button"><?php echo $languageList["Send Verification Link"]?></button>
             </div>
 
-            <div class="sign-separation-line-small"></div>
+<!--            <div class="sign-separation-line-small"></div>-->
 
 <!--            <div class="sign-form-elem">-->
 <!--                <a href="login.php">Login</a>-->
@@ -80,7 +80,11 @@ $captchaLanguage = strtolower(substr(returnLanguage(), 0, 2));
 
 <?php include '../php-pages/site-footer.php' ?>
 <script type="text/javascript">
-    setMarginTop('site-header-main-header', 'id', 'sign-form-body', 'id', 50)
+    // setMarginTop('site-header-main-header', 'id', 'sign-form-body', 'id', -45)
+
+    setToWindowHeight('sign-form-body', 'id', 0)
+    setMarginTopFooter('sign-form-body', 'id', 'site-footer-main-div', 'id', 0)
+
 </script>
 
 <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit&hl=<?php echo $captchaLanguage ?>"

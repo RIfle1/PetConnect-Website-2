@@ -126,10 +126,11 @@ $languageList = returnLanguageList()[returnLanguage()]['message-center'];
 </div>
 
 
-<?php include "site-footer.php";?>
+<?php include '../php-pages/site-footer.php' ?>
 
 <script type="text/javascript">
     setMarginTop('site-header-main-header', 'id', 'mc-main-body-div', 'id', 0)
+    setMarginTopFooter('mc-main-body-div', 'id', 'site-footer-main-div', 'id', 0)
 </script>
 
 <script src="../javaScript/message-center-buttons.js"></script>

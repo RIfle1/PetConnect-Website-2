@@ -90,12 +90,11 @@ $languageList = returnLanguageList()[returnLanguage()]['home'];
 
 <script src="../javaScript/fade-reveal.js"></script>
 
-<?php include 'site-footer.php' ?>
+<?php include '../php-pages/site-footer.php' ?>
 <script type="text/javascript">
     setTimeout(()=> {
-        setMarginTop('home-main-div', 'id', 'site-footer-main-div', 'id', 80)
-    }, 1)
-
+        setMarginTopFooter('home-main-div', 'id', 'site-footer-main-div', 'id', 80)
+    }, 10)
 </script>
 
 

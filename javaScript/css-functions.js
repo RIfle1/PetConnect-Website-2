@@ -1,33 +1,20 @@
-function getElements(fromElementID, fromElementIDType, toElementID, toElementIDType) {
-    let fromElement;
-    let toElement;
+function getElement(ElementID, ElementIDType) {
+    let element;
 
-    if(fromElementIDType === "id") {
-        fromElement = $("#"+fromElementID);
+    if(ElementIDType === "id") {
+        element = $("#"+ElementID);
     }
-    else if(fromElementIDType === "class") {
-        fromElement = $("."+fromElementID);
-    }
-
-    if(toElementIDType === "id") {
-        toElement = $("#"+toElementID);
-    }
-    else if(toElementIDType === "class") {
-        toElement = $("."+toElementID);
+    else if(ElementIDType === "class") {
+        element = $("."+ElementID);
     }
 
-    return {
-        "fromElement": fromElement,
-        "toElement": toElement
-    };
-
+    return element
 }
 
 function setWidth(fromElementID, fromElementIDType, toElementID, toElementIDType, extraPx) {
 
-    let elements = getElements(fromElementID, fromElementIDType, toElementID, toElementIDType);
-    let fromElement = elements['fromElement'];
-    let toElement = elements['toElement'];
+    let fromElement = getElement(fromElementID, fromElementIDType)
+    let toElement = getElement(toElementID, toElementIDType)
 
     let fromElementWidth = fromElement.width();
     toElement.css("width", fromElementWidth+extraPx+"px");
@@ -40,18 +27,98 @@ function setWidth(fromElementID, fromElementIDType, toElementID, toElementIDType
 
 function setMarginTop(fromElementID, fromElementIDType, toElementID, toElementIDType, extraPx) {
 
-    let elements = getElements(fromElementID, fromElementIDType, toElementID, toElementIDType);
-    let fromElement = elements['fromElement'];
-    let toElement = elements['toElement'];
-    let fromElementHeight = fromElement.height();
+    let fromElement = getElement(fromElementID, fromElementIDType)
+    let toElement = getElement(toElementID, toElementIDType)
 
-    toElement.css("margin-top", fromElementHeight+extraPx+"px");
+    let fromElementHeight = fromElement.height();
+    let fromElementMarginTop = parseInt(fromElement.css("margin-top").replace("px", ""));
+    let fromElementMarginBottom = parseInt(fromElement.css("margin-bottom").replace("px", ""));
+    let newMarginTop =
+        fromElementHeight
+        +fromElementMarginTop
+        +fromElementMarginBottom
+        +extraPx+"px"
+
+    toElement.css("margin-top", newMarginTop);
 
     $(window).on("resize", function() {
         fromElementHeight = fromElement.height();
-        toElement.css("margin-top", fromElementHeight+extraPx+"px");
+        fromElementMarginTop = parseInt(fromElement.css("margin-top").replace("px", ""));
+        fromElementMarginBottom = parseInt(fromElement.css("margin-bottom").replace("px", ""));
+
+        newMarginTop =
+            fromElementHeight
+            +fromElementMarginTop
+            +fromElementMarginBottom
+            +extraPx+"px"
+        toElement.css("margin-top", newMarginTop);
     })
 
+}
+
+function setMarginTopFooter(fromElementID, fromElementIDType, toElementID, toElementIDType, extraPx) {
+    let fromElement = getElement(fromElementID, fromElementIDType)
+    let toElement = getElement(toElementID, toElementIDType)
+
+    let fromElementHeight = fromElement.height();
+    let fromElementMarginTop = parseInt(fromElement.css("margin-top").replace("px", ""));
+    let fromElementMarginBottom = parseInt(fromElement.css("margin-bottom").replace("px", ""));
+    let newMarginTop =
+        fromElementHeight
+        +fromElementMarginTop
+        +fromElementMarginBottom
+        +extraPx
+
+    if(newMarginTop < $(window).height()) {
+        newMarginTop = $(window).height()
+    }
+
+    newMarginTop += "px";
+
+    toElement.css({
+        "top": 0,
+    })
+
+    toElement.css({
+        "margin-top": newMarginTop,
+    });
+
+    console.log("here");
+
+    $(window).on("resize", function() {
+        fromElementHeight = fromElement.height();
+        fromElementMarginTop = parseInt(fromElement.css("margin-top").replace("px", ""));
+        fromElementMarginBottom = parseInt(fromElement.css("margin-bottom").replace("px", ""));
+
+        newMarginTop =
+            fromElementHeight
+            +fromElementMarginTop
+            +fromElementMarginBottom
+            +extraPx
+
+        if(newMarginTop < $(window).height()) {
+            newMarginTop = $(window).height()
+        }
+
+        newMarginTop += "px";
+        toElement.css("margin-top", newMarginTop);
+    })
+
+}
+
+function setToWindowHeight(toElementID, toElementIDType, extraPx) {
+    let toElement = getElement(toElementID, toElementIDType)
+    let newHeight = $(window).height()+extraPx+"px";
+
+    console.log(newHeight);
+
+    toElement.css({"height" : newHeight,})
+
+    $(window).on("resize", function() {
+        let newHeight = $(window).height()+extraPx+"px";
+
+        toElement.css({"height" : newHeight,})
+    })
 }
 
 // GET DATE AND TIME IN EUROPEAN FORMAT

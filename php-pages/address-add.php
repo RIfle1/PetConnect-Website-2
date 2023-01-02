@@ -47,9 +47,10 @@ $languageList = returnLanguageList()[returnLanguage()]['address-add'];
 </form>
 
 
-<?php include "site-footer.php";?>
+<?php include '../php-pages/site-footer.php' ?>
 <script type="text/javascript">
-    setMarginTop('site-header-main-header', 'id', 'add-form', 'id', 40)
+    setToWindowHeight('add-form', 'id', 0)
+    setMarginTopFooter('add-form', 'id', 'site-footer-main-div', 'id', 0)
 </script>
 
 </body>

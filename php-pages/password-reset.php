@@ -4,15 +4,18 @@ logoutAndRedirect('../php-pages/password-reset.php');
 
 session_start();
 // Security stuff
+
+$languageList = returnLanguageList()[returnLanguage()]['password-reset'];
+
 if((empty($_GET['cltEmail']) || empty($_GET['admEmail'])) && empty($_GET['Token']) && empty($_GET['isInvalid'])) {
-    $_SESSION['errorMsg'] = "We don't know what you want to reset.";
+    $_SESSION['errorMsg'] = $languageList["We don't know what you want to reset."];
     header("Location: restricted-access.php", true, 303);
     exit;
 }
 
 if(!empty($_GET['cltEmail'])) {
     if(!compareEmailAndToken($_GET['cltEmail'], $_GET['Token'], 'client')){
-        $_SESSION['errorMsg'] = 'The Link you are using to reset your password has expired or has already been used';
+        $_SESSION['errorMsg'] = $languageList['The Link you are using to reset your password has expired or has already been used'];
         header("Location: restricted-access.php", true, 303);
         exit;
     }
@@ -23,7 +26,7 @@ if(!empty($_GET['cltEmail'])) {
 }
 elseif(!empty($_GET['admEmail'])) {
     if(!compareEmailAndToken($_GET['admEmail'], $_GET['Token'], 'admin')){
-        $_SESSION['errorMsg'] = 'The Link you are using to reset your password has expired or has already been used';
+        $_SESSION['errorMsg'] = $languageList['The Link you are using to reset your password has expired or has already been used'];
         header("Location: restricted-access.php", true, 303);
         exit;
     }
@@ -118,7 +121,10 @@ $captchaLanguage = strtolower(substr(returnLanguage(), 0, 2));
 
 <?php include '../php-pages/site-footer.php' ?>
 <script type="text/javascript">
-    setMarginTop('site-header-main-header', 'id', 'sign-form-body', 'id', 50)
+    // setMarginTop('site-header-main-header', 'id', 'sign-form-body', 'id', -60)
+
+    setToWindowHeight('sign-form-body', 'id', 0)
+    setMarginTopFooter('sign-form-body', 'id', 'site-footer-main-div', 'id', 0)
 </script>
 
 <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit&hl=<?php echo $captchaLanguage ?>"
