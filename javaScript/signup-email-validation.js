@@ -51,9 +51,9 @@ $.getJSON("../php-processes/signup-email-validation.php", function(json) {
 })
 
 function changeSignupSuccessPage() {
-    $("#sign-form-header").html('Email Validated');
-    $("#sign-form-message").html('Your email has been validated. You can now <a href="../php-pages/login.php">Login<a/>.');
+    $("#sign-form-message").remove();
     $("#submit-button-div").remove();
     $("#sign-form-input-div").remove();
     $("#sign-form-validate-error").remove();
+    $("#sign-form-message-success").css("display", "block");
 }

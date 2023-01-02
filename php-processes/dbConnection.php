@@ -634,10 +634,11 @@ function returnLanguageList(): array
             ),
             "signup-success" => array(
                 "Validate your email" => "Validate your email",
-                "Signup Successful, Please verify your email address" => "Signup Successful, Please verify your email address",
                 "Verification Code:" => "Verification Code:",
                 "The verification code is incorrect." => "The verification code is incorrect.",
                 "Validate Email" => "Validate Email",
+                "Your email has been validated. You can now" => "Your email has been validated. You can now",
+                "Login" => "Login",
             ),
             "site-footer" => array(
 
@@ -823,7 +824,13 @@ function returnLanguageList(): array
                 "Must be an email" => "Must be an email",
                 "Email is already Taken" => "Email is already Taken",
                 "Client Phone Number must be a number" => "Client Phone Number must be a number",
+                "Phone number must be 10 characters long" => "Phone number must be 10 characters long",
                 "Client Password is required" => "Client Password is required",
+
+                "Password must be at least 8 characters" => "Password must be at least 8 characters",
+                "Password must contain at least one letter" => "Password must contain at least one letter",
+                "Password must contain at least one number" => "Password must contain at least one number",
+
                 "Passwords should match" => "Passwords should match",
             ),
 
@@ -995,10 +1002,11 @@ function returnLanguageList(): array
             ),
             "signup-success" => array(
                 "Validate your email" => "Validez votre adresse électronique",
-                "Signup Successful, Please verify your email address" => "Inscription réussie, veuillez vérifier votre adresse électronique",
                 "Verification Code:" => "Code de vérification:",
                 "The verification code is incorrect." => "Le code de vérification est incorrect.",
                 "Validate Email" => "Valider l'adresse électronique",
+                "Your email has been validated. You can now" => "Votre email a été validé, vous pouvez maintenant vous",
+                "Login" => "connecter"
             ),
             "site-footer" => array(
                 "GIFT CARDS" => "CARTES CADEAUX",
@@ -1171,16 +1179,18 @@ function returnLanguageList(): array
                 "Must be an email" => "Doit être une adresse e-mail",
                 "Email is already Taken" => "L'adresse e-mail est déjà utilisée",
                 "Client Phone Number must be a number" => "Le numéro de téléphone du client doit être un nombre",
+                "Phone number must be 10 characters long" => "Le numéro de téléphone doit comporter au moins 10 caractères",
                 "Client Password is required" => "Mot de passe du client requis",
+
+                "Password must be at least 8 characters" => "Le mot de passe doit comporter au moins 8 caractères",
+                "Password must contain at least one letter" => "Le mot de passe doit contenir au moins une lettre",
+                "Password must contain at least one number" => "Le mot de passe doit contenir au moins un nombre",
+
                 "Passwords should match" => "Les mots de passe doivent correspondre",
             ),
 
         ),
         "Russian" => array(),
-        "Portuguese" => array(
-
-        ),
-
     );
 }
 

@@ -1,7 +1,7 @@
 <?php
-logoutAndRedirect("../php-pages/signup-success.php");
-session_start();
 include '../php-processes/dbConnection.php';
+
+session_start();
 
 $commonStringsLanguageList = returnLanguageList()[returnLanguage()]['common-strings'];
 if(empty($_SESSION['newCltID']) || empty($_SESSION['verificationCode']) || empty($_SESSION['Token'])) {
@@ -41,11 +41,14 @@ $languageList = returnLanguageList()[returnLanguage()]['signup-success'];
             <h1><?php echo $languageList["Validate your email"]?></h1>
         </div>
         <div class="sign-form-elem">
-            <p id="sign-form-message">
+            <span id="sign-form-message">
                 <?php if (!empty($_SESSION['message'])): ?>
                     <?php echo $_SESSION['message']; ?>
                 <?php endif; ?>
-            </p>
+            </span>
+            <span id="sign-form-message-success">
+                <?php echo $languageList['Your email has been validated. You can now']?><a href="../php-pages/login.php"> <?php echo $languageList['Login']?></a>
+            </span>
         </div>
         <div class="sign-form-elem" id="sign-form-input-div">
             <label for="verificationCode-input"><?php echo $languageList["Verification Code:"]?></label>

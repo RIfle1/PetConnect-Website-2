@@ -31,14 +31,14 @@
 .sign-form-elem span {
     text-align: center;
 }
-
-.just-validate-error-label {
-    text-align: center;
-    width: 350px;
+#sign-form-message-success {
+    display: none;
 }
 
-.sign-form-error-span {
+.sign-form-elem span[class*="sign-form-error-span"] {
     color: #B81111;
+    text-align: center;
+    width: 350px;
 }
 
 .sign-form-elem label, span {

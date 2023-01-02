@@ -44,32 +44,32 @@ $captchaLanguage = strtolower(substr(returnLanguage(), 0, 2));
             <h1><?php echo $languageList["Create an account"]?></h1>
         </div>
         <div class="sign-form-elem">
-            <label for="cltUsername-input"><?php echo $languageList["Username:"]?></label>
-            <input type="text" id="cltUsername-input" name="cltUsername-input">
+            <label for="username-input"><?php echo $languageList["Username:"]?></label>
+            <input type="text" id="username-input" name="username-input">
         </div>
         <div class="sign-form-elem">
-            <label for="cltFirstName-input"><?php echo $languageList["First Name:"]?></label>
-            <input type="text" id="cltFirstName-input" name="cltFirstName-input">
+            <label for="firstName-input"><?php echo $languageList["First Name:"]?></label>
+            <input type="text" id="firstName-input" name="firstName-input">
         </div>
         <div class="sign-form-elem">
-            <label for="cltLastName-input"><?php echo $languageList["Last Name:"]?></label>
-            <input type="text" id="cltLastName-input" name="cltLastName-input">
+            <label for="lastName-input"><?php echo $languageList["Last Name:"]?></label>
+            <input type="text" id="lastName-input" name="lastName-input">
         </div>
         <div class="sign-form-elem">
-            <label for="cltEmail-input"><?php echo $languageList["Email:"]?></label>
-            <input type="email" id="cltEmail-input" name="cltEmail-input">
+            <label for="email-input"><?php echo $languageList["Email:"]?></label>
+            <input type="email" id="email-input" name="email-input">
         </div>
         <div class="sign-form-elem">
-            <label for="cltPhoneNumber-input"><?php echo $languageList["Phone Number:"]?></label>
-            <input type="text" id="cltPhoneNumber-input" name="cltPhoneNumber-input">
+            <label for="phoneNumber-input"><?php echo $languageList["Phone Number:"]?></label>
+            <input type="text" id="phoneNumber-input" name="phoneNumber-input">
         </div>
         <div class="sign-form-elem">
-            <label for="cltPassword-input"><?php echo $languageList["Password:"]?></label>
-            <input type="password" id="cltPassword-input" name="cltPassword-input">
+            <label for="password-input"><?php echo $languageList["Password:"]?></label>
+            <input type="password" id="password-input" name="password-input">
         </div>
         <div class="sign-form-elem">
-            <label for="cltPasswordConfirmation-input"><?php echo $languageList["Enter your password again:"]?></label>
-            <input type="password" id="cltPasswordConfirmation-input" name="cltPasswordConfirmation-input">
+            <label for="passwordConfirmation-input"><?php echo $languageList["Enter your password again:"]?></label>
+            <input type="password" id="passwordConfirmation-input" name="passwordConfirmation-input">
         </div>
         <div class="sign-separation-line-small"></div>
 

@@ -42,7 +42,7 @@ let samePassword;
 // JSON INITIALIZATION
 
 function refreshValidateEmailJson(editInputElementValue) {
-    const validateEmailUrl = "../php-processes/validate-email.php?cltEmail-input="+encodeURIComponent(editInputElementValue);
+    const validateEmailUrl = "../php-processes/validate-email.php?email-input="+encodeURIComponent(editInputElementValue);
     $.getJSON(validateEmailUrl, function (json) {
         isAvailable = json.available
     })

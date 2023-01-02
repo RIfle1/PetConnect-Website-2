@@ -8,12 +8,12 @@ $languagesList = returnLanguageList()[returnLanguage()]['signup-process'];
 
 $newUserInfo = new Client
 (
-    $_POST["cltUsername-input"],
-    $_POST["cltFirstName-input"],
-    $_POST["cltLastName-input"],
-    $_POST["cltEmail-input"],
-    $_POST["cltPhoneNumber-input"],
-    $_POST["cltPassword-input"]
+    $_POST["username-input"],
+    $_POST["firstName-input"],
+    $_POST["lastName-input"],
+    $_POST["email-input"],
+    $_POST["phoneNumber-input"],
+    $_POST["password-input"],
 );
 
 $cltID = $newUserInfo->getCltID();
@@ -46,7 +46,7 @@ if (! filter_var($cltEmail, FILTER_VALIDATE_EMAIL)) {
 }
 
 
-$newPasswordConfirmation = $_POST["cltPasswordConfirmation-input"];
+$newPasswordConfirmation = $_POST["passwordConfirmation-input"];
 
 checkPasswordLength($cltPassword);
 checkPasswordLetter($cltPassword);

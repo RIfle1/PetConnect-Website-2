@@ -96,7 +96,7 @@ let languageList
 // JSON INITIALIZATION
 
 function refreshValidateEmailJson(inputCommonElementValue) {
-    const validateEmailUrl = "../php-processes/validate-email.php?cltEmail-input="+encodeURIComponent(inputCommonElementValue);
+    const validateEmailUrl = "../php-processes/validate-email.php?email-input="+encodeURIComponent(inputCommonElementValue);
     $.getJSON(validateEmailUrl, function (json) {
         isAvailable = json.available
     })
