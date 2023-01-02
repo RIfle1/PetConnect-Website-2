@@ -65,7 +65,7 @@ $languageListKeys = array_keys(returnLanguageList());
         </form>
         <div id="site-header-profile-div-flex">
             <div id="site-header-profile-logo">
-                <a href="profile.php">
+                <a href="<?php restrictedNoUserPage('../php-pages/profile.php') ?>">
                     <?php if(isset($loggedIn) && isset($entityInfo) && isset($entityAttributes)): ?>
                         <?php if($loggedIn && strlen($entityInfo[$entityAttributes["PfpName"]]) > 0): ?>
                             <img class="site-header-profile-img-1" src="../img/pfp/<?php echo getPfp($entityAttributes['ID'], $entityAttributes['Table'], $entityInfo[$entityAttributes['ID']])[$entityAttributes["PfpName"]] ?>" alt="Profile picture">
@@ -87,12 +87,12 @@ $languageListKeys = array_keys(returnLanguageList());
                         <p><?php echo $languageList['New Client?'] ?><a id="site-header-signup-a2" href="signup.php"><?php echo $languageList['Signup.'] ?></a></p>
                     </div>
                 <?php endif; ?>
-                <div class="separation-line-1"></div>
-                <a href="profile.php"><?php echo $languageList['My Account'] ?></a>
-                <a href="#"><?php echo $languageList['My Orders'] ?></a>
-                <a href="#"><?php echo $languageList['My Devices'] ?></a>
                 <?php if(isset($loggedIn)): ?>
                     <?php if($loggedIn): ?>
+                        <div class="separation-line-1"></div>
+                        <a href="profile.php"><?php echo $languageList['My Account'] ?></a>
+                        <a href="#"><?php echo $languageList['My Orders'] ?></a>
+                        <a href="#"><?php echo $languageList['My Devices'] ?></a>
                         <div class="separation-line-1"></div>
                         <a href="../php-processes/logout.php"><?php echo $languageList['Logout'] ?></a>
                     <?php endif; ?>

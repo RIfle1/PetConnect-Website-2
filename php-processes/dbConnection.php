@@ -312,8 +312,8 @@ function adminPage(): void
 {
     include_once "login-check.php";
 
-    if (isset($_SESSION['clientLoggedIn']) && isset($_SESSION['loggedIn'])) {
-        if($_SESSION['clientLoggedIn'] || !$_SESSION['loggedIn']) {
+    if (isset($_SESSION['clientLoggedIn'])) {
+        if($_SESSION['clientLoggedIn'] || !isset($_SESSION['loggedIn'])) {
             header("Location: ../php-pages/restricted-access.php", true,303);
             exit;
         }
@@ -1176,7 +1176,11 @@ function returnLanguageList(): array
             ),
 
         ),
-//        "Russian" => array(),
+        "Russian" => array(),
+        "Portuguese" => array(
+
+        ),
+
     );
 }
 
