@@ -465,6 +465,12 @@ function returnLanguageList(): array
                 "Addresses" => "Addresses",
                 "Add an address" => "Add an address",
             ),
+            "address-add" => array(
+                "Add a new address" => "Add a new address",
+                "Address" =>"Address",
+                "Postal Code" =>"Postal Code",
+                "City" =>"City",
+            ),
             "assistance" => array(),
             "connection-security" => array(
                 "Connection and Security" => "Connection and Security",
@@ -954,7 +960,7 @@ function returnLanguageList(): array
             "restricted-access" => array(
                 "An Error has occurred" => "Une erreur s'est produite",
                 "Try to" => "Essayez de",
-                "login" => "Identifiez-vous",
+                "login" => "vous-identifiez",
             ),
             "shop" => array(),
             "signup" => array(

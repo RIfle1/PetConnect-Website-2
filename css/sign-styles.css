@@ -1,6 +1,6 @@
 
 
-#sign-form-body {
+#sign-form-body, #signup-form {
     margin: 0 0 0 0;
     display: flex;
     flex-direction: column;

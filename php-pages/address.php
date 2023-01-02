@@ -5,7 +5,6 @@ onlyClientPage();
 include 'site-header.php';
 
 $languageList = returnLanguageList()[returnLanguage()]['address'];
-
 ?>
 
 <!doctype html>
@@ -16,7 +15,7 @@ $languageList = returnLanguageList()[returnLanguage()]['address'];
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <link rel="stylesheet" href="../css/addresses-styles.css">
+    <link rel="stylesheet" href="../css/address-styles.css">
 
     <title>Addresses</title>
 </head>
@@ -91,7 +90,6 @@ $languageList = returnLanguageList()[returnLanguage()]['address'];
 
 <script type="text/javascript">
     setMarginTop('site-header-main-header', 'id', 'ad-main-body-div', 'id', 40)
-
 </script>
 
 </body>
