@@ -21,12 +21,6 @@ $languageList = returnLanguageList()[returnLanguage()]['manage-user'];
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="../css/manage-user-styles.css">
-
-    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
-            integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
-            crossorigin="anonymous">
-    </script>
-
     <title>USER MANAGEMENT</title>
 </head>
 <body>
