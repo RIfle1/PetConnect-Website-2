@@ -57,60 +57,38 @@ function onClickSubmitButton() {
     const passwordConfirmationInputValue = passwordConfirmationInputElement.val();
 
     // CLIENT USERNAME
-    displayError(usernameInputElement, validateUsername(usernameInputValue).errorMsg, validateUsername(usernameInputValue).errorBool)
+    displayError(usernameInputElement, validateUsername(usernameInputValue).errorMsg,
+        validateUsername(usernameInputValue).errorBool)
 
     // CLIENT FIRST NAME
-    displayError(firstNameInputElement, validateFirstName(firstNameInputValue).errorMsg, validateFirstName(firstNameInputValue).errorBool);
+    displayError(firstNameInputElement, validateFirstName(firstNameInputValue).errorMsg,
+        validateFirstName(firstNameInputValue).errorBool);
 
     // CLIENT LAST NAME
-    displayError(lastNameInputElement, validateLastName(lastNameInputValue).errorMsg, validateLastName(lastNameInputValue).errorBool);
+    displayError(lastNameInputElement, validateLastName(lastNameInputValue).errorMsg,
+        validateLastName(lastNameInputValue).errorBool);
 
     // CLIENT EMAIL
-    displayError(emailInputElement, validateEmail(emailInputValue).errorMsg, validateEmail(emailInputValue).errorBool);
+    displayError(emailInputElement, validateEmail(emailInputValue).errorMsg,
+        validateEmail(emailInputValue).errorBool);
+
+    if(!validateEmail(emailInputValue).errorBool) {
+        setTimeout(()=> {
+            displayError(emailInputElement, validateEmailTaken().errorMsg,
+                validateEmailTaken().errorBool);
+        }, 100)
+    }
 
     // CLIENT PHONE NUMBER
-    if(phoneNumberInputValue.match(/[a-z]/)) {
-        errorMsg = languageList["Client Phone Number must be a number"]
-        displayError(phoneNumberInputElement, errorMsg, true);
-    }
-    else if(phoneNumberInputValue.length !== 10) {
-        errorMsg = languageList["Phone number must be 10 characters long"]
-        displayError(phoneNumberInputElement, errorMsg, true);
-    }
-    else {
-        displayError(phoneNumberInputElement, "", false);
-    }
+    displayError(phoneNumberInputElement, validatePhoneNumber(phoneNumberInputValue).errorMsg,
+        validatePhoneNumber(phoneNumberInputValue).errorBool);
 
     // CLIENT PASSWORD
-    if(passwordInputValue.length === 0) {
-        errorMsg = languageList["Password is required"];
-        displayError(passwordInputElement, errorMsg, true);
-    }
-    else if(passwordInputValue.length < 8) {
-        errorMsg = languageList["Password must be at least 8 characters"];
-        displayError(passwordInputElement, errorMsg, true);
-    }
-    else if(!passwordInputValue.match(/[a-z]/)) {
-        errorMsg = languageList["Password must contain at least one letter"];
-        displayError(passwordInputElement, errorMsg, true);
-    }
-    else if(!passwordInputValue.match(/[0-9]/)) {
-        errorMsg = languageList["Password must contain at least one number"];
-        displayError(passwordInputElement, errorMsg, true);
-    }
-    else {
-        displayError(passwordInputElement, "", false);
-    }
+    displayError(passwordInputElement, validatePassword(passwordInputValue, passwordConfirmationInputValue).errorMsg,
+        validatePassword(passwordInputValue, passwordConfirmationInputValue).errorBool);
 
-    if(passwordInputValue !== passwordConfirmationInputValue) {
-        errorMsg = languageList["Passwords should match"];
-        displayError(passwordConfirmationInputElement, errorMsg, true);
-    }
-    else {
-        displayError(passwordConfirmationInputElement, "", false);
-    }
-
-    if(errorMsg.length === 0) {
+    // IF NO ERRORS
+    if(errorBool.length === 0) {
         const captchaResponse = $("#g-recaptcha-response").val();
         document.getElementById("signup-form").submit();
 

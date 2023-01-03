@@ -2,26 +2,11 @@
 
 include '../php-processes/dbConnection.php';
 
-$language = '';
 
-if(empty($_GET['lang'])) {
-    $language = 'English';
+$sql = "SELECT * FROM client";
+
+$result = runSQLResult($sql);
+
+while($result2 = $result->fetch_assoc()) {
+    echo $result2['cltFirstName']."<br>";
 }
-else {
-    $language = $_GET['lang'];
-}
-
-$languageList = returnLanguageList();
-
-$languageListKeys = array_keys($languageList);
-
-//var_dump($languageList);
-
-for ($i = 0; $i < sizeof($languageListKeys); $i++) {
-    echo $languageListKeys[$i];
-}
-
-//print_r(array_keys($languageList));
-
-//header("Content-Type: application/json");
-//echo json_encode(["processValues" => $languageList]);
