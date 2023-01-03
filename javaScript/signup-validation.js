@@ -26,15 +26,6 @@ const passwordConfirmationInputElement = $("#"+passwordConfirmationInputID)
 // HARDCODED BUTTON ELEMENTS
 const submitButtonElement = $("#"+submitButtonID)
 
-// JSON VARIABLES
-// let languageList;
-//
-// let languageUrl = "../php-processes/language-list-process.php?file=signup-validation"
-// $.getJSON(languageUrl, function(json) {
-//     languageList = json.languageList;
-//
-// })
-
 setSubmitButton(submitButtonElement);
 
 function displayError(inputElement, errorMsg, error) {
@@ -46,7 +37,7 @@ function displayError(inputElement, errorMsg, error) {
 
 function onClickSubmitButton() {
     // GET VALUES
-    // let errorMsg = '';
+    let validateVar;
 
     const usernameInputValue = usernameInputElement.val();
     const firstNameInputValue = firstNameInputElement.val();
@@ -57,38 +48,39 @@ function onClickSubmitButton() {
     const passwordConfirmationInputValue = passwordConfirmationInputElement.val();
 
     // CLIENT USERNAME
-    displayError(usernameInputElement, validateUsername(usernameInputValue).errorMsg,
-        validateUsername(usernameInputValue).errorBool)
+    validateVar = validateUsername(usernameInputValue)
+    displayError(usernameInputElement, validateVar.errorMsg, validateVar.errorBool)
 
     // CLIENT FIRST NAME
-    displayError(firstNameInputElement, validateFirstName(firstNameInputValue).errorMsg,
-        validateFirstName(firstNameInputValue).errorBool);
+    validateVar = validateFirstName(firstNameInputValue);
+    displayError(firstNameInputElement, validateVar.errorMsg, validateVar.errorBool);
 
     // CLIENT LAST NAME
-    displayError(lastNameInputElement, validateLastName(lastNameInputValue).errorMsg,
-        validateLastName(lastNameInputValue).errorBool);
+    validateVar = validateLastName(lastNameInputValue)
+    displayError(lastNameInputElement, validateVar.errorMsg, validateVar.errorBool);
 
     // CLIENT EMAIL
-    displayError(emailInputElement, validateEmail(emailInputValue).errorMsg,
-        validateEmail(emailInputValue).errorBool);
+    validateVar = validateEmail(emailInputValue)
+    displayError(emailInputElement, validateVar.errorMsg, validateVar.errorBool);
 
-    if(!validateEmail(emailInputValue).errorBool) {
-        setTimeout(()=> {
-            displayError(emailInputElement, validateEmailTaken().errorMsg,
-                validateEmailTaken().errorBool);
-        }, 100)
-    }
+    setTimeout(()=> {
+        validateVar = validateEmail(emailInputValue);
+        if(!validateVar.errorBool) {
+            validateVar = validateEmailTaken();
+            displayError(emailInputElement, validateVar.errorMsg, validateVar.errorBool);
+        }
+    }, 100)
 
     // CLIENT PHONE NUMBER
-    displayError(phoneNumberInputElement, validatePhoneNumber(phoneNumberInputValue).errorMsg,
-        validatePhoneNumber(phoneNumberInputValue).errorBool);
+    validateVar = validatePhoneNumber(phoneNumberInputValue)
+    displayError(phoneNumberInputElement, validateVar.errorMsg, validateVar.errorBool);
 
     // CLIENT PASSWORD
-    displayError(passwordInputElement, validatePassword(passwordInputValue, passwordConfirmationInputValue).errorMsg,
-        validatePassword(passwordInputValue, passwordConfirmationInputValue).errorBool);
+    validateVar = validatePassword(passwordInputValue, passwordConfirmationInputValue)
+    displayError(passwordInputElement, validateVar.errorMsg, validateVar.errorBool);
 
     // IF NO ERRORS
-    if(errorBool.length === 0) {
+    if(!errorBool) {
         const captchaResponse = $("#g-recaptcha-response").val();
         document.getElementById("signup-form").submit();
 

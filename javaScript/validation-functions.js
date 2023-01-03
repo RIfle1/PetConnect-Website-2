@@ -1,9 +1,9 @@
 // JSON VARIABLES
 let languageList;
-let isAvailable;
+let isAvailable = true;
 let errorBool;
 
-let languageUrl = "../php-processes/language-list-process.php?file=signup-validation"
+let languageUrl = "../php-processes/language-list-process.php?file=validation-function"
 $.getJSON(languageUrl, function(json) {
     languageList = json.languageList;
 })
@@ -79,6 +79,7 @@ function validateEmail(emailInputValue) {
         $.getJSON(emailValidationUrl, function(json) {
             isAvailable = json.available
         })
+        errorBool = false;
     }
 
     return {
@@ -95,7 +96,6 @@ function validateEmailTaken() {
         errorMsg = languageList["Email is already Taken"];
         errorBool = true;
     }
-
     return {
         errorMsg : errorMsg,
         errorBool : errorBool,

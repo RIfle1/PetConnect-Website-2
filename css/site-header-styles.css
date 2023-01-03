@@ -171,14 +171,16 @@ body {
     align-items: center;
 }
 
+#site-header-signup span {
+    text-align: center;
+}
+
 #site-header-signup-a1 {
     display: flex;
     justify-content: center;
     align-items: center;
     background: #69A6E3;
     border: #69A6E3 solid 1px;
-    height: 20px;
-    width: 160px;
     border-radius: 20px;
 }
 
@@ -197,8 +199,14 @@ body {
 
 }
 
-#site-header-dropdown-menu-login p, #site-header-dropdown-menu-login a{
+#site-header-dropdown-menu-login span, #site-header-dropdown-menu-login a{
     padding: 10px 15px 10px 15px;
+    margin: 0 0 0 0;
+    text-decoration: none;
+    color: #808080;
+}
+
+#site-header-dropdown-menu-login a {
     margin: 0 0 0 0;
     text-decoration: none;
     color: #808080;
@@ -241,7 +249,7 @@ body {
         margin: 50px 0 0 0;
     }
 
-    #site-header-dropdown-menu-login p, #site-header-dropdown-menu-login a, .site-header-dropdown-menu-line {
+    #site-header-dropdown-menu-login p, .site-header-dropdown-menu-line {
         margin: 5px 10px 5px 10px;
     }
 }

@@ -625,19 +625,6 @@ function returnLanguageList(): array
                 "Already have an account?" => "Already have an account?",
                 "Sign in" => "Sign in",
 
-                "Client Username is required" => "Client Username is required",
-                "Client Username must be at least 3 characters" => "Client Username must be at least 3 characters",
-                "Client First Name is required" => "Client First Name is required",
-                "Client First Name must be at least 3 characters" => "Client First Name must be at least 3 characters",
-                "Client Last Name is required" => "Client Last Name is required",
-                "Client Last Name must be at least 3 characters" => "Client Last Name must be at least 3 characters",
-                "Client Email is required" => "Client Email is required",
-                "Must be an email" => "Must be an email",
-                "Email is already Taken" => "Email is already Taken",
-                "Client Phone Number must be a number" => "Client Phone Number must be a number",
-                "Client Password is required" => "Client Password is required",
-                "Passwords should match" => "Passwords should match",
-
             ),
             "signup-success" => array(
                 "Validate your email" => "Validate your email",
@@ -820,7 +807,7 @@ function returnLanguageList(): array
                 "New Password is required" => "New Password is required",
                 "Passwords should match" => "Passwords should match",
             ),
-            "signup-validation" => array(
+            "validation-function" => array(
                 "Client Username is required" => "Client Username is required",
                 "Client Username must be at least 3 characters" => "Client Username must be at least 3 characters",
                 "Client First Name is required" => "Client First Name is required",
@@ -1180,7 +1167,7 @@ function returnLanguageList(): array
                 "New Password is required" => "New Password is required",
                 "Passwords should match" => "Passwords should match",
             ),
-            "signup-validation" => array(
+            "validation-function" => array(
                 "Client Username is required" => "Nom d'utilisateur du client requis",
                 "Client Username must be at least 3 characters" => "Le nom d'utilisateur du client doit comporter au moins 3 caractères",
                 "Client First Name is required" => "Prénom du client requis",

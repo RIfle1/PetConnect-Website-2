@@ -83,7 +83,7 @@ $languageListKeys = array_keys(returnLanguageList());
                     <?php else : ?>
                         <div id="site-header-signup">
                             <a id="site-header-signup-a1" href="login.php"><?php echo $languageList['Sign in'] ?></a>
-                            <p><?php echo $languageList['New Client?'] ?><a id="site-header-signup-a2" href="signup.php"><?php echo $languageList['Signup.'] ?></a></p>
+                            <span><?php echo $languageList['New Client?'] ?><a id="site-header-signup-a2" href="signup.php"><?php echo $languageList['Signup.'] ?></a></span>
                         </div>
                     <?php endif; ?>
                     <div class="separation-line-1"></div>
