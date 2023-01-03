@@ -67,13 +67,6 @@ $captchaLanguage = strtolower(substr(returnLanguage(), 0, 2));
             <div class="sign-form-elem">
                 <button id="submit-password-recovery-button" type="button"><?php echo $languageList["Send Verification Link"]?></button>
             </div>
-
-<!--            <div class="sign-separation-line-small"></div>-->
-
-<!--            <div class="sign-form-elem">-->
-<!--                <a href="login.php">Login</a>-->
-<!--            </div>-->
-
         </div>
     </div>
 </form>

@@ -65,8 +65,7 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-    max-width: 395px;
-    max-height: 92px;
+    width: 395px;
 }
 
 .sign-form-elem input {

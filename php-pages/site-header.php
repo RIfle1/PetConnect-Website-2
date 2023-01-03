@@ -106,7 +106,7 @@ $languageListKeys = array_keys(returnLanguageList());
 
     <script type="text/javascript">
         setMarginTop('site-header-profile-logo', 'id', 'site-header-dropdown-menu-login', 'id', 10)
-        setMarginTop('site-header-language-selector', 'id', 'language-selector-button-div', 'id', 3)
+        setMarginTop('site-header-language-selector', 'id', 'language-selector-button-div', 'id', -15)
         setWidth('language-selector-current-div', 'id', 'language-selector-button-div', 'id', 0)
     </script>
 </body>

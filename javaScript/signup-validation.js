@@ -27,14 +27,15 @@ const passwordConfirmationInputElement = $("#"+passwordConfirmationInputID)
 const submitButtonElement = $("#"+submitButtonID)
 
 // JSON VARIABLES
-let languageList;
-let isAvailable;
+// let languageList;
+//
+// let languageUrl = "../php-processes/language-list-process.php?file=signup-validation"
+// $.getJSON(languageUrl, function(json) {
+//     languageList = json.languageList;
+//
+// })
 
-let languageUrl = "../php-processes/language-list-process.php?file=signup-validation"
-$.getJSON(languageUrl, function(json) {
-    languageList = json.languageList;
-    setSubmitButton(submitButtonElement);
-})
+setSubmitButton(submitButtonElement);
 
 function displayError(inputElement, errorMsg, error) {
     $("."+errorSpanClass+"-"+inputElement.attr("name")).remove();
@@ -45,7 +46,7 @@ function displayError(inputElement, errorMsg, error) {
 
 function onClickSubmitButton() {
     // GET VALUES
-    let errorMsg = '';
+    // let errorMsg = '';
 
     const usernameInputValue = usernameInputElement.val();
     const firstNameInputValue = firstNameInputElement.val();
@@ -55,72 +56,17 @@ function onClickSubmitButton() {
     const passwordInputValue = passwordInputElement.val();
     const passwordConfirmationInputValue = passwordConfirmationInputElement.val();
 
-
     // CLIENT USERNAME
-    if(usernameInputValue.length === 0) {
-        errorMsg = languageList["Client Username is required"]
-        displayError(usernameInputElement, errorMsg, true);
-    }
-    else if(usernameInputValue.length < 3) {
-        errorMsg = languageList["Client Username must be at least 3 characters"]
-        displayError(usernameInputElement, errorMsg, true);
-    }
-    else {
-        displayError(usernameInputElement, '', false);
-    }
+    displayError(usernameInputElement, validateUsername(usernameInputValue).errorMsg, validateUsername(usernameInputValue).errorBool)
 
     // CLIENT FIRST NAME
-    if(firstNameInputValue.length === 0) {
-        errorMsg = languageList["Client First Name is required"]
-        displayError(firstNameInputElement, errorMsg, true, true);
-    }
-    else if(firstNameInputValue.length < 3) {
-        errorMsg = languageList["Client First Name must be at least 3 characters"]
-        displayError(firstNameInputElement, errorMsg, true);
-    }
-    else {
-        displayError(firstNameInputElement, '', false);
-    }
+    displayError(firstNameInputElement, validateFirstName(firstNameInputValue).errorMsg, validateFirstName(firstNameInputValue).errorBool);
 
     // CLIENT LAST NAME
-    if(lastNameInputValue.length === 0) {
-        errorMsg = languageList["Client Last Name is required"]
-        displayError(lastNameInputElement, errorMsg, true);
-    }
-    else if(lastNameInputValue.length < 3) {
-        errorMsg = languageList["Client Last Name must be at least 3 characters"]
-        displayError(lastNameInputElement, errorMsg, true);
-    }
-    else {
-        displayError(lastNameInputElement, '', false);
-    }
+    displayError(lastNameInputElement, validateLastName(lastNameInputValue).errorMsg, validateLastName(lastNameInputValue).errorBool);
 
     // CLIENT EMAIL
-    if(emailInputValue.length === 0) {
-        errorMsg = languageList["Client Email is required"]
-        displayError(emailInputElement, errorMsg, true);
-    }
-    else if(!emailInputValue.match(/@/)) {
-
-
-        errorMsg = languageList["Must be an email"]
-        displayError(emailInputElement, errorMsg, true);
-    }
-    else {
-        let emailValidationUrl = "../php-processes/validate-email.php?email-input="+encodeURIComponent(emailInputValue)
-        $.getJSON(emailValidationUrl, function(json) {
-            isAvailable = json.available
-
-            if(!isAvailable) {
-                errorMsg = languageList["Email is already Taken"];
-                displayError(emailInputElement, errorMsg, true);
-            }
-            else {
-                displayError(emailInputElement, "", false);
-            }
-
-        })
-    }
+    displayError(emailInputElement, validateEmail(emailInputValue).errorMsg, validateEmail(emailInputValue).errorBool);
 
     // CLIENT PHONE NUMBER
     if(phoneNumberInputValue.match(/[a-z]/)) {
@@ -137,7 +83,7 @@ function onClickSubmitButton() {
 
     // CLIENT PASSWORD
     if(passwordInputValue.length === 0) {
-        errorMsg = languageList["Client Password is required"];
+        errorMsg = languageList["Password is required"];
         displayError(passwordInputElement, errorMsg, true);
     }
     else if(passwordInputValue.length < 8) {

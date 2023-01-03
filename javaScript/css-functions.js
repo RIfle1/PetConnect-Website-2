@@ -83,8 +83,6 @@ function setMarginTopFooter(fromElementID, fromElementIDType, toElementID, toEle
         "margin-top": newMarginTop,
     });
 
-    console.log("here");
-
     $(window).on("resize", function() {
         fromElementHeight = fromElement.height();
         fromElementMarginTop = parseInt(fromElement.css("margin-top").replace("px", ""));
@@ -109,8 +107,6 @@ function setMarginTopFooter(fromElementID, fromElementIDType, toElementID, toEle
 function setToWindowHeight(toElementID, toElementIDType, extraPx) {
     let toElement = getElement(toElementID, toElementIDType)
     let newHeight = $(window).height()+extraPx+"px";
-
-    console.log(newHeight);
 
     toElement.css({"height" : newHeight,})
 

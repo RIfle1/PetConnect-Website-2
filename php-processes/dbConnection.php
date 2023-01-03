@@ -832,7 +832,7 @@ function returnLanguageList(): array
                 "Email is already Taken" => "Email is already Taken",
                 "Client Phone Number must be a number" => "Client Phone Number must be a number",
                 "Phone number must be 10 characters long" => "Phone number must be 10 characters long",
-                "Client Password is required" => "Client Password is required",
+                "Password is required" => "Client Password is required",
 
                 "Password must be at least 8 characters" => "Password must be at least 8 characters",
                 "Password must contain at least one letter" => "Password must contain at least one letter",
@@ -1192,7 +1192,7 @@ function returnLanguageList(): array
                 "Email is already Taken" => "L'adresse e-mail est déjà utilisée",
                 "Client Phone Number must be a number" => "Le numéro de téléphone du client doit être un nombre",
                 "Phone number must be 10 characters long" => "Le numéro de téléphone doit comporter au moins 10 caractères",
-                "Client Password is required" => "Mot de passe du client requis",
+                "Password is required" => "Mot de passe du client requis",
 
                 "Password must be at least 8 characters" => "Le mot de passe doit comporter au moins 8 caractères",
                 "Password must contain at least one letter" => "Le mot de passe doit contenir au moins une lettre",

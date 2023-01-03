@@ -98,6 +98,7 @@ $captchaLanguage = strtolower(substr(returnLanguage(), 0, 2));
     </div>
 </form>
 
+<script src="../javaScript/validation-functions.js"></script>
 <script src="../javaScript/signup-validation.js"></script>
 
 <?php include '../php-pages/site-footer.php' ?>
@@ -105,7 +106,8 @@ $captchaLanguage = strtolower(substr(returnLanguage(), 0, 2));
     setMarginTop('site-header-main-header', 'id', 'signup-form', 'id', 20)
 
     setTimeout(() => {
-        setMarginTopFooter('signup-form', 'id', 'site-footer-main-div', 'id', 20)
+        setMarginTopFooter('signup-form', 'id', 'site-footer-main-div', 'id', 200)
+        // NEEDS TO BE FIXED => WHEN ERRORS APPEAR, FOOTER HAS WRONG MARGIN
     }, 1);
 
 </script>

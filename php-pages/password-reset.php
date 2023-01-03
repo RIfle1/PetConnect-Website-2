@@ -58,8 +58,7 @@ $captchaLanguage = strtolower(substr(returnLanguage(), 0, 2));
             crossorigin="anonymous">
     </script>
 
-    <script src="https://unpkg.com/just-validate@latest/dist/just-validate.production.min.js" defer></script>
-    <script src="../javaScript/password-reset-validation.js" defer></script>
+    <script src="../javaScript/password-reset-validation.js"></script>
 
     <script type="text/javascript">
         var onloadCallback = function() {
@@ -109,7 +108,7 @@ $captchaLanguage = strtolower(substr(returnLanguage(), 0, 2));
 
             <div class="sign-separation-line-small"></div>
             <div class="sign-form-elem">
-                <button type="submit" id="submit-password-reset-button"><?php echo $languageList["Change Password"]?></button>
+                <button type="button" id="submit-password-reset-button"><?php echo $languageList["Change Password"]?></button>
             </div>
 
 
