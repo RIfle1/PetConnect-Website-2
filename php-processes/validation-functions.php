@@ -1,37 +1,37 @@
 <?php
 
-function checkUsername($value): void {
+function validateUsername($value): void {
     if(empty($value)) {
 //        header("Location: ../php-pages/restricted-access.php", true, 303);
         die("Username Is Required");
     }
 }
 
-function checkFirstName($value): void {
+function validateFirstName($value): void {
     if(empty($value)) {
         die("First Name Is Required");
     }
 }
 
-function checkLastName($value): void {
+function validateLastName($value): void {
     if(empty($value)) {
         die("Last Name Is Required");
     }
 }
 
-function checkPhoneNumber($value): void {
+function validatePhoneNumber($value): void {
     if (! filter_var($value, FILTER_VALIDATE_INT)) {
         die("Valid Phone Number is Required");
     }
 }
 
-function checkEmail($value): void {
+function validateEmail($value): void {
     if (! filter_var($value, FILTER_VALIDATE_EMAIL)) {
         die("Valid Email is Required");
     }
 }
 
-function checkPassword($passwordValue, $passwordConfirmationValue):void {
+function validatePassword($passwordValue, $passwordConfirmationValue):void {
     if (strlen($passwordValue) < 8){
         die("Password must be at least 8 characters");
     }
@@ -48,4 +48,22 @@ function checkPassword($passwordValue, $passwordConfirmationValue):void {
 
 function returnPasswordHash($password): string {
     return password_hash($password, PASSWORD_DEFAULT);
+}
+
+function validateAddress($value): void {
+    if(empty($value)) {
+        die("Address is Required");
+    }
+}
+
+function validatePostalCode($value): void {
+    if(empty($value)) {
+        die("Postal Code is Required");
+    }
+}
+
+function validateCity($value): void {
+    if(empty($value)) {
+        die("City is Required");
+    }
 }

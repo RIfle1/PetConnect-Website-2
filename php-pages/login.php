@@ -55,7 +55,7 @@ $captchaLanguage = strtolower(substr(returnLanguage(), 0, 2));
                 <label for="lgPassword-input"><?php echo $languageList["Password"]?>:</label>
                 <input type="password" id="lgPassword-input" name="lgPassword-input" required>
             </div>
-            <div class="sign-separation-line-small"></div>
+            <div class="separation-line-small"></div>
 
             <div class="sign-form-elem">
                     <div id="recaptcha-div" class="g-recaptcha"></div>
@@ -65,13 +65,13 @@ $captchaLanguage = strtolower(substr(returnLanguage(), 0, 2));
                 <span><?php echo $commonStringsLanguageList["Please verify that you are not a robot."]?></span>
             </div>
 
-            <div class="sign-separation-line-small"></div>
+            <div class="separation-line-small"></div>
 
             <div class="sign-form-elem">
                 <button id="submit-login-button" type="button"><?php echo $languageList["Login"]?></button>
             </div>
 
-            <div class="sign-separation-line-small"></div>
+            <div class="separation-line-small"></div>
             <div class="sign-form-elem">
                 <a href="password-recovery-input.php"><?php echo $languageList["Forgot Password"]?></a>
             </div>

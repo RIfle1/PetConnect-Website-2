@@ -4,6 +4,9 @@ let emailAvailable;
 let passwordAvailable;
 let errorBool;
 
+// VOLATILE SPAN ERROR CLASS
+const errorSpanClass = "form-error-span";
+
 let languageUrl = "../php-processes/language-list-process.php?file=validation-functions"
 $.getJSON(languageUrl, function(json) {
     languageListValidationFunctions = json.languageList;
@@ -231,6 +234,49 @@ function validateConfirmationCode(confirmationCode, confirmationCodeInput) {
 
     if(confirmationCode !== confirmationCodeInput) {
         errorMsg = languageListValidationFunctions["The Confirmation Code is Incorrect."];
+        errorBool += 1;
+    }
+
+    return {
+        errorMsg : errorMsg,
+        errorBool : errorBool,
+    }
+}
+
+function validateAddress(addressInputValue) {
+    let errorMsg = '';
+
+    if(addressInputValue.length === 0) {
+        errorMsg = languageListValidationFunctions["Address is Required"];
+        errorBool += 1;
+    }
+
+    return {
+        errorMsg : errorMsg,
+        errorBool : errorBool,
+    }
+}
+
+function validatePostalCode(postalCodeInputValue) {
+    let errorMsg = '';
+
+    if(postalCodeInputValue.length === 0) {
+        errorMsg = languageListValidationFunctions["Postal Code is Required"];
+        errorBool += 1;
+    }
+
+    return {
+        errorMsg : errorMsg,
+        errorBool : errorBool,
+    }
+
+}
+
+function validateCity(CityInputValue) {
+    let errorMsg = '';
+
+    if(CityInputValue.length === 0) {
+        errorMsg = languageListValidationFunctions["City is Required"];
         errorBool += 1;
     }
 

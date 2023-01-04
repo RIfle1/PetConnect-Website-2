@@ -20,12 +20,6 @@ $("#submit-button").click(function() {
                     newCltID: newCltID,
                     verificationCode: verificationCode,
                     cltToken: cltToken
-                },
-                success: function(result) {
-                },
-                error: function(requestObject, error, errorThrown) {
-                    alert(error);
-                    alert(errorThrown);
                 }
             })
             console.log('verified')

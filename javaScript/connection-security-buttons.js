@@ -23,7 +23,7 @@ const tempButtonCommonClass = "cs-form-temp-button-";
 const tempInputCommonClass = "cs-form-temp-input-";
 
 // COMMON VOLATILE SPAN CLASSES
-const commonErrorSpanClass = "cs-form-error-span-";
+const commonErrorSpanClass = "form-error-span-";
 
 
 // HARDCODED BUTTON IDs

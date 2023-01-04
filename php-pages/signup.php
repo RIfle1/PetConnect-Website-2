@@ -71,7 +71,7 @@ $captchaLanguage = strtolower(substr(returnLanguage(), 0, 2));
             <label for="passwordConfirmation-input"><?php echo $languageList["Enter your password again:"]?></label>
             <input type="password" id="passwordConfirmation-input" name="passwordConfirmation-input">
         </div>
-        <div class="sign-separation-line-small"></div>
+        <div class="separation-line-small"></div>
 
         <div class="sign-form-elem">
             <div id="recaptcha-div" class="g-recaptcha"></div>
@@ -81,7 +81,7 @@ $captchaLanguage = strtolower(substr(returnLanguage(), 0, 2));
             <span><?php echo $commonStringsLanguageList["Please verify that you are not a robot."]?></span>
         </div>
 
-        <div class="sign-separation-line-small"></div>
+        <div class="separation-line-small"></div>
         <div class="sign-form-elem">
             <button type="button" id="sign-submit-button" name="submit-button"><?php echo $languageList["Create an Account"]?></button>
         </div>
@@ -91,7 +91,7 @@ $captchaLanguage = strtolower(substr(returnLanguage(), 0, 2));
                 <?php echo $languageList["and"]?>
                 <a href="#"><?php echo $languageList["Privacy Notice"]?></a>.</span>
         </div>
-        <div class="sign-separation-line-small"></div>
+        <div class="separation-line-small"></div>
         <div class="sign-form-elem">
             <p><?php echo $languageList["Already have an account?"]?> <a href="login.php"><?php echo $languageList["Sign in"]?> &rarr;</a></p>
         </div>

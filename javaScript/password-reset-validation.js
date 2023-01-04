@@ -6,8 +6,6 @@ const newPasswordConfirmationInputID = "newPasswordConfirmation-input";
 // HARDCODED BUTTON IDS
 const submitButtonID = "submit-password-reset-button";
 
-// VOLATILE SPAN CLASSES
-const errorSpanClass = "sign-form-error-span";
 
 // HARDCODED INPUT ELEMENTS
 const newPasswordInputElement = $("#"+newPasswordInputID)

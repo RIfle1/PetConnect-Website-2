@@ -25,6 +25,10 @@
     padding: 10px 10px 10px 10px;
 }
 
+.add-form-elem h1 {
+    text-align: center;
+}
+
 .add-form-elem input {
     background: #E2E2E2;
     border-radius: 10px;
@@ -44,4 +48,22 @@
 .add-form-elem label {
     text-align: start;
     width: 100%;
+}
+
+
+.add-form-elem button {
+    background: #d9d9d9;
+    border-radius: 40px;
+    border: #d9d9d9 solid 2px;
+    height: 50px;
+    width: 150px;
+    margin: 5px 0 5px 0;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.add-form-elem button:hover {
+    background: #69A6E3;;
+    border: #69A6E3 solid 2px;
 }

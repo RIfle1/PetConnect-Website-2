@@ -63,11 +63,6 @@
     padding: 2px 0 2px 0;
 }
 
-span[class*="cs-form-error-span"] {
-    color: #B81111;
-    text-align: center;
-}
-
 .cs-form-elem input {
     background: #E2E2E2;
     border-radius: 10px;

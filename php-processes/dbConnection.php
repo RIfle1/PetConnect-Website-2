@@ -455,6 +455,68 @@ function generateID($idLength): string
     }
 }
 
+function logoutAndRedirect($page): void
+{
+    session_start();
+    if(isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true) {
+        include_once '../php-processes/php-mailer.php';
+        // CHANGE TOKEN WHEN LOGGING OUT
+        if(isset($_SESSION['Table']) && isset($_SESSION['Token'])) {
+            $entityAttributes = returnEntityAttributes();
+            $token = generateToken($_SESSION["ID"]);
+            echo $token;
+
+            $insertTokenSql = "UPDATE ".$_SESSION['Table']." SET ".$entityAttributes['Token']." = '".$token."' WHERE ".$entityAttributes['Token']." = '".$_SESSION['Token']."'";
+
+            runSQLResult($insertTokenSql);
+
+            setcookie("Token-cookie", "", time() + (86400 * 30), "/");
+            setcookie("Table-cookie", "", time() + (86400 * 30), "/");
+        }
+        session_destroy();
+
+        header('Location: '.$page, true, 303);
+        exit;
+    }
+    session_destroy();
+
+}
+
+function returnList($runSQLResult): array {
+    $list = array();
+
+    while($listRow = $runSQLResult->fetch_assoc()) {
+        $list[] = $listRow;
+    }
+
+    return $list;
+}
+
+function returnAddressList(): array {
+    $token = $_SESSION['Token'];
+    $getAddressListSql = "SELECT adrID, adrAddress, adrAddressOptional, adrPostalCode, adrCity, adrDefault FROM address 
+                          INNER JOIN client c on address.Client_cltID = c.cltID
+                          WHERE cltToken = '".$token."'";
+
+    return returnList(runSQLResult($getAddressListSql));
+}
+
+function returnAddressInfo($adrID) : array {
+    $getAddressInfoSql = "SELECT adrID, adrAddress, adrAddressOptional, adrPostalCode, adrCity, adrDefault FROM address 
+                          WHERE adrID = '".$adrID."'";
+
+    return returnList(runSQLResult($getAddressInfoSql));
+}
+
+function returnLanguage(): string {
+    if(empty($_COOKIE['language-cookie'])) {
+        return 'English';
+    }
+    else {
+        return $_COOKIE['language-cookie'];
+    }
+}
+
 function returnLanguageList(): array
 {
     return array(
@@ -466,9 +528,15 @@ function returnLanguageList(): array
             ),
             "address-add" => array(
                 "Add a new address" => "Add a new address",
+                "Modify Address" => "Modify Address",
+                "Add new address" => "Add new address",
+                "Street address or P.O. Box" => "Street address or P.O. Box",
+                "Apt, suit, unit, building, floor, etc." => "Apt, suit, unit, building, floor, etc.",
                 "Address" =>"Address",
                 "Postal Code" =>"Postal Code",
                 "City" =>"City",
+
+                "Submit Changes" => "Submit Changes",
             ),
             "assistance" => array(),
             "connection-security" => array(
@@ -802,6 +870,11 @@ function returnLanguageList(): array
                 "Your new password must be different from your old password." => "Your new password must be different from your old password.",
                 "Your old password is incorrect." => "Your old password is incorrect.",
                 "The Confirmation Code is Incorrect." => "The Confirmation Code is Incorrect.",
+
+                "Address is Required" => "Address is Required",
+                "Postal Code is Required" => "Postal Code is Required",
+                "City is Required" => "City is Required",
+
             ),
 
         ),
@@ -810,6 +883,17 @@ function returnLanguageList(): array
             "address" => array(
                 "Addresses" => "Adresses",
                 "Add an address" => "Ajouter une adresse",
+            ),
+            "address-add" => array(
+                "Add a new address" => "Ajouter une nouvelle adresse",
+                "Modify Address" => "Modifier l'adresse",
+                "Add new address" => "Ajouter l'adresse",
+                "Street address or P.O. Box" => "Adresse de rue ou boîte postale",
+                "Apt, suit, unit, building, floor, etc." => "Appartement, suite, unité, bâtiment, étage, etc.",
+                "Address" =>"Adresse",
+                "Postal Code" =>"Code postal",
+                "City" =>"Ville",
+                "Submit Changes" => "Soumettre les modifications",
             ),
             "assistance" => array(),
             "connection-security" => array(
@@ -1165,45 +1249,13 @@ function returnLanguageList(): array
                 "Your new password must be different from your old password." => "Votre nouveau mot de passe doit être différent de votre ancien mot de passe.",
                 "Your old password is incorrect." => "Votre ancien mot de passe est incorrect.",
                 "The Confirmation Code is Incorrect." => "Le code de confirmation est incorrect.",
+
+                "Address is Required" => "L'adresse est requise",
+                "Postal Code is Required" => "Le code postal est requis",
+                "City is Required" => "La ville est requise"
             ),
 
         ),
         "Russian" => array(),
     );
-}
-
-function returnLanguage(): string {
-    if(empty($_COOKIE['language-cookie'])) {
-        return 'English';
-    }
-    else {
-        return $_COOKIE['language-cookie'];
-    }
-}
-
-function logoutAndRedirect($page): void
-{
-    session_start();
-    if(isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true) {
-        include_once '../php-processes/php-mailer.php';
-        // CHANGE TOKEN WHEN LOGGING OUT
-        if(isset($_SESSION['Table']) && isset($_SESSION['Token'])) {
-            $entityAttributes = returnEntityAttributes();
-            $token = generateToken($_SESSION["ID"]);
-            echo $token;
-
-            $insertTokenSql = "UPDATE ".$_SESSION['Table']." SET ".$entityAttributes['Token']." = '".$token."' WHERE ".$entityAttributes['Token']." = '".$_SESSION['Token']."'";
-
-            runSQLResult($insertTokenSql);
-
-            setcookie("Token-cookie", "", time() + (86400 * 30), "/");
-            setcookie("Table-cookie", "", time() + (86400 * 30), "/");
-        }
-        session_destroy();
-
-        header('Location: '.$page, true, 303);
-        exit;
-    }
-    session_destroy();
-
 }

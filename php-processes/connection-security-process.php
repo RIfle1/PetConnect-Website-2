@@ -1,6 +1,6 @@
 <?php
 include '../php-processes/dbConnection.php';
-include 'verification-functions.php';
+include 'validation-functions.php';
 session_start();
 clientPage();
 
@@ -15,19 +15,19 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     $entityID = substr($entityAttribute, 3);
 
     if($entityID === "Username") {
-        checkUsername($entityValue);
+        validateUsername($entityValue);
     }
     else if($entityID === "FirstName") {
-        checkFirstName($entityValue);
+        validateFirstName($entityValue);
     }
     else if($entityID === "LastName") {
-        checkLastName($entityValue);
+        validateLastName($entityValue);
     }
     else if($entityID === "PhoneNumber") {
-        checkPhoneNumber($entityValue);
+        validatePhoneNumber($entityValue);
     }
     else if($entityID === "Email") {
-        checkEmail($entityValue);
+        validateEmail($entityValue);
     }
     else if($entityID === 'Password') {
 //        checkPassword($entityValue, $newPasswordConfirmation);

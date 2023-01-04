@@ -11,9 +11,6 @@ const passwordConfirmationInputID = "passwordConfirmation-input";
 // HARDCODED BUTTON IDS
 const submitButtonID = "sign-submit-button";
 
-// VOLATILE SPAN CLASSES
-const errorSpanClass = "sign-form-error-span";
-
 // HARDCODED INPUT ELEMENTS
 const usernameInputElement = $("#"+usernameInputID)
 const firstNameInputElement = $("#"+firstNameInputID)

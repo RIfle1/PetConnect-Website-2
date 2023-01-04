@@ -49,10 +49,10 @@ $captchaLanguage = strtolower(substr(returnLanguage(), 0, 2));
             </div>
             <?php if(!empty($_GET['isInvalid'])): ?>
                 <div class="sign-form-elem">
-                    <span class="sign-form-error-span"><?php echo 'This email does not have an account';?></span>
+                    <span class="form-error-span"><?php echo 'This email does not have an account';?></span>
                 </div>
             <?php endif; ?>
-            <div class="sign-separation-line-small"></div>
+            <div class="separation-line-small"></div>
 
             <div class="sign-form-elem">
                 <div id="recaptcha-div" class="g-recaptcha"></div>
@@ -62,7 +62,7 @@ $captchaLanguage = strtolower(substr(returnLanguage(), 0, 2));
                 <span><?php echo $commonStringsLanguageList["Please verify that you are not a robot."]?></span>
             </div>
 
-            <div class="sign-separation-line-small"></div>
+            <div class="separation-line-small"></div>
 
             <div class="sign-form-elem">
                 <button id="submit-password-recovery-button" type="button"><?php echo $languageList["Send Verification Link"]?></button>

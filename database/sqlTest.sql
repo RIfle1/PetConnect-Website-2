@@ -17,3 +17,9 @@ WHERE sesMsgID = 'clt19-resolved-fc5e238c11b1a50da980';
 
 DELETE FROM session_message WHERE sesMsgEndDate between '0-0-0' AND '2022-12-13' AND sesMsgID LIKE '%resolved%';
 
+SELECT adrID, adrAddress, adrAddressOptional, adrPostalCode, adrCity FROM address
+                                                                              INNER JOIN client c on address.Client_cltID = c.cltID
+WHERE cltID = 'clt2';
+
+UPDATE address SET adrDefault = 0 WHERE Client_cltID = 'clt2'; UPDATE address SET adrDefault = 1 WHERE adrID = 'adr777ed5eea5e58791cf519775d1b0818f'
+

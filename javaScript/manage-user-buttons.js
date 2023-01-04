@@ -137,12 +137,6 @@ function onClickButton(buttonName, buttonID) {
             entity: entity,
             entityID: entityID,
             entityIDAttribute : entityIDAttribute,
-        },
-        success: function(result) {
-        },
-        error: function(requestObject, error, errorThrown) {
-            alert(error);
-            alert(errorThrown);
         }
     })
     // DELETE ROW FROM THE TABLE

@@ -90,11 +90,11 @@ $captchaLanguage = strtolower(substr(returnLanguage(), 0, 2));
 
             <?php if ($_GET['isInvalid'] ?? ""): ?>
                 <div class="sign-form-elem">
-                    <span class="sign-form-error-span"><?php echo $languageList["Your new password has to be different from your old password."]?></span>
+                    <span class="form-error-span"><?php echo $languageList["Your new password has to be different from your old password."]?></span>
                 </div>
             <?php endif; ?>
 
-            <div class="sign-separation-line-small"></div>
+            <div class="separation-line-small"></div>
 
             <div class="sign-form-elem">
                 <div id="recaptcha-div" class="g-recaptcha"></div>

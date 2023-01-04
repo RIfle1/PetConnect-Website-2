@@ -2,7 +2,7 @@
 
 include 'entities.php';
 include 'php-mailer.php';
-include 'verification-functions.php';
+include 'validation-functions.php';
 
 $languagesList = returnLanguageList()[returnLanguage()]['signup-process'];
 
@@ -26,12 +26,12 @@ $cltPassword = $newUserInfo->getCltPassword();
 $cltToken = $newUserInfo->getCltToken();
 $newPasswordConfirmation = $_POST["passwordConfirmation-input"];
 
-checkUsername($cltUsername);
-checkFirstName($cltFirstName);
-checkLastName($cltLastName);
-checkPhoneNumber($cltPhoneNumber);
-checkEmail($cltEmail);
-checkPassword($cltPassword, $newPasswordConfirmation);
+validateUsername($cltUsername);
+validateFirstName($cltFirstName);
+validateLastName($cltLastName);
+validatePhoneNumber($cltPhoneNumber);
+validateEmail($cltEmail);
+validatePassword($cltPassword, $newPasswordConfirmation);
 
 $emailSQL = "SELECT cltEmail FROM Client WHERE cltEmail='".$cltEmail."'";
 $result = runSQLResult($emailSQL);

@@ -33,12 +33,6 @@
     display: none;
 }
 
-.sign-form-elem span[class*="sign-form-error-span"] {
-    color: #B81111;
-    text-align: center;
-    width: 350px;
-}
-
 .sign-form-elem label, .sign-form-elem span, .sign-form-elem input {
     align-self: start;
     width: 100%;
@@ -47,18 +41,6 @@
 #sign-form-robot, #sign-form-validate-error {
     display: none;
     color: #B81111;
-}
-
-.sign-separation-line-small {
-    /*height: 1px;*/
-    width: 80%;
-    /*background-color: #d9d9d9;*/
-    /*padding: 0 0 0 0;*/
-    /*border-radius: 1px;*/
-    padding: 1px;
-    background: radial-gradient(#494848 30%, #D9D9D9, #D9D9D9);
-    border-radius: 1px;
-    margin: 10px 15px 10px 15px;
 }
 
 .sign-form-elem {

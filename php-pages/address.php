@@ -31,7 +31,7 @@ $languageList = returnLanguageList()[returnLanguage()]['address'];
 
     <div id="ad-main-div">
 
-        <a href="#" id="ad-add-address-div" class="ad-address-div">
+        <a href="../php-pages/address-add.php?type=&adrID=" id="ad-add-address-div" class="ad-address-div">
             <div class="ad-plus-div">
                 <div class="ad-vertical-plus"></div>
                 <div class="ad-horizontal-plus"></div>
@@ -39,48 +39,6 @@ $languageList = returnLanguageList()[returnLanguage()]['address'];
             <h2><?php echo $languageList["Add an address"]?></h2>
         </a>
 
-<!--        DEFAULT ADDRESS -->
-        <div class="ad-address-div">
-            <div class="ad-default-div">
-                <span class="text-font-500">Default Address</span>
-            </div>
-            <div class="ad-info-div-default">
-                <span class="text-font-700">Test</span>
-                <span class="text-font-500">Test</span>
-                <span class="text-font-500">Test</span>
-                <span class="text-font-500">Test</span>
-                <span class="text-font-500">Test</span>
-            </div>
-
-            <div class="ad-href-div">
-                <a class="text-font-500" href="#">Modify</a>
-                <div class="ad-vertical-line-small"></div>
-                <a class="text-font-500" href="#">Delete</a>
-                <div class="ad-vertical-line-small"></div>
-                <a class="text-font-500" href="#">Set as default</a>
-            </div>
-        </div>
-
-<!--        NOT DEFAULT ADDRESS -->
-        <div class="ad-address-div">
-
-            <div class="ad-info-div-no-default">
-                <span class="text-font-700">Test</span>
-                <span class="text-font-500">Test</span>
-                <span class="text-font-500">Test</span>
-                <span class="text-font-500">Test</span>
-                <span class="text-font-500">Test</span>
-            </div>
-
-            <div class="ad-href-div">
-                <a class="text-font-500" href="#">Modify</a>
-                <div class="ad-vertical-line-small"></div>
-                <a class="text-font-500" href="#">Delete</a>
-                <div class="ad-vertical-line-small"></div>
-                <a class="text-font-500" href="#">Set as default</a>
-            </div>
-
-        </div>
 
     </div>
 
@@ -95,6 +53,8 @@ $languageList = returnLanguageList()[returnLanguage()]['address'];
     setMarginTopFooter('ad-main-body-div', 'id', 'site-footer-main-div', 'id', 0)
 
 </script>
+
+<script src="../javaScript/address-buttons.js"></script>
 
 </body>
 </html>

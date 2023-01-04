@@ -1,7 +1,7 @@
 <?php
 session_start();
 include '../php-processes/dbConnection.php';
-include '../php-processes/verification-functions.php';
+include '../php-processes/validation-functions.php';
 include '../php-processes/php-mailer.php';
 
 // Security stuff
@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $newPasswordConfirmation = $_POST['newPasswordConfirmation-input'];
     $token = $_SESSION['Token'];
 
-    checkPassword($newPassword, $newPasswordConfirmation);
+    validatePassword($newPassword, $newPasswordConfirmation);
 
     $passwordHash = returnPasswordHash($newPassword);
 

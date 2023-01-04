@@ -1,7 +1,7 @@
 <?php
 session_start();
 include 'dbConnection.php';
-include 'verification-functions.php';
+include 'validation-functions.php';
 include 'php-mailer.php';
 clientPage();
 
