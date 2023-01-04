@@ -8,11 +8,11 @@ $result1 = runSQLResult($emailSQL1);
 $result2 = runSQLResult($emailSQL2);
 
 if($result1->num_rows === 0 && $result2->num_rows === 0) {
-   $isAvailable = true;
+    $emailAvailable = true;
 }
 else {
-    $isAvailable = false;
+    $emailAvailable = false;
 }
 
 header("Content-Type: application/json");
-echo json_encode(["available" => $isAvailable]);
+echo json_encode(["emailAvailable" => $emailAvailable]);

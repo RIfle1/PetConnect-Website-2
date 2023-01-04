@@ -24,34 +24,14 @@ $cltEmail = $newUserInfo->getCltEmail();
 $cltPhoneNumber = $newUserInfo->getCltPhoneNumber();
 $cltPassword = $newUserInfo->getCltPassword();
 $cltToken = $newUserInfo->getCltToken();
-
-if(empty($cltUsername)) {
-    die("Username Is Required");
-}
-
-if(empty($cltFirstName)) {
-    die("First Name Is Required");
-}
-
-if(empty($cltLastName)) {
-    die("Last Name Is Required");
-}
-
-if (! filter_var($cltPhoneNumber, FILTER_VALIDATE_INT)) {
-    die("Valid Phone Number is Required");
-}
-
-if (! filter_var($cltEmail, FILTER_VALIDATE_EMAIL)) {
-    die("Valid Email is Required");
-}
-
-
 $newPasswordConfirmation = $_POST["passwordConfirmation-input"];
 
-checkPasswordLength($cltPassword);
-checkPasswordLetter($cltPassword);
-checkPasswordNumber($cltPassword);
-checkPasswordMatch($cltPassword, $newPasswordConfirmation);
+checkUsername($cltUsername);
+checkFirstName($cltFirstName);
+checkLastName($cltLastName);
+checkPhoneNumber($cltPhoneNumber);
+checkEmail($cltEmail);
+checkPassword($cltPassword, $newPasswordConfirmation);
 
 $emailSQL = "SELECT cltEmail FROM Client WHERE cltEmail='".$cltEmail."'";
 $result = runSQLResult($emailSQL);

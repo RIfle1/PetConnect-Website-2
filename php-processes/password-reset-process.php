@@ -5,21 +5,17 @@ include '../php-processes/verification-functions.php';
 include '../php-processes/php-mailer.php';
 
 // Security stuff
+if (empty($_SESSION['Token']) || empty($_SESSION['resetPassword']) || empty($_SESSION['Table'])) {
+    header("Location: ../php-pages/restricted-access.php", true, 303);
+    exit;
+}
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-
-    if (empty($_SESSION['Token']) || empty($_SESSION['resetPassword']) || empty($_SESSION['Table'])) {
-        header("Location: ../php-pages/restricted-access.php", true, 303);
-        exit;
-    }
 
     $newPassword = $_POST['newPassword-input'];
     $newPasswordConfirmation = $_POST['newPasswordConfirmation-input'];
     $token = $_SESSION['Token'];
 
-    checkPasswordLength($newPassword);
-    checkPasswordLetter($newPassword);
-    checkPasswordNumber($newPassword);
-    checkPasswordMatch($newPassword, $newPasswordConfirmation);
+    checkPassword($newPassword, $newPasswordConfirmation);
 
     $passwordHash = returnPasswordHash($newPassword);
 

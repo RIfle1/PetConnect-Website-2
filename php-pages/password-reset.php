@@ -58,8 +58,6 @@ $captchaLanguage = strtolower(substr(returnLanguage(), 0, 2));
             crossorigin="anonymous">
     </script>
 
-    <script src="../javaScript/password-reset-validation.js"></script>
-
     <script type="text/javascript">
         var onloadCallback = function() {
             // Renders the HTML element with id 'example1' as a reCAPTCHA widget.
@@ -117,6 +115,9 @@ $captchaLanguage = strtolower(substr(returnLanguage(), 0, 2));
     </div>
 
 </form>
+
+<script src="../javaScript/validation-functions.js"></script>
+<script src="../javaScript/password-reset-validation.js"></script>
 
 <?php include '../php-pages/site-footer.php' ?>
 <script type="text/javascript">

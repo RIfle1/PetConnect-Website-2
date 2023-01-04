@@ -2,7 +2,7 @@
 session_start();
 include 'dbConnection.php';
 include 'verification-functions.php';
-clientPage();
+//clientPage();
 
 $loggedIn = $_SESSION['loggedIn'];
 $table = $_SESSION['Table'];
@@ -17,12 +17,12 @@ $entityInfo = $result->fetch_assoc();
 $oldPasswordHash = $entityInfo[$entityAttributes['Password']];
 
 if(password_verify($newPassword, $oldPasswordHash)) {
-    $samePassword = true;
+    $passwordAvailable = false;
 }
 else {
-    $samePassword = false;
+    $passwordAvailable = true;
 }
 
 header("Content-Type: application/json");
-echo json_encode(["samePassword" => $samePassword]);
+echo json_encode(["passwordAvailable" => $passwordAvailable]);
 

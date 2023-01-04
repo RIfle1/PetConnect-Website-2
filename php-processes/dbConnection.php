@@ -265,47 +265,44 @@ function returnEntityAttributes(): array
 {
     $clientLoggedIn = $_SESSION['clientLoggedIn'];
     $adminLoggedIn = $_SESSION['adminLoggedIn'];
-    $loggedIn = $_SESSION['loggedIn'];
 
-    if($loggedIn) {
-        if($clientLoggedIn) {
-            return array(
-                'ID' => "cltID",
-                "Username" => "cltUsername",
-                "FirstName" => "cltFirstName",
-                "LastName" => "cltLastName",
-                "Email" => "cltEmail",
-                "PhoneNumber" => "cltPhoneNumber",
-                "PfpName" => "cltPfpName",
-                "Password" => "cltPassword",
-                "Token" => "cltToken",
-                "Table" => "client",
-                "IDLetters" => 'clt',
-                "IsModerator" => "cltIsModerator",
-            );
-        }
-        elseif($adminLoggedIn) {
-            return array (
-                "ID" => "admID",
-                "Username" => "admUsername",
-                "FirstName" => "admFirstName",
-                "LastName" => "admLastName",
-                "Email" => "admEmail",
-                "PhoneNumber" => "admPhoneNumber",
-                "PfpName" => "admPfpName",
-                "Password" => "admPassword",
-                "Token" => "admToken",
-                "Table" => "admin",
-                "IDLetters" => 'adm',
-            );
-        }
-        else {
-            return array();
-        }
+    $table = $_SESSION['Table'];
+
+    if($clientLoggedIn || $table === 'client') {
+        return array(
+            'ID' => "cltID",
+            "Username" => "cltUsername",
+            "FirstName" => "cltFirstName",
+            "LastName" => "cltLastName",
+            "Email" => "cltEmail",
+            "PhoneNumber" => "cltPhoneNumber",
+            "PfpName" => "cltPfpName",
+            "Password" => "cltPassword",
+            "Token" => "cltToken",
+            "Table" => "client",
+            "IDLetters" => 'clt',
+            "IsModerator" => "cltIsModerator",
+        );
+    }
+    elseif($adminLoggedIn|| $table === 'admin') {
+        return array (
+            "ID" => "admID",
+            "Username" => "admUsername",
+            "FirstName" => "admFirstName",
+            "LastName" => "admLastName",
+            "Email" => "admEmail",
+            "PhoneNumber" => "admPhoneNumber",
+            "PfpName" => "admPfpName",
+            "Password" => "admPassword",
+            "Token" => "admToken",
+            "Table" => "admin",
+            "IDLetters" => 'adm',
+        );
     }
     else {
         return array();
     }
+
 }
 
 function adminPage(): void
@@ -748,30 +745,6 @@ function returnLanguageList(): array
                 "Edit" => "Edit",
                 "Confirm" => "Confirm",
                 "Confirm Code" => "Confirm Code",
-
-                "Username must be at least 3 characters long" =>
-                    "Username must be at least 3 characters long",
-                "First Name must be at least 3 characters long" =>
-                    "First Name must be at least 3 characters long",
-                "Last Name must be at least 3 characters long" =>
-                    "Last Name must be at least 3 characters long",
-
-                "Must be a number" => "Must be a number",
-
-                "Input a valid Email" => "Input a valid Email",
-                "A confirmation code has been sent to your new email address."
-                => "A confirmation code has been sent to your new email address.",
-                "Input the confirmation code :" => "Input the confirmation code :",
-                "This email is already Taken." => "This email is already Taken.",
-                "The email could not be sent." => "The email could not be sent.",
-                "The Confirmation Code is Incorrect." => "The Confirmation Code is Incorrect.",
-
-                "Password must be at least 8 characters." => "Password must be at least 8 characters.",
-                "Password must contain at least one letter." => "Password must contain at least one letter.",
-                "Password must contain at least one number." => "Password must contain at least one number.",
-                "Passwords must match." => "Passwords must match.",
-                "Your old password is incorrect." => "Your old password is incorrect.",
-                "Your new password must be different from your old password." => "Your new password must be different from your old password.",
             ),
             "manage-user-buttons" => array(
                 "Promote User" => "Promote User",
@@ -807,14 +780,14 @@ function returnLanguageList(): array
                 "New Password is required" => "New Password is required",
                 "Passwords should match" => "Passwords should match",
             ),
-            "validation-function" => array(
+            "validation-functions" => array(
                 "Client Username is required" => "Client Username is required",
                 "Client Username must be at least 3 characters" => "Client Username must be at least 3 characters",
                 "Client First Name is required" => "Client First Name is required",
                 "Client First Name must be at least 3 characters" => "Client First Name must be at least 3 characters",
                 "Client Last Name is required" => "Client Last Name is required",
                 "Client Last Name must be at least 3 characters" => "Client Last Name must be at least 3 characters",
-                "Client Email is required" => "Client Email is required",
+                "Email is required" => "Email is required",
                 "Must be an email" => "Must be an email",
                 "Email is already Taken" => "Email is already Taken",
                 "Client Phone Number must be a number" => "Client Phone Number must be a number",
@@ -826,6 +799,9 @@ function returnLanguageList(): array
                 "Password must contain at least one number" => "Password must contain at least one number",
 
                 "Passwords should match" => "Passwords should match",
+                "Your new password must be different from your old password." => "Your new password must be different from your old password.",
+                "Your old password is incorrect." => "Your old password is incorrect.",
+                "The Confirmation Code is Incorrect." => "The Confirmation Code is Incorrect.",
             ),
 
         ),
@@ -944,10 +920,10 @@ function returnLanguageList(): array
             ),
             "password-reset-success" => array(
                 "Reset your password" => "Réinitialiser votre mot de passe",
-                "Your account password has been successfully changed." => "Votre mot de passe de compte a été modifié avec succès.",
+                "Your account password has been successfully changed." => "Votre mot de passe a été modifié avec succès.",
                 "Your account password could not be changed." => "Votre mot de passe de compte n'a pas pu être modifié.",
                 "You can now" => "Vous pouvez maintenant",
-                "login" => "Identifiez-vous",
+                "login" => "vous-identifiez",
             ),
             "profile" => array(
                 "Select Image" => "Sélectionner une image",
@@ -992,7 +968,7 @@ function returnLanguageList(): array
                 "Client First Name must be at least 3 characters" => "Le prénom du client doit comporter au moins 3 caractères",
                 "Client Last Name is required" => "Le nom de famille du client est requis",
                 "Client Last Name must be at least 3 characters" => "Le nom de famille du client doit comporter au moins 3 caractères",
-                "Client Email is required" => "L'adresse électronique du client est requise",
+                "Email is required" => "L'adresse électronique du client est requise",
                 "Must be an email" => "Doit être une adresse électronique valide",
                 "Email is already Taken" => "L'adresse électronique est déjà utilisée",
                 "Client Phone Number must be a number" => "Le numéro de téléphone du client doit être un nombre",
@@ -1110,7 +1086,7 @@ function returnLanguageList(): array
                 "New" => "Nouveau",
                 "Edit" => "Modifier",
                 "Confirm" => "Confirmer",
-                "Confirm Code" => "Code de confirmation",
+                "Confirm Code" => "Confirmer le code",
 
                 "Username must be at least 3 characters long" =>
                     "Le nom d'utilisateur doit comporter au moins 3 caractères",
@@ -1167,18 +1143,18 @@ function returnLanguageList(): array
                 "New Password is required" => "New Password is required",
                 "Passwords should match" => "Passwords should match",
             ),
-            "validation-function" => array(
+            "validation-functions" => array(
                 "Client Username is required" => "Nom d'utilisateur du client requis",
                 "Client Username must be at least 3 characters" => "Le nom d'utilisateur du client doit comporter au moins 3 caractères",
                 "Client First Name is required" => "Prénom du client requis",
                 "Client First Name must be at least 3 characters" => "Le prénom du client doit comporter au moins 3 caractères",
                 "Client Last Name is required" => "Nom de famille du client requis",
                 "Client Last Name must be at least 3 characters" => "Le nom de famille du client doit comporter au moins 3 caractères",
-                "Client Email is required" => "Adresse e-mail du client requise",
+                "Email is required" => "Adresse e-mail du client requise",
                 "Must be an email" => "Doit être une adresse e-mail",
                 "Email is already Taken" => "L'adresse e-mail est déjà utilisée",
                 "Client Phone Number must be a number" => "Le numéro de téléphone du client doit être un nombre",
-                "Phone number must be 10 characters long" => "Le numéro de téléphone doit comporter au moins 10 caractères",
+                "Phone number must be 10 characters long" => "Le numéro de téléphone doit comporter 10 caractères",
                 "Password is required" => "Mot de passe du client requis",
 
                 "Password must be at least 8 characters" => "Le mot de passe doit comporter au moins 8 caractères",
@@ -1186,6 +1162,9 @@ function returnLanguageList(): array
                 "Password must contain at least one number" => "Le mot de passe doit contenir au moins un nombre",
 
                 "Passwords should match" => "Les mots de passe doivent correspondre",
+                "Your new password must be different from your old password." => "Votre nouveau mot de passe doit être différent de votre ancien mot de passe.",
+                "Your old password is incorrect." => "Votre ancien mot de passe est incorrect.",
+                "The Confirmation Code is Incorrect." => "Le code de confirmation est incorrect.",
             ),
 
         ),
@@ -1210,7 +1189,8 @@ function logoutAndRedirect($page): void
         // CHANGE TOKEN WHEN LOGGING OUT
         if(isset($_SESSION['Table']) && isset($_SESSION['Token'])) {
             $entityAttributes = returnEntityAttributes();
-            $token = generateToken($_SESSION[$entityAttributes['ID']]);
+            $token = generateToken($_SESSION["ID"]);
+            echo $token;
 
             $insertTokenSql = "UPDATE ".$_SESSION['Table']." SET ".$entityAttributes['Token']." = '".$token."' WHERE ".$entityAttributes['Token']." = '".$_SESSION['Token']."'";
 

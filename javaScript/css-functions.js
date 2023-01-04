@@ -213,7 +213,7 @@ function returnLanguageList() {
                 "Client First Name must be at least 3 characters" : "Client First Name must be at least 3 characters",
                 "Client Last Name is required" : "Client Last Name is required",
                 "Client Last Name must be at least 3 characters" : "Client Last Name must be at least 3 characters",
-                "Client Email is required" : "Client Email is required",
+                "Email is required" : "Email is required",
                 "Must be an email" : "Must be an email",
                 "Email is already Taken" : "Email is already Taken",
                 "Client Phone Number must be a number" : "Client Phone Number must be a number",
@@ -233,7 +233,7 @@ function returnLanguageList() {
                 "New" : "Nouveau",
                 "Edit" : "Modifier",
                 "Confirm" : "Confirmer",
-                "Confirm Code" : "Code de confirmation",
+                "Confirm Code" : "Confirmer le code",
 
                 "Username must be at least 3 characters long" :
                     "Le nom d'utilisateur doit comporter au moins 3 caractères",
@@ -297,7 +297,7 @@ function returnLanguageList() {
                 "Client First Name must be at least 3 characters" : "Le prénom du client doit comporter au moins 3 caractères",
                 "Client Last Name is required" : "Nom de famille du client requis",
                 "Client Last Name must be at least 3 characters" : "Le nom de famille du client doit comporter au moins 3 caractères",
-                "Client Email is required" : "Adresse e-mail du client requise",
+                "Email is required" : "Adresse e-mail du client requise",
                 "Must be an email" : "Doit être une adresse e-mail",
                 "Email is already Taken" : "L'adresse e-mail est déjà utilisée",
                 "Client Phone Number must be a number" : "Le numéro de téléphone du client doit être un nombre",

@@ -28,16 +28,18 @@ const submitButtonElement = $("#"+submitButtonID)
 
 setSubmitButton(submitButtonElement);
 
-function displayError(inputElement, errorMsg, error) {
-    $("."+errorSpanClass+"-"+inputElement.attr("name")).remove();
-    if(error) {
-        inputElement.parent().append("<span class="+errorSpanClass+"-"+inputElement.attr("name")+">"+errorMsg+"</span>")
-    }
-}
-
 function onClickSubmitButton() {
-    // GET VALUES
-    let validateVar;
+    // VARIABLES
+    let validateUsernameVar;
+    let validateFirstNameVar;
+    let validateLastNameVar;
+    let validateEmailVar;
+    let validatePhoneNumberVar;
+    let validatePasswordVar;
+    let validatePasswordConfirmationVar;
+
+
+    errorBool = 0;
 
     const usernameInputValue = usernameInputElement.val();
     const firstNameInputValue = firstNameInputElement.val();
@@ -48,49 +50,55 @@ function onClickSubmitButton() {
     const passwordConfirmationInputValue = passwordConfirmationInputElement.val();
 
     // CLIENT USERNAME
-    validateVar = validateUsername(usernameInputValue)
-    displayError(usernameInputElement, validateVar.errorMsg, validateVar.errorBool)
+    validateUsernameVar = validateUsername(usernameInputValue)
+    displayError(usernameInputElement, validateUsernameVar.errorMsg, validateUsernameVar.errorBool)
 
     // CLIENT FIRST NAME
-    validateVar = validateFirstName(firstNameInputValue);
-    displayError(firstNameInputElement, validateVar.errorMsg, validateVar.errorBool);
+    validateFirstNameVar = validateFirstName(firstNameInputValue);
+    displayError(firstNameInputElement, validateFirstNameVar.errorMsg, validateFirstNameVar.errorBool);
 
     // CLIENT LAST NAME
-    validateVar = validateLastName(lastNameInputValue)
-    displayError(lastNameInputElement, validateVar.errorMsg, validateVar.errorBool);
+    validateLastNameVar = validateLastName(lastNameInputValue)
+    displayError(lastNameInputElement, validateLastNameVar.errorMsg, validateLastNameVar.errorBool);
 
     // CLIENT EMAIL
-    validateVar = validateEmail(emailInputValue)
-    displayError(emailInputElement, validateVar.errorMsg, validateVar.errorBool);
-
-    setTimeout(()=> {
-        validateVar = validateEmail(emailInputValue);
-        if(!validateVar.errorBool) {
-            validateVar = validateEmailTaken();
-            displayError(emailInputElement, validateVar.errorMsg, validateVar.errorBool);
-        }
-    }, 100)
+    validateEmailVar = validateEmail(emailInputValue)
+    displayError(emailInputElement, validateEmailVar.errorMsg, validateEmailVar.errorBool);
 
     // CLIENT PHONE NUMBER
-    validateVar = validatePhoneNumber(phoneNumberInputValue)
-    displayError(phoneNumberInputElement, validateVar.errorMsg, validateVar.errorBool);
+    validatePhoneNumberVar = validatePhoneNumber(phoneNumberInputValue)
+    displayError(phoneNumberInputElement, validatePhoneNumberVar.errorMsg, validatePhoneNumberVar.errorBool);
 
     // CLIENT PASSWORD
-    validateVar = validatePassword(passwordInputValue, passwordConfirmationInputValue)
-    displayError(passwordInputElement, validateVar.errorMsg, validateVar.errorBool);
+    validatePasswordVar = validatePassword(passwordInputValue, false)
+    displayError(passwordInputElement, validatePasswordVar.errorMsg, validatePasswordVar.errorBool);
 
-    // IF NO ERRORS
-    if(!errorBool) {
-        const captchaResponse = $("#g-recaptcha-response").val();
-        document.getElementById("signup-form").submit();
+    validatePasswordConfirmationVar = validatePasswordComparison(passwordInputValue, passwordConfirmationInputValue, true)
+    displayError(passwordConfirmationInputElement, validatePasswordConfirmationVar.errorMsg, validatePasswordConfirmationVar.errorBool);
 
-        // if(captchaResponse.length === 0) {
-        //     $("#sign-form-robot").css("display", "flex")
-        // }
-        // else {
-        //     document.getElementById("signup-form").submit();
-        // }
-    }
+    setTimeout(()=> {
+        if(validateEmailVar.emailTaken) {
+            validateEmailVar = validateEmailTaken();
+            displayError(emailInputElement, validateEmailVar.errorMsg, validateEmailVar.errorBool);
+        }
+
+        // IF NO ERRORS
+        if(errorBool === 0) {
+            const captchaResponse = $("#g-recaptcha-response").val();
+            console.log("VALIDATED")
+
+            document.getElementById("signup-form").submit();
+
+            // if(captchaResponse.length === 0) {
+            //     $("#sign-form-robot").css("display", "flex")
+            // }
+            // else {
+            //     document.getElementById("signup-form").submit();
+            // }
+        }
+        console.log(errorBool);
+
+    }, 100)
 
 }
 
@@ -100,109 +108,3 @@ function setSubmitButton(buttonElement) {
     })
 }
 
-
-// const validation = new JustValidate("#signup-form")
-// validation
-//     .addField("#cltUsername-input", [
-//         {
-//             rule: "required",
-//             errorMessage: languageList["Client Username is required"],
-//         },
-//         {
-//             rule: "minLength",
-//             value: 3,
-//             errorMessage: languageList["Client Username must be at least 3 characters"],
-//         }
-//     ])
-//     .addField("#cltFirstName-input", [
-//         {
-//             rule: "required",
-//             errorMessage: languageList["Client First Name is required"],
-//         },
-//         {
-//             rule: "minLength",
-//             value: 3,
-//             errorMessage: languageList["Client First Name must be at least 3 characters"],
-//         }
-//     ])
-//     .addField("#cltLastName-input", [
-//         {
-//             rule: "required",
-//             errorMessage: languageList["Client Last Name is required"],
-//         },
-//         {
-//             rule: "minLength",
-//             value: 3,
-//             errorMessage: languageList["Client Last Name must be at least 3 characters"],
-//         }
-//     ])
-//     .addField("#cltEmail-input", [
-//         {
-//             rule: "required",
-//             errorMessage: languageList["Client Email is required"],
-//         },
-//         {
-//             rule: "email",
-//             errorMessage: languageList["Must be an email"],
-//         },
-//         {
-//             validator: (value) => () => {
-//                 return fetch("../php-processes/validate-email.php?email-input=" +
-//                     encodeURIComponent(value))
-//                     .then(function(response) {
-//                         return response.json();
-//                     })
-//                     .then(function(json) {
-//                         return json.available;
-//                     });
-//             },
-//             errorMessage: languageList["Email is already Taken"],
-//
-//         }
-//     ])
-//     .addField("#cltPhoneNumber-input", [
-//         {
-//             rule : "number",
-//             errorMessage: languageList["Client Phone Number must be a number"],
-//         },
-//         {
-//             rule: "minLength",
-//             value: 10,
-//         },
-//         {
-//             rule: "maxLength",
-//             value: 10,
-//         }
-//     ])
-//     .addField("#cltPassword-input", [
-//         {
-//             rule: "required",
-//             errorMessage: languageList["Client Password is required"],
-//         },
-//         {
-//             rule: "password"
-//         }
-//     ])
-//     .addField("#cltPasswordConfirmation-input", [
-//         {
-//             validator: (value, fields) => {
-//                 fields = $("#cltPassword-input").val();
-//                 return value === fields;
-//             },
-//             errorMessage: languageList["Passwords should match"],
-//         }
-//     ])
-//     .onSuccess((event) => {
-//         const captchaResponse = $("#g-recaptcha-response").val();
-//         document.getElementById("signup-form").submit();
-//
-//         // if(captchaResponse.length === 0) {
-//         //     $("#sign-form-robot").css("display", "flex")
-//         // }
-//         // else {
-//         //     document.getElementById("signup-form").submit();
-//         // }
-//     });
-//
-//
-//

@@ -153,6 +153,7 @@ $languageList = returnLanguageList()[returnLanguage()]['connection-security'];
     setMarginTopFooter('cs-form-body', 'id', 'site-footer-main-div', 'id', 0)
 </script>
 
+<script src="../javaScript/validation-functions.js"></script>
 <script src="../javaScript/connection-security-buttons.js"></script>
 
 </body>

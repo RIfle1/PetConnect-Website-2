@@ -3,43 +3,39 @@
 //include 'dbConnection.php';
 
 function returnLoggedUser(): string {
-    if(empty($_SESSION['ID']) && empty($_SESSION['Token']) && empty($_SESSION['Table']) && empty($_SESSION['loggedIn'])) {
+    if(empty($_SESSION['ID']) || empty($_SESSION['Token']) || empty($_SESSION['Table']) || empty($_SESSION['loggedIn'])) {
         return 'noUser';
     }
 
-    if(!empty($_SESSION['Table'])) {
-        if($_SESSION['Table'] === 'client' && $_SESSION['loggedIn'] === true) {
-            $cltToken = $_SESSION['Token'];
-            $cltCheckSql = "SELECT * FROM client WHERE cltToken = '".$cltToken."'";
-            $cltResult = runSQLResult($cltCheckSql);
-            $clientInfo = $cltResult->fetch_assoc();
+    if($_SESSION['Table'] === 'client' && $_SESSION['loggedIn'] === true) {
+        $cltToken = $_SESSION['Token'];
+        $cltCheckSql = "SELECT * FROM client WHERE cltToken = '".$cltToken."'";
+        $cltResult = runSQLResult($cltCheckSql);
+        $clientInfo = $cltResult->fetch_assoc();
 
-            if(!$clientInfo || !compareIdAndToken($_SESSION['ID'], $cltToken, 'client')) {
-                return 'fake client';
-            } else {
-                return 'client';
-            }
+        if(!$clientInfo || !compareIdAndToken($_SESSION['ID'], $cltToken, 'client')) {
+            return 'fake client';
+        } else {
+            return 'client';
         }
-        elseif($_SESSION['Table'] === 'admin' && $_SESSION['loggedIn'] === true) {
-            $admToken = $_SESSION['Token'];
-            $admCheckSql = "SELECT * FROM admin WHERE admToken = '" . $admToken . "'";
-            $admResult = runSQLResult($admCheckSql);
-            $adminInfo = $admResult->fetch_assoc();
+    }
+    elseif($_SESSION['Table'] === 'admin' && $_SESSION['loggedIn'] === true) {
+        $admToken = $_SESSION['Token'];
+        $admCheckSql = "SELECT * FROM admin WHERE admToken = '" . $admToken . "'";
+        $admResult = runSQLResult($admCheckSql);
+        $adminInfo = $admResult->fetch_assoc();
 
-            if (!$adminInfo || !compareIdAndToken($_SESSION['ID'], $admToken, 'admin')) {
-                return 'fake admin';
-            }
-            else {
-                return 'admin';
-            }
+        if (!$adminInfo || !compareIdAndToken($_SESSION['ID'], $admToken, 'admin')) {
+            return 'fake admin';
         }
         else {
-            return 'noUser';
+            return 'admin';
         }
     }
     else {
         return 'noUser';
     }
+
 }
 
 $user = returnLoggedUser();

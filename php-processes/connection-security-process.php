@@ -12,7 +12,25 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     $entityAttribute = $_POST['entityAttribute'];
     $entityValue = $_POST['entityValue'];
 
-    if(substr($entityAttribute, 3) === 'Password') {
+    $entityID = substr($entityAttribute, 3);
+
+    if($entityID === "Username") {
+        checkUsername($entityValue);
+    }
+    else if($entityID === "FirstName") {
+        checkFirstName($entityValue);
+    }
+    else if($entityID === "LastName") {
+        checkLastName($entityValue);
+    }
+    else if($entityID === "PhoneNumber") {
+        checkPhoneNumber($entityValue);
+    }
+    else if($entityID === "Email") {
+        checkEmail($entityValue);
+    }
+    else if($entityID === 'Password') {
+//        checkPassword($entityValue, $newPasswordConfirmation);
         $entityValue = returnPasswordHash($entityValue);
     }
 

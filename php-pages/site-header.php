@@ -78,7 +78,7 @@ $languageListKeys = array_keys(returnLanguageList());
                 <div id="site-header-dropdown-menu-login" class="text-font-300">
                     <?php if (isset($loggedIn) && isset($entityInfo) && isset($entityAttributes)) : ?>
                         <?php if ($loggedIn) : ?>
-                            <p><?php echo $languageList['Hello'] ?> <?php echo $entityInfo[$entityAttributes["FirstName"]] . " " . $entityInfo[$entityAttributes["LastName"]] ?></p>
+                            <span><?php echo $languageList['Hello'] ?> <?php echo $entityInfo[$entityAttributes["FirstName"]] . " " . $entityInfo[$entityAttributes["LastName"]] ?></span>
                         <?php endif; ?>
                     <?php else : ?>
                         <div id="site-header-signup">
@@ -86,12 +86,12 @@ $languageListKeys = array_keys(returnLanguageList());
                             <span><?php echo $languageList['New Client?'] ?><a id="site-header-signup-a2" href="signup.php"><?php echo $languageList['Signup.'] ?></a></span>
                         </div>
                     <?php endif; ?>
-                    <div class="separation-line-1"></div>
-                    <a href="profile.php"><?php echo $languageList['My Account'] ?></a>
-                    <a href="#"><?php echo $languageList['My Orders'] ?></a>
-                    <a href="#"><?php echo $languageList['My Devices'] ?></a>
                     <?php if (isset($loggedIn)) : ?>
                         <?php if ($loggedIn) : ?>
+                            <div class="separation-line-1"></div>
+                            <a href="profile.php"><?php echo $languageList['My Account'] ?></a>
+                            <a href="#"><?php echo $languageList['My Orders'] ?></a>
+                            <a href="#"><?php echo $languageList['My Devices'] ?></a>
                             <div class="separation-line-1"></div>
                             <a href="../php-processes/logout.php"><?php echo $languageList['Logout'] ?></a>
                         <?php endif; ?>

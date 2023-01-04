@@ -39,7 +39,7 @@
     width: 350px;
 }
 
-.sign-form-elem label, span {
+.sign-form-elem label, .sign-form-elem span, .sign-form-elem input {
     align-self: start;
     width: 100%;
 }
