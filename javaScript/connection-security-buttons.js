@@ -144,13 +144,9 @@ function returnElementsList(buttonAttribute) {
 
 function onClickEditButton(editButtonElement) {
     // VARIABLES
-    let validateUsernameVar;
-    let validateFirstNameVar;
-    let validateLastNameVar;
+    let validateVar;
     let validateEmailVar;
-    let validatePhoneNumberVar;
     let validatePasswordVar;
-    let validatePasswordConfirmationVar;
 
     let buttonName = editButtonElement.attr("name");
     let buttonAttribute = editButtonElement.attr('id').substring(20);
@@ -231,8 +227,6 @@ function onClickEditButton(editButtonElement) {
 
             let errorMsgList = [];
 
-            let validatePasswordVar;
-
             let editInputPasswordOldValue = editInputPasswordOldElement.val();
             let editInputPasswordOriginalValue = editInputPasswordOriginalElement.val();
             let editInputPasswordRepeatValue = editInputPasswordRepeatElement.val();
@@ -265,7 +259,6 @@ function onClickEditButton(editButtonElement) {
         else if(editButtonElement !== editButtonPasswordElement && editButtonElement !== editButtonEmailElement) {
 
             entityValue = inputCommonElementValue;
-            let validateVar;
 
             if(editButtonElement === editButtonUsernameElement) {
                 validateVar = validateUsername(inputCommonElementValue)
