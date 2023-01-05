@@ -19,19 +19,12 @@ $languageList = returnLanguageList()[returnLanguage()]['signup-success'];
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
     <link rel="stylesheet" href="../css/sign-styles.css">
-
     <script src="https://code.jquery.com/jquery-3.6.1.min.js"
             integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
             crossorigin="anonymous">
     </script>
-
-  <title>PetConnect Signup</title>
+    <title>Signup</title>
 </head>
 <body class="text-font-700">
 
@@ -71,7 +64,6 @@ $languageList = returnLanguageList()[returnLanguage()]['signup-success'];
     setMarginTopFooter('sign-form-body', 'id', 'site-footer-main-div', 'id', 0)
 </script>
 
-<script src="../javaScript/css-functions.js"></script>
 <script src="../javaScript/signup-email-validation.js"></script>
 </body>
 </html>

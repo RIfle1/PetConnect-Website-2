@@ -5,23 +5,27 @@ onlyClientPage();
 include 'site-header.php';
 
 $languageList = returnLanguageList()[returnLanguage()]['address-add'];
-$header = '';
-$addressInfo = '';
-$adrAddress = '';
-$adrAddressOptional = '';
-$adrPostalCode = '';
-$adrCity = '';
-
 
 if(empty($_GET['type'])) {
+    $type = '';
+
     $header = $languageList["Add a new address"];
     $button = $languageList["Add new address"];
+
+    $adrID = '';
+    $adrAddress = '';
+    $adrAddressOptional = '';
+    $adrPostalCode = '';
+    $adrCity = '';
 }
 else {
+    $type = $_GET['type'];
+
     $header = $languageList["Modify Address"];
     $button = $languageList["Submit Changes"];
 
     $addressInfo = returnAddressInfo($_GET['adrID']);
+    $adrID = $_GET['adrID'];
     $adrAddress = $addressInfo[0]["adrAddress"];
     $adrAddressOptional = $addressInfo[0]["adrAddressOptional"];
     $adrPostalCode = $addressInfo[0]["adrPostalCode"];
@@ -32,18 +36,15 @@ else {
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
 
     <link rel="stylesheet" href="../css/address-add-styles.css">
 
-    <title>Address Add</title>
+    <title>Add an Address</title>
 </head>
 <body>
 
-<form id="add-form" name="add-form" action="../php-processes/address-add-process.php?type=<?php echo $_GET['type']?>&adrID=<?php echo $_GET['adrID']?>" method="post">
+<form id="add-form" name="add-form" action="../php-processes/address-add-process.php?type=<?php echo $type?>&adrID=<?php echo $adrID?>" method="post">
     <div id="add-form-body-div" class="text-font-700">
         <div class="add-form-elem">
             <h1><?php echo $header?></h1>

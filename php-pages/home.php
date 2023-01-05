@@ -10,16 +10,14 @@ $languageList = returnLanguageList()[returnLanguage()]['home'];
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
     <link rel="stylesheet" href="../css/home-styles.css">
     <title>PetConnect</title>
 </head>
 
 <body>
 
-<main id="home-main-div">
+<main id="home-main-div" class="text-font-700">
 
     <slogan>
         <div class="fondimage">

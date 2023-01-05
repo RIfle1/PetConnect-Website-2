@@ -11,16 +11,13 @@ $languageList = returnLanguageList()[returnLanguage()]['connection-security'];
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
 
     <!--    Style Sheet-->
     <link rel="stylesheet" href="../css/edit-styles.css">
     <!--    Jquery-->
 
-    <title>PetConnect Connection and Security</title>
+    <title>Connection and Security</title>
 </head>
 <body>
 

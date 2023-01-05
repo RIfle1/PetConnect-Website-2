@@ -10,10 +10,7 @@ $languageList = returnLanguageList()[returnLanguage()]['address'];
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
 
     <link rel="stylesheet" href="../css/address-styles.css">
 
@@ -30,7 +27,6 @@ $languageList = returnLanguageList()[returnLanguage()]['address'];
     <div class="separation-line-2"></div>
 
     <div id="ad-main-div">
-
         <a href="../php-pages/address-add.php?type=&adrID=" id="ad-add-address-div" class="ad-address-div">
             <div class="ad-plus-div">
                 <div class="ad-vertical-plus"></div>
@@ -38,8 +34,6 @@ $languageList = returnLanguageList()[returnLanguage()]['address'];
             </div>
             <h2><?php echo $languageList["Add an address"]?></h2>
         </a>
-
-
     </div>
 
 </div>

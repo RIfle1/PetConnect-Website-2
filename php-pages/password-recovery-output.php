@@ -15,10 +15,7 @@ $languageList = returnLanguageList()[returnLanguage()]['password-recovery-output
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
 
     <link rel="stylesheet" href="../css/sign-styles.css">
 
@@ -27,7 +24,7 @@ $languageList = returnLanguageList()[returnLanguage()]['password-recovery-output
             crossorigin="anonymous">
     </script>
 
-    <title>PetConnect Password Recovery</title>
+    <title>Password Recovery</title>
 </head>
 <body class="text-font-700">
 
@@ -58,7 +55,6 @@ $languageList = returnLanguageList()[returnLanguage()]['password-recovery-output
     setMarginTopFooter('sign-form-body', 'id', 'site-footer-main-div', 'id', 0)
 </script>
 
-<script src="../javaScript/css-functions.js"></script>
 <script src="../javaScript/signup-email-validation.js"></script>
 </body>
 </html>
