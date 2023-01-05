@@ -1,0 +1,263 @@
+
+* {
+    box-sizing: border-box;   
+    padding: 0;
+    margin: 0;
+}
+
+/* conatineur récapitulatif de comannde à droite */
+.container{
+    position: absolute;
+    width: 429px;
+    height: 739px;
+    right: 30px;
+    top: 132px;
+    background: #F4F3F4;
+    border-radius: 5px;
+
+
+}
+/* image produit */
+.container img{
+    width: 40%;
+    margin-left: -4em;
+}
+
+/* marge du texte */
+.container .text{
+    padding-left: 20px;
+}
+/*  style et posiion du texte 'Total TCT: PRIX'*/
+.container h2{
+    font-weight: 800;
+    font-size: 24px;
+    padding-top:20px ;
+    margin-top: 20px;
+
+}
+/* position prix HT*/
+.prix{
+    position: relative;
+    top: -4.7em;
+    left: 20em;
+}
+/* position prix T*/
+.prix2{
+    position: relative;
+    top: -1em;
+    left: 20em;
+}
+
+/* position prix produit*/
+.prix3{
+    position: relative;
+    top: -11em;
+    left: 22em;
+    font-size: 15px;
+}
+
+/* format texte */
+.container p{
+    position: relative;
+    font-weight: 400;
+    font-size: 15px;
+    top: -2.4em;
+}
+
+/* taille et position  des traits de séparation */
+#basket hr{
+    width: 24em;
+}
+#trait{
+    margin-top: -20px;
+}
+#trait2{
+    margin-top: -20px;
+}
+
+
+
+/* Posisition du texte 'Récapitulatid de ma commande' */
+.container h3{
+    padding-top: 30px;
+}
+
+/* Position et style de 'modifier' */
+input[id="mod"]{
+    position: relative;
+    font-weight: 600;
+    font-size: 15px;
+    background-color: #F4F3F4;
+    text-decoration-line: underline;
+    border: none;
+    top: -152px;
+    left: 320px;
+
+}
+
+/* position et style de Quatnité produit */
+.container h4{
+    position: relative;
+    font-weight: 600;
+    font-size: 16px;
+    color: #363636;
+    top: -100px;
+    left: 170px;
+}
+/* position du texte 'livraison gratuite en France' */
+#livraison{
+    margin-top: 80px;
+}
+
+/* position  et style du bouton 'Continuer' */
+#continue a{
+    text-align: center;
+    color: #fff;
+    position: relative;
+    font-size: 20px;
+    font-weight: 700;
+    background-color: #918D8D;
+    width: 376px;
+    height: 72px;
+    display: block;
+
+    text-decoration: none;
+    border: none;
+    line-height:70px;
+    border-radius: 52px;
+    margin-left: 5px;
+}
+    
+#continue a:hover {
+    background: #1E45A9;
+}
+
+
+ 
+
+
+
+main{overflow-x: hidden;}
+
+/* Styles et position des textes 'Connécté en...' et 'Adresse de livraison'*/
+#group h3{
+    position: relative;
+
+    padding-left: 4em;
+    font-weight: 700;
+    font-size: 24px;
+    color: black;
+}
+
+/*styles et position du texte'Champ obligatoire'*/
+#group h4{
+    position: relative;
+    font-weight: 500;
+    font-size: 16px;
+    left: 6.4em;
+    top: 2em;
+
+}
+
+#user p{
+   
+    font-weight: 700;
+    font-size: 20px;
+    text-decoration-line: underline;
+    color: #918D8D;
+
+    left: 370px;
+}
+
+/* position des informations 'Prénom,Nom...'*/ 
+.info{
+    margin-left: 100px;
+    position: relative;
+}
+
+/*styles et position des informations 'Prénom,Nom...'*/
+.info p{
+    font-weight: 400;
+    font-size: 20px;
+    margin-top: 60px;
+    color: #918D8D;
+}
+
+/*styles et position des entrées de texte */
+input[type="text"]{
+    font-size: 20px;
+    margin-top: 10px;
+    padding: 10px;
+    outline: none;
+    border-left: 0;
+    border-top: 0;
+    border-right: 0;
+    border-bottom: 1px solid (31, 31, 31, 0.48);
+    color: black;
+}
+
+/*styles et position du bouton enregistrer */
+input[id="save"]{
+    position: relative;
+    border: none;
+    background-color: #918D8D;
+    color: #fff;
+    font-weight: 700;
+    font-size: 20px;
+    width: 500px;
+    height: 72px;
+    border-radius: 52px;
+    left: 4.5em;
+    top: 3em;
+}
+input[type="submit"]:hover {
+    background: #1E45A9;
+  }
+
+/* longueur du trait*/
+#Prénom, #nom, #postal{
+    width: 172px;
+}
+/* longueur du trait*/
+#phone,#ville{
+    width: 245px;
+}
+/* longueur du trait*/
+#rue{
+    width: 320px;
+}
+
+/* position*/
+#name{
+    position: absolute;
+    top: -3.75em;
+    left: 20em;
+}
+/* position*/
+#town{
+    position: absolute;
+    left: 20em;
+    top: -4em;
+}
+
+
+
+
+#enr{
+    position: relative;
+    top:80px;
+}
+
+lien{
+    z-index: 2;
+}
+
+/* Erreurs  */
+.alert{
+    color: red;
+    position: absolute;
+  
+    left: 12%;
+    top: 10%;
+  }
+  

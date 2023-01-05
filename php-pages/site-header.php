@@ -21,7 +21,7 @@ $languageListKeys = array_keys(returnLanguageList());
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;500;700&display=swap" rel="stylesheet">
 
     <!--    Style Sheet-->
-    <link rel="stylesheet" href="../css/site-header-styles.css">
+    <link rel="stylesheet" href="../css/site-header-styless.css">
     <link rel="stylesheet" href="../css/common-styles.css">
     <!--    Jquery-->
     <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous">
@@ -88,8 +88,8 @@ $languageListKeys = array_keys(returnLanguageList());
                     <?php endif; ?>
                     <div class="separation-line-1"></div>
                     <a href="profile.php"><?php echo $languageList['My Account'] ?></a>
-                    <a href="#"><?php echo $languageList['My Orders'] ?></a>
-                    <a href="#"><?php echo $languageList['My Devices'] ?></a>
+                    <a href="order-history.php"><?php echo $languageList['My Orders'] ?></a>
+                    <a href="devices.php"><?php echo $languageList['My Devices'] ?></a>
                     <?php if (isset($loggedIn)) : ?>
                         <?php if ($loggedIn) : ?>
                             <div class="separation-line-1"></div>
@@ -98,8 +98,40 @@ $languageListKeys = array_keys(returnLanguageList());
                     <?php endif; ?>
                 </div>
             </div>
-            <div>
-                <a href="#"><img class="site-header-profile-img-1" src="<?php echo getImage('basket.png') ?>" alt="Basket-logo"></a>
+
+            <div id="site-header-profile-div-flex">
+                <div id="site-header-basket-logo">
+                    <a href="basket.php"><img class="site-header-profile-img-1" src="<?php echo getImage('basket.png') ?>" alt="Basket-logo"></a>
+                </div>
+                <?php if (countBasket() > 0) { ?>
+                    <div id="site-header-dropdown-menu-basket" class="text-font-300">
+
+
+                        <p>Récapitulatif de ma commande</p>
+                        <div class="separation-line-1"></div>
+
+                        <?php foreach (getColorProduct() as $cle => $valeur) {
+                            $link = "Collier_$cle.png"; ?>
+
+                            <img src="<?php echo getImage($link) ?>">
+                            <div id="number">
+                                <p><?php echo $valeur ?> × iCollar <br><?php echo $cle ?> </p>
+                            </div>
+                            <!-- <form action="../php-processes/shop-process.php" method="POST">
+                                <button type="submit" name="suppr">-</button>
+                            </form> -->
+                            <div class="separation-line-1"></div>
+
+                        <?php } ?>
+
+                        <form action="../php-processes/shop-process.php" method="POST" id="deleteAll">
+                            <button type="submit" name="suppr">Supprimer le panier</button>
+                        </form>
+                        <a href="../php-pages/payment.php">Acheter</a>
+                    </div>
+
+                    <notif><?php echo countBasket() ?></notif>
+                <?php } ?>
             </div>
         </div>
     </div>

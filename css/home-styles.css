@@ -1,6 +1,5 @@
 
 * {
-  box-sizing: border-box;   
   padding: 0;
   margin: 0;
 }
@@ -232,31 +231,3 @@ body{
     }
   }
   
-  
-  
-  
-  lien{
-      
-    position: absolute;
-    top: 120px;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-  
-  lien a{
-    color: grey;
-    text-decoration: none;
-  }
-  
-  lien a:hover{
-   text-decoration: underline;
-  }
-  #actif{
-    color: rgb(208, 5, 208);
-  }
-  #actif:hover{
-    text-decoration: none;
-  }
-  
-
-

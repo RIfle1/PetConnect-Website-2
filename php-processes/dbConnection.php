@@ -8,12 +8,11 @@ function OpenCon()
     $dbUser = "root";
     $dbPass = "";
     $db = "app db";
-    $conn = new mysqli($dbHost, $dbUser, $dbPass,$db) or die("Connect failed: %s\n". $conn -> error);
+    $conn = new mysqli($dbHost, $dbUser, $dbPass, $db) or die("Connect failed: %s\n" . $conn->error);
 
     if ($conn->connect_errno) {
         die("Connection Error: " . $conn->connect_error);
-    }
-    else {
+    } else {
         return $conn;
     }
 }
@@ -23,7 +22,7 @@ function CloseCon($conn): void
     $conn->close();
 }
 
-function runSQLResult($query) : bool|mysqli_result
+function runSQLResult($query): bool|mysqli_result
 {
     $conn = OpenCon();
     $result = mysqli_query($conn, $query);
@@ -36,48 +35,49 @@ function insertSQL($sql): string
     $mysqli = OpenCon();
     $stmt = $mysqli->stmt_init();
 
-    if ( ! $stmt->prepare($sql)) {
+    if (!$stmt->prepare($sql)) {
         die("SQL Error: " . $mysqli->error);
     }
 
-    if($stmt->execute()) {
+    if ($stmt->execute()) {
         CloseCon($mysqli);
         return "Success";
-    }
-    else {
+    } else {
         return ($mysqli->error . " " . $mysqli->errno);
     }
 }
 
 function getImage($imgPath): string
 {
-    $sql = "SELECT * FROM image WHERE imgPath = '".$imgPath."'";
+    $sql = "SELECT * FROM image WHERE imgPath = '" . $imgPath . "'";
     $getImageResult = runSQLResult($sql)->fetch_assoc();
 
-    return "../img/".$getImageResult['imgCategory']."/".$getImageResult['imgPath'];
+    return "../img/" . $getImageResult['imgCategory'] . "/" . $getImageResult['imgPath'];
 }
 
 function getPfp($AttributeID, $table, $ID): bool|array|null
 {
-    $sql = "SELECT * FROM ".$table." WHERE ".$AttributeID."='".$ID."'";
+    $sql = "SELECT * FROM " . $table . " WHERE " . $AttributeID . "='" . $ID . "'";
     return runSQLResult($sql)->fetch_assoc();
 }
 
-function findMax($intArray) : int {
+function findMax($intArray): int
+{
     $previousNumber = 0;
     $maxNumber = 0;
     for ($i = count($intArray); $i > 0; $i--) {
-        $currentNumber = $intArray[$i-1];
+        $currentNumber = $intArray[$i - 1];
         $maxNumber = max($currentNumber, $previousNumber);
         $previousNumber = $maxNumber;
     }
     return $maxNumber;
 }
 
-function idToInt($id, $idFormat): string{
+function idToInt($id, $idFormat): string
+{
     // Remove left Side of String
     $idIndex = stripos($id, $idFormat, 0);
-    $desiredId = substr($id, $idIndex, strlen($id)-$idIndex);
+    $desiredId = substr($id, $idIndex, strlen($id) - $idIndex);
 
     // Check if the desiredID is located at the end of the String
     $lengthTest1 = strlen($desiredId);
@@ -85,18 +85,18 @@ function idToInt($id, $idFormat): string{
 
     if ($lengthTest1 > $lengthTest2) {
         $idIndex = stripos($desiredId, "_", 0);
-    }
-    elseif ($lengthTest1 == $lengthTest2) {
+    } elseif ($lengthTest1 == $lengthTest2) {
         $idIndex = stripos($desiredId, $id, 0) + strlen($desiredId);
     }
 
     // Remove the right side of String
-    $desiredId = substr($desiredId, 0,$idIndex);
+    $desiredId = substr($desiredId, 0, $idIndex);
     $desiredId = trim($desiredId, $idFormat);
     return intval($desiredId);
 }
 
-function returnLastIDInt($id, $table, $idFormat) : int {
+function returnLastIDInt($id, $table, $idFormat): int
+{
     $idList_1 = array();
     $lastID = 0;
 
@@ -112,10 +112,11 @@ function returnLastIDInt($id, $table, $idFormat) : int {
     return $lastID;
 }
 
-function autoSetID($attributeFormat) : string {
+function autoSetID($attributeFormat): string
+{
     try {
-        return $attributeFormat.bin2hex(random_bytes(16));
-    } catch (Exception|\Exception $e) {
+        return $attributeFormat . bin2hex(random_bytes(16));
+    } catch (Exception | \Exception $e) {
     }
 }
 
@@ -124,10 +125,10 @@ function uploadImage($inputName, $imgCategory): void
 {
     $filename = $_FILES[$inputName]["name"];
     $tempname = $_FILES[$inputName]["tmp_name"];
-    $folder = "../img/".$imgCategory."/".$filename;
+    $folder = "../img/" . $imgCategory . "/" . $filename;
 
     $sql = "INSERT INTO image (imgID, imgPath, imgCategory) 
-            VALUES ('".autoSetID('imgID', 'image', 'img')."', '".$filename."', '".$imgCategory."')";
+            VALUES ('" . autoSetID('imgID', 'image', 'img') . "', '" . $filename . "', '" . $imgCategory . "')";
 
     insertSQL($sql);
 
@@ -142,9 +143,9 @@ function uploadPfp($inputName, $table, $xxxPfpName): void
 {
     $fileName = $_FILES[$inputName]["name"];
     $tempName = $_FILES[$inputName]["tmp_name"];
-    $folder = "../img/pfp/".$fileName;
+    $folder = "../img/pfp/" . $fileName;
 
-    $sql = "UPDATE ".$table." SET ".$xxxPfpName."='".$fileName."'";
+    $sql = "UPDATE " . $table . " SET " . $xxxPfpName . "='" . $fileName . "'";
 
     // Execute query
     insertSQL($sql);
@@ -160,83 +161,92 @@ function restrictedNoUserPage($redirectPage): void
 {
     if (!$_SESSION['loggedIn'] && (!$_SESSION['clientLoggedIn'] || !$_SESSION['adminLoggedIn'])) {
         echo '../php-pages/login.php';
-    }
-    else {
+    } else {
         echo $redirectPage;
     }
 }
 
-function restrictedAdminPage($redirectPage): void {
+function restrictedAdminPage($redirectPage): void
+{
     if (!$_SESSION['loggedIn'] || $_SESSION['adminLoggedIn']) {
         $_GET['errorMsg'] = 'Please login as a client to use this page.';
         echo '../php-pages/restricted-access.php';
-    }
-    else {
+    } else {
         echo $redirectPage;
     }
 }
 
-function isModerator($cltID): bool {
-    $sql = "SELECT cltIsModerator FROM client WHERE cltID = '".$cltID."'";
+function isModerator($cltID): bool
+{
+    $sql = "SELECT cltIsModerator FROM client WHERE cltID = '" . $cltID . "'";
     $result = runSQLResult($sql);
     $isModerator = $result->fetch_assoc();
 
-    if($isModerator['cltIsModerator'] == 1) {
+    if ($isModerator['cltIsModerator'] == 1) {
         return true;
-    }
-    else {
+    } else {
         return false;
     }
 }
 
-function compareIdAndToken($idToCheck, $tokenInput, $table): bool {
-    if($table === 'client') {
+function compareIdAndToken($idToCheck, $tokenInput, $table): bool
+{
+    if ($table === 'client') {
         // CHECK IF TOKEN MATCHES NEW CLIENT ID
-        $checkCltTokenSql = "SELECT cltID FROM client WHERE cltToken = '".$tokenInput."'";
+        $checkCltTokenSql = "SELECT cltID FROM client WHERE cltToken = '" . $tokenInput . "'";
         $cltResult = runSQLResult($checkCltTokenSql);
         $clientInfo = $cltResult->fetch_assoc();
 
         // Check if current cltID is the same as the cltID found from the token
-        if($idToCheck === $clientInfo['cltID']){return true;}
-        else{return false;}
-    }
-    elseif($table === 'admin') {
+        if ($idToCheck === $clientInfo['cltID']) {
+            return true;
+        } else {
+            return false;
+        }
+    } elseif ($table === 'admin') {
         // CHECK IF TOKEN MATCHES NEW CLIENT ID
-        $checkAdmTokenSql = "SELECT admID FROM admin WHERE admToken = '".$tokenInput."'";
+        $checkAdmTokenSql = "SELECT admID FROM admin WHERE admToken = '" . $tokenInput . "'";
         $admResult = runSQLResult($checkAdmTokenSql);
         $admInfo = $admResult->fetch_assoc();
 
         // Check if current cltID is the same as the cltID found from the token
-        if($idToCheck === $admInfo['admID']){return true;}
-        else{return false;}
-    }
-    else {
+        if ($idToCheck === $admInfo['admID']) {
+            return true;
+        } else {
+            return false;
+        }
+    } else {
         return false;
     }
 }
 
-function compareEmailAndToken($emailToCheck, $tokenInput, $table): bool {
-    if($table === 'client') {
+function compareEmailAndToken($emailToCheck, $tokenInput, $table): bool
+{
+    if ($table === 'client') {
         // CHECK IF TOKEN MATCHES NEW CLIENT ID
-        $checkCltTokenSql = "SELECT cltEmail FROM client WHERE cltToken = '".$tokenInput."'";
+        $checkCltTokenSql = "SELECT cltEmail FROM client WHERE cltToken = '" . $tokenInput . "'";
         $cltResult = runSQLResult($checkCltTokenSql);
         $clientInfo = $cltResult->fetch_assoc();
 
         // Check if current cltID is the same as the cltID found from the token
-        if($emailToCheck === $clientInfo['cltEmail']){return true;}
-        else{return false;}
-    }
-    elseif($table === 'admin') {
+        if ($emailToCheck === $clientInfo['cltEmail']) {
+            return true;
+        } else {
+            return false;
+        }
+    } elseif ($table === 'admin') {
         // CHECK IF TOKEN MATCHES NEW CLIENT ID
-        $checkAdmTokenSql = "SELECT admEmail FROM admin WHERE admToken = '".$tokenInput."'";
+        $checkAdmTokenSql = "SELECT admEmail FROM admin WHERE admToken = '" . $tokenInput . "'";
         $admResult = runSQLResult($checkAdmTokenSql);
         $admInfo = $admResult->fetch_assoc();
 
         // Check if current cltID is the same as the cltID found from the token
-        if($emailToCheck === $admInfo['admEmail']){return true;}
-        else{return false;}
-    }
-    else {
+        if ($emailToCheck === $admInfo['admEmail']) {
+            return true;
+        } else {
+            return false;
+        }
+    } else {
         return false;
     }
 }
@@ -247,12 +257,11 @@ function returnEntityInfo(): bool|array|null
     $clientLoggedIn = $_SESSION['clientLoggedIn'];
     $adminLoggedIn = $_SESSION['adminLoggedIn'];
 
-    if($loggedIn) {
-        if($clientLoggedIn) {
-            $sql = "SELECT cltID, cltUsername, cltFirstName, cltLastName, cltEmail, cltPfpName, cltPhoneNumber, cltSignupDate, cltVerifiedEmail, cltIsModerator FROM client WHERE cltToken = '".$_SESSION['Token']."'";
-        }
-        else if($adminLoggedIn) {
-            $sql = "SELECT admID, admUsername, admFirstName, admLastName, admEmail, admPfpName, admPhoneNumber, admSignupDate, admVerifiedEmail FROM admin WHERE admToken = '".$_SESSION['Token']."'";
+    if ($loggedIn) {
+        if ($clientLoggedIn) {
+            $sql = "SELECT cltID, cltUsername, cltFirstName, cltLastName, cltEmail, cltPfpName, cltPhoneNumber, cltSignupDate, cltVerifiedEmail, cltIsModerator FROM client WHERE cltToken = '" . $_SESSION['Token'] . "'";
+        } else if ($adminLoggedIn) {
+            $sql = "SELECT admID, admUsername, admFirstName, admLastName, admEmail, admPfpName, admPhoneNumber, admSignupDate, admVerifiedEmail FROM admin WHERE admToken = '" . $_SESSION['Token'] . "'";
         }
         $result = runSQLResult($sql);
         return $result->fetch_assoc();
@@ -267,8 +276,8 @@ function returnEntityAttributes(): array
     $adminLoggedIn = $_SESSION['adminLoggedIn'];
     $loggedIn = $_SESSION['loggedIn'];
 
-    if($loggedIn) {
-        if($clientLoggedIn) {
+    if ($loggedIn) {
+        if ($clientLoggedIn) {
             return array(
                 'ID' => "cltID",
                 "Username" => "cltUsername",
@@ -283,9 +292,8 @@ function returnEntityAttributes(): array
                 "IDLetters" => 'clt',
                 "IsModerator" => "cltIsModerator",
             );
-        }
-        elseif($adminLoggedIn) {
-            return array (
+        } elseif ($adminLoggedIn) {
+            return array(
                 "ID" => "admID",
                 "Username" => "admUsername",
                 "FirstName" => "admFirstName",
@@ -298,12 +306,10 @@ function returnEntityAttributes(): array
                 "Table" => "admin",
                 "IDLetters" => 'adm',
             );
-        }
-        else {
+        } else {
             return array();
         }
-    }
-    else {
+    } else {
         return array();
     }
 }
@@ -312,33 +318,32 @@ function adminPage(): void
 {
     include_once "login-check.php";
 
-    if (isset($_SESSION['clientLoggedIn']) && isset($_SESSION['loggedIn'])) {
-        if($_SESSION['clientLoggedIn'] || !$_SESSION['loggedIn']) {
-            header("Location: ../php-pages/restricted-access.php", true,303);
+    if (isset($_SESSION['clientLoggedIn'])) {
+        if ($_SESSION['clientLoggedIn'] || !isset($_SESSION['loggedIn'])) {
+            header("Location: ../php-pages/restricted-access.php", true, 303);
             exit;
         }
     }
-
 }
 
 function clientPage(): void
 {
     include_once "login-check.php";
 
-    if(empty($_SESSION['loggedIn']) || !$_SESSION['loggedIn']) {
-        header("Location: ../php-pages/restricted-access.php", true,303);
+    if (empty($_SESSION['loggedIn']) || !$_SESSION['loggedIn']) {
+        header("Location: ../php-pages/restricted-access.php", true, 303);
         exit;
     }
-
 }
 
-function onlyClientPage(): void {
+function onlyClientPage(): void
+{
 
     include_once "login-check.php";
 
     if (isset($_SESSION['adminLoggedIn']) && isset($_SESSION['loggedIn'])) {
-        if($_SESSION['adminLoggedIn'] || !$_SESSION['loggedIn']) {
-            header("Location: ../php-pages/restricted-access.php", true,303);
+        if ($_SESSION['adminLoggedIn'] || !$_SESSION['loggedIn']) {
+            header("Location: ../php-pages/restricted-access.php", true, 303);
             exit;
         }
     }
@@ -351,76 +356,70 @@ function date_compare($a, $b): int
     return $t1 - $t2;
 }
 
-function returnSessionMessages($sesMsgID): array {
+function returnSessionMessages($sesMsgID): array
+{
 
     $getClientMessagesSql = "SELECT sesMsgID, cltID,  cltUsername, cltMsgDate, cltMsgMessage FROM session_message
                              INNER JOIN client_message cm on session_message.sesMsgID = cm.Session_Message_sesMsgID
                              INNER JOIN client c on cm.Client_cltID = c.cltID                                       
-                             WHERE sesMsgID = '".$sesMsgID."'";
+                             WHERE sesMsgID = '" . $sesMsgID . "'";
 
     $getAdminMessagesSql = "SELECT sesMsgID, admID, admUsername, admMsgDate, admMsgMessage FROM session_message
                              INNER JOIN admin_message am on session_message.sesMsgID = am.Session_Message_sesMsgID
                              INNER JOIN admin a on am.Admin_admID = a.admID                                          
-                             WHERE sesMsgID = '".$sesMsgID."'";
+                             WHERE sesMsgID = '" . $sesMsgID . "'";
 
 
-//    echo $getSessionMessagesSql;
+    //    echo $getSessionMessagesSql;
     $clientMessagesResult = runSQLResult($getClientMessagesSql);
     $adminMessagesResult = runSQLResult($getAdminMessagesSql);
     $sessionMessagesList = array();
 
 
-    while($clientMessages = $clientMessagesResult->fetch_assoc()) {
+    while ($clientMessages = $clientMessagesResult->fetch_assoc()) {
         // CHECK OWNERSHIP OF THE MESSAGES => IF THEY ARE CURRENT OR FOREIGN
-        if($_SESSION['Table'] === 'client') {
+        if ($_SESSION['Table'] === 'client') {
             $messageOwnership = 'current';
-        }
-        else {
+        } else {
             $messageOwnership = 'foreign';
         }
 
         $sessionMessagesList[] = array(
-//            'sesMsgID' => $clientMessages['sesMsgID'],
+            //            'sesMsgID' => $clientMessages['sesMsgID'],
             'entityID' => $clientMessages['cltID'],
             'username' => $clientMessages['cltUsername'],
             'msgDate' => $clientMessages['cltMsgDate'],
             'msgMessage' => $clientMessages['cltMsgMessage'],
             'msgOwnership' => $messageOwnership,
         );
-
-
-
     }
 
-    while($adminMessages = $adminMessagesResult->fetch_assoc()) {
+    while ($adminMessages = $adminMessagesResult->fetch_assoc()) {
         // CHECK OWNERSHIP OF THE MESSAGES => IF THEY ARE CURRENT OR FOREIGN
-        if($_SESSION['Table'] === 'admin') {
-            if($_SESSION['ID'] === $adminMessages['admID']) {
+        if ($_SESSION['Table'] === 'admin') {
+            if ($_SESSION['ID'] === $adminMessages['admID']) {
                 $messageOwnership = 'current';
-            }
-            else {
+            } else {
                 $messageOwnership = 'foreign';
             }
-        }
-        else {
+        } else {
             $messageOwnership = 'foreign';
         }
 
         $sessionMessagesList[] = array(
-//            'sesMsgID' => $adminMessages['sesMsgID'],
+            //            'sesMsgID' => $adminMessages['sesMsgID'],
             'entityID' => $adminMessages['admID'],
             'username' => $adminMessages['admUsername'],
             'msgDate' => $adminMessages['admMsgDate'],
             'msgMessage' => $adminMessages['admMsgMessage'],
             'msgOwnership' => $messageOwnership,
         );
-
     }
 
     usort($sessionMessagesList, 'date_compare');
     $allSessionMessagesList[$sesMsgID] = $sessionMessagesList;
 
-//    $sessionMessagesList['test'] = 'test';
+    //    $sessionMessagesList['test'] = 'test';
 
     return $allSessionMessagesList;
 }
@@ -432,13 +431,13 @@ function returnAllSessionMessages(): array
     $allSessionMessagesIDsResult = runSQLResult($getAllSessionMessagesIDsSql);
     $allSessionMessagesIDsList = array();
 
-    if(mysqli_num_rows($allSessionMessagesIDsResult) > 0) {
-        while($allSessionMessagesIDs = $allSessionMessagesIDsResult ->fetch_assoc()) {
+    if (mysqli_num_rows($allSessionMessagesIDsResult) > 0) {
+        while ($allSessionMessagesIDs = $allSessionMessagesIDsResult->fetch_assoc()) {
             $allSessionMessagesIDsList[] = $allSessionMessagesIDs['sesMsgID'];
         }
 
 
-        for($i = 0; $i < count($allSessionMessagesIDsList); $i++) {
+        for ($i = 0; $i < count($allSessionMessagesIDsList); $i++) {
             $sesMsgID = $allSessionMessagesIDsList[$i];
             $allSessionMessagesList[$sesMsgID] = returnSessionMessages($sesMsgID)[$sesMsgID];
         }
@@ -467,9 +466,9 @@ function returnLanguageList(): array
             ),
             "address-add" => array(
                 "Add a new address" => "Add a new address",
-                "Address" =>"Address",
-                "Postal Code" =>"Postal Code",
-                "City" =>"City",
+                "Address" => "Address",
+                "Postal Code" => "Postal Code",
+                "City" => "City",
             ),
             "assistance" => array(),
             "connection-security" => array(
@@ -484,9 +483,9 @@ function returnLanguageList(): array
                 "Repeat New Password :" => "Repeat New Password :",
 
                 "A verification code has been sent to your new email address." =>
-                    "A verification code has been sent to your new email address.",
+                "A verification code has been sent to your new email address.",
                 "Input the confirmation code :" =>
-                    "Input the confirmation code :",
+                "Input the confirmation code :",
 
                 "Done" => "Done",
                 "Cancel" => "Cancel",
@@ -494,12 +493,29 @@ function returnLanguageList(): array
             ),
             "home" => array(
                 "Technology for your animals" => "Technology for your animals",
+                "new" => "new",
+                "The connected dog collar" => "The connected dog collar",
+                "See more" => "See more",
+                "Buy" =>  "Buy",
+                "Free" => "Free",
+                "delivery" => "delivery",
+                "Free delivery in Metropolitan France" => "Free delivery in <strong> Metropolitan France</strong>",
+                "7-day trial" => "7-day <br> trial",
+                "We accept returns within 7 days of delivery" => "We accept returns within 7 days of delivery",
+                "Secure payments" => "Secure <br>payments",
+                "100% encrypted payments" => "100% encrypted payments",
+                "Accepted payment methods: Paypal, Visa, Mastercard or Apple Pay" => "Accepted payment methods:<strong> Paypal, Visa, Mastercard or Apple Pay</strong>",
+                "2 year warranty" =>  "2 year <br>warranty",
+                "We will repair or replace your product for any issues covered by the warranty for the two years following the receipt of the product" => "We will repair or replace your product for any issues covered by the warranty for the two years following the receipt of the product",
+                "Our community" => "Our community",
+                "Join the PetConnect community" => "Join the PetConnect community",
             ),
             "login" => array(
                 "Sign in" => "Sign in",
                 "Email" => "Email",
                 "Password" => "Password",
                 "Login" => "Login",
+                "Invalid Login" => "Invalid Login",
                 "Forgot Password" => "Forgot Password",
                 "Don't have an account?" => "Don't have an account?",
                 "Signup" => "Signup",
@@ -570,7 +586,7 @@ function returnLanguageList(): array
                 "New Password:" => "New Password:",
                 "Enter your new password again:" => "Enter your new password again:",
                 "Your new password has to be different from your old password." =>
-                    "Your new password has to be different from your old password.",
+                "Your new password has to be different from your old password.",
                 "Change Password" => "Change Password",
             ),
             "password-reset-success" => array(
@@ -602,7 +618,7 @@ function returnLanguageList(): array
             "shop" => array(),
             "signup" => array(
                 "Create an account" => "Create an account",
-                "Username:" => "Username:" ,
+                "Username:" => "Username:",
                 "First Name:" => "First Name:",
                 "Last Name:" => "Last Name:",
                 "Email:" => "Email:",
@@ -634,10 +650,11 @@ function returnLanguageList(): array
             ),
             "signup-success" => array(
                 "Validate your email" => "Validate your email",
-                "Signup Successful, Please verify your email address" => "Signup Successful, Please verify your email address",
                 "Verification Code:" => "Verification Code:",
                 "The verification code is incorrect." => "The verification code is incorrect.",
                 "Validate Email" => "Validate Email",
+                "Your email has been validated. You can now" => "Your email has been validated. You can now",
+                "Login" => "Login",
             ),
             "site-footer" => array(
 
@@ -672,9 +689,7 @@ function returnLanguageList(): array
 
                 "Paris, France" => "Paris, France",
 
-                "© 2022 PetConnect, Inc. All rights reserved" => "© 2022 PetConnect, Inc. All rights reserved",
-                "Privacy and Cookies Policy" => "Privacy and Cookies Policy",
-                "Cookie settings" => "Cookie settings",
+                "Copyright ⓒ 2022 PetConnect - All rights reserved." => "Copyright ⓒ 2022 PetConnect - All rights reserved.",
 
             ),
             "site-header" => array(
@@ -695,30 +710,30 @@ function returnLanguageList(): array
             // PHP PROCESSES
             "dbConnection" => array(
                 "Please login as a client to use this page." =>
-                    "Please login as a client to use this page.",
+                "Please login as a client to use this page.",
             ),
             "login-process" => array(
                 "Your account has been created but your email is still not validated. 
                 A code has been sent to your email to validate your account" =>
-                    "Your account has been created but your email is still not validated. 
+                "Your account has been created but your email is still not validated. 
                 A code has been sent to your email to validate your account",
                 "A validation code could not be sent to your email, please contact a web developer" =>
-                    "A validation code could not be sent to your email, please contact a web developer",
+                "A validation code could not be sent to your email, please contact a web developer",
 
             ),
             "password-recovery-process" => array(
                 "We got a request from you to reset your Password!." =>
-                    "We got a request from you to reset your Password!.",
+                "We got a request from you to reset your Password!.",
                 "Please click this link to reset your password" =>
-                    "Please click this link to reset your password",
+                "Please click this link to reset your password",
                 "Password Reset" => "Password Reset",
                 "A recovery link has been sent to" => "A recovery link has been sent to",
                 "please follow the link to reset your password." =>
-                    "please follow the link to reset your password.",
+                "please follow the link to reset your password.",
                 "The recovery link could not be sent to" =>
-                    "The recovery link could not be sent to",
+                "The recovery link could not be sent to",
                 "Contact a web developer if you think this is a mistake." =>
-                    "Contact a web developer if you think this is a mistake.",
+                "Contact a web developer if you think this is a mistake.",
             ),
             "php-mailer" => array(
                 "Verification code is:" => "Verification code is:",
@@ -726,18 +741,18 @@ function returnLanguageList(): array
             ),
             "signup-email-validation" => array(
                 "The new Client ID does not match the cltID fetched with the token. Review signup-email-validation" =>
-                    "The new Client ID does not match the cltID fetched with the token. Review signup-email-validation"
+                "The new Client ID does not match the cltID fetched with the token. Review signup-email-validation"
             ),
             "signup-process" => array(
                 "Signup Successful, Please verify your email address" =>
-                    "Signup Successful, Please verify your email address",
+                "Signup Successful, Please verify your email address",
             ),
 
             "common-strings" => array(
                 "You do not have access to this page, if you think this is a mistake contact the web developer" =>
-                    "You do not have access to this page, if you think this is a mistake contact the web developer",
+                "You do not have access to this page, if you think this is a mistake contact the web developer",
                 "Please verify that you are not a robot." =>
-                    "Please verify that you are not a robot.",
+                "Please verify that you are not a robot.",
             ),
 
             // JAVASCRIPT
@@ -755,11 +770,11 @@ function returnLanguageList(): array
                 "Confirm Code" => "Confirm Code",
 
                 "Username must be at least 3 characters long" =>
-                    "Username must be at least 3 characters long",
+                "Username must be at least 3 characters long",
                 "First Name must be at least 3 characters long" =>
-                    "First Name must be at least 3 characters long",
+                "First Name must be at least 3 characters long",
                 "Last Name must be at least 3 characters long" =>
-                    "Last Name must be at least 3 characters long",
+                "Last Name must be at least 3 characters long",
 
                 "Must be a number" => "Must be a number",
 
@@ -823,8 +838,46 @@ function returnLanguageList(): array
                 "Must be an email" => "Must be an email",
                 "Email is already Taken" => "Email is already Taken",
                 "Client Phone Number must be a number" => "Client Phone Number must be a number",
+                "Phone number must be 10 characters long" => "Phone number must be 10 characters long",
                 "Client Password is required" => "Client Password is required",
+
+                "Password must be at least 8 characters" => "Password must be at least 8 characters",
+                "Password must contain at least one letter" => "Password must contain at least one letter",
+                "Password must contain at least one number" => "Password must contain at least one number",
+
                 "Passwords should match" => "Passwords should match",
+            ),
+            "order-history" => array(
+                "Account" => "Account",
+                "Order History" => "Order History",
+                "Purchase date" => "Purchase date",
+                "Color" => "Color",
+                "Price" => "Price",
+                "Status: <strong>In transit</strong> " => "Status: <strong>In transit</strong>",
+            ),
+            "shop" => array(
+                "Connected dog collar" => "Connected dog collar",
+                "Color" => "Color",
+                "In stock" => "In stock",
+                "Yellow" => "Yellow",
+                "Green" => "Green",
+                "Pink" => "Pink",
+                "Blue" =>  "Blue",
+                "Black" => "Black",
+                "White" => "White",
+                "Add to cart" => "Add to cart",
+                "Buy now" => "Buy now",
+                "GPS localisation" => "GPS localisation",
+                "Heart rate sensor" => "Heart rate sensor",
+                "Thermal sensor" => "Thermal sensor",
+                "Sound sensor" => "Sound sensor",
+                "CO2 concentration" => "CO2 concentration",
+            ),
+            "payment-method" => array(
+                "Account" => "Account",
+                "Payment method" => "Payment method",
+                "Add payment method" => "Add payment method",
+                "Bank card" => "Bank card",
             ),
 
         ),
@@ -847,22 +900,40 @@ function returnLanguageList(): array
                 "Repeat New Password :" => "Répéter le nouveau mot de passe :",
 
                 "A verification code has been sent to your new email address." =>
-                    "Un code de vérification a été envoyé à votre nouvelle adresse email.",
+                "Un code de vérification a été envoyé à votre nouvelle adresse email.",
                 "Input the confirmation code :" =>
-                    "Entrez le code de confirmation :",
+                "Entrez le code de confirmation :",
 
                 "Done" => "Terminé",
                 "Cancel" => "Annuler",
                 "Edit" => "Modifier",
             ),
             "home" => array(
-                "Technology for your animals" => "Technologie pour vos animaux",
+                "Technology for your animals" => "La technologie pour vos animaux",
+                "new" => "nouveau",
+                "The connected dog collar" => "Le collier connecté pour chien",
+                "See more" => "En savoir plus",
+                "Buy" => "Acheter",
+                "Free" => "Livraison",
+                "delivery" => "offerte",
+                "Free delivery in Metropolitan France" => "Livraison gratuite en <strong>France Métropolitaine</strong>",
+                "7-day trial" => "7 jours <br>d'essai",
+                "We accept returns within 7 days of delivery" => " Nous acceptons les retours dans les 7 jours après la livraison",
+                "Secure payments" => "Paiements <br>sécurisés",
+                "100% encrypted payments" => "Paiements 100% cryptés",
+                "Accepted payment methods: Paypal, Visa, Mastercard or Apple Pay" => "Méthodes de paiement acceptées:<strong> Paypal, Visa, Mastercard ou Apple Pay</strong>",
+                "2 year warranty" => "2 ans de <br>garantie",
+                "We will repair or replace your product for any issues covered by the warranty for the two years following the receipt of the product" => "Nous réparons ou remplaçons votre produit pour tous problème couvert par la garantie pendant les deux années suivant la réception du produit",
+                "Our community" => "Notre communauté",
+                "Join the PetConnect community" => "Rejoignez la communauté PetConnect",
+
             ),
             "login" => array(
                 "Sign in" => "Identifiez-vous",
                 "Email" => "Email",
                 "Password" => "Mot de passe",
                 "Login" => "Connexion",
+                "Invalid Login" => "Identifiants non valides",
                 "Forgot Password" => "Mot de passe oublié",
                 "Don't have an account?" => "Vous n'avez pas de compte?",
                 "Signup" => "S'inscrire",
@@ -890,7 +961,7 @@ function returnLanguageList(): array
                 "Admin Control Panel" => "Panneau de contrôle de l'admin",
                 "Search in admin..." => "Rechercher dans l'admin...",
 
-        ),
+            ),
             "message-center" => array(
                 "Active Messages" => "Messages actifs",
                 "No Active Messages" => "Aucun message actif",
@@ -918,7 +989,7 @@ function returnLanguageList(): array
                 "Control Panel" => "Panneau de contrôle",
                 "Delete Current Conversation" => "Supprimer la conversation actuelle",
 
-        ),
+            ),
             "password-recovery-input" => array(
                 "Password Recovery" => "Récupération de mot de passe",
                 "Email:" => "Email:",
@@ -933,7 +1004,7 @@ function returnLanguageList(): array
                 "New Password:" => "Nouveau mot de passe:",
                 "Enter your new password again:" => "Entrez à nouveau votre nouveau mot de passe:",
                 "Your new password has to be different from your old password." =>
-                    "Votre nouveau mot de passe doit être différent de votre ancien mot de passe.",
+                "Votre nouveau mot de passe doit être différent de votre ancien mot de passe.",
                 "Change Password" => "Changer de mot de passe",
             ),
             "password-reset-success" => array(
@@ -965,7 +1036,7 @@ function returnLanguageList(): array
             "shop" => array(),
             "signup" => array(
                 "Create an account" => "Créer un compte",
-                "Username:" => "Nom d'utilisateur:" ,
+                "Username:" => "Nom d'utilisateur:",
                 "First Name:" => "Prénom:",
                 "Last Name:" => "Nom de famille:",
                 "Email:" => "Adresse électronique:",
@@ -995,10 +1066,11 @@ function returnLanguageList(): array
             ),
             "signup-success" => array(
                 "Validate your email" => "Validez votre adresse électronique",
-                "Signup Successful, Please verify your email address" => "Inscription réussie, veuillez vérifier votre adresse électronique",
                 "Verification Code:" => "Code de vérification:",
                 "The verification code is incorrect." => "Le code de vérification est incorrect.",
                 "Validate Email" => "Valider l'adresse électronique",
+                "Your email has been validated. You can now" => "Votre email a été validé, vous pouvez maintenant vous",
+                "Login" => "connecter"
             ),
             "site-footer" => array(
                 "GIFT CARDS" => "CARTES CADEAUX",
@@ -1027,7 +1099,7 @@ function returnLanguageList(): array
                 "General conditions of sale" => "Conditions générales de vente",
                 "Legal notices" => "Mentions légales",
                 "Paris, France" => "Paris, France",
-                "© 2022 PetConnect, Inc. All rights reserved" => "© 2022 PetConnect, Inc. Tous droits réservés",
+                "Copyright ⓒ 2022 PetConnect - All rights reserved." => "Copyright ⓒ 2022 PetConnect - Tous droits réservés.",
                 "Privacy and Cookies Policy" => "Politique de confidentialité et de cookies",
                 "Cookie settings" => "Paramètres de cookies",
             ),
@@ -1048,29 +1120,29 @@ function returnLanguageList(): array
             // PHP PROCESSES
             "dbConnection" => array(
                 "Please login as a client to use this page." =>
-                    "Veuillez vous connecter en tant que client pour utiliser cette page.",
+                "Veuillez vous connecter en tant que client pour utiliser cette page.",
             ),
             "login-process" => array(
                 "Your account has been created but your email is still not validated.
                  A code has been sent to your email to validate your account" =>
-                    "Votre compte a été créé mais votre adresse électronique n'a pas encore été validée.
+                "Votre compte a été créé mais votre adresse électronique n'a pas encore été validée.
                 Un code a été envoyé à votre adresse électronique pour valider votre compte",
                 "A validation code could not be sent to your email, please contact a web developer" =>
-                    "Impossible d'envoyer un code de validation à votre adresse électronique, veuillez contacter un développeur web",
+                "Impossible d'envoyer un code de validation à votre adresse électronique, veuillez contacter un développeur web",
             ),
             "password-recovery-process" => array(
                 "We got a request from you to reset your Password!." =>
-                    "Nous avons reçu une demande de votre part de réinitialiser votre mot de passe!",
+                "Nous avons reçu une demande de votre part de réinitialiser votre mot de passe!",
                 "Please click this link to reset your password" =>
-                    "Veuillez cliquer sur ce lien pour réinitialiser votre mot de passe",
+                "Veuillez cliquer sur ce lien pour réinitialiser votre mot de passe",
                 "Password Reset" => "Réinitialisation du mot de passe",
                 "A recovery link has been sent to" => "Un lien de récupération a été envoyé à",
                 "please follow the link to reset your password." =>
-                    "veuillez suivre le lien pour réinitialiser votre mot de passe.",
+                "veuillez suivre le lien pour réinitialiser votre mot de passe.",
                 "The recovery link could not be sent to" =>
-                    "Impossible d'envoyer le lien de récupération à",
+                "Impossible d'envoyer le lien de récupération à",
                 "Contact a web developer if you think this is a mistake." =>
-                    "Contactez un développeur web si vous pensez qu'il s'agit d'une erreur.",
+                "Contactez un développeur web si vous pensez qu'il s'agit d'une erreur.",
             ),
             "php-mailer" => array(
                 "Verification code is:" => "Le code de vérification est :",
@@ -1078,18 +1150,18 @@ function returnLanguageList(): array
             ),
             "signup-email-validation" => array(
                 "The new Client ID does not match the cltID fetched with the token. Review signup-email-validation" =>
-                    "L'ID de nouveau client ne correspond pas à l'ID de client récupéré avec le jeton. Vérifiez signup-email-validation",
+                "L'ID de nouveau client ne correspond pas à l'ID de client récupéré avec le jeton. Vérifiez signup-email-validation",
             ),
             "signup-process" => array(
                 "Signup Successful, Please verify your email address" =>
-                    "Inscription réussie, veuillez vérifier votre adresse électronique",
+                "Inscription réussie, veuillez vérifier votre adresse électronique",
             ),
 
             "common-strings" => array(
                 "You do not have access to this page, if you think this is a mistake contact the web developer" =>
-                    "Vous n'avez pas accès à cette page, si vous pensez qu'il s'agit d'une erreur, contactez le développeur web",
+                "Vous n'avez pas accès à cette page, si vous pensez qu'il s'agit d'une erreur, contactez le développeur web",
                 "Please verify that you are not a robot." =>
-                    "Veuillez vérifier que vous n'êtes pas un robot.",
+                "Veuillez vérifier que vous n'êtes pas un robot.",
             ),
 
             // JAVASCRIPT
@@ -1106,11 +1178,11 @@ function returnLanguageList(): array
                 "Confirm Code" => "Code de confirmation",
 
                 "Username must be at least 3 characters long" =>
-                    "Le nom d'utilisateur doit comporter au moins 3 caractères",
+                "Le nom d'utilisateur doit comporter au moins 3 caractères",
                 "First Name must be at least 3 characters long" =>
-                    "Le prénom doit comporter au moins 3 caractères",
+                "Le prénom doit comporter au moins 3 caractères",
                 "Last Name must be at least 3 characters long" =>
-                    "Le nom de famille doit comporter au moins 3 caractères",
+                "Le nom de famille doit comporter au moins 3 caractères",
 
                 "Must be a number" => "Doit être un nombre",
 
@@ -1155,7 +1227,7 @@ function returnLanguageList(): array
                 "have been deleted." => "ont été supprimés.",
                 "Please input a Date." => "Veuillez entrer une date.",
                 "Please input a Start Date and an End Date." => "Veuillez entrer une date de début et une date de fin.",
-        ),
+            ),
             "password-reset-validation" => array(
                 "New Password is required" => "New Password is required",
                 "Passwords should match" => "Passwords should match",
@@ -1171,20 +1243,58 @@ function returnLanguageList(): array
                 "Must be an email" => "Doit être une adresse e-mail",
                 "Email is already Taken" => "L'adresse e-mail est déjà utilisée",
                 "Client Phone Number must be a number" => "Le numéro de téléphone du client doit être un nombre",
+                "Phone number must be 10 characters long" => "Le numéro de téléphone doit comporter au moins 10 caractères",
                 "Client Password is required" => "Mot de passe du client requis",
+
+                "Password must be at least 8 characters" => "Le mot de passe doit comporter au moins 8 caractères",
+                "Password must contain at least one letter" => "Le mot de passe doit contenir au moins une lettre",
+                "Password must contain at least one number" => "Le mot de passe doit contenir au moins un nombre",
+
                 "Passwords should match" => "Les mots de passe doivent correspondre",
+            ),
+            "order-history" => array(
+                "Account" => "Compte",
+                "Order History" => "Historique de Commandes",
+                "Purchase date" => "Date d'achat",
+                "Color" => "Couleur",
+                "Price" => "Prix",
+                "Status: <strong>In transit</strong> " => "Statut: <strong>En cours de livraison</strong>",
+            ),
+            "shop" => array(
+                "Connected dog collar" => "Collier connecté pour chien",
+                "Color" => "Couleur",
+                "In stock" => "En stock",
+                "Yellow" => "Jaune",
+                "Green" => "Vert",
+                "Pink" => "Rose",
+                "Blue" => "Bleu",
+                "Black" => "Noir",
+                "White" => "Blanc",
+                "Add to cart" => "Ajouter au panier",
+                "Buy now" => "Acheter maintenant",
+                "GPS localisation" => "Localisation GPS",
+                "Heart rate sensor" => "Capteur cardiaque",
+                "Thermal sensor" => "Capteur thermique",
+                "Sound sensor" => "Capteur sonore",
+                "CO2 concentration" => "Taux de CO2",
+            ),
+            "payment-method" => array(
+                "Account" => "Compte",
+                "Payment method" => "Mode de paiement",
+                "Add payment method" => "Enregistrer un mode de paiement",
+                "Bank card" => "Carte Bancaire",
             ),
 
         ),
-//        "Russian" => array(),
+        "Russian" => array(),
     );
 }
 
-function returnLanguage(): string {
-    if(empty($_COOKIE['language-cookie'])) {
+function returnLanguage(): string
+{
+    if (empty($_COOKIE['language-cookie'])) {
         return 'English';
-    }
-    else {
+    } else {
         return $_COOKIE['language-cookie'];
     }
 }
@@ -1192,14 +1302,14 @@ function returnLanguage(): string {
 function logoutAndRedirect($page): void
 {
     session_start();
-    if(isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true) {
+    if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true) {
         include_once '../php-processes/php-mailer.php';
         // CHANGE TOKEN WHEN LOGGING OUT
-        if(isset($_SESSION['Table']) && isset($_SESSION['Token'])) {
+        if (isset($_SESSION['Table']) && isset($_SESSION['Token'])) {
             $entityAttributes = returnEntityAttributes();
             $token = generateToken($_SESSION[$entityAttributes['ID']]);
 
-            $insertTokenSql = "UPDATE ".$_SESSION['Table']." SET ".$entityAttributes['Token']." = '".$token."' WHERE ".$entityAttributes['Token']." = '".$_SESSION['Token']."'";
+            $insertTokenSql = "UPDATE " . $_SESSION['Table'] . " SET " . $entityAttributes['Token'] . " = '" . $token . "' WHERE " . $entityAttributes['Token'] . " = '" . $_SESSION['Token'] . "'";
 
             runSQLResult($insertTokenSql);
 
@@ -1208,9 +1318,56 @@ function logoutAndRedirect($page): void
         }
         session_destroy();
 
-        header('Location: '.$page, true, 303);
+        header('Location: ' . $page, true, 303);
         exit;
     }
     session_destroy();
+}
 
+function countBasket(): string
+{
+    $cltID = $_SESSION["ID"];
+    $result = runSQLResult('SELECT * FROM Basket WHERE Client_cltID = "' .   $cltID  . '"');
+    $result = mysqli_num_rows($result);
+    return $result;
+}
+
+// Couleur > 0 dans le panier
+function getColorProduct(): array
+{
+    $cltID = $_SESSION["ID"];
+    $result = runSQLResult('SELECT * FROM Basket INNER JOIN Product_List ON (Basket.basID = Product_List.Basket_basID) INNER JOIN Product ON (Product_List.Product_prdID = Product.prdID) WHERE Client_cltID = "' .   $cltID  . '"');
+
+
+    $couleurs = array();
+    $blanc = $bleu = $rose = $jaune = $vert = $noir = 0;
+    while ($color = $result->fetch_assoc()) {
+
+
+        if ($color["prdColour"] == "blanc") {
+            $blanc += 1;
+            $couleurs['blanc'] = $blanc;
+        } elseif ($color["prdColour"] == "bleu") {
+            $bleu += 1;
+            $couleurs['bleu'] = $bleu;
+        } elseif ($color["prdColour"] == "jaune") {
+            $jaune += 1;
+            $couleurs['jaune'] = $jaune;
+        } elseif ($color["prdColour"] == "Rose") {
+            $rose += 1;
+            $couleurs['Rose'] = $rose;
+        } elseif ($color["prdColour"] == "vert") {
+            $vert += 1;
+            $couleurs['vert'] = $vert;
+        } else {
+            $noir += 1;
+            $couleurs['noir'] = $noir;
+        }
+    }
+    $nProduct = $couleurs;
+    return  $nProduct;
+}
+
+function supprColorProduct()
+{
 }

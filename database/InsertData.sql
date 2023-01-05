@@ -12,6 +12,13 @@ INSERT INTO image (imgID, imgPath, imgCategory) VALUES ('img10', 'PetConnect-Log
 INSERT INTO image (imgID, imgPath, imgCategory) VALUES ('img22', 'petconnect_logo_transparent.png', 'logos');
 
 INSERT INTO image (imgID, imgPath, imgCategory) VALUES ('img11', 'iCollar_blanc2.png', 'products');
+INSERT INTO image (imgID, imgPath, imgCategory) VALUES ( 'img26','Collier_bleu.png', 'products');
+INSERT INTO image (imgID, imgPath, imgCategory) VALUES ( 'img27','Collier_jaune.png', 'products');
+INSERT INTO image (imgID, imgPath, imgCategory) VALUES ( 'img28','Collier_rouge.png', 'products');
+INSERT INTO image (imgID, imgPath, imgCategory) VALUES ( 'img29','Collier_Rose.png', 'products');
+INSERT INTO image (imgID, imgPath, imgCategory) VALUES ( 'img30','Collier_noir.png', 'products');
+INSERT INTO image (imgID, imgPath, imgCategory) VALUES ( 'img31','Collier_vert.png', 'products');
+INSERT INTO image (imgID, imgPath, imgCategory) VALUES ( 'img32','Collier_blanc.png', 'products');
 
 INSERT INTO image (imgID, imgPath, imgCategory) VALUES ('img12', 'basket.png', 'profile');
 INSERT INTO image (imgID, imgPath, imgCategory) VALUES ('img13', 'client.png', 'profile');
