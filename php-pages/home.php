@@ -34,7 +34,7 @@ $languageList = returnLanguageList()[returnLanguage()]['home'];
         <div class="grid reveal fade-bottom">
             <div class="carre black reveal fade-bottom2">
                 <p id="pink" class="reveal fade-bottom3">nouveau</p>
-                <img class="reveal fade-bottom3" src="<?php echo getImage("iCollar_blanc2.png") ?>" />
+                <img class="reveal fade-bottom3" src="<?php echo getImage("iCollar_white.png") ?>" />
                 <h3 id="iCollar">iCollar</h3>
                 <p id="grey">Le collier connecté pour chien</p>
                 <div>
