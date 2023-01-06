@@ -517,6 +517,50 @@ function returnLanguage(): string {
     }
 }
 
+function countBasket(): string
+{
+    $cltID = $_SESSION["ID"];
+    $result = runSQLResult('SELECT * FROM Basket WHERE Client_cltID = "' .   $cltID  . '"');
+    $result = mysqli_num_rows($result);
+    return $result;
+}
+
+// Couleur > 0 dans le panier
+function getColorProduct(): array
+{
+    $cltID = $_SESSION["ID"];
+    $result = runSQLResult('SELECT * FROM Basket INNER JOIN Product_List ON (Basket.basID = Product_List.Basket_basID) INNER JOIN Product ON (Product_List.Product_prdID = Product.prdID) WHERE Client_cltID = "' .   $cltID  . '"');
+
+
+    $couleurs = array();
+    $blanc = $bleu = $rose = $jaune = $vert = $noir = 0;
+    while ($color = $result->fetch_assoc()) {
+
+
+        if ($color["prdColour"] == "blanc") {
+            $blanc += 1;
+            $couleurs['blanc'] = $blanc;
+        } elseif ($color["prdColour"] == "bleu") {
+            $bleu += 1;
+            $couleurs['bleu'] = $bleu;
+        } elseif ($color["prdColour"] == "jaune") {
+            $jaune += 1;
+            $couleurs['jaune'] = $jaune;
+        } elseif ($color["prdColour"] == "Rose") {
+            $rose += 1;
+            $couleurs['Rose'] = $rose;
+        } elseif ($color["prdColour"] == "vert") {
+            $vert += 1;
+            $couleurs['vert'] = $vert;
+        } else {
+            $noir += 1;
+            $couleurs['noir'] = $noir;
+        }
+    }
+    $nProduct = $couleurs;
+    return  $nProduct;
+}
+
 function returnLanguageList(): array
 {
     return array(
