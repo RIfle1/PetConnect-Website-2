@@ -508,6 +508,50 @@ function returnAddressInfo($adrID) : array {
     return returnList(runSQLResult($getAddressInfoSql));
 }
 
+function countBasket(): string
+{
+    $cltID = $_SESSION["ID"];
+    $result = runSQLResult('SELECT * FROM Basket WHERE Client_cltID = "' .   $cltID  . '"');
+    $result = mysqli_num_rows($result);
+    return $result;
+}
+
+// Couleur > 0 dans le panier
+function getColorProduct(): array
+{
+    $cltID = $_SESSION["ID"];
+    $result = runSQLResult('SELECT * FROM Basket INNER JOIN Product_List ON (Basket.basID = Product_List.Basket_basID) INNER JOIN Product ON (Product_List.Product_prdID = Product.prdID) WHERE Client_cltID = "' .   $cltID  . '"');
+
+
+    $couleurs = array();
+    $blanc = $bleu = $rose = $jaune = $vert = $noir = 0;
+    while ($color = $result->fetch_assoc()) {
+
+
+        if ($color["prdColour"] == "blanc") {
+            $blanc += 1;
+            $couleurs['blanc'] = $blanc;
+        } elseif ($color["prdColour"] == "bleu") {
+            $bleu += 1;
+            $couleurs['bleu'] = $bleu;
+        } elseif ($color["prdColour"] == "jaune") {
+            $jaune += 1;
+            $couleurs['jaune'] = $jaune;
+        } elseif ($color["prdColour"] == "Rose") {
+            $rose += 1;
+            $couleurs['Rose'] = $rose;
+        } elseif ($color["prdColour"] == "vert") {
+            $vert += 1;
+            $couleurs['vert'] = $vert;
+        } else {
+            $noir += 1;
+            $couleurs['noir'] = $noir;
+        }
+    }
+    $nProduct = $couleurs;
+    return  $nProduct;
+}
+
 function returnLanguage(): string {
     if(empty($_COOKIE['language-cookie'])) {
         return 'English';
@@ -715,7 +759,6 @@ function returnLanguageList(): array
                 "Try to" => "Try to",
                 "login" => "login",
             ),
-            "shop" => array(),
             "signup" => array(
                 "Create an account" => "Create an account",
                 "Username:" => "Username:" ,
@@ -794,6 +837,64 @@ function returnLanguageList(): array
                 "My Orders" => "My Orders",
                 "My Devices" => "My Devices",
                 "Logout" => "Logout",
+            ),
+                        "order-history" => array(
+                "Account" => "Account",
+                "Order History" => "Order History",
+                "Purchase date" => "Purchase date",
+                "Color" => "Color",
+                "Price" => "Price",
+                "Status: <strong>In transit</strong> " => "Status: <strong>In transit</strong>",
+            ),
+            "shop" => array(
+                "Connected dog collar" => "Connected dog collar",
+                "Color" => "Color",
+                "In stock" => "In stock",
+                "Yellow" => "Yellow",
+                "Green" => "Green",
+                "Pink" => "Pink",
+                "Blue" =>  "Blue",
+                "Black" => "Black",
+                "White" => "White",
+                "Add to cart" => "Add to cart",
+                "Buy now" => "Buy now",
+                "GPS localisation" => "GPS localisation",
+                "Heart rate sensor" => "Heart rate sensor",
+                "Thermal sensor" => "Thermal sensor",
+                "Sound sensor" => "Sound sensor",
+                "CO2 concentration" => "CO2 concentration",
+            ),
+            "payment-method" => array(
+                "Account" => "Account",
+                "Payment method" => "Payment method",
+                "Add payment method" => "Add payment method",
+                "Bank card" => "Bank card",
+            ),
+            "devices" => array(
+                "Account" => "Account",
+                "My devices" => "My devices",
+                "Success " => "Success ",
+                "Device added" => "Device added",
+                "Error " => "Error ",
+                "Device already associated" => "Device already associated",
+                "Wrong number" => "Wrong number",
+                "Deleted device" => "Deleted device",
+                "Good" => "Good",
+                "See more" => "See more",
+                "delete" => "delete",
+                "Collar number" => "Collar number",
+                "Add" => "Add",
+            ),
+            "info-device" => array(
+                "Account" => "Account",
+                "My devices" => "My devices",
+                "Device information" =>  "Device information",
+                "Good" => "Good",
+                "Day" => "Day",
+                "Week" => "Week",
+                "Month" => "Month",
+                "Add" => "Add",
+
             ),
 
             // PHP PROCESSES
@@ -1072,7 +1173,6 @@ function returnLanguageList(): array
                 "Try to" => "Essayez de",
                 "login" => "vous-identifiez",
             ),
-            "shop" => array(),
             "signup" => array(
                 "Create an account" => "Créer un compte",
                 "Username:" => "Nom d'utilisateur:" ,
@@ -1155,6 +1255,66 @@ function returnLanguageList(): array
                 "My Devices" => "Mes appareils",
                 "Logout" => "Déconnexion",
             ),
+            "order-history" => array(
+                "Account" => "Compte",
+                "Order History" => "Historique de Commandes",
+                "Purchase date" => "Date d'achat",
+                "Color" => "Couleur",
+                "Price" => "Prix",
+                "Status: <strong>In transit</strong> " => "Statut: <strong>En cours de livraison</strong>",
+            ),
+            "shop" => array(
+                "Connected dog collar" => "Collier connecté pour chien",
+                "Color" => "Couleur",
+                "In stock" => "En stock",
+                "Yellow" => "Jaune",
+                "Green" => "Vert",
+                "Pink" => "Rose",
+                "Blue" => "Bleu",
+                "Black" => "Noir",
+                "White" => "Blanc",
+                "Add to cart" => "Ajouter au panier",
+                "Buy now" => "Acheter maintenant",
+                "GPS localisation" => "Localisation GPS",
+                "Heart rate sensor" => "Capteur cardiaque",
+                "Thermal sensor" => "Capteur thermique",
+                "Sound sensor" => "Capteur sonore",
+                "CO2 concentration" => "Taux de CO2",
+            ),
+            "payment-method" => array(
+                "Account" => "Compte",
+                "My devices" => "Mes appareils",
+                "Add payment method" => "Enregistrer un mode de paiement",
+                "Bank card" => "Carte Bancaire",
+            ),
+            "devices" => array(
+                "Account" => "Compte",
+                "My devices" => "Mes appareils",
+                "Success " => "Succès ",
+                "Device added" => "Appareil ajouté",
+                "Error " => "Erreur ",
+                "Deleted device" => "Appareil supprimé",
+                "Device already associated" => "Appareil déjà associé",
+                "Wrong number" => "Numéro incorrect",
+                "Good" => "Bon",
+                "See more" => "Plus d'informations",
+                "delete" => "supprimer",
+                "Collar number" => "Numéro du collier",
+                "Add" => "Ajouter",
+
+            ),
+            "info-device" => array(
+                "Account" => "Compte",
+                "My devices" => "Mes appareils",
+                "Device information" => "Information appareil",
+                "Good" => "Bon",
+                "Day" => "Jour",
+                "Week" => "Semaine",
+                "Month" => "Mois",
+                "Add" => "Ajouter",
+
+            ),
+
 
             // PHP PROCESSES
             "dbConnection" => array(
