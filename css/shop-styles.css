@@ -52,17 +52,7 @@
     width: 200px;
 }
 
-@media only screen and (max-width: 960px) {
-    #sh-main-header-div {
-        flex-direction: column;
-    }
-    #sh-header-product-img-div img{
-        padding: 20px;
-    }
-    #sh-header-product-img-div {
-        width: 100%;
-    }
-}
+
 
 #sh-shaped-div {
     display: flex;
@@ -122,7 +112,6 @@
     display: flex;
     flex-direction: column;
     width: 50%;
-    padding: 10px;
 }
 
 #sh-info-div p {
@@ -133,7 +122,6 @@
     display: flex;
     justify-content: start;
     align-items: start;
-    margin-bottom: 20px;
 }
 
 #sh-info-price-div #sh-info-price-span-1 {
@@ -149,25 +137,44 @@
 #sh-info-interaction-div {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-
-    margin-bottom: 20px;
-}
-
-#sh-interaction-amount {
-    display: flex;
-    flex-direction: column;
+    justify-content: center;
+    flex-wrap: wrap;
 
     font-size: 15px;
 }
 
+.sh-interaction-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.sh-interaction-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.sh-interaction-column, .sh-interaction-row {
+    margin-top: 20px;
+}
+
+.sh-color {
+    background: #B8B8B8;
+
+    border-radius: 10px;
+    border: grey solid 1px;
+    width: 90px;
+    height: 38px;
+
+    padding: 0 8px;
+}
+
 .sh-amount {
-    background: #E2E2E2;
+    background: #B8B8B8;
 
     border-radius: 10px;
     border: grey solid 1px;
     width: 48px;
-    height: 40px;
+    height: 38px;
 
     padding: 0 0 0 22px;
 }
@@ -175,17 +182,23 @@
 #sh-amount-input {
     display: none;
 
-    margin: 5px 0 5px 0;
-
     font-family: 'Inter', sans-serif;
     font-weight: 700;
     font-size: 15px;
 }
 
-#sh-amount-active {
+.sh-select-active {
     display: flex;
     align-items: center;
-    margin: 0 0 0 0;
+    margin: 0 0 0 22px;
+
+    cursor: pointer;
+}
+
+#sh-color-active svg {
+    margin-left: 20px;
+    width: 10px;
+    height: 10px;
 }
 
 #sh-amount-active svg {
@@ -194,50 +207,94 @@
     height: 10px;
 }
 
-#sh-amount-hidden {
+.sh-select-hidden {
     display: none;
+    position: absolute;
+    margin: 40px 0 0 22px;
 
     border-radius: 0;
     border: none;
-    height: 180px;
-    width: 72px;
+
     padding: 0;
 }
 
-#sh-amount-hidden ul{
-    height: 180px;
+#sh-color-hidden {
+    width: 108px;
+    height: 142px;
+}
+
+#sh-amount-hidden {
+    width: 72px;
+    height: 112px;
+}
+
+.sh-select-hidden ul{
     overflow-y: scroll ;
     padding: 0;
     margin: 0;
     list-style: none;
-    border: grey solid 1px;
+    border-left: grey solid 1px;
+    border-right: grey solid 1px;
+}
+
+#sh-color-hidden ul {
+    height: 142px;
+}
+
+#sh-amount-hidden ul {
+    height: 112px;
+}
+
+.sh-select-hidden li {
+    height: 40px;
+    line-height: 40px;
+
+    cursor: pointer;
+}
+
+.sh-select-hidden li:hover {
+    background: #69A6E3;
+}
+
+#sh-color-hidden li {
+    padding: 0 0 0 8px;
 }
 
 #sh-amount-hidden li {
-    height: 40px;
-    line-height: 40px;
     padding: 0 0 0 22px;
 }
 
-#sh-amount-custom {
+.sh-select-custom {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #E2E2E2;
+    background: #B8B8B8;
 
-    width: 70px;
-    height: 40px;
     border: solid 1px grey;
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
 
     text-align: center;
+
+    cursor: pointer;
+}
+
+#sh-color-custom {
+    height: 10px;
+    width: 106px;
+}
+
+#sh-amount-custom {
+    height: 40px;
+    width: 70px;
 }
 
 #sh-info-interaction-div button {
     border-radius: 10px;
     height: 40px;
-    width: 200px;
+
+    padding: 0 22px;
+    margin: 0 0 0 22px;
     font-family: 'Inter', sans-serif;
     font-weight: 700;
     transition: background-color 0.2s ease-in-out;
@@ -271,6 +328,8 @@
     width: 100%;
     border: solid 1px #73B43E;
     border-radius: 10px;
+
+    margin-top: 20px;
 }
 
 .sh-delivery-span-div {
@@ -284,4 +343,23 @@
 #sh-info-delivery-div img, #sh-info-delivery-div span{
     padding: 0 0 0 10px;
     height: 30px;
+}
+
+@media only screen and (max-width: 960px) {
+    #sh-main-header-div {
+        flex-direction: column;
+    }
+    #sh-header-product-img-div img{
+        padding: 20px;
+    }
+    #sh-header-product-img-div {
+        width: 100%;
+    }
+
+    #sh-main-product-div {
+        flex-direction: column;
+    }
+    #sh-image-display-div, #sh-info-div {
+        width: 100%;
+    }
 }

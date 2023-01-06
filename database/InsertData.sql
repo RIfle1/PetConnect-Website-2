@@ -30,19 +30,19 @@ INSERT INTO image (imgID, imgPath, imgCategory) VALUES ('img23', 'EnglishFlag.pn
 INSERT INTO image (imgID, imgPath, imgCategory) VALUES ('img24', 'FrenchFlag.png', 'languages');
 INSERT INTO image (imgID, imgPath, imgCategory) VALUES ('img25', 'RussianFlag.png', 'languages');
 
-INSERT INTO image (imgID, imgPath, imgCategory) VALUES ('img26', 'collar_black.png', 'products');
-INSERT INTO image (imgID, imgPath, imgCategory) VALUES ('img27', 'collar_white.png', 'products');
-INSERT INTO image (imgID, imgPath, imgCategory) VALUES ('img28', 'collar_blue.png', 'products');
-INSERT INTO image (imgID, imgPath, imgCategory) VALUES ('img29', 'collar_red.png', 'products');
-INSERT INTO image (imgID, imgPath, imgCategory) VALUES ('img30', 'collar_yellow.png', 'products');
-INSERT INTO image (imgID, imgPath, imgCategory) VALUES ('img31', 'collar_green.png', 'products');
+INSERT INTO image (imgID, imgPath, imgCategory) VALUES ('img26', 'iCollar_v2_black.png', 'products');
+INSERT INTO image (imgID, imgPath, imgCategory) VALUES ('img27', 'iCollar_v2_white.png', 'products');
+INSERT INTO image (imgID, imgPath, imgCategory) VALUES ('img28', 'iCollar_v2_blue.png', 'products');
+INSERT INTO image (imgID, imgPath, imgCategory) VALUES ('img29', 'iCollar_v2_red.png', 'products');
+INSERT INTO image (imgID, imgPath, imgCategory) VALUES ('img30', 'iCollar_v2_yellow.png', 'products');
+INSERT INTO image (imgID, imgPath, imgCategory) VALUES ('img31', 'iCollar_v2_green.png', 'products');
 
-INSERT INTO image (imgID, imgPath, imgCategory) VALUES ('img32', 'iCollar_black.png', 'products');
-INSERT INTO image (imgID, imgPath, imgCategory) VALUES ('img33', 'iCollar_white.png', 'products');
-INSERT INTO image (imgID, imgPath, imgCategory) VALUES ('img34', 'iCollar_blue.png', 'products');
-INSERT INTO image (imgID, imgPath, imgCategory) VALUES ('img35', 'iCollar_red.png', 'products');
-INSERT INTO image (imgID, imgPath, imgCategory) VALUES ('img36', 'iCollar_yellow.png', 'products');
-INSERT INTO image (imgID, imgPath, imgCategory) VALUES ('img37', 'iCollar_green.png', 'products');
+INSERT INTO image (imgID, imgPath, imgCategory) VALUES ('img32', 'iCollar_v1_black.png', 'products');
+INSERT INTO image (imgID, imgPath, imgCategory) VALUES ('img33', 'iCollar_v1_white.png', 'products');
+INSERT INTO image (imgID, imgPath, imgCategory) VALUES ('img34', 'iCollar_v1_blue.png', 'products');
+INSERT INTO image (imgID, imgPath, imgCategory) VALUES ('img35', 'iCollar_v1_red.png', 'products');
+INSERT INTO image (imgID, imgPath, imgCategory) VALUES ('img36', 'iCollar_v1_yellow.png', 'products');
+INSERT INTO image (imgID, imgPath, imgCategory) VALUES ('img37', 'iCollar_v1_green.png', 'products');
 
 INSERT INTO image (imgID, imgPath, imgCategory) VALUES ('img38', 'eco.png', 'misc');
 INSERT INTO image (imgID, imgPath, imgCategory) VALUES ('img39', 'delivery.png', 'misc');
@@ -74,3 +74,33 @@ INSERT INTO admin (admID, admEmail, admUsername, admPassword, admPfpName) VALUES
 INSERT INTO admin (admID, admEmail, admUsername, admPassword, admPfpName) VALUES ('adm4', 'philipe.barakat5@gmail.com', 'ADMIN5', '$2y$10$kOeEgAJU04emD4fT6.dW8OoEWivgwuWROTd07DvI/ETjZEuOkbuaO', 'dedpol.png');
 INSERT INTO admin (admID, admEmail, admUsername, admPassword, admPfpName) VALUES ('adm5', 'philipe.barakat6@gmail.com', 'ADMIN6', '$2y$10$kOeEgAJU04emD4fT6.dW8OoEWivgwuWROTd07DvI/ETjZEuOkbuaO', 'dedpol.png');
 
+INSERT INTO product(prdID, prdName, prdPrice, prdReleaseDate) VALUES ('prd1', 'Connected Collars for dogs v1', 499.99, '2023-01-01');
+INSERT INTO product(prdID, prdName, prdPrice, prdReleaseDate) VALUES ('prd2', 'Connected Collars for dogs v2', 499.99, '2023-01-01');
+
+INSERT INTO product_color(prcID, prcColor, Product_prdID) VALUES ('prc1', 'black', 'prd1');
+INSERT INTO product_color(prcID, prcColor, Product_prdID) VALUES ('prc2', 'blue', 'prd1');
+INSERT INTO product_color(prcID, prcColor, Product_prdID) VALUES ('prc3', 'green', 'prd1');
+INSERT INTO product_color(prcID, prcColor, Product_prdID) VALUES ('prc4', 'red', 'prd1');
+INSERT INTO product_color(prcID, prcColor, Product_prdID) VALUES ('prc5', 'white', 'prd1');
+INSERT INTO product_color(prcID, prcColor, Product_prdID) VALUES ('prc6', 'yellow', 'prd1');
+
+INSERT INTO product_color(prcID, prcColor, Product_prdID) VALUES ('prc7', 'black', 'prd1');
+INSERT INTO product_color(prcID, prcColor, Product_prdID) VALUES ('prc8', 'blue', 'prd1');
+INSERT INTO product_color(prcID, prcColor, Product_prdID) VALUES ('prc9', 'green', 'prd1');
+INSERT INTO product_color(prcID, prcColor, Product_prdID) VALUES ('prc10', 'red', 'prd1');
+INSERT INTO product_color(prcID, prcColor, Product_prdID) VALUES ('prc11', 'white', 'prd1');
+INSERT INTO product_color(prcID, prcColor, Product_prdID) VALUES ('prc12', 'yellow', 'prd1');
+
+INSERT INTO product_image(pimID, pimPath, Product_Color_prcID) VALUES ('pim1', 'iCollar_v1.png_black', 'prc1');
+INSERT INTO product_image(pimID, pimPath, Product_Color_prcID) VALUES ('pim2', 'iCollar_v1.png_blue', 'prc2');
+INSERT INTO product_image(pimID, pimPath, Product_Color_prcID) VALUES ('pim3', 'iCollar_v1.png_green', 'prc3');
+INSERT INTO product_image(pimID, pimPath, Product_Color_prcID) VALUES ('pim4', 'iCollar_v1.png_red', 'prc4');
+INSERT INTO product_image(pimID, pimPath, Product_Color_prcID) VALUES ('pim5', 'iCollar_v1.png_white', 'prc5');
+INSERT INTO product_image(pimID, pimPath, Product_Color_prcID) VALUES ('pim6', 'iCollar_v1.png_yellow', 'prc6');
+
+INSERT INTO product_image(pimID, pimPath, Product_Color_prcID) VALUES ('pim7', 'iCollar_v1.png_black', 'prc7');
+INSERT INTO product_image(pimID, pimPath, Product_Color_prcID) VALUES ('pim8', 'iCollar_v1.png_blue', 'prc8');
+INSERT INTO product_image(pimID, pimPath, Product_Color_prcID) VALUES ('pim9', 'iCollar_v1.png_green', 'prc9');
+INSERT INTO product_image(pimID, pimPath, Product_Color_prcID) VALUES ('pim10', 'iCollar_v1.png_red', 'prc10');
+INSERT INTO product_image(pimID, pimPath, Product_Color_prcID) VALUES ('pim11', 'iCollar_v1.png_white', 'prc11');
+INSERT INTO product_image(pimID, pimPath, Product_Color_prcID) VALUES ('pim12', 'iCollar_v1.png_yellow', 'prc12');
