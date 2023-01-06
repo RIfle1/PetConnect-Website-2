@@ -705,6 +705,11 @@ function returnLanguageList(): array
                 "My Orders" => "My Orders",
                 "My Devices" => "My Devices",
                 "Logout" => "Logout",
+
+                "Summary of my order" => "Summary of my order",
+                "Delete basket" => "Delete basket",
+                "Buy" => "Buy",
+
             ),
 
             // PHP PROCESSES
@@ -878,6 +883,34 @@ function returnLanguageList(): array
                 "Payment method" => "Payment method",
                 "Add payment method" => "Add payment method",
                 "Bank card" => "Bank card",
+            ),
+            "devices" => array(
+                "Account" => "Account",
+                "My devices" => "My devices",
+                "Success " => "Success ",
+                "Device added" => "Device added",
+                "Error " => "Error ",
+                "Device already associated" => "Device already associated",
+                "Wrong number" => "Wrong number",
+                "Deleted device" => "Deleted device",
+                "Device already associated" =>  "Device already associated",
+                "Wrong number" => "Wrong number",
+                "Good" => "Good",
+                "See more" => "See more",
+                "delete" => "delete",
+                "Collar number" => "Collar number",
+                "Add" => "Add",
+            ),
+            "info-device" => array(
+                "Account" => "Account",
+                "My devices" => "My devices",
+                "Device information" =>  "Device information",
+                "Good" => "Good",
+                "Day" => "Day",
+                "Week" => "Week",
+                "Month" => "Month",
+                "Add" => "Add",
+
             ),
 
         ),
@@ -1115,6 +1148,11 @@ function returnLanguageList(): array
                 "My Orders" => "Mes commandes",
                 "My Devices" => "Mes appareils",
                 "Logout" => "Déconnexion",
+                "Summary of my order" => "Récapitulatif de ma commande",
+                "Delete basket" => "Supprimer le panier",
+                "Buy" => "Acheter",
+
+
             ),
 
             // PHP PROCESSES
@@ -1280,9 +1318,39 @@ function returnLanguageList(): array
             ),
             "payment-method" => array(
                 "Account" => "Compte",
-                "Payment method" => "Mode de paiement",
+                "My devices" => "Mes appareils",
                 "Add payment method" => "Enregistrer un mode de paiement",
                 "Bank card" => "Carte Bancaire",
+            ),
+            "devices" => array(
+                "Account" => "Compte",
+                "My devices" => "Mes appareils",
+                "Success " => "Succès ",
+                "Device added" => "Appareil ajouté",
+                "Error " => "Erreur ",
+                "Device already associated" => "Appareil déjà associé",
+                "Wrong number" => "Numéro incorrect",
+                "Deleted device" => "Appareil supprimé",
+                "Device already associated" => "Appareil déjà associé",
+                "Wrong number" => "Numéro incorrect",
+                "Good" => "Bon",
+                "See more" => "Plus d'informations",
+                "delete" => "supprimer",
+                "Collar number" => "Numéro du collier",
+                "Add" => "Ajouter",
+
+            ),
+
+            "info-device" => array(
+                "Account" => "Compte",
+                "My devices" => "Mes appareils",
+                "Device information" => "Information appareil",
+                "Good" => "Bon",
+                "Day" => "Jour",
+                "Week" => "Semaine",
+                "Month" => "Mois",
+                "Add" => "Ajouter",
+
             ),
 
         ),
@@ -1366,8 +1434,4 @@ function getColorProduct(): array
     }
     $nProduct = $couleurs;
     return  $nProduct;
-}
-
-function supprColorProduct()
-{
 }

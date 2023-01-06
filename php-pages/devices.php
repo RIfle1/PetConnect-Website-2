@@ -4,7 +4,7 @@ include '../php-processes/dbConnection.php';
 clientPage();
 include 'site-header.php';
 
-$languageList = returnLanguageList()[returnLanguage()]['connection-security'];
+$languageList = returnLanguageList()[returnLanguage()]['devices'];
 
 ?>
 
@@ -29,19 +29,17 @@ $languageList = returnLanguageList()[returnLanguage()]['connection-security'];
 
     <main>
         <div id="ds-form-body" class="text-font-500">
-            <lien><a href="profile.php">Compte</a>><a id="actif" href="">Gérer mes appareils</a></lien>
+            <lien><a href="profile.php"><?php echo $languageList["Account"] ?></a>><a id="actif" href=""><?php echo $languageList["My devices"] ?></a></lien>
             <section id="g_appareils">
-                <h2>Mes appareils</h2>
+                <h2><?php echo $languageList["My devices"] ?></h2>
                 <?php
-                if (isset($_GET['login_err'])); {
+                if (isset($_GET['reg_err'])); {
                     $err = htmlspecialchars($_GET['reg_err']);
-
-
                     switch ($err) {
                         case 'success':
                 ?>
                             <div class="alert alert-success">
-                                <strong>Succès</strong> Appareil ajouté
+                                <strong><?php echo $languageList["Success "] ?></strong> <?php echo $languageList["Device added"] ?>
                             </div>
 
                         <?php
@@ -50,14 +48,23 @@ $languageList = returnLanguageList()[returnLanguage()]['connection-security'];
                         case 'already':
                         ?>
                             <div class="alert">
-                                <strong>Erreur</strong> appareil déja associé
+                                <strong><?php echo $languageList["Error "] ?></strong> <?php echo $languageList["Device already associated"] ?>
+                            </div>
+                        <?php
+                            break;
+
+
+                        case 'wrong':
+                        ?>
+                            <div class="alert">
+                                <strong><?php echo $languageList["Error "] ?></strong> <?php echo $languageList["Wrong number"] ?>
                             </div>
                         <?php
                             break;
                         case 'suppr':
                         ?>
                             <div class="alert alert-success">
-                                <strong>Succès</strong> Appareil supprimé
+                                <strong><?php echo $languageList["Success "] ?></strong><?php echo $languageList["Deleted device"] ?>
                             </div>
 
                 <?php
@@ -65,52 +72,50 @@ $languageList = returnLanguageList()[returnLanguage()]['connection-security'];
                     }
                 }
                 ?>
-                <?php foreach ($dataApp as $app) :
+                <?php
+                $cltID = $_SESSION["ID"];
+                $selectCheckDevices = runSQLResult("SELECT * FROM Device WHERE Client_cltID ='" . $cltID . "' AND devAdd = 1");
+                while ($check = $selectCheckDevices->fetch_assoc()) {
                 ?>
                     <div id="appareil">
                         <div id=contour>
                             <div>
-                                <p>iCollar Max</p>
+                                <p>iCollar</p>
                             </div>
                             <ul>
-                                <li id="produit">
-                                    <img src="images/iCollar_blanc2.png" />
+                                <li id="produit" class="contour">
+                                    <img src="<?php echo getImage("iCollar_blanc2.png") ?>" />
 
                                 </li>
                                 <li class="contour">
-                                    <img src="images/fonc/heart.png" />
-                                    <p>Bon</p>
+                                    <img src="<?php echo getImage("heart.png") ?>" />
+                                    <p><?php echo $languageList["Good"] ?></p>
                                 </li>
                                 <li class="contour">
-                                    <img src="images/fonc/co2.png" />
-                                    <p>Bon</p>
+                                    <img src="<?php echo getImage("co2.png") ?>" />
+                                    <p><?php echo $languageList["Good"]  ?></p>
                                 </li>
-                                <li class="contour therm">
-                                    <img src="images/fonc/thermo.png" />
-                                    <p>Bon</p>
+                                <li class="contour">
+                                    <img src="<?php echo getImage("thermo.png") ?>" />
+                                    <p><?php echo $languageList["Good"]  ?></p>
                                 </li>
                                 <li>
-                                    <a href="info_appareil.php">Plus d'informations</a>
+                                    <a href="info-device.php"><?php echo $languageList["See more"]  ?></a>
                                 </li>
-                                <form action=" ../controller/gerer_mes_apps_traitement.php" method="post">
-                                    <button name="suppr" value="<?php echo $app["appID"] ?>">supprimer</button>
+                                <form action=" ../php-processes/devices-process.php" method="post">
+                                    <button name="deleteDevice" value="<?php echo $check["devID"] ?>"><?php echo $languageList["delete"]  ?></button>
                                 </form>
                             </ul>
 
                         </div>
-                    <?php endforeach; ?>
+
+                    <?php } ?>
             </section>
-            <form action=" ../controller/gerer_mes_apps_traitement.php" method="post">
-                <input type="text" name="ajouter" placeholder="Numéro du collier" required>
-                <input type="submit" value="Ajouter">
+            <form action=" ../php-processes/devices-process.php" method="post">
+                <input type="text" name="deviceNumber" placeholder="<?php echo $languageList["Collar number"]  ?>" required>
+                <input type="submit" value="<?php echo $languageList["Add"]  ?>" name="addDevice">
             </form>
-            <?php if (!empty($_POST["ajouter"])) {
-            ?>
 
-
-            <?php
-            }
-            ?>
         </div>
     </main>
 

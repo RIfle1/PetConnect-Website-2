@@ -107,7 +107,7 @@ $languageListKeys = array_keys(returnLanguageList());
                     <div id="site-header-dropdown-menu-basket" class="text-font-300">
 
 
-                        <p>Récapitulatif de ma commande</p>
+                        <p><?php echo $languageList['Summary of my order'] ?></p>
                         <div class="separation-line-1"></div>
 
                         <?php foreach (getColorProduct() as $cle => $valeur) {
@@ -125,9 +125,9 @@ $languageListKeys = array_keys(returnLanguageList());
                         <?php } ?>
 
                         <form action="../php-processes/shop-process.php" method="POST" id="deleteAll">
-                            <button type="submit" name="suppr">Supprimer le panier</button>
+                            <button type="submit" name="suppr"><?php echo $languageList['Delete basket'] ?></button>
                         </form>
-                        <a href="../php-pages/payment.php">Acheter</a>
+                        <a href="../php-pages/payment.php"><?php echo $languageList['Buy'] ?></a>
                     </div>
 
                     <notif><?php echo countBasket() ?></notif>

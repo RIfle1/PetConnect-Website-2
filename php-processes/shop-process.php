@@ -1,7 +1,7 @@
 <?php
 include '../php-processes/dbConnection.php';
 clientPage();
-if (isset($_POST["addBasket"])) {
+if (isset($_POST["addBasket"]) or isset($_POST["buy"])) {
 
     $cltID = $_SESSION["ID"];
     $newBasID = autoSetID($IDLetters . 'Bas');
@@ -34,8 +34,12 @@ if (isset($_POST["addBasket"])) {
 
     runSQLResult($insertList);
 
-
-    header('Location:../php-pages/shop.php');
+    if (isset($_POST["addBasket"])) {
+        header('Location:../php-pages/shop.php');
+        die();
+    } else {
+        header('Location:../php-pages/payment.php');
+    }
 }
 
 if (isset($_POST["suppr"])) {
@@ -44,8 +48,6 @@ if (isset($_POST["suppr"])) {
 
 
     $deleteBasket = " DELETE Product_list,Basket FROM Basket INNER JOIN Product_List ON (Basket.basID = Product_List.Basket_basID) WHERE Client_cltID ='" . $cltID . "'";
-    // $deleteList = "DELETE FROM Product_List WHERE ";
-
 
     echo $deleteBasket;
     runSQLResult($deleteBasket);

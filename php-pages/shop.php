@@ -79,9 +79,11 @@ $languageList = returnLanguageList()[returnLanguage()]['shop'];
                             <img src="<?php echo getImage("Collier_jaune.png") ?>" />
                         </figure>
                     </button>
-                    <div>
-                        <button type=" submit" id="buy" name="buy"><?php echo $languageList["Buy now"] ?></button>
-                    </div>
+                    <form action="../php-processes/shop-process.php" method="POST">
+                        <div>
+                            <button type=" submit" id="buy" name="buy"><?php echo $languageList["Buy now"] ?></button>
+                        </div>
+                    </form>
                     <p id="deo"></p>
                 </div>
 
