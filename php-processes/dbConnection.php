@@ -511,7 +511,7 @@ function returnAddressInfo($adrID) : array {
 function countBasket(): string
 {
     $cltID = $_SESSION["ID"];
-    $result = runSQLResult('SELECT * FROM Basket WHERE Client_cltID = "' .   $cltID  . '"');
+    $result = runSQLResult("SELECT * FROM Basket WHERE Client_cltID = '" .   $cltID  . "'");
     $result = mysqli_num_rows($result);
     return $result;
 }
@@ -520,7 +520,7 @@ function countBasket(): string
 function getColorProduct(): array
 {
     $cltID = $_SESSION["ID"];
-    $result = runSQLResult('SELECT * FROM Basket INNER JOIN Product_List ON (Basket.basID = Product_List.Basket_basID) INNER JOIN Product ON (Product_List.Product_prdID = Product.prdID) WHERE Client_cltID = "' .   $cltID  . '"');
+    $result = runSQLResult("SELECT * FROM Basket INNER JOIN Product_List ON (Basket.basID = Product_List.Basket_basID) INNER JOIN Product ON (Product_List.Product_prdID = Product.prdID) WHERE Client_cltID = '" .   $cltID  . "'");
 
 
     $couleurs = array();
