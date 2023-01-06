@@ -12,10 +12,8 @@ $languageListKeys = array_keys(returnLanguageList());
 <html lang="en">
 
 <head>
-    <!--    META-->
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <!--    Google Fonts-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,14 +21,14 @@ $languageListKeys = array_keys(returnLanguageList());
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;500;700&display=swap" rel="stylesheet">
 
     <!--    Style Sheet-->
-    <link rel="stylesheet" href="../css/site-header-styles.css">
+    <link rel="stylesheet" href="../css/site-header-styless.css">
     <link rel="stylesheet" href="../css/common-styles.css">
     <!--    Jquery-->
     <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous">
     </script>
     <!--    Css Function-->
     <script src="../javaScript/css-functions.js"></script>
-<!--    <title>PetConnect</title>-->
+    <title>PetConnect</title>
 </head>
 
 <body>
@@ -80,35 +78,67 @@ $languageListKeys = array_keys(returnLanguageList());
                 <div id="site-header-dropdown-menu-login" class="text-font-300">
                     <?php if (isset($loggedIn) && isset($entityInfo) && isset($entityAttributes)) : ?>
                         <?php if ($loggedIn) : ?>
-                            <span><?php echo $languageList['Hello'] ?> <?php echo $entityInfo[$entityAttributes["FirstName"]] . " " . $entityInfo[$entityAttributes["LastName"]] ?></span>
+                            <p><?php echo $languageList['Hello'] ?> <?php echo $entityInfo[$entityAttributes["FirstName"]] . " " . $entityInfo[$entityAttributes["LastName"]] ?></p>
                         <?php endif; ?>
                     <?php else : ?>
                         <div id="site-header-signup">
                             <a id="site-header-signup-a1" href="login.php"><?php echo $languageList['Sign in'] ?></a>
-                            <span><?php echo $languageList['New Client?'] ?><a id="site-header-signup-a2" href="signup.php"><?php echo $languageList['Signup.'] ?></a></span>
+                            <p><?php echo $languageList['New Client?'] ?><a id="site-header-signup-a2" href="signup.php"><?php echo $languageList['Signup.'] ?></a></p>
                         </div>
                     <?php endif; ?>
+                    <div class="separation-line-1"></div>
+                    <a href="profile.php"><?php echo $languageList['My Account'] ?></a>
+                    <a href="order-history.php"><?php echo $languageList['My Orders'] ?></a>
+                    <a href="devices.php"><?php echo $languageList['My Devices'] ?></a>
                     <?php if (isset($loggedIn)) : ?>
                         <?php if ($loggedIn) : ?>
-                            <div class="separation-line-1"></div>
-                            <a href="profile.php"><?php echo $languageList['My Account'] ?></a>
-                            <a href="#"><?php echo $languageList['My Orders'] ?></a>
-                            <a href="#"><?php echo $languageList['My Devices'] ?></a>
                             <div class="separation-line-1"></div>
                             <a href="../php-processes/logout.php"><?php echo $languageList['Logout'] ?></a>
                         <?php endif; ?>
                     <?php endif; ?>
                 </div>
             </div>
-            <div>
-                <a href="#"><img class="site-header-profile-img-1" src="<?php echo getImage('basket.png') ?>" alt="Basket-logo"></a>
+
+            <div id="site-header-profile-div-flex">
+                <div id="site-header-basket-logo">
+                    <a href="basket.php"><img class="site-header-profile-img-1" src="<?php echo getImage('basket.png') ?>" alt="Basket-logo"></a>
+                </div>
+                <?php if (countBasket() > 0) { ?>
+                    <div id="site-header-dropdown-menu-basket" class="text-font-300">
+
+
+                        <p><?php echo $languageList['Summary of my order'] ?></p>
+                        <div class="separation-line-1"></div>
+
+                        <?php foreach (getColorProduct() as $cle => $valeur) {
+                            $link = "Collier_$cle.png"; ?>
+
+                            <img src="<?php echo getImage($link) ?>">
+                            <div id="number">
+                                <p><?php echo $valeur ?> × iCollar <br><?php echo $cle ?> </p>
+                            </div>
+                            <!-- <form action="../php-processes/shop-process.php" method="POST">
+                                <button type="submit" name="suppr">-</button>
+                            </form> -->
+                            <div class="separation-line-1"></div>
+
+                        <?php } ?>
+
+                        <form action="../php-processes/shop-process.php" method="POST" id="deleteAll">
+                            <button type="submit" name="suppr"><?php echo $languageList['Delete basket'] ?></button>
+                        </form>
+                        <a href="../php-pages/payment.php"><?php echo $languageList['Buy'] ?></a>
+                    </div>
+
+                    <notif><?php echo countBasket() ?></notif>
+                <?php } ?>
             </div>
         </div>
     </div>
 
     <script type="text/javascript">
         setMarginTop('site-header-profile-logo', 'id', 'site-header-dropdown-menu-login', 'id', 10)
-        setMarginTop('site-header-language-selector', 'id', 'language-selector-button-div', 'id', -15)
+        setMarginTop('site-header-language-selector', 'id', 'language-selector-button-div', 'id', 3)
         setWidth('language-selector-current-div', 'id', 'language-selector-button-div', 'id', 0)
     </script>
 </body>

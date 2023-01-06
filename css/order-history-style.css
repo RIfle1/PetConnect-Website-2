@@ -1,0 +1,64 @@
+
+
+
+
+
+#oh-form-body{
+    display: flex;
+    flex-direction: column;
+    margin-left: 5vw;
+    margin-right: 5vw;
+    margin-bottom: 50px;
+}
+
+
+#historique h2{
+    font-weight: 700;
+    font-size: 36px;
+
+}
+
+
+#historique img{
+    position: relative;
+    width: 14em;
+    top: -3em;
+
+}
+
+#commande{
+    position: relative;
+   
+}
+hr{
+    margin: 0.4em;
+}
+
+#commande h4{
+    position: relative;
+    left: 17em;
+    top: -10em;
+
+}
+
+.droite p{
+    position: relative;
+    left: 60%;
+    top: -16em;
+    padding: 18px;
+}
+
+.droite p strong{
+    position: relative;
+    left: 5%;
+}
+
+#specific{
+    position: relative;
+    top: -5em;
+}
+
+#fin{
+    position: relative;
+    top: -20em;
+}
