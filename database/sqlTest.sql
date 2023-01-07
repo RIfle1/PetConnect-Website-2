@@ -23,3 +23,5 @@ WHERE cltID = 'clt2';
 
 UPDATE address SET adrDefault = 0 WHERE Client_cltID = 'clt2'; UPDATE address SET adrDefault = 1 WHERE adrID = 'adr777ed5eea5e58791cf519775d1b0818f'
 
+SELECT prdID, prcColor FROM product
+INNER JOIN product_color pc on product.prdID = pc.Product_prdID;

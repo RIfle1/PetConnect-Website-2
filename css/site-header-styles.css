@@ -7,56 +7,74 @@ body {
     min-width: 400px;
 }
 
-#site-header-main-header {
+#sih-main-header {
     display: flex;
     flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+
     background: rgba(0, 0, 0, 0.7);
     width: 100%;
     min-height: 93px;
     position: fixed;
     top: 0;
     z-index: 100;
+
 }
 
-.site-header-logo {
-    order: 1;
-    flex-shrink: 0;
-    flex-grow: 3;
-    flex-basis: 200px;
+
+#sih-logo, #sih-menu{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
-.site-header-logo img {
-    width: 300px;
-    min-width: 200px;
-    max-width: 100%;
-    max-height: 100%;
-    margin: 10px 0 0 0;
-    padding-bottom: 13px;
+#sih-logo {
+    margin-left: 50px;
 }
 
-#site-header-menu {
-    order: 2;
-    flex-shrink: 1;
-    flex-grow: 6;
-    flex-basis: 600px;
-    margin: 0 20px 0 20px;
+#sih-menu {
+    margin-right: 40px;
+    margin-left: 40px;
 }
 
-#site-header-menu a {
+#sih-menu a {
     text-decoration: none;
     color: white;
     margin: 0 10px 0 10px;
-    font-size: 30px;
+    font-size: 20px;
 }
 
-#site-header-language-selector {
+#sih-logo img {
+    min-width: 100px;
+    max-width: 200px;
+}
+
+#sih-interaction-main-div {
     display: flex;
     align-items: center;
-    flex-direction: column;
-    margin: 10px;
+    justify-content: end;
+
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-right: 50px;
 }
 
-#language-selector-current-div {
+.sih-interaction-sub-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+
+#sih-language-selector-current-div {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -67,19 +85,20 @@ body {
 }
 
 
-#language-selector-button-div {
+#sih-language-selector-button-div {
     display: flex;
     flex-direction: column;
     position: absolute;
     visibility: hidden;
-    transition: visibility 0.2s;
+    opacity: 0;
+    transition: visibility 0.2s, opacity 0.3s;
 
     background: #9E9E9E;
     padding: 2px;
     border-radius: 5px;
 }
 
-#language-selector-button-div button{
+#sih-language-selector-button-div button{
     display: flex;
     align-items: center;
     flex-direction: row;
@@ -90,69 +109,47 @@ body {
     margin: 2px 0 2px 0;
 }
 
-#language-selector-button-div button:hover{
+#sih-language-selector-button-div button:hover{
     background: #7C7C7C;
 }
 
-#site-header-language-selector span{
+#sih-language-selector span{
     font-size: 15px;
     margin: 0 5px 0 5px;
     width: 25px;
     text-align: center;
 }
 
-.site-header-profile-img-2 {
+.sih-interaction-img-2 {
     margin: 0 5px 0 5px;
     width: 20px;
     height: 100%;
 }
 
-#site-header-language-selector:hover, #site-header-language-selector:hover #language-selector-button-div {
+#sih-language-selector:hover, #sih-language-selector:hover #sih-language-selector-button-div {
     visibility:visible;
+    opacity: 1;
 }
 
-.site-header-profile {
-    order: 4;
-    flex-shrink: 0;
-    flex-grow: 1;
-    flex-basis: 100px;
-    margin: 0 20px 0 0;
-}
-
-.site-header-logo, #site-header-menu, .site-header-profile {
+.sih-interaction-img-1 {
     display: flex;
-    align-items: center;
-    justify-content: space-around;
-}
-
-.site-header-profile {
-    display: flex;
-    align-items: center;
-    justify-content: end;
-}
-
-.site-header-profile-img-1 {
-    margin: 0 5px 0 5px;
-    display: flex;
-    width: 4vw;
-    height: 4vw;
-    min-width: 55px;
-    min-height: 55px;
-    max-width: 75px;
-    max-height: 75px;
+    width: 65px;
+    height: 65px;
     border-radius: 200px;
     background: #d9d9d9;
 }
 
-#site-header-profile-div-flex {
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-    align-items: end;
-}
+/*#sih-profile-div {*/
+/*    align-items: center;*/
+/*}*/
 
-#site-header-dropdown-menu-login {
+/*#sih-basket-div {*/
+/*    align-items: start;*/
+/*}*/
+
+.sih-dropdown-menu {
     visibility: hidden;
+    opacity: 0;
     display: flex;
     flex-direction: column;
     position: absolute;
@@ -161,21 +158,21 @@ body {
     padding: 10px 10px 10px 10px;
     background-color: #d9d9d9;
     border-radius: 5px;
-    transition: visibility 0.2s;
+    transition: visibility 0.2s, opacity 0.4s;
 }
 
-#site-header-signup {
+#sih-signup {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-#site-header-signup span {
+#sih-signup span {
     text-align: center;
 }
 
-#site-header-signup-a1 {
+#sih-signup-a1 {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -184,125 +181,73 @@ body {
     border-radius: 20px;
 }
 
-#site-header-signup-a1:hover {
+#sih-signup-a1:hover {
     color: #69A6E3;
     background: #D9D9D9;
     border: grey solid 1px;
 }
 
-#site-header-signup-a2:hover {
+#sih-signup-a2:hover {
     color: #69A6E3;
 }
 
-#site-header-profile-logo:hover + #site-header-dropdown-menu-login, #site-header-dropdown-menu-login:hover {
+#sih-profile-logo:hover + #sih-dropdown-menu-login, #sih-dropdown-menu-login:hover {
     visibility: visible;
+    opacity: 1;
 
 }
 
-#site-header-dropdown-menu-login span, #site-header-dropdown-menu-login a{
+#sih-basket-logo:hover + #sih-dropdown-menu-basket, #sih-dropdown-menu-basket:hover {
+    visibility: visible;
+    opacity: 1;
+
+}
+
+.sih-dropdown-menu span, .sih-dropdown-menu a{
     padding: 10px 15px 10px 15px;
     margin: 0 0 0 0;
     text-decoration: none;
     color: #808080;
 }
 
-#site-header-dropdown-menu-login a {
+.sih-dropdown-menu a {
     margin: 0 0 0 0;
     text-decoration: none;
     color: #808080;
 }
 
-#site-header-dropdown-menu-login a:hover {
+.sih-dropdown-menu a:hover {
     color: #69A6E3;
 }
 
 
-@media only screen and (max-width: 960px) {
-    .site-header-logo {
+@media only screen and (max-width: 1106px) {
+    #sih-logo {
         order: 1;
-        flex-shrink: 0;
-        flex-grow: 1;
-        flex-basis: 50px;
     }
 
-    #site-header-menu {
+    #sih-interaction-main-div {
         order: 2;
-        flex-shrink: 1;
-        flex-grow: 1;
-        margin: 10px 10px 10px 10px;
     }
-
-    #site-header-menu a {
-        margin: 0 10px 0 10px;
-        font-size: 20px;
-    }
-
-    .site-header-profile {
+    #sih-menu {
         order: 3;
-        flex-shrink: 0;
-        flex-grow: 1;
-        flex-basis: 50px;
-        margin: 10px 0 7px 0;
-    }
-
-    #site-header-dropdown-menu-login {
-        margin: 50px 0 0 0;
-    }
-
-    #site-header-dropdown-menu-login p, .site-header-dropdown-menu-line {
-        margin: 5px 10px 5px 10px;
     }
 }
 
-@media only screen and (max-width: 760px) {
-    #site-header-main-header {
-        flex-wrap: wrap;
+@media only screen and (max-width: 650px) {
+    #sih-interaction-main-div {
+        margin-right: 0;
     }
 
-    .site-header-logo {
-        order: 1;
-        flex-shrink: 0;
-        flex-grow: 1;
-        flex-basis: 50px;
+    #sih-logo {
+        margin-left: 0;
     }
-
-    #site-header-menu {
-        order: 3;
-        flex-shrink: 1;
-        flex-grow: 1;
-        flex-basis: 50px;
-        margin: 0 0 10px 0;
-    }
-
-    #site-header-menu a {
-        margin: 0 10px 0 10px;
-        font-size: 20px;
-    }
-
-    .site-header-profile {
-        order: 2;
-        flex-shrink: 0;
-        flex-grow: 1;
-        flex-basis: 50px;
-        margin: 0 0 0 0;
-    }
-
-    .site-header-profile {
-        justify-content: end;
-    }
-
-    #profile-img-1 {
-        margin: 0 15px 0 0;
-    }
-
-    #profile-img-2 {
-        margin: 0 35px 0 0;
-    }
-
 }
+
+
 
 @media only screen and (max-width: 350px) {
-    .site-header-profile {
+    #sih-interaction-main-div {
         justify-content: space-around;
     }
 
@@ -313,26 +258,4 @@ body {
     #profile-img-2 {
         margin: 0 0 0 0;
     }
-}
-
-/*SCROLLBAR STUFF*/
-
-/* width */
-::-webkit-scrollbar {
-    width: 10px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-    background: #f1f1f1;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-    background: #888;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-    background: #555;
 }

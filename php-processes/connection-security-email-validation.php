@@ -3,7 +3,7 @@ session_start();
 include 'dbConnection.php';
 include 'validation-functions.php';
 include 'php-mailer.php';
-clientPage();
+clientAndAdminPage();
 
 $loggedIn = $_SESSION['loggedIn'];
 $table = $_SESSION['Table'];

@@ -2,7 +2,7 @@
 include '../php-processes/dbConnection.php';
 include 'validation-functions.php';
 session_start();
-clientPage();
+clientAndAdminPage();
 
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
 

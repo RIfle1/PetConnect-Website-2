@@ -6,7 +6,7 @@ $clientLoggedIn = $_SESSION['clientLoggedIn'];
 $adminLoggedIn = $_SESSION['adminLoggedIn'];
 $loggedIn = $_SESSION['loggedIn'];
 
-clientPage();
+clientAndAdminPage();
 $entityInfo = returnEntityInfo();
 
 

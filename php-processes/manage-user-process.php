@@ -5,7 +5,7 @@ $clientLoggedIn = $_SESSION['clientLoggedIn'];
 $adminLoggedIn = $_SESSION['adminLoggedIn'];
 $loggedIn = $_SESSION['loggedIn'];
 
-adminPage();
+onlyAdminPage();
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 

@@ -1,7 +1,7 @@
 <?php
 session_start();
 include '../php-processes/dbConnection.php';
-clientPage();
+clientAndAdminPage();
 include 'site-header.php';
 
 $languageList = returnLanguageList()[returnLanguage()]['connection-security'];
@@ -144,7 +144,7 @@ $languageList = returnLanguageList()[returnLanguage()]['connection-security'];
 <?php include '../php-pages/site-footer.php' ?>
 
 <script type="text/javascript">
-    setMarginTop('site-header-main-header', 'id', 'cs-form-body', 'id', -40)
+    setMarginTop('sih-main-header', 'id', 'cs-form-body', 'id', -40)
 
     setToWindowHeight('cs-form-body', 'id', 0)
     setMarginTopFooter('cs-form-body', 'id', 'site-footer-main-div', 'id', 0)

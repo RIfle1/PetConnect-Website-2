@@ -100,7 +100,7 @@ $captchaLanguage = strtolower(substr(returnLanguage(), 0, 2));
 
 <?php include '../php-pages/site-footer.php' ?>
 <script type="text/javascript">
-    setMarginTop('site-header-main-header', 'id', 'signup-form', 'id', 20)
+    setMarginTop('sih-main-header', 'id', 'signup-form', 'id', 20)
 
     setTimeout(() => {
         setMarginTopFooter('signup-form', 'id', 'site-footer-main-div', 'id', 200)

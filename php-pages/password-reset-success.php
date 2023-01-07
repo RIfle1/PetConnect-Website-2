@@ -48,7 +48,7 @@ $languageList = returnLanguageList()[returnLanguage()]['password-reset-success']
 
 <?php include '../php-pages/site-footer.php' ?>
 <script type="text/javascript">
-    // setMarginTop('site-header-main-header', 'id', 'sign-form-body', 'id', -100)
+    // setMarginTop('sih-main-header', 'id', 'sign-form-body', 'id', -100)
 
     setToWindowHeight('sign-form-body', 'id', 0)
     setMarginTopFooter('sign-form-body', 'id', 'site-footer-main-div', 'id', 0)

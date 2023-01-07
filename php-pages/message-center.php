@@ -1,7 +1,7 @@
 <?php
 session_start();
 include '../php-processes/dbConnection.php';
-clientPage();
+clientAndAdminPage();
 include 'site-header.php';
 
 $languageList = returnLanguageList()[returnLanguage()]['message-center'];
@@ -126,7 +126,7 @@ $languageList = returnLanguageList()[returnLanguage()]['message-center'];
 <?php include '../php-pages/site-footer.php' ?>
 
 <script type="text/javascript">
-    setMarginTop('site-header-main-header', 'id', 'mc-main-body-div', 'id', 0)
+    setMarginTop('sih-main-header', 'id', 'mc-main-body-div', 'id', 0)
     setMarginTopFooter('mc-main-body-div', 'id', 'site-footer-main-div', 'id', 0)
 </script>
 

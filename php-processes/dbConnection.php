@@ -305,8 +305,8 @@ function returnEntityAttributes(): array
 
 }
 
-function adminPage(): void
-{
+function onlyAdminPage(): void {
+    // ONLY ADMIN CAN ACCESS THIS PAGE
     include_once "login-check.php";
 
     if (isset($_SESSION['clientLoggedIn']) || empty($_SESSION['loggedIn'])) {
@@ -320,8 +320,20 @@ function adminPage(): void
 
 }
 
-function clientPage(): void
-{
+function onlyClientPage(): void {
+    //ONLY CLIENT CAN ACCESS THIS PAGE
+    include_once "login-check.php";
+
+    if (isset($_SESSION['adminLoggedIn']) || empty($_SESSION['loggedIn'])) {
+        if($_SESSION['adminLoggedIn'] || empty($_SESSION['loggedIn'])) {
+            header("Location: ../php-pages/restricted-access.php", true,303);
+            exit;
+        }
+    }
+}
+
+function clientAndAdminPage(): void {
+    // ONLY CLIENT AND ADMIN CAN ACCESS THIS PAGE
     include_once "login-check.php";
 
     if(empty($_SESSION['loggedIn'])) {
@@ -331,12 +343,12 @@ function clientPage(): void
 
 }
 
-function onlyClientPage(): void {
-
+function clientAndNoUserPage(): void {
+    // ONLY CLIENT AND NO USER CAN ACCESS THIS PAGE
     include_once "login-check.php";
 
-    if (isset($_SESSION['adminLoggedIn']) || empty($_SESSION['loggedIn'])) {
-        if($_SESSION['adminLoggedIn'] || empty($_SESSION['loggedIn'])) {
+    if(isset($_SESSION['adminLoggedIn'])) {
+        if($_SESSION['adminLoggedIn']) {
             header("Location: ../php-pages/restricted-access.php", true,303);
             exit;
         }
@@ -483,13 +495,359 @@ function logoutAndRedirect($page): void
 }
 
 function returnList($runSQLResult): array {
-    $list = array();
+    // INPUT
+    // OBJECT TYPE runSQLResult;
 
+    // OUTPUT
+    $outputExample = [
+        [
+            "prdID" => "prd1",
+            "pimPath" => "iCollar_v1.png_black"
+        ],
+        [
+            "prdID" => "prd1",
+            "pimPath" => "iCollar_v1.png_blue"
+        ],
+        [
+            "prdID" => "prd1",
+            "pimPath" => "iCollar_v1.png_green"
+        ],
+        [
+            "prdID" => "prd1",
+            "pimPath" => "iCollar_v1.png_red"
+        ],
+        [
+            "prdID" => "prd1",
+            "pimPath" => "iCollar_v1.png_white"
+        ],
+        [
+            "prdID" => "prd1",
+            "pimPath" => "iCollar_v1.png_yellow"
+        ],
+        [
+            "prdID" => "prd2",
+            "pimPath" => "iCollar_v2.png_red"
+        ],
+        [
+            "prdID" => "prd2",
+            "pimPath" => "iCollar_v2.png_white"
+        ],
+        [
+            "prdID" => "prd2",
+            "pimPath" => "iCollar_v2.png_yellow"
+        ],
+        [
+            "prdID" => "prd2",
+            "pimPath" => "iCollar_v2.png_black"
+        ],
+        [
+            "prdID" => "prd2",
+            "pimPath" => "iCollar_v2.png_blue"
+        ],
+        [
+            "prdID" => "prd2",
+            "pimPath" => "iCollar_v2.png_green"
+        ]
+
+    ];
+
+    $list = array();
     while($listRow = $runSQLResult->fetch_assoc()) {
         $list[] = $listRow;
     }
-
     return $list;
+}
+
+function returnImagePathList($groupList): array {
+    $imagePathList = array();
+
+    foreach($groupList as $groupListKey => $groupListValue ) {
+        foreach($groupListValue as $AttributeKey => $attributeValue) {
+            foreach($attributeValue as $rowKey => $rowValue) {
+                $imagePathList[$groupListKey][$AttributeKey][] = getImage($rowValue);
+            }
+        };
+    }
+
+    return $imagePathList;
+}
+
+function returnGroupList($runSQLResult, $groupByID, $groupID): array {
+    // INPUT
+    // OBJECT TYPE runSQLResult;
+
+    // OUTPUT
+    $outputExample = [
+        "prd1" => [
+            "prcColor" => [
+                "black",
+                "blue",
+                "green",
+                "red",
+                "white",
+                "yellow"
+            ]
+        ],
+        "prd2" => [
+            "prcColor" => [
+                "red",
+                "white",
+                "yellow",
+                "black",
+                "blue",
+                "green"
+            ]
+        ]
+
+    ];
+
+    $groupList = array();
+    while($listRow = $runSQLResult->fetch_assoc()) {
+        $valueList = array();
+        foreach($listRow as $key => $value) {
+            if($key !== $groupByID) {
+                $valueList = $value;
+            }
+        };
+        if(strlen($groupID) === 0) {
+            $groupList[$listRow[$groupByID]][] = $valueList;
+        }
+        else {
+            $groupList[$listRow[$groupByID]][$groupID][] = $valueList;
+        }
+    }
+    return $groupList;
+}
+
+function returnAssociativeList($runSQLResult, $groupByID): array {
+    // INPUT
+    // OBJECT TYPE runSQLResult;
+
+    // OUTPUT
+    $outputExample = [
+        [
+            "prd1" => [
+                "prdID" => "prd1",
+                "prdName" => "Connected Collars for dogs v1",
+                "prdPrice" => "499.99",
+                "prdReleaseDate" => "2023-01-01"
+            ],
+            "prd2" => [
+                "prdID" => "prd2",
+                "prdName" => "Connected Collars for dogs v2",
+                "prdPrice" => "499.99",
+                "prdReleaseDate" => "2023-01-01"
+            ]
+        ]
+    ];
+
+    $list = array();
+    while($listRow = $runSQLResult->fetch_assoc()) {
+
+        $list[$listRow[$groupByID]] = $listRow;
+    }
+    return $list;
+}
+
+function returnMergedList($mainArray): array {
+    // INPUT
+    $inputExample = [
+        [
+            "prd1" => [
+                "prcColor" => [
+                    "black",
+                    "blue",
+                    "green",
+                    "red",
+                    "white",
+                    "yellow"
+                ]
+            ],
+            "prd2" => [
+                "prcColor" => [
+                    "red",
+                    "white",
+                    "yellow",
+                    "black",
+                    "blue",
+                    "green"
+                ]
+            ]
+        ],
+        [
+            "prd1" => [
+                "pimPath" => [
+                    "iCollar_v1.png_black",
+                    "iCollar_v1.png_blue",
+                    "iCollar_v1.png_green",
+                    "iCollar_v1.png_red",
+                    "iCollar_v1.png_white",
+                    "iCollar_v1.png_yellow"
+                ]
+            ],
+            "prd2" => [
+                "pimPath" => [
+                    "iCollar_v2.png_red",
+                    "iCollar_v2.png_white",
+                    "iCollar_v2.png_yellow",
+                    "iCollar_v2.png_black",
+                    "iCollar_v2.png_blue",
+                    "iCollar_v2.png_green"
+                ]
+            ]
+        ]
+    ];
+
+    // OUTPUT
+    $outputExample = [
+        "prd1" => [
+            "prcColor" => [
+                "black",
+                "blue",
+                "green",
+                "red",
+                "white",
+                "yellow"
+            ],
+            "pimPath" => [
+                "iCollar_v1.png_black",
+                "iCollar_v1.png_blue",
+                "iCollar_v1.png_green",
+                "iCollar_v1.png_red",
+                "iCollar_v1.png_white",
+                "iCollar_v1.png_yellow"
+            ]
+        ],
+        "prd2" => [
+            "prcColor" => [
+                "red",
+                "white",
+                "yellow",
+                "black",
+                "blue",
+                "green"
+            ],
+            "pimPath" => [
+                "iCollar_v2.png_red",
+                "iCollar_v2.png_white",
+                "iCollar_v2.png_yellow",
+                "iCollar_v2.png_black",
+                "iCollar_v2.png_blue",
+                "iCollar_v2.png_green"
+            ]
+        ]
+    ];
+
+    $mergedList = array();
+
+    foreach($mainArray as $secondArray) {
+
+        foreach($secondArray as $thirdArrayKey => $thirdArray) {
+            foreach($thirdArray as $rowKey => $row) {
+                $mergedList[$thirdArrayKey][$rowKey] = $row;
+            }
+        }
+    }
+
+    return $mergedList;
+}
+
+function returnCombinedList($mainArray, $combinedListID): array {
+    // INPUT
+    $inputExample = [
+        [
+            "prd1" => [
+                "prcColor" => [
+                    "black",
+                    "blue",
+                    "green",
+                    "red",
+                    "white",
+                    "yellow"
+                ]
+            ],
+            "prd2" => [
+                "prcColor" => [
+                    "red",
+                    "white",
+                    "yellow",
+                    "black",
+                    "blue",
+                    "green"
+                ]
+            ]
+        ],
+        [
+            "prd1" => [
+                "pimPath" => [
+                    "iCollar_v1.png_black",
+                    "iCollar_v1.png_blue",
+                    "iCollar_v1.png_green",
+                    "iCollar_v1.png_red",
+                    "iCollar_v1.png_white",
+                    "iCollar_v1.png_yellow"
+                ]
+            ],
+            "prd2" => [
+                "pimPath" => [
+                    "iCollar_v2.png_red",
+                    "iCollar_v2.png_white",
+                    "iCollar_v2.png_yellow",
+                    "iCollar_v2.png_black",
+                    "iCollar_v2.png_blue",
+                    "iCollar_v2.png_green"
+                ]
+            ]
+        ]
+    ];
+    // OUTPUT
+    $outputExample = [
+        "prd1" => [
+            "black" => "iCollar_v1.png_black",
+            "blue" => "iCollar_v1.png_blue",
+            "green" => "iCollar_v1.png_green",
+            "red" => "iCollar_v1.png_red",
+            "white" => "iCollar_v1.png_white",
+            "yellow" => "iCollar_v1.png_yellow"
+        ],
+        "prd2" => [
+            "red" => "iCollar_v2.png_red",
+            "white" => "iCollar_v2.png_white",
+            "yellow" => "iCollar_v2.png_yellow",
+            "black" => "iCollar_v2.png_black",
+            "blue" => "iCollar_v2.png_blue",
+            "green" => "iCollar_v2.png_green"
+        ]
+
+    ];
+
+    $orderedList = returnMergedList($mainArray);
+    $AttributeList = array();
+    $combinedList = array();
+
+    foreach($orderedList as $mainListKey => $mainListValue) {
+        foreach($mainListValue as $subListKey => $subListValue) {
+            $AttributeList[$mainListKey][] = $subListKey;
+        }
+
+        foreach($AttributeList as $mainListKey2 => $mainListValue2) {
+            $keyListName = $mainListValue2[0];
+            $valueListName = $mainListValue2[1];
+
+            $keyList = $orderedList[$mainListKey2][$keyListName];
+            $valueList = $orderedList[$mainListKey2][$valueListName];
+
+            foreach($keyList as $keyListKey => $keyListValue) {
+                foreach($valueList as $valueListKey => $valueListValue) {
+                    if($keyListKey === $valueListKey) {
+                        $combinedList[$mainListKey2][$combinedListID][$keyListValue] = $valueListValue;
+                    }
+                }
+            }
+        }
+    }
+
+    return $combinedList;
 }
 
 function returnAddressList(): array {
@@ -508,48 +866,42 @@ function returnAddressInfo($adrID) : array {
     return returnList(runSQLResult($getAddressInfoSql));
 }
 
-function countBasket(): string
-{
-    $cltID = $_SESSION["ID"];
-    $result = runSQLResult("SELECT * FROM Basket WHERE Client_cltID = '" .   $cltID  . "'");
-    $result = mysqli_num_rows($result);
-    return $result;
+function returnProductList() : array {
+
+    $productListSql = "SELECT * FROM product";
+    $productList = returnAssociativeList(runSQLResult($productListSql), 'prdID');
+
+    $colorListSql = "SELECT prdID, prcColor FROM product
+                     INNER JOIN product_color pc on product.prdID = pc.Product_prdID
+                     ORDER BY prdID";
+    $colorList = returnGroupList(runSQLResult($colorListSql), 'prdID', 'prcColor');
+//    $colorList2 = returnList(runSQLResult($colorListSql));
+
+    $imageListSql = "SELECT prdID, pimPath FROM product
+                     INNER JOIN product_color pc on product.prdID = pc.Product_prdID
+                     INNER JOIN product_image pi on pc.prcID = pi.Product_Color_prcID
+                     ORDER BY prdID";
+    $imageList = returnImagePathList(returnGroupList(runSQLResult($imageListSql), 'prdID', 'pimPath'));
+//    $imageList2 = returnList(runSQLResult($imageListSql));
+
+//    return returnMergedList(array($colorList, $imageList));
+//    return returnCombinedList($colorList2, $imageList2);
+//    return returnCombinedList(array($colorList, $imageList), 'prdImg');
+//    return $productList;
+
+//    //    ACTUAL RETURN STUFF
+    $finalList = array($productList, returnCombinedList(array($colorList, $imageList), 'prdImg'));
+    return returnMergedList($finalList);
 }
 
-// Couleur > 0 dans le panier
-function getColorProduct(): array
+function returnProductIntPrice($value): string
 {
-    $cltID = $_SESSION["ID"];
-    $result = runSQLResult("SELECT * FROM Basket INNER JOIN Product_List ON (Basket.basID = Product_List.Basket_basID) INNER JOIN Product ON (Product_List.Product_prdID = Product.prdID) WHERE Client_cltID = '" .   $cltID  . "'");
+    return substr($value ,0 , strlen($value)-3);
+}
 
-
-    $couleurs = array();
-    $blanc = $bleu = $rose = $jaune = $vert = $noir = 0;
-    while ($color = $result->fetch_assoc()) {
-
-
-        if ($color["prdColour"] == "blanc") {
-            $blanc += 1;
-            $couleurs['blanc'] = $blanc;
-        } elseif ($color["prdColour"] == "bleu") {
-            $bleu += 1;
-            $couleurs['bleu'] = $bleu;
-        } elseif ($color["prdColour"] == "jaune") {
-            $jaune += 1;
-            $couleurs['jaune'] = $jaune;
-        } elseif ($color["prdColour"] == "Rose") {
-            $rose += 1;
-            $couleurs['Rose'] = $rose;
-        } elseif ($color["prdColour"] == "vert") {
-            $vert += 1;
-            $couleurs['vert'] = $vert;
-        } else {
-            $noir += 1;
-            $couleurs['noir'] = $noir;
-        }
-    }
-    $nProduct = $couleurs;
-    return  $nProduct;
+function returnProductDecimalPrice($value): string
+{
+    return substr($value ,strlen($value)-2 , strlen($value));
 }
 
 function returnLanguage(): string {
@@ -794,7 +1146,7 @@ function returnLanguageList(): array
                 "My Devices" => "My Devices",
                 "Logout" => "Logout",
             ),
-                        "order-history" => array(
+            "order-history" => array(
                 "Account" => "Account",
                 "Order History" => "Order History",
                 "Purchase date" => "Purchase date",
@@ -803,6 +1155,8 @@ function returnLanguageList(): array
                 "Status: <strong>In transit</strong> " => "Status: <strong>In transit</strong>",
             ),
             "shop" => array(
+                "Shop" => "Shop",
+
                 "Connected dog collar" => "Connected dog collar",
                 "Color" => "Color",
                 "In stock" => "In stock",

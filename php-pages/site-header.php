@@ -34,58 +34,58 @@ $languageListKeys = array_keys(returnLanguageList());
 </head>
 
 <body>
-    <div id="site-header-main-header">
+    <div id="sih-main-header">
 
-        <div class="site-header-logo">
+        <div id="sih-logo">
             <a href="home.php"><img src="<?php echo getImage('PetConnect-Logo.png') ?>" alt="PetConnect-Logo"></a>
         </div>
 
-        <div class="text-font-500" id="site-header-menu">
+        <div id="sih-menu" class="text-font-500">
             <a href="home.php"><?php echo $languageList['Home Page'] ?></a>
-            <a href=<?php restrictedAdminPage("shop.php") ?>><?php echo $languageList['Shop'] ?></a>
+            <a href="shop.php"><?php echo $languageList['Shop'] ?></a>
             <a href="assistance.php"><?php echo $languageList['Assistance'] ?></a>
         </div>
 
-        <div class="site-header-profile">
-            <form method="POST" name="language-form" action="../php-processes/language-process.php" class="text-font-500" id="site-header-language-selector">
-                <div id="language-selector-current-div">
+        <div id="sih-interaction-main-div">
+            <form id="sih-language-selector" class="text-font-500 sih-interaction-sub-div" method="POST" name="language-form" action="../php-processes/language-process.php">
+                <div id="sih-language-selector-current-div">
                     <span><?php echo strtoupper(substr($language, 0, 2)) ?></span>
-                    <img class="site-header-profile-img-2" src="<?php echo getImage($language . 'Flag.png') ?>" alt="EnglishFlag">
+                    <img class="sih-interaction-img-2" src="<?php echo getImage($language . 'Flag.png') ?>" alt="EnglishFlag">
                 </div>
-                <div id="language-selector-button-div">
+                <div id="sih-language-selector-button-div">
 
                     <?php for ($i = 0; $i < sizeof($languageListKeys); $i++) : ?>
                         <?php if ($languageListKeys[$i] !== $language) : ?>
                             <button type="submit" class="text-font-500" name="language-button" value="<?php echo $languageListKeys[$i] ?>">
                                 <span><?php echo strtoupper(substr($languageListKeys[$i], 0, 2)) ?></span>
-                                <img class="site-header-profile-img-2" src="<?php echo getImage($languageListKeys[$i] . 'Flag.png') ?>" alt="Flag">
+                                <img class="sih-interaction-img-2" src="<?php echo getImage($languageListKeys[$i] . 'Flag.png') ?>" alt="Flag">
                             </button>
                         <?php endif; ?>
                     <?php endfor; ?>
                 </div>
             </form>
-            <div id="site-header-profile-div-flex">
-                <div id="site-header-profile-logo">
+            <div id="sih-profile-div" class="sih-interaction-sub-div">
+                <div id="sih-profile-logo">
                     <a href="<?php restrictedNoUserPage('../php-pages/profile.php') ?>">
                         <?php if (isset($loggedIn) && isset($entityInfo) && isset($entityAttributes)) : ?>
                             <?php if ($loggedIn && strlen($entityInfo[$entityAttributes["PfpName"]]) > 0) : ?>
-                                <img class="site-header-profile-img-1" src="../img/pfp/<?php echo getPfp($entityAttributes['ID'], $entityAttributes['Table'], $entityInfo[$entityAttributes['ID']])[$entityAttributes["PfpName"]] ?>" alt="Profile picture">
+                                <img class="sih-interaction-img-1" src="../img/pfp/<?php echo getPfp($entityAttributes['ID'], $entityAttributes['Table'], $entityInfo[$entityAttributes['ID']])[$entityAttributes["PfpName"]] ?>" alt="Profile picture">
                             <?php endif; ?>
                         <?php else : ?>
-                            <img class="site-header-profile-img-1" src="<?php echo getImage('client.png') ?>" alt="Client-logo">
+                            <img class="sih-interaction-img-1" src="<?php echo getImage('client.png') ?>" alt="Client-logo">
                         <?php endif; ?>
 
                     </a>
                 </div>
-                <div id="site-header-dropdown-menu-login" class="text-font-300">
+                <div id="sih-dropdown-menu-login" class="sih-dropdown-menu text-font-300">
                     <?php if (isset($loggedIn) && isset($entityInfo) && isset($entityAttributes)) : ?>
                         <?php if ($loggedIn) : ?>
                             <span><?php echo $languageList['Hello'] ?> <?php echo $entityInfo[$entityAttributes["FirstName"]] . " " . $entityInfo[$entityAttributes["LastName"]] ?></span>
                         <?php endif; ?>
                     <?php else : ?>
-                        <div id="site-header-signup">
-                            <a id="site-header-signup-a1" href="login.php"><?php echo $languageList['Sign in'] ?></a>
-                            <span><?php echo $languageList['New Client?'] ?><a id="site-header-signup-a2" href="signup.php"><?php echo $languageList['Signup.'] ?></a></span>
+                        <div id="sih-signup">
+                            <a id="sih-signup-a1" href="login.php"><?php echo $languageList['Sign in'] ?></a>
+                            <span><?php echo $languageList['New Client?'] ?><a id="sih-signup-a2" href="signup.php"><?php echo $languageList['Signup.'] ?></a></span>
                         </div>
                     <?php endif; ?>
                     <?php if (isset($loggedIn)) : ?>
@@ -100,16 +100,23 @@ $languageListKeys = array_keys(returnLanguageList());
                     <?php endif; ?>
                 </div>
             </div>
-            <div>
-                <a href="#"><img class="site-header-profile-img-1" src="<?php echo getImage('basket.png') ?>" alt="Basket-logo"></a>
+            <div id="sih-basket-div" class="sih-interaction-sub-div">
+                <div id="sih-basket-logo">
+                    <a href="#"><img class="sih-interaction-img-1" src="<?php echo getImage('basket.png') ?>" alt="Basket-logo"></a>
+                </div>
+                <div id="sih-dropdown-menu-basket" class="sih-dropdown-menu text-font-300">
+                    <span>test</span>
+                </div>
             </div>
         </div>
     </div>
 
     <script type="text/javascript">
-        setMarginTop('site-header-profile-logo', 'id', 'site-header-dropdown-menu-login', 'id', 10)
-        setMarginTop('site-header-language-selector', 'id', 'language-selector-button-div', 'id', -15)
-        setWidth('language-selector-current-div', 'id', 'language-selector-button-div', 'id', 0)
+        setMarginTop('sih-profile-logo', 'id', 'sih-dropdown-menu-login', 'id', 10)
+        setMarginTop('sih-basket-logo', 'id', 'sih-dropdown-menu-basket', 'id', 10)
+
+        setMarginTop('sih-language-selector', 'id', 'sih-language-selector-button-div', 'id', 10)
+        setWidth('language-selector-current-div', 'id', 'sih-language-selector-button-div', 'id', 0)
     </script>
 </body>
 
