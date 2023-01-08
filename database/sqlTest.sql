@@ -25,3 +25,10 @@ UPDATE address SET adrDefault = 0 WHERE Client_cltID = 'clt2'; UPDATE address SE
 
 SELECT prdID, prcColor FROM product
 INNER JOIN product_color pc on product.prdID = pc.Product_prdID;
+
+SELECT prdID, prcColor, pimPath from product
+INNER JOIN product_color pc on product.prdID = pc.Product_prdID
+INNER JOIN product_image pi on pc.prcID = pi.Product_Color_prcID
+WHERE prdID = 'prd1'
+ORDER BY prdID
+;

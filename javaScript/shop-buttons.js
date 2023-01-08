@@ -5,9 +5,12 @@ const mainDivID = "sh-main-div";
 // HARDCODED DIV ELEMENTS
 const mainDivElement = $("#"+mainDivID);
 
-Object.entries(productList).forEach(displayProduct)
+// VOLATILE BUTTON IDS
+const addToCartButtonCommonID = "sh-add-to-cart-button"
 
-function displayProduct(key) {
+Object.entries(productList).forEach(displayShopProduct)
+
+function displayShopProduct(key) {
     let prdID = key[1]['prdID'];
     let prdName = key[1]['prdName'];
 
@@ -17,7 +20,9 @@ function displayProduct(key) {
 
     let prdReleaseDate = key[1]['prdReleaseDate'];
     let prdImgPath = Object.values(key[1]['prdImg'])[0];
+    key[1]['prcColor'] = Object.keys(key[1]['prdImg'])[0];
 
+    let addToCartButtonID = addToCartButtonCommonID+"-"+generateString(5);
 
     let productHtml =
         "<div class='sh-product-div'>\n" +
@@ -39,10 +44,12 @@ function displayProduct(key) {
         `                        <span class='sh-price-span-1'>${prdPriceInt}€</span><span class='sh-price-span-2'>${prdPriceDecimal}</span>\n` +
         "                    </div>\n" +
         "                    <div class='sh-button-div'>\n" +
-        `                        <button type='button' value='${prdID}'>Add to cart</button>\n` +
+        `                        <button id='${addToCartButtonID}' type='button' >Add to cart</button>\n` +
         "                    </div>\n" +
         "                </div>\n" +
         "            </div>";
 
     mainDivElement.append(productHtml);
+    let addToCartButtonElement = $("#"+addToCartButtonID);
+    setAddToCartButton(addToCartButtonElement, key);
 }

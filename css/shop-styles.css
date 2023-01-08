@@ -130,10 +130,13 @@
     border: solid 1px #73B43E;
     background: #73B43E;
     color: #E2E2E2;
+
+    cursor: pointer;
 }
 
-#pr-interaction-add-button {
-
+.sh-button-div button:hover {
+    background: #E2E2E2;
+    color: #73B43E;
 }
 
 

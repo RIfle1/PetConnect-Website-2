@@ -9,7 +9,7 @@ if(empty($_GET['prdID'])) {
 include '../php-processes/dbConnection.php';
 clientAndNoUserPage();
 
-$product = returnProductList()[$_GET['prdID']];
+$product = returnProductList('')[$_GET['prdID']];
 
 if($_SERVER['REQUEST_METHOD'] === 'GET' && !empty($_GET['getProduct'])) {
     header("Content-Type: application/json");
@@ -103,7 +103,7 @@ $productPriceDecimal = returnProductDecimalPrice($product['prdPrice']);
             <div id="pr-info-interaction-div" class="text-font-700">
                 <div id="pr-interaction-color" class="pr-interaction-column">
                     <div id="pr-color-active" class="pr-color pr-select-active">
-                        <span>White</span>
+                        <span id="pr-active-selected-color-span">White</span>
                         <div>
                             <svg viewBox="141.487 173.152 12.86 11.627" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                 <path d="M 146.325 -183.555 Q 147.592 -185.862 148.986 -183.555 L 153.817 -175.564 Q 155.211 -173.257 152.55 -173.257 L 143.331 -173.257 Q 140.67 -173.257 141.937 -175.564 Z" style="fill-rule: nonzero; stroke-miterlimit: 1; stroke-width: 0px; paint-order: fill; stroke: rgb(197, 190, 190); fill: rgb(135, 137, 131);" transform="matrix(1, 0, 0, -1, 0, 0)"></path>
@@ -128,7 +128,7 @@ $productPriceDecimal = returnProductDecimalPrice($product['prdPrice']);
                 <div id="pr-interaction-amount" class="pr-interaction-column">
                     <input id="pr-amount-input" class="pr-amount" type="text" max="100" min="1" value="1">
                     <div id="pr-amount-active" class="pr-amount pr-select-active">
-                        <span>1</span>
+                        <span id="pr-active-selected-amount-span">1</span>
                         <div>
                             <svg viewBox="141.487 173.152 12.86 11.627" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                 <path d="M 146.325 -183.555 Q 147.592 -185.862 148.986 -183.555 L 153.817 -175.564 Q 155.211 -173.257 152.55 -173.257 L 143.331 -173.257 Q 140.67 -173.257 141.937 -175.564 Z" style="fill-rule: nonzero; stroke-miterlimit: 1; stroke-width: 0px; paint-order: fill; stroke: rgb(197, 190, 190); fill: rgb(135, 137, 131);" transform="matrix(1, 0, 0, -1, 0, 0)"></path>
@@ -187,7 +187,7 @@ $productPriceDecimal = returnProductDecimalPrice($product['prdPrice']);
 <script type="text/javascript">
     setMarginTop('sih-main-header', 'id', 'pr-main-body-div', 'id', 40)
 
-    // setToWindowHeight('ad-main-body-div', 'id', 0)
+    setToWindowHeight('ad-main-body-div', 'id', 0)
     setMarginTopFooter('pr-main-body-div', 'id', 'site-footer-main-div', 'id', 0)
 </script>
 

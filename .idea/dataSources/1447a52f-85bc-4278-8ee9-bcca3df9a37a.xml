@@ -1458,7 +1458,8 @@ Session_Message_sesMsgID</ColNames>
       <Position>1</Position>
     </column>
     <column id="394" parent="337" name="basDate">
-      <DataType>date|0s</DataType>
+      <DataType>datetime|0s</DataType>
+      <DefaultExpression>current_timestamp()</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
@@ -1469,6 +1470,8 @@ Session_Message_sesMsgID</ColNames>
     </column>
     <foreign-key id="396" parent="337" name="fk_Basket_Client1">
       <ColNames>Client_cltID</ColNames>
+      <OnDelete>cascade</OnDelete>
+      <OnUpdate>cascade</OnUpdate>
       <RefColNames>cltID</RefColNames>
       <RefTableName>client</RefTableName>
     </foreign-key>
@@ -1963,144 +1966,152 @@ Product_Color_prcID</ColNames>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="492" parent="348" name="Product_prdID">
-      <DataType>char(255)|0s</DataType>
-      <NotNull>1</NotNull>
+    <column id="492" parent="348" name="prcColor">
+      <DataType>varchar(255)|0s</DataType>
       <Position>2</Position>
     </column>
-    <column id="493" parent="348" name="Basket_basID">
+    <column id="493" parent="348" name="Product_prdID">
       <DataType>char(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <foreign-key id="494" parent="348" name="fk_Product_List_Product">
+    <column id="494" parent="348" name="Basket_basID">
+      <DataType>char(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+    </column>
+    <foreign-key id="495" parent="348" name="fk_Product_List_Product">
       <ColNames>Product_prdID</ColNames>
+      <OnDelete>cascade</OnDelete>
+      <OnUpdate>cascade</OnUpdate>
       <RefColNames>prdID</RefColNames>
       <RefTableName>product</RefTableName>
     </foreign-key>
-    <foreign-key id="495" parent="348" name="fk_Product_List_Basket1">
+    <foreign-key id="496" parent="348" name="fk_Product_List_Basket1">
       <ColNames>Basket_basID</ColNames>
+      <OnDelete>cascade</OnDelete>
+      <OnUpdate>cascade</OnUpdate>
       <RefColNames>basID</RefColNames>
       <RefTableName>basket</RefTableName>
     </foreign-key>
-    <index id="496" parent="348" name="PRIMARY">
+    <index id="497" parent="348" name="PRIMARY">
       <ColNames>prdLstID
 Product_prdID
 Basket_basID</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="497" parent="348" name="fk_Product_List_Product_idx">
+    <index id="498" parent="348" name="fk_Product_List_Product_idx">
       <ColNames>Product_prdID</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="498" parent="348" name="fk_Product_List_Basket1_idx">
+    <index id="499" parent="348" name="fk_Product_List_Basket1_idx">
       <ColNames>Basket_basID</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="499" parent="348" name="PRIMARY">
+    <key id="500" parent="348" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="500" parent="349" name="qstID">
+    <column id="501" parent="349" name="qstID">
       <DataType>char(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="501" parent="349" name="qstQuestion">
+    <column id="502" parent="349" name="qstQuestion">
       <DataType>varchar(100)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <index id="502" parent="349" name="PRIMARY">
+    <index id="503" parent="349" name="PRIMARY">
       <ColNames>qstID</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="503" parent="349" name="PRIMARY">
+    <key id="504" parent="349" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="504" parent="350" name="qstRepID">
+    <column id="505" parent="350" name="qstRepID">
       <DataType>char(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="505" parent="350" name="qstRepAnswer">
+    <column id="506" parent="350" name="qstRepAnswer">
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="506" parent="350" name="qstRepBool">
+    <column id="507" parent="350" name="qstRepBool">
       <DataType>tinyint(4)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="507" parent="350" name="Question_qstID">
+    <column id="508" parent="350" name="Question_qstID">
       <DataType>char(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <foreign-key id="508" parent="350" name="fk_Question_Answers_Question1">
+    <foreign-key id="509" parent="350" name="fk_Question_Answers_Question1">
       <ColNames>Question_qstID</ColNames>
       <RefColNames>qstID</RefColNames>
       <RefTableName>question</RefTableName>
     </foreign-key>
-    <index id="509" parent="350" name="PRIMARY">
+    <index id="510" parent="350" name="PRIMARY">
       <ColNames>qstRepID
 Question_qstID</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="510" parent="350" name="fk_Question_Answers_Question1_idx">
+    <index id="511" parent="350" name="fk_Question_Answers_Question1_idx">
       <ColNames>Question_qstID</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="511" parent="350" name="PRIMARY">
+    <key id="512" parent="350" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="512" parent="351" name="sesMsgID">
+    <column id="513" parent="351" name="sesMsgID">
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="513" parent="351" name="sesMsgStartDate">
+    <column id="514" parent="351" name="sesMsgStartDate">
       <DataType>datetime|0s</DataType>
       <DefaultExpression>current_timestamp()</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="514" parent="351" name="sesMsgEndDate">
+    <column id="515" parent="351" name="sesMsgEndDate">
       <DataType>datetime|0s</DataType>
       <Position>3</Position>
     </column>
-    <column id="515" parent="351" name="Client_cltID">
+    <column id="516" parent="351" name="Client_cltID">
       <DataType>char(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <foreign-key id="516" parent="351" name="fk_Session_Message_Client1">
+    <foreign-key id="517" parent="351" name="fk_Session_Message_Client1">
       <ColNames>Client_cltID</ColNames>
       <OnDelete>cascade</OnDelete>
       <OnUpdate>cascade</OnUpdate>
       <RefColNames>cltID</RefColNames>
       <RefTableName>client</RefTableName>
     </foreign-key>
-    <index id="517" parent="351" name="PRIMARY">
+    <index id="518" parent="351" name="PRIMARY">
       <ColNames>sesMsgID
 Client_cltID</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="518" parent="351" name="fk_Session_Message_Client1_idx">
+    <index id="519" parent="351" name="fk_Session_Message_Client1_idx">
       <ColNames>Client_cltID</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="519" parent="351" name="PRIMARY">
+    <key id="520" parent="351" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>

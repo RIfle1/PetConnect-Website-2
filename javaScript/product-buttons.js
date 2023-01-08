@@ -11,8 +11,16 @@ const colorHiddenDivID = "pr-color-hidden";
 const currentImageDivID = "pr-current-image-div";
 const imageInteractionDivID = "pr-image-interaction-div";
 
+// HARDCODED BUTTON IDS
+const addButtonID = "pr-interaction-add-button";
+const buyButtonID = "pr-interaction-buy-button"
+
 // HARDCODED INPUT IDS
 const amountInputID = "pr-amount-input";
+
+// HARDCODED SPAN IDS
+const selectedColorSpanID = "pr-active-selected-color-span";
+const selectedAmountSpanID = "pr-active-selected-amount-span";
 
 // HARDCODED DIV ELEMENTS
 const amountActiveDivElement = $("#"+amountActiveDivID);
@@ -25,8 +33,21 @@ const colorHiddenDivElement = $("#"+colorHiddenDivID);
 const currentImageDivElement = $("#"+currentImageDivID);
 const imageInteractionDivElement = $("#"+imageInteractionDivID);
 
+// HARDCODED BUTTON ELEMENTS
+const addButtonElement = $("#"+addButtonID);
+const buyButtonElement = $("#"+buyButtonID);
+
 // HARDCODED INPUT ELEMENTS
 const amountInputElement = $("#"+amountInputID);
+
+// HARDCODED SPAN ELEMENTS
+const selectedColorSpanElement = $("#"+selectedColorSpanID);
+const selectedAmountSpanElement = $("#"+selectedAmountSpanID);
+
+// DEFINE KEY
+const productJsonKey = ["0", productJson];
+productJsonKey[1]['prcColor'] = selectedColorSpanElement.text().toLowerCase();
+productJsonKey[1]['buyAmount'] = parseInt(selectedAmountSpanElement.text());
 
 //ITEM LISTS
 const amountHiddenItemList = [1,2,3,4,5,6,7,8,9]
@@ -38,7 +59,6 @@ const productImageList = getImageList(productJson)
 
 function getImageList(productJson) {
     let imageList = [];
-    console.log(productJson);
     Object.values(productJson['prdImg']).forEach(values => {
         imageList.push(values);
     })
@@ -48,7 +68,6 @@ function getImageList(productJson) {
 
 function getColorList(productJson) {
     let colorList = [];
-    console.log(productJson);
     Object.keys(productJson['prdImg']).forEach(key => {
         colorList.push(key.charAt(0).toUpperCase() + key.slice(1));
     })
@@ -102,26 +121,33 @@ function setAmountCustomDiv(amountCustomDivElement) {
     })
 }
 
-function onClickSelectHiddenItem(selectActiveDivElement, selectHiddenLiElement) {
+function onClickSelectHiddenItem(selectActiveDivElement, selectHiddenLiElement, selectedSpanElement) {
     let selectHiddenLiText = selectHiddenLiElement.text();
-    selectActiveDivElement.children().first().text(selectHiddenLiText)
+    selectedSpanElement.text(selectHiddenLiText)
     selectActiveDivElement.trigger("click");
+
+    if(selectedSpanElement === selectedColorSpanElement) {
+        productJsonKey[1]['prcColor'] = selectHiddenLiText.toLowerCase();
+    }
+    else if(selectedSpanElement === selectedAmountSpanElement) {
+        productJsonKey[1]['buyAmount'] = parseInt(selectHiddenLiText);
+    }
 }
 
-function setSelectHiddenItem(selectActiveDivElement, selectHiddenLiElement) {
+function setSelectHiddenItem(selectActiveDivElement, selectHiddenLiElement, selectedSpanElement) {
     selectHiddenLiElement.click(function() {
-        onClickSelectHiddenItem(selectActiveDivElement, selectHiddenLiElement)
+        onClickSelectHiddenItem(selectActiveDivElement, selectHiddenLiElement, selectedSpanElement)
     })
 }
 
-function displaySelectHiddenItemList(selectActiveDivElement, selectHiddenDivElement, selectHiddenItemList) {
+function displaySelectHiddenItemList(selectActiveDivElement, selectHiddenDivElement, selectHiddenItemList, selectedSpanElement) {
     selectHiddenItemList.forEach(item => {
         let selectHiddenLiID = selectHiddenDivElement.attr("id")+"-li-"+item
         let selectHiddenUl = selectHiddenDivElement.children().first();
         selectHiddenUl.append("<li id="+selectHiddenLiID+">"+item+"</li>")
 
         let selectHiddenLiElement = $("#"+selectHiddenLiID);
-        setSelectHiddenItem(selectActiveDivElement, selectHiddenLiElement);
+        setSelectHiddenItem(selectActiveDivElement, selectHiddenLiElement, selectedSpanElement);
     })
 }
 
@@ -154,12 +180,14 @@ function displayProductImages(currentImageDivElement, imageInteractionDivElement
     })
 }
 
+setAddToCartButton(addButtonElement, productJsonKey)
+
 setSelectActiveDiv(amountActiveDivElement, amountHiddenDivElement);
 setAmountCustomDiv(amountCustomDivElement);
 
 setSelectActiveDiv(colorActiveDivElement, colorHiddenDivElement);
 
-displaySelectHiddenItemList(amountActiveDivElement, amountHiddenDivElement, amountHiddenItemList);
-displaySelectHiddenItemList(colorActiveDivElement, colorHiddenDivElement, colorHiddenItemList);
+displaySelectHiddenItemList(amountActiveDivElement, amountHiddenDivElement, amountHiddenItemList, selectedAmountSpanElement);
+displaySelectHiddenItemList(colorActiveDivElement, colorHiddenDivElement, colorHiddenItemList, selectedColorSpanElement);
 
 displayProductImages(currentImageDivElement, imageInteractionDivElement, productImageList);

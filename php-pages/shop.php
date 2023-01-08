@@ -7,7 +7,7 @@ include 'site-header.php';
 
 $languageList = returnLanguageList()[returnLanguage()]['shop'];
 
-$productList = returnProductList();
+$productList = deObjectifyList(returnProductList(''));
 ?>
 
 <script>

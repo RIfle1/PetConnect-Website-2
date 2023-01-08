@@ -563,8 +563,13 @@ function returnImagePathList($groupList): array {
 
     foreach($groupList as $groupListKey => $groupListValue ) {
         foreach($groupListValue as $AttributeKey => $attributeValue) {
-            foreach($attributeValue as $rowKey => $rowValue) {
-                $imagePathList[$groupListKey][$AttributeKey][] = getImage($rowValue);
+            foreach($attributeValue as $rowValue) {
+                if($AttributeKey === 'pimPath') {
+                    $imagePathList[$groupListKey][$AttributeKey][] = getImage($rowValue);
+                }
+                else {
+                    $imagePathList[$groupListKey][$AttributeKey][] = $rowValue;
+                }
             }
         };
     }
@@ -572,7 +577,7 @@ function returnImagePathList($groupList): array {
     return $imagePathList;
 }
 
-function returnGroupList($runSQLResult, $groupByID, $groupID): array {
+function returnGroupList($runSQLResult, $groupByID): array {
     // INPUT
     // OBJECT TYPE runSQLResult;
 
@@ -604,17 +609,13 @@ function returnGroupList($runSQLResult, $groupByID, $groupID): array {
     $groupList = array();
     while($listRow = $runSQLResult->fetch_assoc()) {
         $valueList = array();
-        foreach($listRow as $key => $value) {
-            if($key !== $groupByID) {
-                $valueList = $value;
+        foreach($listRow as $mainKey => $mainValue) {
+            if($mainKey !== $groupByID) {
+                $groupList[$listRow[$groupByID]][$mainKey][] = $mainValue;
             }
         };
-        if(strlen($groupID) === 0) {
-            $groupList[$listRow[$groupByID]][] = $valueList;
-        }
-        else {
-            $groupList[$listRow[$groupByID]][$groupID][] = $valueList;
-        }
+
+
     }
     return $groupList;
 }
@@ -752,80 +753,12 @@ function returnMergedList($mainArray): array {
     return $mergedList;
 }
 
-function returnCombinedList($mainArray, $combinedListID): array {
-    // INPUT
-    $inputExample = [
-        [
-            "prd1" => [
-                "prcColor" => [
-                    "black",
-                    "blue",
-                    "green",
-                    "red",
-                    "white",
-                    "yellow"
-                ]
-            ],
-            "prd2" => [
-                "prcColor" => [
-                    "red",
-                    "white",
-                    "yellow",
-                    "black",
-                    "blue",
-                    "green"
-                ]
-            ]
-        ],
-        [
-            "prd1" => [
-                "pimPath" => [
-                    "iCollar_v1.png_black",
-                    "iCollar_v1.png_blue",
-                    "iCollar_v1.png_green",
-                    "iCollar_v1.png_red",
-                    "iCollar_v1.png_white",
-                    "iCollar_v1.png_yellow"
-                ]
-            ],
-            "prd2" => [
-                "pimPath" => [
-                    "iCollar_v2.png_red",
-                    "iCollar_v2.png_white",
-                    "iCollar_v2.png_yellow",
-                    "iCollar_v2.png_black",
-                    "iCollar_v2.png_blue",
-                    "iCollar_v2.png_green"
-                ]
-            ]
-        ]
-    ];
-    // OUTPUT
-    $outputExample = [
-        "prd1" => [
-            "black" => "iCollar_v1.png_black",
-            "blue" => "iCollar_v1.png_blue",
-            "green" => "iCollar_v1.png_green",
-            "red" => "iCollar_v1.png_red",
-            "white" => "iCollar_v1.png_white",
-            "yellow" => "iCollar_v1.png_yellow"
-        ],
-        "prd2" => [
-            "red" => "iCollar_v2.png_red",
-            "white" => "iCollar_v2.png_white",
-            "yellow" => "iCollar_v2.png_yellow",
-            "black" => "iCollar_v2.png_black",
-            "blue" => "iCollar_v2.png_blue",
-            "green" => "iCollar_v2.png_green"
-        ]
-
-    ];
-
-    $orderedList = returnMergedList($mainArray);
+function returnCombinedList2($mainArray, $combinedListID): array {
+//    $orderedList = returnMergedList($mainArray);
     $AttributeList = array();
     $combinedList = array();
 
-    foreach($orderedList as $mainListKey => $mainListValue) {
+    foreach($mainArray as $mainListKey => $mainListValue) {
         foreach($mainListValue as $subListKey => $subListValue) {
             $AttributeList[$mainListKey][] = $subListKey;
         }
@@ -834,8 +767,8 @@ function returnCombinedList($mainArray, $combinedListID): array {
             $keyListName = $mainListValue2[0];
             $valueListName = $mainListValue2[1];
 
-            $keyList = $orderedList[$mainListKey2][$keyListName];
-            $valueList = $orderedList[$mainListKey2][$valueListName];
+            $keyList = $mainArray[$mainListKey2][$keyListName];
+            $valueList = $mainArray[$mainListKey2][$valueListName];
 
             foreach($keyList as $keyListKey => $keyListValue) {
                 foreach($valueList as $valueListKey => $valueListValue) {
@@ -866,32 +799,37 @@ function returnAddressInfo($adrID) : array {
     return returnList(runSQLResult($getAddressInfoSql));
 }
 
-function returnProductList() : array {
+function returnProductList($optionalPrdID) : array {
 
     $productListSql = "SELECT * FROM product";
+    if(strlen($optionalPrdID) > 0) {
+        $productListSql .= " WHERE prdID ='".$optionalPrdID."'";
+    }
     $productList = returnAssociativeList(runSQLResult($productListSql), 'prdID');
 
-    $colorListSql = "SELECT prdID, prcColor FROM product
-                     INNER JOIN product_color pc on product.prdID = pc.Product_prdID
-                     ORDER BY prdID";
-    $colorList = returnGroupList(runSQLResult($colorListSql), 'prdID', 'prcColor');
-//    $colorList2 = returnList(runSQLResult($colorListSql));
+    $prdImgListSql = "SELECT prdID, prcColor, pimPath from product
+                      INNER JOIN product_color pc on product.prdID = pc.Product_prdID
+                      INNER JOIN product_image pi on pc.prcID = pi.Product_Color_prcID";
+    if(strlen($optionalPrdID) > 0) {
+        $prdImgListSql .= " WHERE prdID ='".$optionalPrdID."'";
+    }
+    $prdImgList = returnGroupList(runSQLResult($prdImgListSql), 'prdID');
+    $prdImgList2 = returnImagePathList($prdImgList);
+    $prdImgList3 = returnCombinedList2($prdImgList2, 'prdImg');
 
-    $imageListSql = "SELECT prdID, pimPath FROM product
-                     INNER JOIN product_color pc on product.prdID = pc.Product_prdID
-                     INNER JOIN product_image pi on pc.prcID = pi.Product_Color_prcID
-                     ORDER BY prdID";
-    $imageList = returnImagePathList(returnGroupList(runSQLResult($imageListSql), 'prdID', 'pimPath'));
-//    $imageList2 = returnList(runSQLResult($imageListSql));
-
-//    return returnMergedList(array($colorList, $imageList));
-//    return returnCombinedList($colorList2, $imageList2);
-//    return returnCombinedList(array($colorList, $imageList), 'prdImg');
-//    return $productList;
-
-//    //    ACTUAL RETURN STUFF
-    $finalList = array($productList, returnCombinedList(array($colorList, $imageList), 'prdImg'));
+    //    ACTUAL RETURN STUFF
+    $finalList = array($productList, $prdImgList3);
     return returnMergedList($finalList);
+
+
+}
+
+function deObjectifyList($objectList): array {
+
+    foreach ($objectList as $objectListItem) {
+        $deObjectifiedList[] = $objectListItem;
+    }
+    return $deObjectifiedList;
 }
 
 function returnProductIntPrice($value): string
@@ -902,6 +840,83 @@ function returnProductIntPrice($value): string
 function returnProductDecimalPrice($value): string
 {
     return substr($value ,strlen($value)-2 , strlen($value));
+}
+
+function returnBasketList():array {
+
+    if(isset($_SESSION['Table']) || isset($_SESSION['loggedIn'])) {
+        if(!$_SESSION['loggedIn'] && isset($_COOKIE['Basket-cookie'])){
+
+            $cookieBasketList =  json_decode($_COOKIE['Basket-cookie']);
+
+            if(!(gettype($cookieBasketList) === "NULL")) {
+                foreach ($cookieBasketList as $cookieBasketListItem) {
+                    $prdID = $cookieBasketListItem[0];
+                    $prdColor = $cookieBasketListItem[1];
+
+                    $productList = returnProductList($prdID);
+                    foreach ($productList as $productListItem) {
+                        foreach($productListItem as $productListItemKey => $productListItemRow) {
+                            if($productListItemKey !== $prdID) {
+                                $basketItem[$productListItemKey] = $productListItemRow;
+                            }
+                        }
+                        $basketItem['prcColor'] = $prdColor;
+                    }
+                    $basketList[] = $basketItem;
+                }
+                return $basketList;
+            }
+            else {
+                return array();
+            }
+
+        }
+        else if(isset($_SESSION['Table']) && $_SESSION['Table'] === 'client') {
+            $cltID = $_SESSION['ID'];
+            $getClientBasketListSql = "SELECT Product_prdID AS prdID, prcColor, basID, prdLstID
+                                   FROM client
+                                   INNER JOIN basket b on client.cltID = b.Client_cltID
+                                   INNER JOIN product_list pl on b.basID = pl.Basket_basID
+                                   WHERE cltID = '".$cltID."'";
+            $getClientBasketListResult = runSQLResult($getClientBasketListSql);
+
+            if(mysqli_num_rows($getClientBasketListResult) > 0) {
+                $clientBasketList = returnList($getClientBasketListResult);
+
+                foreach ($clientBasketList as $clientBasketListItem) {
+                    $prdID = $clientBasketListItem['prdID'];
+                    $additionalList = array();
+                    $basketItem = array();
+
+                    foreach ($clientBasketListItem as $clientBasketListItemKey => $clientBasketListItemRow) {
+                        $basketItem[$clientBasketListItemKey] = $clientBasketListItemRow;
+                    }
+
+                    foreach (returnProductList($prdID) as $productListItem) {
+                        foreach($productListItem as $productListItemKey => $productListItemRow) {
+                            if($productListItemKey !== $prdID) {
+                                $basketItem[$productListItemKey] = $productListItemRow;
+                            }
+                        }
+                    }
+                    $basketList[] = $basketItem;
+
+                }
+
+                return $basketList;
+            }
+            else {
+                return array();
+            }
+        }
+        else {
+            return array();
+        }
+    }
+    else {
+        return array();
+    }
 }
 
 function returnLanguage(): string {

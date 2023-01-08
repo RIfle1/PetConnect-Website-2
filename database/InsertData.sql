@@ -47,6 +47,7 @@ INSERT INTO image (imgID, imgPath, imgCategory) VALUES ('img37', 'iCollar_v1_gre
 INSERT INTO image (imgID, imgPath, imgCategory) VALUES ('img38', 'eco.png', 'misc');
 INSERT INTO image (imgID, imgPath, imgCategory) VALUES ('img39', 'delivery.png', 'misc');
 INSERT INTO image (imgID, imgPath, imgCategory) VALUES ('img40', 'satisfied.png', 'misc');
+INSERT INTO image (imgID, imgPath, imgCategory) VALUES ('img41', 'trash.png', 'misc');
 
 INSERT INTO client (cltID, cltUsername, cltFirstName, cltLastName, cltEmail, cltPhoneNumber, cltPassword, cltPfpName, cltSignupDate, cltVerifiedEmail) VALUES ('clt19', 'Jeff', 'fEFF', 'hgEtus', 'pppbbb616000@gmail.com', '123456789', '$2y$10$kOeEgAJU04emD4fT6.dW8OoEWivgwuWROTd07DvI/ETjZEuOkbuaO', 'chien.jpg', NOW(), 1);
 INSERT INTO client (cltID, cltUsername, cltFirstName, cltLastName, cltEmail, cltPhoneNumber, cltPassword, cltPfpName, cltSignupDate, cltVerifiedEmail) VALUES ('clt2', 'zenry123', 'fgenry', 'aEEtus', 'henry@yeetus.com', '123456789', '$2y$10$kOeEgAJU04emD4fT6.dW8OoEWivgwuWROTd07DvI/ETjZEuOkbuaO', 'chien.jpg', NOW(), 1);
@@ -76,6 +77,7 @@ INSERT INTO admin (admID, admEmail, admUsername, admPassword, admPfpName) VALUES
 
 INSERT INTO product(prdID, prdName, prdPrice, prdReleaseDate) VALUES ('prd1', 'Connected Collars for dogs v1', 499.99, '2023-01-01');
 INSERT INTO product(prdID, prdName, prdPrice, prdReleaseDate) VALUES ('prd2', 'Connected Collars for dogs v2', 499.99, '2023-01-01');
+INSERT INTO product(prdID, prdName, prdPrice, prdReleaseDate) VALUES ('prd3', 'Connected Collars for dogs v3', 499.99, '2023-01-01');
 
 INSERT INTO product_color(prcID, prcColor, Product_prdID) VALUES ('prc1', 'black', 'prd1');
 INSERT INTO product_color(prcID, prcColor, Product_prdID) VALUES ('prc2', 'blue', 'prd1');
@@ -91,6 +93,13 @@ INSERT INTO product_color(prcID, prcColor, Product_prdID) VALUES ('prc10', 'red'
 INSERT INTO product_color(prcID, prcColor, Product_prdID) VALUES ('prc11', 'white', 'prd2');
 INSERT INTO product_color(prcID, prcColor, Product_prdID) VALUES ('prc12', 'yellow', 'prd2');
 
+INSERT INTO product_color(prcID, prcColor, Product_prdID) VALUES ('prc13', 'black', 'prd3');
+INSERT INTO product_color(prcID, prcColor, Product_prdID) VALUES ('prc14', 'blue', 'prd3');
+INSERT INTO product_color(prcID, prcColor, Product_prdID) VALUES ('prc15', 'green', 'prd3');
+INSERT INTO product_color(prcID, prcColor, Product_prdID) VALUES ('prc16', 'red', 'prd3');
+INSERT INTO product_color(prcID, prcColor, Product_prdID) VALUES ('prc17', 'white', 'prd3');
+INSERT INTO product_color(prcID, prcColor, Product_prdID) VALUES ('prc18', 'yellow', 'prd3');
+
 INSERT INTO product_image(pimID, pimPath, Product_Color_prcID) VALUES ('pim1', 'iCollar_v1_black.png', 'prc1');
 INSERT INTO product_image(pimID, pimPath, Product_Color_prcID) VALUES ('pim2', 'iCollar_v1_blue.png', 'prc2');
 INSERT INTO product_image(pimID, pimPath, Product_Color_prcID) VALUES ('pim3', 'iCollar_v1_green.png', 'prc3');
@@ -104,3 +113,10 @@ INSERT INTO product_image(pimID, pimPath, Product_Color_prcID) VALUES ('pim9', '
 INSERT INTO product_image(pimID, pimPath, Product_Color_prcID) VALUES ('pim10', 'iCollar_v2_red.png', 'prc10');
 INSERT INTO product_image(pimID, pimPath, Product_Color_prcID) VALUES ('pim11', 'iCollar_v2_white.png', 'prc11');
 INSERT INTO product_image(pimID, pimPath, Product_Color_prcID) VALUES ('pim12', 'iCollar_v2_yellow.png', 'prc12');
+
+INSERT INTO product_image(pimID, pimPath, Product_Color_prcID) VALUES ('pim13', 'iCollar_v2_black.png', 'prc13');
+INSERT INTO product_image(pimID, pimPath, Product_Color_prcID) VALUES ('pim14', 'iCollar_v2_blue.png', 'prc14');
+INSERT INTO product_image(pimID, pimPath, Product_Color_prcID) VALUES ('pim15', 'iCollar_v2_green.png', 'prc15');
+INSERT INTO product_image(pimID, pimPath, Product_Color_prcID) VALUES ('pim16', 'iCollar_v2_red.png', 'prc16');
+INSERT INTO product_image(pimID, pimPath, Product_Color_prcID) VALUES ('pim17', 'iCollar_v2_white.png', 'prc17');
+INSERT INTO product_image(pimID, pimPath, Product_Color_prcID) VALUES ('pim18', 'iCollar_v2_yellow.png', 'prc18');
