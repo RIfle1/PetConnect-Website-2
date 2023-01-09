@@ -135,7 +135,8 @@ $basketList = returnBasketList();
                             <span>Start adding items to your basket!</span>
                         </div>
                         <div class="sih-basket-button-div">
-                            <button>Go to Basket Page</button>
+                            <button id="sih-basket-delete-all-button">Delete all items</button>
+                            <button id="sih-basket-checkout-page-button">Go to Checkout Page</button>
                         </div>
                     </div>
                 <?php endif; ?>

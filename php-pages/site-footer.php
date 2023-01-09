@@ -39,7 +39,7 @@ $languageList = returnLanguageList()[returnLanguage()]['site-footer'];
             <a href="#"><?php echo $languageList["Investors"]?></a>
             <a href="#"><?php echo $languageList["Sustainable development"]?></a>
             <a href="#"><?php echo $languageList["Mobile app"]?></a>
-            <a href="#"><?php echo $languageList["Informative quiz"]?></a>
+            <a href="quiz.php"><?php echo $languageList["Informative quiz"]?></a>
         </div>
         <div id="site-footer-last-column" class="site-footer-column">
             <div id="site-footer-img-div-1">

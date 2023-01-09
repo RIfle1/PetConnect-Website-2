@@ -1531,8 +1531,8 @@ function returnLanguageList(): array
                 "Verification Code:" => "Code de vérification:",
                 "The verification code is incorrect." => "Le code de vérification est incorrect.",
                 "Validate Email" => "Valider l'adresse électronique",
-                "Your email has been validated. You can now" => "Votre email a été validé, vous pouvez maintenant vous",
-                "Login" => "connecter"
+                "Your email has been validated. You can now" => "Votre email a été validé, vous pouvez maintenant",
+                "Login" => "vous-identifier"
             ),
             "site-footer" => array(
                 "GIFT CARDS" => "CARTES CADEAUX",
@@ -1783,6 +1783,8 @@ function returnLanguageList(): array
             ),
 
         ),
-        "Russian" => array(),
+        "Russian" => array(
+        ),
+
     );
 }

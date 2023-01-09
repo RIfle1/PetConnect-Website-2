@@ -10,6 +10,12 @@ const basketSeparationLineID = "sih-basket-separation-line";
 // HARDCODED SPAN IDS
 const basketCountSpanID = "sih-basket-count-span";
 
+// HARDCODED BUTTON IDS
+const basketDeleteAllButtonID = "sih-basket-delete-all-button";
+
+// HARDCODED DIV CLASSES
+const basketProductClass = 'sih-basket-product'
+
 // HARDCODED DIV ELEMENTS
 const basketProductDivElement = $("#"+basketProductDivID);
 
@@ -21,10 +27,11 @@ const basketSeparationLineElement = $("#"+basketSeparationLineID);
 // HARDCODED SPAN ELEMENTS
 const basketCountSpanElement = $("#"+basketCountSpanID);
 
-// VOLATILE BUTTON IDS
-const deleteItemImgCommonID = 'sih-delete-item-img'
-const basketProductCommonID = 'sih-basket-product'
+// HARDCODED BUTTON ELEMENTS
+const basketDeleteAllButtonElement = $("#"+basketDeleteAllButtonID);
 
+// VOLATILE BUTTON IDS
+const basketDeleteItemImgCommonID = 'sih-delete-item-img'
 
 // VOLATILE SPAN CLASSES
 const priceSpanClass = "sih-price-span";
@@ -46,6 +53,7 @@ function checkBasketContents() {
         basketEmptyDivElement.css("display", "none");
         basketCountSpanElement.css("display", 'block');
         basketSeparationLineElement.css("display", "block")
+        basketDeleteAllButtonElement.css("display", "block")
         basketCountSpanElement.text(basketList.length);
     }
     else {
@@ -53,6 +61,7 @@ function checkBasketContents() {
         basketTotalDivElement.css("display", "none");
         basketCountSpanElement.css("display", 'none');
         basketSeparationLineElement.css("display", "none")
+        basketDeleteAllButtonElement.css("display", "none")
     }
 }
 
@@ -87,7 +96,7 @@ function onClickDeleteItemImg(deleteItemImgElement, basketProductElement, key, p
     checkBasketContents();
 
     // DELETE ELEMENT FROM DATABASE / COOKIE
-    let deleteFromCartUrl = "../php-processes/site-header-processes.php"
+    let deleteFromCartUrl = "../php-processes/site-header-processes.php?"
     $.ajax({
         type: "POST",
         url: deleteFromCartUrl,
@@ -95,6 +104,7 @@ function onClickDeleteItemImg(deleteItemImgElement, basketProductElement, key, p
             prdID: prdID,
             prcColor: prcColor,
             prdLstID: prdLstID,
+            type: 'delete',
         }
     })
 
@@ -168,6 +178,40 @@ function setDeleteItemImg(deleteItemImgElement, basketProductElement, key, prdLs
     })
 }
 
+function onClickBasketDeleteAllButton() {
+    // DELETE ALL ELEMENTS FROM PAGE
+    $("."+basketProductClass).remove();
+
+    // DELETE ALL ELEMENT FROM GLOBAL ARRAY BASKET LIST
+    basketList = [];
+
+    checkBasketContents();
+
+    // DELETE ALL ELEMENT FROM DATABASE / COOKIE
+    let deleteFromCartUrl = "../php-processes/site-header-processes.php?"
+    $.ajax({
+        type: "POST",
+        url: deleteFromCartUrl,
+        data: {
+            type: 'deleteAll',
+        }
+    })
+
+    // RESET GLOBAL VARIABLES
+    basketListLength = basketList.length;
+    productsDisplayed = 0;
+    basketTotal = 0;
+
+    // RECALCULATE TOTAL PRICE
+    Object.entries(basketList).forEach(updateBasketTotal);
+}
+
+function setBasketDeleteAllButton(deleteAllButtonElement) {
+    deleteAllButtonElement.click(function() {
+        onClickBasketDeleteAllButton()
+    })
+}
+
 function displayBasketProduct(key) {
     productsDisplayed ++;
 
@@ -183,11 +227,11 @@ function displayBasketProduct(key) {
     let prdReleaseDate = key[1]['prdReleaseDate'];
     let prdPath = key[1]['prdImg'][prcColor];
 
-    let deleteItemImgID = deleteItemImgCommonID+"-"+generateString(5)
-    let basketProductDivID = basketProductCommonID+"-"+generateString(5)
+    let deleteItemImgID = basketDeleteItemImgCommonID+"-"+generateString(5)
+    let basketProductDivID = basketProductClass+"-"+generateString(5)
 
     let basketProductDiv =
-        `                <div id='${basketProductDivID}' class='${basketProductCommonID}'>\n` +
+        `                <div id='${basketProductDivID}' class='${basketProductClass}'>\n` +
         `                    <img class='sih-product-img-1' src='${prdPath}' alt='img'>\n` +
         `                    <span id="sih-product-name-span">${prdName}</span>\n` +
         "                    <div class='sih-product-price-div text-font-700'>\n" +
@@ -227,3 +271,4 @@ function displayBasketTotalDiv(basketTotal) {
     basketTotalDivElement.append(basketTotalHtml);
 }
 
+setBasketDeleteAllButton(basketDeleteAllButtonElement);
