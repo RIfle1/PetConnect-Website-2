@@ -35,7 +35,7 @@ if(isset($clientLoggedIn) || isset($loggedIn)) {
                 $addedBasketProductList[] = array($prdID, $prcColor);
             }
             if(!isset($_COOKIE['Basket-cookie'])) {
-                setcookie("Basket-cookie", json_encode(array($addedBasketProductList)),
+                setcookie("Basket-cookie", json_encode($addedBasketProductList),
                     [
                         'expires' => time() + (86400 * 30),
                         'path' => '/',

@@ -78,6 +78,7 @@ INSERT INTO admin (admID, admEmail, admUsername, admPassword, admPfpName) VALUES
 INSERT INTO product(prdID, prdName, prdPrice, prdReleaseDate) VALUES ('prd1', 'Connected Collars for dogs v1', 499.99, '2023-01-01');
 INSERT INTO product(prdID, prdName, prdPrice, prdReleaseDate) VALUES ('prd2', 'Connected Collars for dogs v2', 499.99, '2023-01-01');
 INSERT INTO product(prdID, prdName, prdPrice, prdReleaseDate) VALUES ('prd3', 'Connected Collars for dogs v3', 499.99, '2023-01-01');
+INSERT INTO product(prdID, prdName, prdPrice, prdReleaseDate) VALUES ('prd4', 'iCollar v4', 32.99, '2023-01-01');
 
 INSERT INTO product_color(prcID, prcColor, Product_prdID) VALUES ('prc1', 'black', 'prd1');
 INSERT INTO product_color(prcID, prcColor, Product_prdID) VALUES ('prc2', 'blue', 'prd1');
@@ -100,6 +101,13 @@ INSERT INTO product_color(prcID, prcColor, Product_prdID) VALUES ('prc16', 'red'
 INSERT INTO product_color(prcID, prcColor, Product_prdID) VALUES ('prc17', 'white', 'prd3');
 INSERT INTO product_color(prcID, prcColor, Product_prdID) VALUES ('prc18', 'yellow', 'prd3');
 
+INSERT INTO product_color(prcID, prcColor, Product_prdID) VALUES ('prc19', 'black', 'prd4');
+INSERT INTO product_color(prcID, prcColor, Product_prdID) VALUES ('prc20', 'blue', 'prd4');
+INSERT INTO product_color(prcID, prcColor, Product_prdID) VALUES ('prc21', 'green', 'prd4');
+INSERT INTO product_color(prcID, prcColor, Product_prdID) VALUES ('prc22', 'red', 'prd4');
+INSERT INTO product_color(prcID, prcColor, Product_prdID) VALUES ('prc23', 'white', 'prd4');
+INSERT INTO product_color(prcID, prcColor, Product_prdID) VALUES ('prc24', 'yellow', 'prd4');
+
 INSERT INTO product_image(pimID, pimPath, Product_Color_prcID) VALUES ('pim1', 'iCollar_v1_black.png', 'prc1');
 INSERT INTO product_image(pimID, pimPath, Product_Color_prcID) VALUES ('pim2', 'iCollar_v1_blue.png', 'prc2');
 INSERT INTO product_image(pimID, pimPath, Product_Color_prcID) VALUES ('pim3', 'iCollar_v1_green.png', 'prc3');
@@ -120,3 +128,10 @@ INSERT INTO product_image(pimID, pimPath, Product_Color_prcID) VALUES ('pim15', 
 INSERT INTO product_image(pimID, pimPath, Product_Color_prcID) VALUES ('pim16', 'iCollar_v2_red.png', 'prc16');
 INSERT INTO product_image(pimID, pimPath, Product_Color_prcID) VALUES ('pim17', 'iCollar_v2_white.png', 'prc17');
 INSERT INTO product_image(pimID, pimPath, Product_Color_prcID) VALUES ('pim18', 'iCollar_v2_yellow.png', 'prc18');
+
+INSERT INTO product_image(pimID, pimPath, Product_Color_prcID) VALUES ('pim19', 'iCollar_v1_black.png', 'prc19');
+INSERT INTO product_image(pimID, pimPath, Product_Color_prcID) VALUES ('pim20', 'iCollar_v1_blue.png', 'prc20');
+INSERT INTO product_image(pimID, pimPath, Product_Color_prcID) VALUES ('pim21', 'iCollar_v1_green.png', 'prc21');
+INSERT INTO product_image(pimID, pimPath, Product_Color_prcID) VALUES ('pim22', 'iCollar_v1_red.png', 'prc22');
+INSERT INTO product_image(pimID, pimPath, Product_Color_prcID) VALUES ('pim23', 'iCollar_v1_white.png', 'prc23');
+INSERT INTO product_image(pimID, pimPath, Product_Color_prcID) VALUES ('pim24', 'iCollar_v1_yellow.png', 'prc24');

@@ -1,7 +1,5 @@
 <?php
 
-use JetBrains\PhpStorm\NoReturn;
-
 function OpenCon()
 {
     $dbHost = "localhost";
