@@ -1,8 +1,9 @@
 // data Rythme cardiaque
 const dataBPM = {
+    labels: ['Day 1', 'Day 2', 'Day 3'],
     datasets: [{
         label: 'BPM',
-        data: [],
+        data: [15, 36, 86],
         backgroundColor: 'rgba(255, 99, 132, 0.2)',
         borderColor: 'rgba(255, 99, 132, 1)',
         borderWidth: 1
@@ -55,7 +56,6 @@ function config(data, ymin, ymax, vmin, vmax) {
             plugins: {
                 streaming: {
                     duration: 20000,
-
                     refresh: 200,
                     // frameRate: 20
                 }
@@ -71,7 +71,8 @@ function config(data, ymin, ymax, vmin, vmax) {
                             chart.data.datasets.forEach(dataset => {
                                 dataset.data.push({
                                     x: Date.now(),
-                                    y: Math.random() * (vmax - vmin) + vmin,
+                                    // y: Math.random() * (vmax - vmin) + vmin,
+                                    y: dataBPM,
                                 });
                             });
                         }

@@ -54,3 +54,13 @@ function returnEmailCodeValidationStructure($verificationCode): array
         "subject" => $languagesList["Email Verification"],
     );
 }
+
+
+function returnEmailCodeDeviceStructure($DeviceCode): array
+{
+    $languagesList = returnLanguageList()[returnLanguage()]['php-mailer'];
+    return  array(
+        "body" => "<p>Merci pour votre achat! <br> Votre numéro d'appareil est :  " . $DeviceCode . "</p>",
+        "subject" => "Votre commande PetConnect a bien été prise en charge.",
+    );
+}

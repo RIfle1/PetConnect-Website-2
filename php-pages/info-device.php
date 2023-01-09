@@ -130,7 +130,7 @@ $languageList = returnLanguageList()[returnLanguage()]['info-device'];
     <script src="https://cdn.jsdelivr.net/npm/luxon@3.1.1/build/global/luxon.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.3.0/dist/chartjs-adapter-luxon.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-streaming@2.0.0/dist/chartjs-plugin-streaming.min.js"></script>
-    <script src="../javaScript/chart.js">
+    <script src="../javaScript/charts.js">
     </script>
     <script type="text/javascript">
         setMarginTop('site-header-main-header', 'id', 'ids-form-body', 'id', 40)
