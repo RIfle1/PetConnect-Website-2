@@ -1,7 +1,9 @@
 // JSON VARIABLES
 let languageListValidationFunctions;
 let emailAvailable;
+let emailAvailableJson;
 let passwordAvailable;
+let passwordAvailableJson;
 let errorBool;
 
 // VOLATILE SPAN ERROR CLASS
@@ -105,7 +107,7 @@ function validateEmail(emailInputValue) {
     }
     else {
         let emailValidationUrl = "../php-processes/validate-email.php?email-input="+encodeURIComponent(emailInputValue)
-        $.getJSON(emailValidationUrl, function(json) {
+        emailAvailableJson = $.getJSON(emailValidationUrl, function(json) {
             emailAvailable = json.emailAvailable
         })
         emailTaken = true;
@@ -169,16 +171,16 @@ function validatePassword(passwordInputValue, checkOld) {
         errorMsg = languageListValidationFunctions["Password must contain at least one number"];
         errorBool += 1;
     }
-    else {
-        if(checkOld) {
-            const url = "../php-processes/connection-security-password-validation.php?newPassword="+
-                encodeURIComponent(passwordInputValue);
-            $.getJSON(url, function(json) {
-                passwordAvailable = json.passwordAvailable;
-            });
-            passwordTaken = true;
-        }
+
+    if(checkOld) {
+        const url = "../php-processes/connection-security-password-validation.php?newPassword="+
+            encodeURIComponent(passwordInputValue);
+        passwordAvailableJson = $.getJSON(url, function(json) {
+            passwordAvailable = json.passwordAvailable;
+        });
+        passwordTaken = true;
     }
+
 
     return {
         errorMsg : errorMsg,
@@ -197,7 +199,7 @@ function validatePasswordComparison(passwordInputValue, passwordConfirmationInpu
         }
     }
     else {
-        if(passwordInputValue === passwordConfirmationInputValue) {
+        if(passwordInputValue === passwordConfirmationInputValue && passwordInputValue.length > 0) {
             errorMsg = languageListValidationFunctions["Your new password must be different from your old password."];
             errorBool += 1;
         }

@@ -193,7 +193,7 @@ function onClickEditButton(editButtonElement) {
             // CLIENT EMAIL
             validateEmailVar = validateEmail(inputCommonElementValue);
 
-            setTimeout(()=> {
+            emailAvailableJson.always(function() {
                 if(validateEmailVar.emailTaken) {
                     validateEmailVar = validateEmailTaken();
                 }
@@ -218,8 +218,7 @@ function onClickEditButton(editButtonElement) {
                 else {
                     processSuccessFunction(editButtonElement, processSuccess, validateEmailVar.errorMsg, buttonAttribute, entityAttribute, entityValue)
                 }
-
-            }, 100)
+            })
 
         }
         else if(editButtonElement === editButtonPasswordElement) {
@@ -234,7 +233,7 @@ function onClickEditButton(editButtonElement) {
             validatePasswordVar = validatePassword(editInputPasswordOldValue, true);
             errorMsgList.push(validatePasswordVar.errorMsg);
 
-            setTimeout(()=> {
+            passwordAvailableJson.always(function() {
                 if(validatePasswordVar.passwordTaken) {
                     validatePasswordVar = validatePasswordAvailable(false);
                     errorMsgList.push(validatePasswordVar.errorMsg)
@@ -252,7 +251,7 @@ function onClickEditButton(editButtonElement) {
                 // if(processSuccess) {
                 //     console.log('VALIDATED')
                 // }
-            }, 100)
+            })
 
         }
         else if(editButtonElement !== editButtonPasswordElement && editButtonElement !== editButtonEmailElement) {

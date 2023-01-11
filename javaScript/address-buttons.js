@@ -17,6 +17,9 @@ const addressDivClass = "ad-address-div-2";
 // HARDCODED DIV ELEMENTS
 const addressMainDivElement = $("#"+addressMainDivID);
 
+// JSON VARIABLES
+let ajaxPostVariable;
+
 function refreshAddressList() {
     let addressListUrl = "../php-processes/address-process.php"
     $.getJSON(addressListUrl, function(json) {
@@ -81,7 +84,7 @@ function displayAddress(item, index, arr){
 
 function sendAddressAjaxPost(adrID, type) {
     let addressDeleteUrl = '../php-processes/address-process.php'
-    $.ajax({
+    ajaxPostVariable = $.ajax({
         type: "POST",
         url: addressDeleteUrl,
         data: {
@@ -104,11 +107,11 @@ function setAddressDeleteButton(addressDeleteButtonElement, addressDivElement, a
 
 function onClickAddressDefaultButton(addressDefaultButtonElement, addressDivElement, adrID) {
     sendAddressAjaxPost(adrID, 'default');
-    setTimeout(()=> {
-        let addressDivClassElement = $("."+addressDivClass);
-        addressDivClassElement.remove()
+    let addressDivClassElement = $("."+addressDivClass);
+    addressDivClassElement.remove()
+    ajaxPostVariable.always(function() {
         refreshAddressList();
-    }, 100)
+    })
 
 }
 

@@ -40,7 +40,6 @@ include 'site-header.php';
 $languageList = returnLanguageList()[returnLanguage()]['password-reset'];
 $commonStringsLanguageList = returnLanguageList()[returnLanguage()]['common-strings'];
 $captchaLanguage = strtolower(substr(returnLanguage(), 0, 2));
-
 ?>
 <!doctype html>
 <html lang="en">

@@ -11,13 +11,13 @@ $entityInfo = returnEntityInfo();
 
 
 if($_SERVER['REQUEST_METHOD'] === 'GET') {
-    if(!empty($_GET['userInfo'])) {
-
-        $entityInfo['Table'] = $_SESSION['Table'];
-
-        header("Content-Type: application/json");
-        echo json_encode(["entityInfo" => $entityInfo]);
-    }
+//    if(!empty($_GET['userInfo'])) {
+//
+//        $entityInfo['Table'] = $_SESSION['Table'];
+//
+//        header("Content-Type: application/json");
+//        echo json_encode(["entityInfo" => $entityInfo]);
+//    }
 
     if(!empty($_GET['sessionMessages'])) {
 

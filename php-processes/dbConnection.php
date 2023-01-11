@@ -1384,10 +1384,6 @@ function returnLanguageList(): array
 
 
             ),
-            "password-reset-validation" => array(
-                "New Password is required" => "New Password is required",
-                "Passwords should match" => "Passwords should match",
-            ),
             "validation-functions" => array(
                 "Client Username is required" => "Client Username is required",
                 "Client Username must be at least 3 characters" => "Client Username must be at least 3 characters",

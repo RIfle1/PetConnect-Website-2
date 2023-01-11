@@ -6,6 +6,15 @@ include 'site-header.php';
 
 $languageList = returnLanguageList()[returnLanguage()]['message-center'];
 $javaScriptLanguageList = returnLanguageList()[returnLanguage()]['message-center-buttons'];
+$sessionMessages = '';
+if($_SESSION['Table'] === 'client') {
+    $sessionMessages = returnSessionMessages($_SESSION['ID']);
+}
+elseif($_SESSION['Table'] === 'admin') {
+    $sessionMessages = returnAllSessionMessages();
+}
+$entityInfo = returnEntityInfo();
+$entityInfo['Table'] = $_SESSION['Table'];
 ?>
 <!doctype html>
 <html lang="en">
@@ -21,6 +30,8 @@ $javaScriptLanguageList = returnLanguageList()[returnLanguage()]['message-center
     let javaScriptLanguageList = <?php echo json_encode($javaScriptLanguageList) ?>;
     let getMessagesMessage = <?php echo json_encode(returnLastMessagesList('message')) ?>;
     let getMessagesResolved = <?php echo json_encode(returnLastMessagesList('resolved')) ?>;
+    let sessionMessagesList = <?php echo json_encode($sessionMessages) ?>;
+    let userInfo = <?php echo json_encode($entityInfo) ?>;
 </script>
 
 <div id="mc-main-body-div" class="text-font-700">

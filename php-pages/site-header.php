@@ -54,7 +54,8 @@ $basketList = returnBasketList();
     </div>
 
     <div id="sih-interaction-main-div">
-        <form id="sih-language-selector" class="text-font-500 sih-interaction-sub-div" method="POST" name="language-form" action="../php-processes/language-process.php">
+        <form id="sih-language-selector" class="text-font-500 sih-interaction-sub-div" method="POST" name="language-form"
+              action="../php-processes/language-process.php?page=<?php echo $_SERVER['SCRIPT_NAME']?>">
             <div id="sih-language-selector-current-div">
                 <span><?php echo strtoupper(substr($language, 0, 2)) ?></span>
                 <img class="sih-interaction-img-2" src="<?php echo getImage($language . 'Flag.png') ?>" alt="EnglishFlag">

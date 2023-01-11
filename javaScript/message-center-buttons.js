@@ -1,8 +1,8 @@
 // CALL JSON FUNCTION TO GET THE DATA ASAP
 // refreshMessagesMessageJson();
-refreshMessagesResolvedJson();
-refreshVolatileJson();
-refreshStaticJson();
+// refreshMessagesResolvedJson();
+// refreshSessionMessagesListJson();
+// refreshStaticJson();
 // refreshLanguageList();
 
     // CONSTANTS FOR MESSAGING SYSTEM
@@ -124,44 +124,44 @@ const leftSideMenuDivClassElement = $("."+leftSideMenuDivClass)
     // STORE JSON INFORMATION
 // let getMessagesMessage;
 // let getMessagesResolved;
-let userInfo;
-let sessionMessagesList;
+// let userInfo;
+// let sessionMessagesList;
 // let language;
 // let javaScriptLanguageList;
+let getMessagesResolvedJsonProcess
 
     // MISC
 const animationSpeed = 500;
 // ---------------------------------------------------------------------------------------------------------
 // INITIALIZE JSONS
 
-    function refreshMessagesMessageJson() {
-        const getMessagesMessageUrl = "../php-processes/message-center-process-admin.php?getMessages=message";
-        $.getJSON(getMessagesMessageUrl, function(json) {
-            getMessagesMessage = json.lastMessagesList
-        })
-    }
+    // function refreshMessagesMessageJson() {
+    //     const getMessagesMessageUrl = "../php-processes/message-center-process-admin.php?getMessages=message";
+    //     $.getJSON(getMessagesMessageUrl, function(json) {
+    //         getMessagesMessage = json.lastMessagesList
+    //     })
+    // }
 
     function refreshMessagesResolvedJson() {
         const getMessagesResolvedUrl = "../php-processes/message-center-process-admin.php?getMessages=resolved";
-        $.getJSON(getMessagesResolvedUrl, function(json) {
+        getMessagesResolvedJsonProcess = $.getJSON(getMessagesResolvedUrl, function(json) {
             getMessagesResolved = json.lastMessagesList
         })
     }
 
-    function refreshVolatileJson() {
+    function refreshSessionMessagesListJson() {
         let getSessionMessagesUrl = "../php-processes/message-center-process.php?sessionMessages=True";
         $.getJSON(getSessionMessagesUrl, function(json) {
             sessionMessagesList = json.sessionMessagesList
         })
     }
 
-    function refreshStaticJson() {
-        const getEntityInfoUrl = "../php-processes/message-center-process.php?userInfo=True";
-        $.getJSON(getEntityInfoUrl, function (json) {
-            userInfo = json.entityInfo
-        })
-    }
-
+    // function refreshStaticJson() {
+    //     const getEntityInfoUrl = "../php-processes/message-center-process.php?userInfo=True";
+    //     $.getJSON(getEntityInfoUrl, function (json) {
+    //         userInfo = json.entityInfo
+    //     })
+    // }
 
     // function refreshLanguageList() {
     //     let languageUrl = "../php-processes/language-list-process.php?file=message-center-buttons"
@@ -422,28 +422,25 @@ function displayMessage(currentUserDivClass, foreignUserDivClass, textDivID, ent
 
         removeTextMessages(currentUserDivClass, foreignUserDivClass);
 
-        setTimeout(() => {
-            let sessionMessages = sessionMessagesList[sesMsgID];
+        let sessionMessages = sessionMessagesList[sesMsgID];
 
-            for (let i = 0; i < sessionMessages.length; i++) {
+        for (let i = 0; i < sessionMessages.length; i++) {
 
+            let sessionMessage = sessionMessages[i]
 
-                let sessionMessage = sessionMessages[i]
+            let msgOwnership = sessionMessage['msgOwnership'];
+            let username = sessionMessage['username'];
+            let msgDate = sessionMessage['msgDate'];
+            let msgMessage = sessionMessage['msgMessage'];
 
-                let msgOwnership = sessionMessage['msgOwnership'];
-                let username = sessionMessage['username'];
-                let msgDate = sessionMessage['msgDate'];
-                let msgMessage = sessionMessage['msgMessage'];
+            const editedMsgDate = getDateAndTime(new Date(msgDate));
 
-                const editedMsgDate = getDateAndTime(new Date(msgDate));
-
-                if (msgOwnership === 'current') {
-                    displayMessage(currentUserDivClass, foreignUserDivClass, textDivID, username, msgMessage, editedMsgDate, 'current')
-                } else if (msgOwnership === 'foreign') {
-                    displayMessage(currentUserDivClass, foreignUserDivClass, textDivID, username, msgMessage, editedMsgDate, 'foreign');
-                }
+            if (msgOwnership === 'current') {
+                displayMessage(currentUserDivClass, foreignUserDivClass, textDivID, username, msgMessage, editedMsgDate, 'current')
+            } else if (msgOwnership === 'foreign') {
+                displayMessage(currentUserDivClass, foreignUserDivClass, textDivID, username, msgMessage, editedMsgDate, 'foreign');
             }
-        }, 400)
+        }
     }
 
 // DISPLAY ACTIVE MESSAGES IN THE ACTIVE MESSAGES TAB AND SET A BUTTON COMMAND FOR EACH
@@ -721,13 +718,19 @@ function displayMessage(currentUserDivClass, foreignUserDivClass, textDivID, ent
                 data: {
                     sesMsgID: markedResolvedValue,
                     markResolved: true,
+                },
+                success: function() {
+                    refreshMessagesResolvedJson();
+                    refreshSessionMessagesListJson();
+                    getMessagesResolvedJsonProcess.always(function() {
+                        displayActives('resolved');
+                    })
                 }
             })
 
             removeTextMessages(messageCurrentUserDivClass, messageForeignUserDivClass);
             removeActiveUserElement(markedResolvedValue, 'message');
         }
-
     })
 
 // DELETE CONVERSATION BUTTON
@@ -755,7 +758,6 @@ function displayMessage(currentUserDivClass, foreignUserDivClass, textDivID, ent
             }
         }
     }
-
 
     function setDeleteConversationButton(buttonElement, type) {
         $(buttonElement).click(function() {
@@ -873,13 +875,11 @@ function displayMessage(currentUserDivClass, foreignUserDivClass, textDivID, ent
             resolvedInputDateStartElement.val('');
             resolvedInputDateEndElement.val('');
 
-            setTimeout(() => {
-                refreshMessagesResolvedJson();
+            refreshMessagesResolvedJson();
+            getMessagesResolvedJsonProcess.always(function() {
                 displayActives('resolved');
-            },100)
-
+            })
         }
-
         resolvedDeleteNotificationSpanElement.text(errorMsg);
     })
 
