@@ -38,7 +38,7 @@ $languageList = returnLanguageList()[returnLanguage()]['home'];
                 <h3 id="iCollar">iCollar</h3>
                 <p id="grey">Le collier connecté pour chien</p>
                 <div>
-                    <a href="boutique.php" class="espace">En savoir plus &gt;</a>
+                    <a href="shop.php" class="espace">En savoir plus &gt;</a>
 
                     <a href="basket.php">Acheter +</a>
                 </div>

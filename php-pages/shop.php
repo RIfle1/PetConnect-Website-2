@@ -8,6 +8,7 @@ include 'site-header.php';
 $languageList = returnLanguageList()[returnLanguage()]['shop'];
 
 $productList = deObjectifyList(returnProductList(''));
+
 ?>
 
 <script>
@@ -36,14 +37,20 @@ $productList = deObjectifyList(returnProductList(''));
 </div>
 
 <?php include '../php-pages/site-footer.php' ?>
+
+<script src="../javaScript/shop-buttons.js"></script>
+
 <script type="text/javascript">
     setMarginTop('sih-main-header', 'id', 'sh-main-body-div', 'id', 40)
 
     // setToWindowHeight('ad-main-body-div', 'id', 0)
     setMarginTopFooter('sh-main-body-div', 'id', 'site-footer-main-div', 'id', 0)
+
+    // IMG STUFF
+    setHeightAndWidth('sh-product-image', 'class', 'sh-product-image-background', 'class', 0)
+    setMargin('sh-product-image', 'class', 'sh-product-image-background', 'class', 0)
 </script>
 
-<script src="../javaScript/shop-buttons.js"></script>
 
 </body>
 </html>

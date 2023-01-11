@@ -5,6 +5,7 @@ clientAndAdminPage();
 include 'site-header.php';
 
 $languageList = returnLanguageList()[returnLanguage()]['message-center'];
+$javaScriptLanguageList = returnLanguageList()[returnLanguage()]['message-center-buttons'];
 ?>
 <!doctype html>
 <html lang="en">
@@ -15,6 +16,12 @@ $languageList = returnLanguageList()[returnLanguage()]['message-center'];
     <title>Message Center</title>
 </head>
 <body>
+
+<script>
+    let javaScriptLanguageList = <?php echo json_encode($javaScriptLanguageList) ?>;
+    let getMessagesMessage = <?php echo json_encode() ?>;
+    let getMessagesResolved = <?php echo json_encode() ?>;
+</script>
 
 <div id="mc-main-body-div" class="text-font-700">
 

@@ -254,12 +254,12 @@ body {
 }
 
 
-.sih-basket-product .sih-product-img-1{
+.sih-basket-product .sih-product-img{
     width: 60px;
     margin-right: 10px;
 }
 
-.sih-basket-product .sih-product-img-2{
+.sih-basket-product .sih-delete-product-img {
     width: 20px;
 
     cursor: pointer;

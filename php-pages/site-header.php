@@ -31,7 +31,6 @@ $basketList = returnBasketList();
     </script>
     <!--    Css Function-->
     <script src="../javaScript/css-functions.js"></script>
-    <title></title>
     <!--    <title>PetConnect</title>-->
 </head>
 
@@ -40,7 +39,6 @@ $basketList = returnBasketList();
 <script>
     let trashImagePath = '<?php echo getImage('trash.png') ?>';
     let basketList = <?php echo json_encode($basketList) ?>;
-
 </script>
 
 <div id="sih-main-header">
@@ -136,7 +134,7 @@ $basketList = returnBasketList();
                         </div>
                         <div class="sih-basket-button-div">
                             <button id="sih-basket-delete-all-button">Delete all items</button>
-                            <button id="sih-basket-checkout-page-button">Go to Checkout Page</button>
+                            <a href="../php-pages/checkout.php"><button id="sih-basket-checkout-page-button">Go to Checkout Page</button></a>
                         </div>
                     </div>
                 <?php endif; ?>
@@ -150,7 +148,7 @@ $basketList = returnBasketList();
     setMarginTop('sih-basket-logo', 'id', 'sih-dropdown-menu-basket', 'id', 10)
 
     setMarginTop('sih-language-selector', 'id', 'sih-language-selector-button-div', 'id', 10)
-    setWidth('language-selector-current-div', 'id', 'sih-language-selector-button-div', 'id', 0)
+    // setWidth('language-selector-current-div', 'id', 'sih-language-selector-button-div', 'id', 0)
 </script>
 
 <script src="../javaScript/site-header-basket.js"></script>

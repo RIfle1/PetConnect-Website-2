@@ -872,7 +872,7 @@ function returnBasketList():array {
         }
         else if(isset($_SESSION['Table']) && $_SESSION['Table'] === 'client') {
             $cltID = $_SESSION['ID'];
-            $getClientBasketListSql = "SELECT Product_prdID AS prdID, prcColor, basID, prdLstID
+            $getClientBasketListSql = "SELECT Product_prdID AS prdID, prcColor, prdLstID
                                    FROM client
                                    INNER JOIN basket b on client.cltID = b.Client_cltID
                                    INNER JOIN product_list pl on b.basID = pl.Basket_basID
@@ -948,6 +948,9 @@ function returnLanguageList(): array
                 "Submit Changes" => "Submit Changes",
             ),
             "assistance" => array(),
+            "checkout" => array(
+                "Checkout" => "Checkout",
+            ),
             "connection-security" => array(
                 "Connection and Security" => "Connection and Security",
                 "Username :" => "Username :",

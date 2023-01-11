@@ -1,28 +1,15 @@
 <?php
 session_start();
-
 if(empty($_GET['prdID'])) {
     header("Location: ../php-pages/restricted-access.php", true, 303);
     exit;
 }
-
 include '../php-processes/dbConnection.php';
 clientAndNoUserPage();
-
-$product = returnProductList('')[$_GET['prdID']];
-
-if($_SERVER['REQUEST_METHOD'] === 'GET' && !empty($_GET['getProduct'])) {
-    header("Content-Type: application/json");
-    echo json_encode(['productJson' => $product]);
-    exit;
-}
-
 include 'site-header.php';
 
 $languageList = returnLanguageList()[returnLanguage()]['shop'];
-
-
-
+$product = returnProductList('')[$_GET['prdID']];
 $productPriceInt = returnProductIntPrice($product['prdPrice']);
 $productPriceDecimal = returnProductDecimalPrice($product['prdPrice']);
 ?>

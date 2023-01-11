@@ -5,6 +5,7 @@ clientAndAdminPage();
 include 'site-header.php';
 
 $languageList = returnLanguageList()[returnLanguage()]['connection-security'];
+$javaScriptLanguageList = returnLanguageList()[returnLanguage()]['connection-security-buttons'];
 
 ?>
 
@@ -20,6 +21,10 @@ $languageList = returnLanguageList()[returnLanguage()]['connection-security'];
     <title>Connection and Security</title>
 </head>
 <body>
+
+<script>
+    let javaScriptLanguageList = <?php echo json_encode($javaScriptLanguageList) ?>
+</script>
 
 <div id="cs-form-body" class="text-font-500">
     <div id="cs-form-body-div">

@@ -8,26 +8,28 @@ const mainDivElement = $("#"+mainDivID);
 // VOLATILE BUTTON IDS
 const addToCartButtonCommonID = "sh-add-to-cart-button"
 
-Object.entries(productList).forEach(displayShopProduct)
+productList.forEach(displayShopProduct)
 
-function displayShopProduct(key) {
-    let prdID = key[1]['prdID'];
-    let prdName = key[1]['prdName'];
+function displayShopProduct(value) {
+    let prdID = value['prdID'];
+    let prdName = value['prdName'];
 
-    let prdPrice = key[1]['prdPrice'];
+    let prdPrice = value['prdPrice'];
     let prdPriceInt = prdPrice.substring(0, prdPrice.length - 3)
     let prdPriceDecimal = prdPrice.substring(prdPrice.length - 2, prdPrice.length)
 
-    let prdReleaseDate = key[1]['prdReleaseDate'];
-    let prdImgPath = Object.values(key[1]['prdImg'])[0];
-    key[1]['prcColor'] = Object.keys(key[1]['prdImg'])[0];
+    let prdReleaseDate = value['prdReleaseDate'];
+    let prdImgPath = Object.values(value['prdImg'])[0];
+
+    value['prcColor'] = Object.keys(value['prdImg'])[0];
 
     let addToCartButtonID = addToCartButtonCommonID+"-"+generateString(5);
 
     let productHtml =
         "<div class='sh-product-div'>\n" +
         `                <a class='sh-product-image-div sh-href-container' href='../php-pages/product.php?prdID=${prdID}'>\n` +
-        `                    <img src='${prdImgPath}' alt='product image'>\n` +
+        `                    <img class='sh-product-image' src='${prdImgPath}' alt='product image'>\n` +
+        `                    <div class='sh-product-image-background'><span>Click for More Info</span></div>\n` +
         "                </a>\n" +
         "                <div class='sh-product-info-div'>\n" +
         `                    <a class='sh-info-name sh-href-container' href='../php-pages/product.php?prdID=${prdID}'>\n` +
@@ -51,5 +53,5 @@ function displayShopProduct(key) {
 
     mainDivElement.append(productHtml);
     let addToCartButtonElement = $("#"+addToCartButtonID);
-    setAddToCartButton(addToCartButtonElement, key);
+    setAddToCartButton(addToCartButtonElement, value);
 }

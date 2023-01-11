@@ -3,7 +3,7 @@ refreshMessagesMessageJson();
 refreshMessagesResolvedJson();
 refreshVolatileJson();
 refreshStaticJson();
-refreshLanguageList();
+// refreshLanguageList();
 
     // CONSTANTS FOR MESSAGING SYSTEM
 // VOLATILE BUTTONS / DIVS / SPANS
@@ -122,12 +122,12 @@ const mainDivClassElement = $("."+mainDivClass);
 const leftSideMenuDivClassElement = $("."+leftSideMenuDivClass)
 
     // STORE JSON INFORMATION
-let getMessagesMessage;
-let getMessagesResolved;
+// let getMessagesMessage;
+// let getMessagesResolved;
 let userInfo;
 let sessionMessagesList;
 // let language;
-let languageList;
+// let javaScriptLanguageList;
 
     // MISC
 const animationSpeed = 500;
@@ -163,15 +163,12 @@ const animationSpeed = 500;
     }
 
 
-
-function refreshLanguageList() {
-    let languageUrl = "../php-processes/language-list-process.php?file=message-center-buttons"
-    $.getJSON(languageUrl, function(json) {
-        // language = json.language;
-        // languageList = returnLanguageList()[language]['message-center-buttons'];
-        languageList = json.languageList;
-    })
-}
+    // function refreshLanguageList() {
+    //     let languageUrl = "../php-processes/language-list-process.php?file=message-center-buttons"
+    //     $.getJSON(languageUrl, function(json) {
+    //         javaScriptLanguageList = json.languageList;
+    //     })
+    // }
 
 // ---------------------------------------------------------------------------------------------------------
 // FUNCTIONALITY FUNCTIONS
@@ -288,7 +285,7 @@ function refreshLanguageList() {
 
         let mainDivClassElementObserver = new ResizeObserver(() => {
             if(mainDivClassElement.width() < 650) {
-                if(typeof(languageList) !== "undefined") {
+                if(typeof(javaScriptLanguageList) !== "undefined") {
 
                     if(messageShowHideButtonElement.attr("name") === 'Hide') {
                         messageShowHideButtonElement.trigger('click');
@@ -589,7 +586,7 @@ function displayMessage(currentUserDivClass, foreignUserDivClass, textDivID, ent
 
                     const messageHtml =
                         "<button value=" + ID + " id=" + buttonID + " class=" + buttonClass + ">\n" +
-                        "                    <span id =" + activeOwnerID + "  class=" + activeOwnerClass + ">"+languageList['Message Owner:']+" "+ cltUsername + "</span>\n" +
+                        "                    <span id =" + activeOwnerID + "  class=" + activeOwnerClass + ">"+javaScriptLanguageList['Message Owner:']+" "+ cltUsername + "</span>\n" +
                         "                    <div class=\"mc-message-active-separation-line\"></div>\n" +
                         "                    <span id =" + activeUsernameID + " class=" + activeUsernameClass + ">" + username + "</span>\n" +
                         "                    <span id =" + activeShortMessageID + " class=" + activeShortMessageClass + ">" + msgShortMessage + "</span>\n" +
@@ -599,10 +596,10 @@ function displayMessage(currentUserDivClass, foreignUserDivClass, textDivID, ent
 
                     const resolvedHtml =
                         "<button value=" + ID + " id=" + buttonID + " class=" + buttonClass + ">\n" +
-                        "                    <span id =" + activeOwnerID + "  class=" + activeOwnerClass + ">"+languageList['Message Owner:']+" "+ cltUsername + "</span>\n" +
+                        "                    <span id =" + activeOwnerID + "  class=" + activeOwnerClass + ">"+javaScriptLanguageList['Message Owner:']+" "+ cltUsername + "</span>\n" +
                         "                    <div class=\"mc-message-active-separation-line\"></div>\n" +
-                        "                    <span id =" + activeTimeID + " class=" + activeOwnerClass + ">"+languageList['Start Date:']+" "+ editedSesMsgStartDate + "</span>\n" +
-                        "                    <span id =" + activeTimeID + " class=" + activeOwnerClass + ">"+languageList['End Date:']+" "+ editedSesMsgEndDate + "</span>\n" +
+                        "                    <span id =" + activeTimeID + " class=" + activeOwnerClass + ">"+javaScriptLanguageList['Start Date:']+" "+ editedSesMsgStartDate + "</span>\n" +
+                        "                    <span id =" + activeTimeID + " class=" + activeOwnerClass + ">"+javaScriptLanguageList['End Date:']+" "+ editedSesMsgEndDate + "</span>\n" +
                         "                </button>"
 
                     if (message) {
@@ -690,7 +687,7 @@ function displayMessage(currentUserDivClass, foreignUserDivClass, textDivID, ent
             // }
             // catch(err) {}
 
-            buttonElement.text(languageList[buttonShowText])
+            buttonElement.text(javaScriptLanguageList[buttonShowText])
 
             leftSideMenuElement.animate({
                 width: '0px',
@@ -704,7 +701,7 @@ function displayMessage(currentUserDivClass, foreignUserDivClass, textDivID, ent
             //     buttonElement.text(languageList[buttonShowText]);
             // } catch(err) {}
 
-            buttonElement.text(languageList[buttonHideText]);
+            buttonElement.text(javaScriptLanguageList[buttonHideText]);
 
             leftSideMenuElement.animate({
                 width: '283px',
@@ -782,13 +779,13 @@ function displayMessage(currentUserDivClass, foreignUserDivClass, textDivID, ent
         let resolvedSelectIntervalValue = resolvedSelectIntervalElement.val();
 
         if(resolvedSelectIntervalValue === "before" || resolvedSelectIntervalValue === "after") {
-            resolvedInputLabelStartElement.text( languageList["Select Date:"]);
+            resolvedInputLabelStartElement.text( javaScriptLanguageList["Select Date:"]);
 
             resolvedInputLabelEndElement.css("display", "none");
             resolvedInputDateEndElement.css("display", "none");
         }
         else if(resolvedSelectIntervalValue === "between") {
-            resolvedInputLabelStartElement.text( languageList["Select Start Date:"]);
+            resolvedInputLabelStartElement.text( javaScriptLanguageList["Select Start Date:"]);
 
             resolvedInputLabelEndElement.css("display", "block");
             resolvedInputDateEndElement.css("display", "block");
@@ -820,14 +817,14 @@ function displayMessage(currentUserDivClass, foreignUserDivClass, textDivID, ent
                 endDate = resolvedInputDateStartValue;
                 startDate = new Date('0-0-0');
                 errorMsg =
-                    languageList["Resolved messages before"]
+                    javaScriptLanguageList["Resolved messages before"]
                     +" "+getDateAndTime(new Date(resolvedInputDateStartValue))
-                    +" "+languageList["have been deleted."]
+                    +" "+javaScriptLanguageList["have been deleted."]
 
                 ajax = true;
             }
             else {
-                errorMsg = languageList['Please input a Date.'];
+                errorMsg = javaScriptLanguageList['Please input a Date.'];
             }
 
         }
@@ -836,14 +833,14 @@ function displayMessage(currentUserDivClass, foreignUserDivClass, textDivID, ent
                 startDate = resolvedInputDateStartValue;
                 endDate = getDateAndTimeDB(new Date());
                 errorMsg =
-                    languageList["Resolved messages after"]
+                    javaScriptLanguageList["Resolved messages after"]
                     +" "+getDateAndTime(new Date(resolvedInputDateStartValue))
-                    +" "+languageList["have been deleted."]
+                    +" "+javaScriptLanguageList["have been deleted."]
 
                 ajax = true;
             }
             else {
-                errorMsg = languageList['Please input a Date.'];
+                errorMsg = javaScriptLanguageList['Please input a Date.'];
             }
         }
         else if(resolvedSelectIntervalValue === 'between') {
@@ -851,15 +848,15 @@ function displayMessage(currentUserDivClass, foreignUserDivClass, textDivID, ent
                 startDate = resolvedInputDateStartValue;
                 endDate = resolvedInputDateEndValue;
                 errorMsg =
-                    languageList["Resolved messages between"]
+                    javaScriptLanguageList["Resolved messages between"]
                     +" "+getDateAndTime(new Date(resolvedInputDateStartValue))
-                    +" "+languageList["and"]
+                    +" "+javaScriptLanguageList["and"]
                     +" "+getDateAndTime(new Date(resolvedInputDateEndValue))
-                    +" "+languageList["have been deleted."]
+                    +" "+javaScriptLanguageList["have been deleted."]
                 ajax = true;
             }
             else {
-                errorMsg = languageList['Please input a Start Date and an End Date.'];
+                errorMsg = javaScriptLanguageList['Please input a Start Date and an End Date.'];
             }
         }
 

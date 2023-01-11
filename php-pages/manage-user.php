@@ -11,6 +11,7 @@ $clientInfo = "";
 $adminInfo = "";
 
 $languageList = returnLanguageList()[returnLanguage()]['manage-user'];
+$javaScriptLanguageList = returnLanguageList()[returnLanguage()]['manage-user-buttons'];
 
 ?>
 <!doctype html>
@@ -21,6 +22,10 @@ $languageList = returnLanguageList()[returnLanguage()]['manage-user'];
     <title>User Management</title>
 </head>
 <body>
+
+<script>
+    let javaScriptLanguageList = <?php echo json_encode($javaScriptLanguageList) ?>
+</script>
 
 <div id="mg-main-div" class="text-font-700">
 

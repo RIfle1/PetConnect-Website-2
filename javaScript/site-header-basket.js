@@ -31,18 +31,23 @@ const basketCountSpanElement = $("#"+basketCountSpanID);
 const basketDeleteAllButtonElement = $("#"+basketDeleteAllButtonID);
 
 // VOLATILE BUTTON IDS
-const basketDeleteItemImgCommonID = 'sih-delete-item-img'
+const basketDeleteItemImgClass = 'sih-delete-product-img'
 
 // VOLATILE SPAN CLASSES
 const priceSpanClass = "sih-price-span";
 
-// VARIABLE TO CHECK WHEN displayBasketProduct is done
+// VARIABLE TO CHECK WHEN displayProduct is done
 let basketListLength = basketList.length;
 let productsDisplayed = 0;
 let basketTotal = 0;
 
 if(basketList.length > 0) {
-    Object.entries(basketList).forEach(displayBasketProduct);
+    basketList.forEach(function(value) {
+        displayProduct(value,
+            basketProductDivElement,
+            basketDeleteItemImgClass,
+            basketProductClass)
+    });
 }
 
 checkBasketContents();
@@ -65,10 +70,10 @@ function checkBasketContents() {
     }
 }
 
-function updateBasketTotal(key) {
+function updateBasketTotal(value) {
     productsDisplayed ++;
 
-    let prdPrice = key[1]['prdPrice'];
+    let prdPrice = value['prdPrice'];
     basketTotal += parseFloat(prdPrice);
 
 
@@ -77,18 +82,18 @@ function updateBasketTotal(key) {
     }
 }
 
-function onClickDeleteItemImg(deleteItemImgElement, basketProductElement, key, prdLstID) {
-    let prdID = key[1]['prdID'];
-    let prcColor = key[1]['prcColor'];
+function onClickDeleteItemImg(deleteItemImgElement, productElement, value) {
+    let prdID = value['prdID'];
+    let prcColor = value['prcColor'];
+    let prdLstID = value['prdLstID'];
 
-    // DELETE ELEMENT FROM PAGE
-    basketProductElement.remove();
+    // DELETE ELEMENT FROM BASKET AND CHECKOUT
+    let commonProductElement = $(`div [id*='${prdLstID}']`)
+    commonProductElement.remove();
 
     // DELETE ELEMENT FROM GLOBAL ARRAY BASKET LIST
-    let removeItem = true;
     basketList.forEach(function(item, index) {
-        if (item['prdID'] === prdID  && removeItem) {
-            removeItem = false;
+        if (item['prdLstID'] === prdLstID) {
             basketList.splice(index, 1);
         }
     })
@@ -114,31 +119,43 @@ function onClickDeleteItemImg(deleteItemImgElement, basketProductElement, key, p
     basketTotal = 0;
 
     // RECALCULATE TOTAL PRICE
-    Object.entries(basketList).forEach(updateBasketTotal);
+    basketList.forEach(updateBasketTotal);
 }
 
-function onClickAddToCartButton(addToCartButtonElement, key) {
-    let prdID = key[1]['prdID'];
-    let prcColor = key[1]['prcColor'];
+function onClickAddToCartButton(addToCartButtonElement, value) {
+    let prdID = value['prdID'];
+    let prcColor = value['prcColor'];
 
     let buyAmount = 1;
     let prdLstIDList = []
 
-    if(typeof(key[1]['buyAmount']) !== 'undefined') {
-        buyAmount = key[1]['buyAmount'];
+    if(typeof(value['buyAmount']) !== 'undefined') {
+        buyAmount = value['buyAmount'];
     }
 
     for(let i = 0; i < buyAmount; i++) {
         // APPEND prdLstID TO THE NEW ARRAY
         let prdLstID = autoSetID('prdLst')
         prdLstIDList.push(prdLstID);
-        key[1]['prdLstID']= prdLstID;
 
-        // ADD ELEMENT TO BASKET PAGE
-        displayBasketProduct(key);
+        let newValue = {
+            prdID: prdID,
+            prcColor: prcColor,
+            prdLstID: prdLstID,
+            prdName: value['prdName'],
+            prdPrice: value['prdPrice'],
+            prdReleaseDate: value['prdReleaseDate'],
+            prdImg: value['prdImg'],
+        }
+
+        // ADD ELEMENT TO BASKET DIV
+        displayProduct(newValue,
+            basketProductDivElement,
+            basketDeleteItemImgClass,
+            basketProductClass);
 
         // ADD ELEMENT TO BASKET LIST
-        basketList.push(key[1]);
+        basketList.push(newValue);
 
         // RESET GLOBAL VARIABLES
         basketListLength = basketList.length;
@@ -146,13 +163,12 @@ function onClickAddToCartButton(addToCartButtonElement, key) {
         basketTotal = 0;
 
         // RECALCULATE TOTAL PRICE
-        Object.entries(basketList).forEach(updateBasketTotal);
+        basketList.forEach(updateBasketTotal);
 
         checkBasketContents();
-
-        // ADD ELEMENT TO DATABASE / COOKIE
     }
 
+    // ADD ELEMENT TO DATABASE / COOKIE
     let addToCartUrl = "../php-processes/shop-processes.php"
     $.ajax({
         type: "POST",
@@ -166,15 +182,15 @@ function onClickAddToCartButton(addToCartButtonElement, key) {
     })
 }
 
-function setAddToCartButton(addToCartButtonElement, key) {
+function setAddToCartButton(addToCartButtonElement, value) {
     addToCartButtonElement.click(function() {
-        onClickAddToCartButton(addToCartButtonElement, key)
+        onClickAddToCartButton(addToCartButtonElement, value)
     })
 }
 
-function setDeleteItemImg(deleteItemImgElement, basketProductElement, key, prdLstID) {
+function setDeleteItemImg(deleteItemImgElement, productElement, value) {
     deleteItemImgElement.click(function() {
-        onClickDeleteItemImg(deleteItemImgElement, basketProductElement, key, prdLstID)
+        onClickDeleteItemImg(deleteItemImgElement, productElement, value)
     })
 }
 
@@ -203,7 +219,7 @@ function onClickBasketDeleteAllButton() {
     basketTotal = 0;
 
     // RECALCULATE TOTAL PRICE
-    Object.entries(basketList).forEach(updateBasketTotal);
+    basketList.forEach(updateBasketTotal);
 }
 
 function setBasketDeleteAllButton(deleteAllButtonElement) {
@@ -212,43 +228,85 @@ function setBasketDeleteAllButton(deleteAllButtonElement) {
     })
 }
 
-function displayBasketProduct(key) {
+function returnProductDivHtml(productID, productClass, prdPath, prdName,
+                              prdPriceInt, prdPriceDecimal, deleteItemImgID, deleteItemImgClass, type) {
+    if(type === 'basket') {
+        return         `                <div id='${productID}' class='${productClass}'>\n` +
+            `                    <img class='sih-product-img' src='${prdPath}' alt='img'>\n` +
+            `                    <span id="sih-product-name-span">${prdName}</span>\n` +
+            "                    <div class='sih-product-price-div text-font-700'>\n" +
+            `                        <span>${prdPriceInt}€</span><span id='sih-price-span-decimal'>${prdPriceDecimal}</span>\n` +
+            "                    </div>\n" +
+            `                    <img id='${deleteItemImgID}' class='${deleteItemImgClass}' src='${trashImagePath}' alt='trash'>\n` +
+            "                </div>"
+    }
+    else if(type === 'checkout') {
+        return         `        <div id='${productID}' class='${productClass}'>\n` +
+            "            <a class='ch-product-image-div ch-href-container' href='../php-pages/shop.php'>\n" +
+            `                <img class='ch-product-image' src='${prdPath}' alt='product image'>\n` +
+            "            </a>\n" +
+            "            <div class='ch-product-info-div'>\n" +
+            "                <a class='ch-info-name ch-href-container' href='../php-pages/shop.php'>\n" +
+            `                    <span>${prdName}</span>\n` +
+            "                </a>\n" +
+            "                <div class='ch-info-description text-font-300'>\n" +
+            "                    <p>\n" +
+            "                        GPS Location, Heart sensor, Thermal Sensor, Sound Sensor, CO2 Rate (ADD TO DB)\n" +
+            "                    </p>\n" +
+            "                </div>\n" +
+            "            </div>\n" +
+            "            <div class='ch-price-button-div'>\n" +
+            "                <div class='ch-price-div'>\n" +
+            `                    <span class='ch-price-span-1'>${prdPriceInt}€</span><span class='ch-price-span-2'>${prdPriceDecimal}</span>\n` +
+            "                </div>\n" +
+            "                <div class='ch-button-div'>\n" +
+            `                    <img id='${deleteItemImgID}' class='${deleteItemImgClass}' src='${trashImagePath}' alt='trash'>\n` +
+            "                </div>\n" +
+            "            </div>\n" +
+            "        </div>"
+    }
+
+}
+
+function displayProduct(value, mainProductDivElement, deleteItemImgClass, productClass) {
     productsDisplayed ++;
 
-    let prdLstID = key[1]['prdLstID']
-    let prcColor = key[1]['prcColor']
+    let prdLstID = value['prdLstID'];
+    let prcColor = value['prcColor']
+    let prdName = value['prdName'];
 
-    let prdName = key[1]['prdName'];
-
-    let prdPrice = key[1]['prdPrice'];
+    let prdPrice = value['prdPrice'];
     let prdPriceInt = returnFormattedValueFromString(prdPrice, 'int');
     let prdPriceDecimal = returnFormattedValueFromString(prdPrice, 'decimal');
 
-    let prdReleaseDate = key[1]['prdReleaseDate'];
-    let prdPath = key[1]['prdImg'][prcColor];
+    let prdReleaseDate = value['prdReleaseDate'];
+    let prdPath = value['prdImg'][prcColor];
 
-    let deleteItemImgID = basketDeleteItemImgCommonID+"-"+generateString(5)
-    let basketProductDivID = basketProductClass+"-"+generateString(5)
+    let deleteItemImgID = deleteItemImgClass+"-"+prdLstID
+    let productID = productClass+"-"+prdLstID
 
-    let basketProductDiv =
-        `                <div id='${basketProductDivID}' class='${basketProductClass}'>\n` +
-        `                    <img class='sih-product-img-1' src='${prdPath}' alt='img'>\n` +
-        `                    <span id="sih-product-name-span">${prdName}</span>\n` +
-        "                    <div class='sih-product-price-div text-font-700'>\n" +
-        `                        <span>${prdPriceInt}€</span><span id='sih-price-span-decimal'>${prdPriceDecimal}</span>\n` +
-        "                    </div>\n" +
-        `                    <img id='${deleteItemImgID}' class='sih-product-img-2' src='${trashImagePath}' alt='trash'>\n` +
-        "                </div>"
+    let type;
+
+    // CHECK WHICH TYPE TO GET THE RIGHT HTML CODE
+    if (mainProductDivElement === basketProductDivElement) {
+        type = 'basket';
+    }
+    else if (mainProductDivElement === checkoutProductDivElement) {
+        type = 'checkout';
+    }
+
+    // GET THE HTML CODE
+    let productDivHtml = returnProductDivHtml(productID, productClass, prdPath, prdName,
+        prdPriceInt, prdPriceDecimal, deleteItemImgID, deleteItemImgClass, type)
 
 
-
-
-    basketProductDivElement.append(basketProductDiv);
+    mainProductDivElement.append(productDivHtml);
 
     let deleteItemImgElement = $("#"+deleteItemImgID);
-    let basketProductElement = $("#"+basketProductDivID);
+    let productElement = $("#"+productID);
 
-    setDeleteItemImg(deleteItemImgElement, basketProductElement, key, prdLstID);
+    // SET DELETE ITEM IMG
+    setDeleteItemImg(deleteItemImgElement, productElement, value);
 
     basketTotal += parseFloat(prdPrice);
 

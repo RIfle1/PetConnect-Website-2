@@ -24,7 +24,8 @@ if(isset($clientLoggedIn) || isset($loggedIn)) {
 
                 // CHECK IF THERE ARE ANY PRODUCTS LEFT IN PRODUCT LIST
                 $checkProductListSql = "SELECT * FROM product_list WHERE Basket_basID = '".$cltID."'";
-                if(mysqli_num_rows(runSQLResult($checkProductListSql)) > 0) {
+
+                if(mysqli_num_rows(runSQLResult($checkProductListSql)) === 0) {
                     $removeBasketSql = "DELETE FROM basket WHERE basID = '".$cltID."'";
                     runSQLResult($removeBasketSql);
                 }

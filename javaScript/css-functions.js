@@ -20,7 +20,81 @@ function setWidth(fromElementID, fromElementIDType, toElementID, toElementIDType
     toElement.css("width", fromElementWidth+extraPx+"px");
 
     $(window).on("resize", function() {
+        let fromElementWidth = fromElement.width();
         toElement.css("width", fromElementWidth+extraPx+"px");
+    })
+
+}
+
+function setHeight(fromElementID, fromElementIDType, toElementID, toElementIDType, extraPx) {
+
+    let fromElement = getElement(fromElementID, fromElementIDType)
+    let toElement = getElement(toElementID, toElementIDType)
+
+    let fromElementHeight = fromElement.height();
+    toElement.css("height", fromElementHeight+extraPx+"px");
+
+    $(window).on("resize", function() {
+        let fromElementHeight = fromElement.height();
+        toElement.css("height", fromElementHeight+extraPx+"px");
+    })
+
+}
+
+function setHeightAndWidth(fromElementID, fromElementIDType, toElementID, toElementIDType, extraPx) {
+
+    let fromElement = getElement(fromElementID, fromElementIDType)
+    let toElement = getElement(toElementID, toElementIDType)
+
+    let fromElementHeight = fromElement.height();
+    let fromElementWidth = fromElement.width();
+
+    toElement.css({
+        "height": fromElementHeight+extraPx+"px",
+        "width": fromElementWidth+extraPx+"px",
+    });
+
+    setTimeout(() => {
+        let fromElementHeight = fromElement.height();
+        let fromElementWidth = fromElement.width();
+        toElement.css({
+            "height": fromElementHeight+extraPx+"px",
+            "width": fromElementWidth+extraPx+"px",
+        });
+    }, 100)
+
+    $(window).on("resize", function() {
+        let fromElementHeight = fromElement.height();
+        let fromElementWidth = fromElement.width();
+        toElement.css({
+            "height": fromElementHeight+extraPx+"px",
+            "width": fromElementWidth+extraPx+"px",
+        });
+    })
+
+}
+
+function setMargin(fromElementID, fromElementIDType, toElementID, toElementIDType, extraPx) {
+
+    let fromElement = getElement(fromElementID, fromElementIDType)
+    let toElement = getElement(toElementID, toElementIDType)
+
+    let fromElementMargin = parseInt(fromElement.css("margin").replace("px", ""));
+    toElement.css({
+        "margin": fromElementMargin+extraPx+"px",
+    });
+
+    setTimeout(() => {
+        toElement.css({
+            "margin": fromElementMargin+extraPx+"px",
+        });
+    }, 100)
+
+    $(window).on("resize", function() {
+        let fromElementMargin = parseInt(fromElement.css("margin").replace("px", ""));
+        toElement.css({
+            "margin": fromElementMargin+extraPx+"px",
+        });
     })
 
 }
@@ -154,8 +228,6 @@ function returnFormattedValueFromNumber(value, toType) {
         return valueStr.substring(valueStr.length - 2, valueStr.length)
     }
 }
-
-
 
 function generateString(length) {
     const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
