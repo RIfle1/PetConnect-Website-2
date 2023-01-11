@@ -19,8 +19,8 @@ $javaScriptLanguageList = returnLanguageList()[returnLanguage()]['message-center
 
 <script>
     let javaScriptLanguageList = <?php echo json_encode($javaScriptLanguageList) ?>;
-    let getMessagesMessage = <?php echo json_encode() ?>;
-    let getMessagesResolved = <?php echo json_encode() ?>;
+    let getMessagesMessage = <?php echo json_encode(returnLastMessagesList('message')) ?>;
+    let getMessagesResolved = <?php echo json_encode(returnLastMessagesList('resolved')) ?>;
 </script>
 
 <div id="mc-main-body-div" class="text-font-700">

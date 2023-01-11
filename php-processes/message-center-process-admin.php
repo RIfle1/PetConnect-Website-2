@@ -9,6 +9,12 @@ $loggedIn = $_SESSION['loggedIn'];
 onlyAdminPage();
 
 if($_SERVER['REQUEST_METHOD'] === 'GET') {
+    if(!empty($_GET['getMessages'])) {
+        header("Content-Type: application/json");
+        echo json_encode(["lastMessagesList" => returnLastMessagesList($_GET['getMessages'])]);
+    }
+
+
     if(!empty($_GET['getMessages']) && $_GET['getMessages'] === 'message') {
         $getActiveMessagesSql = "SELECT DISTINCT cltID, cltUsername FROM client
                              INNER JOIN client_message cm on client.cltID = cm.Client_cltID
@@ -42,7 +48,6 @@ if($_SERVER['REQUEST_METHOD'] === 'GET') {
         header("Content-Type: application/json");
         echo json_encode(["lastMessagesList" => $activeMessagesList]);
     }
-
     if(!empty($_GET['getMessages']) && $_GET['getMessages'] === 'resolved') {
         $getResolvedMessagesSql = "SELECT DISTINCT sesMsgID, sesMsgStartDate ,sesMsgEndDate, cltUsername  FROM session_message 
                                    LEFT JOIN client_message cm on session_message.sesMsgID = cm.Session_Message_sesMsgID

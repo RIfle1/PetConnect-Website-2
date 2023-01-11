@@ -1,5 +1,5 @@
 // CALL JSON FUNCTION TO GET THE DATA ASAP
-refreshMessagesMessageJson();
+// refreshMessagesMessageJson();
 refreshMessagesResolvedJson();
 refreshVolatileJson();
 refreshStaticJson();
@@ -443,7 +443,7 @@ function displayMessage(currentUserDivClass, foreignUserDivClass, textDivID, ent
                     displayMessage(currentUserDivClass, foreignUserDivClass, textDivID, username, msgMessage, editedMsgDate, 'foreign');
                 }
             }
-        }, 200)
+        }, 400)
     }
 
 // DISPLAY ACTIVE MESSAGES IN THE ACTIVE MESSAGES TAB AND SET A BUTTON COMMAND FOR EACH
@@ -512,124 +512,122 @@ function displayMessage(currentUserDivClass, foreignUserDivClass, textDivID, ent
 
         let lastMessagesList
 
-        setTimeout(() => {
+        if (message) {
+            lastMessagesList = getMessagesMessage;
+        } else if (resolved) {
+            lastMessagesList = getMessagesResolved;
+        }
+
+        if (lastMessagesList.length > 0) {
+            // DISPLAY FIRST CLIENT MESSAGE SESSION BY DEFAULT
+            let firstID;
+
             if (message) {
-                lastMessagesList = getMessagesMessage;
+                firstID = lastMessagesList[0]['cltID'];
             } else if (resolved) {
-                lastMessagesList = getMessagesResolved;
+                firstID = lastMessagesList[0]['sesMsgID'];
             }
 
-            if (lastMessagesList.length > 0) {
-                // DISPLAY FIRST CLIENT MESSAGE SESSION BY DEFAULT
-                let firstID;
+            displaySessionMessages(firstID, textDivID, currentUserDivClass, foreignUserDivClass)
+
+            // SET BUTTONS VALUES
+            setButtonValues(type, firstID)
+
+            for (let i = 0; i < lastMessagesList.length; i++) {
+                const lastMessage = lastMessagesList[i];
+                let buttonID;
+                let activeOwnerID;
+                let activeUsernameID;
+                let activeShortMessageID;
+                let activeTimeID;
+
+                let ID;
+
+                let username;
+                let msgMessage;
+                let msgShortMessage;
+                let msgDate;
+                let editedMsgDate;
+
+                let sesMsgEndDate
+                let sesMsgStartDate
+                let editedSesMsgEndDate
+                let editedSesMsgStartDate
 
                 if (message) {
-                    firstID = lastMessagesList[0]['cltID'];
+                    ID = lastMessage['cltID'];
+                    username = lastMessage['username'];
+
+                    msgMessage = lastMessage['msgMessage'];
+                    msgShortMessage = returnShortMessage(msgMessage);
+
+                    msgDate = lastMessage['msgDate'];
+                    editedMsgDate = getDateAndTime(new Date(msgDate));
+
                 } else if (resolved) {
-                    firstID = lastMessagesList[0]['sesMsgID'];
+                    ID = lastMessage['sesMsgID'];
+                    sesMsgEndDate = lastMessage['sesMsgEndDate'];
+                    sesMsgStartDate = lastMessage['sesMsgStartDate'];
+                    editedSesMsgEndDate = getDateAndTime(new Date(sesMsgEndDate));
+                    editedSesMsgStartDate = getDateAndTime(new Date(sesMsgStartDate));
                 }
 
-                displaySessionMessages(firstID, textDivID, currentUserDivClass, foreignUserDivClass)
 
-                // SET BUTTONS VALUES
-                setButtonValues(type, firstID)
-
-                for (let i = 0; i < lastMessagesList.length; i++) {
-                    const lastMessage = lastMessagesList[i];
-                    let buttonID;
-                    let activeOwnerID;
-                    let activeUsernameID;
-                    let activeShortMessageID;
-                    let activeTimeID;
-
-                    let ID;
-
-                    let username;
-                    let msgMessage;
-                    let msgShortMessage;
-                    let msgDate;
-                    let editedMsgDate;
-
-                    let sesMsgEndDate
-                    let sesMsgStartDate
-                    let editedSesMsgEndDate
-                    let editedSesMsgStartDate
-
-                    if (message) {
-                        ID = lastMessage['cltID'];
-                        username = lastMessage['username'];
-
-                        msgMessage = lastMessage['msgMessage'];
-                        msgShortMessage = returnShortMessage(msgMessage);
-
-                        msgDate = lastMessage['msgDate'];
-                        editedMsgDate = getDateAndTime(new Date(msgDate));
-
-                    } else if (resolved) {
-                        ID = lastMessage['sesMsgID'];
-                        sesMsgEndDate = lastMessage['sesMsgEndDate'];
-                        sesMsgStartDate = lastMessage['sesMsgStartDate'];
-                        editedSesMsgEndDate = getDateAndTime(new Date(sesMsgEndDate));
-                        editedSesMsgStartDate = getDateAndTime(new Date(sesMsgStartDate));
-                    }
+                const cltUsername = lastMessage['cltUsername'];
 
 
-                    const cltUsername = lastMessage['cltUsername'];
+                buttonID = buttonClass + "-" + ID;
+                activeOwnerID = activeOwnerClass + "-" + ID;
+                activeUsernameID = activeUsernameClass + "-" + ID;
+                activeShortMessageID = activeShortMessageClass + "-" + ID;
+                activeTimeID = activeTimeClass + "-" + ID;
 
 
-                    buttonID = buttonClass + "-" + ID;
-                    activeOwnerID = activeOwnerClass + "-" + ID;
-                    activeUsernameID = activeUsernameClass + "-" + ID;
-                    activeShortMessageID = activeShortMessageClass + "-" + ID;
-                    activeTimeID = activeTimeClass + "-" + ID;
+                const messageHtml =
+                    "<button value=" + ID + " id=" + buttonID + " class=" + buttonClass + ">\n" +
+                    "                    <span id =" + activeOwnerID + "  class=" + activeOwnerClass + ">"+javaScriptLanguageList['Message Owner:']+" "+ cltUsername + "</span>\n" +
+                    "                    <div class=\"mc-message-active-separation-line\"></div>\n" +
+                    "                    <span id =" + activeUsernameID + " class=" + activeUsernameClass + ">" + username + "</span>\n" +
+                    "                    <span id =" + activeShortMessageID + " class=" + activeShortMessageClass + ">" + msgShortMessage + "</span>\n" +
+                    "                    <div class=\"mc-message-active-separation-line\"></div>\n" +
+                    "                    <span id =" + activeTimeID + " class=" + activeTimeClass + ">" + editedMsgDate + "</span>\n" +
+                    "                </button>"
 
+                const resolvedHtml =
+                    "<button value=" + ID + " id=" + buttonID + " class=" + buttonClass + ">\n" +
+                    "                    <span id =" + activeOwnerID + "  class=" + activeOwnerClass + ">"+javaScriptLanguageList['Message Owner:']+" "+ cltUsername + "</span>\n" +
+                    "                    <div class=\"mc-message-active-separation-line\"></div>\n" +
+                    "                    <span id =" + activeTimeID + " class=" + activeOwnerClass + ">"+javaScriptLanguageList['Start Date:']+" "+ editedSesMsgStartDate + "</span>\n" +
+                    "                    <span id =" + activeTimeID + " class=" + activeOwnerClass + ">"+javaScriptLanguageList['End Date:']+" "+ editedSesMsgEndDate + "</span>\n" +
+                    "                </button>"
 
-                    const messageHtml =
-                        "<button value=" + ID + " id=" + buttonID + " class=" + buttonClass + ">\n" +
-                        "                    <span id =" + activeOwnerID + "  class=" + activeOwnerClass + ">"+javaScriptLanguageList['Message Owner:']+" "+ cltUsername + "</span>\n" +
-                        "                    <div class=\"mc-message-active-separation-line\"></div>\n" +
-                        "                    <span id =" + activeUsernameID + " class=" + activeUsernameClass + ">" + username + "</span>\n" +
-                        "                    <span id =" + activeShortMessageID + " class=" + activeShortMessageClass + ">" + msgShortMessage + "</span>\n" +
-                        "                    <div class=\"mc-message-active-separation-line\"></div>\n" +
-                        "                    <span id =" + activeTimeID + " class=" + activeTimeClass + ">" + editedMsgDate + "</span>\n" +
-                        "                </button>"
-
-                    const resolvedHtml =
-                        "<button value=" + ID + " id=" + buttonID + " class=" + buttonClass + ">\n" +
-                        "                    <span id =" + activeOwnerID + "  class=" + activeOwnerClass + ">"+javaScriptLanguageList['Message Owner:']+" "+ cltUsername + "</span>\n" +
-                        "                    <div class=\"mc-message-active-separation-line\"></div>\n" +
-                        "                    <span id =" + activeTimeID + " class=" + activeOwnerClass + ">"+javaScriptLanguageList['Start Date:']+" "+ editedSesMsgStartDate + "</span>\n" +
-                        "                    <span id =" + activeTimeID + " class=" + activeOwnerClass + ">"+javaScriptLanguageList['End Date:']+" "+ editedSesMsgEndDate + "</span>\n" +
-                        "                </button>"
-
-                    if (message) {
-                        userDivElement.append(messageHtml);
-                    } else if (resolved) {
-                        userDivElement.append(resolvedHtml);
-                    }
-
-                    setActiveUserButton(buttonID, textDivID, currentUserDivClass, foreignUserDivClass, type);
-
-
-                }
-            } else {
-                // MESSAGE IN CASE THERE ARE NO ACTIVE MESSAGES
-                let text;
-                if(message) {
-                    text = "No Active Messages";
-                }
-                else if(resolved) {
-                    text = "No Resolved Messages";
+                if (message) {
+                    userDivElement.append(messageHtml);
+                } else if (resolved) {
+                    userDivElement.append(resolvedHtml);
                 }
 
-                const noActiveMessageHtml =
-                    "<div class=" + noActiveUserClass + ">\n" +
-                    "                    <span  class=" + activeOwnerClass + ">"+text+"</span>\n" +
-                    "                </div>"
+                setActiveUserButton(buttonID, textDivID, currentUserDivClass, foreignUserDivClass, type);
 
-                userDivElement.append(noActiveMessageHtml);
+
             }
-        }, 400)
+        } else {
+            // MESSAGE IN CASE THERE ARE NO ACTIVE MESSAGES
+            let text;
+            if(message) {
+                text = "No Active Messages";
+            }
+            else if(resolved) {
+                text = "No Resolved Messages";
+            }
+
+            const noActiveMessageHtml =
+                "<div class=" + noActiveUserClass + ">\n" +
+                "                    <span  class=" + activeOwnerClass + ">"+text+"</span>\n" +
+                "                </div>"
+
+            userDivElement.append(noActiveMessageHtml);
+        }
 
     }
 // ---------------------------------------------------------------------------------------------------------
