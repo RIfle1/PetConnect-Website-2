@@ -109,11 +109,12 @@
 
 .case .graph > div{
     position: relative;
-    width: 338px;
-    height: 174px;
-    background: #D9D9D9;
+    width: 420px;
+    height:320px;
+    border: solid 16px rgb(188, 188, 188);
+    border-radius: 24px;
     left: 50%;
-    top: 6em;
+    top: 12em;
     margin-left: 2px;
     transform: translate(-50%, -50%)
 }
@@ -121,7 +122,9 @@
 
 
 
-
+#plan h4{
+    margin-top: -50px;
+}
 
 
 @media screen and (max-width: 1230px){

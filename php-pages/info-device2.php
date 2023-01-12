@@ -17,7 +17,7 @@ $languageList = returnLanguageList()[returnLanguage()]['info-device'];
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <!--    Style Sheet-->
-    <link rel="stylesheet" href="../css/info-device2-styles.css">
+    <link rel="stylesheet" href="../css/info-devices2-styles.css">
     <!--    Jquery-->
 
     <title>PetConnectBasket</title>
@@ -42,11 +42,11 @@ $languageList = returnLanguageList()[returnLanguage()]['info-device'];
                             <div class="controlChart">
                                 <div class="controlChart-flex">
                                     <h3>From</h3>
-                                    <input type="date" onchange="startDateFilter(this,BPMChart)" value="2023-01-01" min="2023-01-01" max="2023-01-31" class="startDate">
+                                    <input type="date" onchange="startDateFilter(this,BPMChart)" value="2023-01-01" min="2023-01-01" max="2023-01-31" id="BPMstartDate">
                                     <h3>To</h3>
-                                    <input type="date" onchange="endDateFilter(this,BPMChart,dataBPM,dataBPM_hour)" value="2023-01-31" min="2023-01-01" max="2023-01-31">
+                                    <input type="date" onchange="endDateFilter(this,BPMChart,dataBPM,dataBPM_hour,'BPM')" value="2023-01-31" min="2023-01-01" max="2023-01-31">
                                 </div>
-                                <button onclick="switchChart(BPMChart,dataBPM,dataBPM_hour)" class="hour">Heure</button>
+                                <button onclick="switchChart(BPMChart,dataBPM,dataBPM_hour,'BPM')" id="BPMhour">Heure</button>
                                 <button onclick=" typeChart(BPMChart)">Format</button>
                             </div>
                         </div>
@@ -62,11 +62,11 @@ $languageList = returnLanguageList()[returnLanguage()]['info-device'];
                             <div class="controlChart">
                                 <div class="controlChart-flex">
                                     <h3>From</h3>
-                                    <input type="date" onchange="startDateFilter(this,PPMChart)" value="2023-01-01" min="2023-01-01" max="2023-01-31" class="startDate">
+                                    <input type="date" onchange="startDateFilter(this,PPMChart)" value="2023-01-01" min="2023-01-01" max="2023-01-31" id="PPMstartDate">
                                     <h3>To</h3>
-                                    <input type="date" onchange="endDateFilter(thisPPMChart,dataPPM,dataPPM_hour)" value="2023-01-31" min="2023-01-01" max="2023-01-31">
+                                    <input type="date" onchange="endDateFilter(this,PPMChart,dataPPM,dataPPM_hour,'PPM')" value="2023-01-31" min="2023-01-01" max="2023-01-31">
                                 </div>
-                                <button onclick="switchChart(PPMChart,dataPPM,dataPPM_hour)" class="hour">Heure</button>
+                                <button onclick="switchChart(PPMChart,dataPPM,dataPPM_hour,'PPM')" id="PPMhour">Heure</button>
                                 <button onclick=" typeChart(PPMChart)">Format</button>
                             </div>
                         </div>
@@ -83,11 +83,11 @@ $languageList = returnLanguageList()[returnLanguage()]['info-device'];
                             <div class="controlChart">
                                 <div class="controlChart-flex">
                                     <h3>From</h3>
-                                    <input type="date" onchange="startDateFilter(this,TcChart)" value="2023-01-01" min="2023-01-01" max="2023-01-31" id="startDate">
+                                    <input type="date" onchange="startDateFilter(this,TcChart)" value="2023-01-01" min="2023-01-01" max="2023-01-31" id="TCstartDate">
                                     <h3>To</h3>
-                                    <input type="date" onchange="endDateFilter(thisTcChart,dataTc,dataTc_hour)" value="2023-01-31" min="2023-01-01" max="2023-01-31">
+                                    <input type="date" onchange="endDateFilter(this,TcChart,dataTc,dataTc_hour,'TC')" value="2023-01-31" min="2023-01-01" max="2023-01-31">
                                 </div>
-                                <button onclick="switchChart(TcChart,dataTc,dataTc_hour)" id="hour">Heure</button>
+                                <button onclick="switchChart(TcChart,dataTc,dataTc_hour,'TC')" id="TChour">Heure</button>
                                 <button onclick=" typeChart(TcChart)">Format</button>
                             </div>
                         </div>
@@ -105,11 +105,11 @@ $languageList = returnLanguageList()[returnLanguage()]['info-device'];
                             <div class="controlChart">
                                 <div class="controlChart-flex">
                                     <h3>From</h3>
-                                    <input type="date" onchange="startDateFilter(this,DBChart)" value="2023-01-01" min="2023-01-01" max="2023-01-31" id="startDate">
+                                    <input type="date" onchange="startDateFilter(this,DBChart)" value="2023-01-01" min="2023-01-01" max="2023-01-31" id="DBstartDate">
                                     <h3>To</h3>
-                                    <input type="date" onchange="endDateFilter(thisDBChart,dataDB,dataDB_hour)" value="2023-01-31" min="2023-01-01" max="2023-01-31">
+                                    <input type="date" onchange="endDateFilter(this,DBChart,dataDB,dataDB_hour,'DB')" value="2023-01-31" min="2023-01-01" max="2023-01-31">
                                 </div>
-                                <button onclick="switchChart(DBChart,dataDB,dataDB_hour)" id="hour">Heure</button>
+                                <button onclick="switchChart(DBChart,dataDB,dataDB_hour,'DB')" id="DBhour">Heure</button>
                                 <button onclick=" typeChart(DBChart)">Format</button>
                             </div>
                         </div>
@@ -122,7 +122,7 @@ $languageList = returnLanguageList()[returnLanguage()]['info-device'];
 
 
 
-                    <div class="case">
+                    <div class="case" id="plan">
                         <img src="<?php echo getImage("position.png") ?>" />
 
                         <!-- <p>Proche</p> -->
@@ -139,9 +139,9 @@ $languageList = returnLanguageList()[returnLanguage()]['info-device'];
     <?php
 
 
-    $selectData_Time = runSQLResult("SELECT * FROM Data_Device");
+    $selectData_Time = runSQLResult("SELECT * FROM Data_Device ORDER BY dapDate DESC");
     $selectData_Date = runSQLResult("SELECT AVG(dapBPM),AVG(dapCO2),AVG(dapDecibel),AVG(dapTemp),dapDate FROM `Data_Device` GROUP BY CAST(dapDate AS DATE)");
-
+    $selectData_Coordinate = runSQLResult("SELECT * FROM Data_Device ORDER BY dapDate DESC LIMIT 0,1");
 
     while ($rowTime = $selectData_Time->fetch_assoc()) {
         $BPM_Time[] = $rowTime["dapBPM"];
@@ -153,6 +153,7 @@ $languageList = returnLanguageList()[returnLanguage()]['info-device'];
     }
 
 
+
     while ($rowDate = $selectData_Date->fetch_assoc()) {
         $BPM_Date[] = $rowDate["AVG(dapBPM)"];
         $PPM_Date[] = $rowDate["AVG(dapCO2)"];
@@ -162,12 +163,20 @@ $languageList = returnLanguageList()[returnLanguage()]['info-device'];
         $dateArray[] = $rowDate["dapDate"];
     }
 
-    // print_r($BPM_Date);
-    // // print_r($dateArray);
-    // // print_r($timeArray);
-    // // print_r($timeDayArray);
-    // print_r($BPM_Time);
-    // // print_r($dateArray);
+    while ($rowCoordinate = $selectData_Coordinate->fetch_assoc()) {
+        $latitude[] = $rowCoordinate["dapLatitude"];
+        $longitude[] = $rowCoordinate["dapLongitude"];
+    }
+
+
+
+
+    // print_r($latitude);
+    // print_r($longitude);
+    // // // print_r($timeArray);
+    // // // print_r($timeDayArray);
+    // // print_r($BPM_Time);
+    // // // print_r($dateArray);
     ?>
 
     <?php include 'site-footer.php' ?>
@@ -375,9 +384,13 @@ $languageList = returnLanguageList()[returnLanguage()]['info-device'];
 
         }
 
-        function switchChart(xChart, xData, hData) {
-            var hourColor = document.getElementsByClassName(xChart, 'hour');
-            var startDateColor = document.getElementById('startDate');
+
+
+
+
+        function switchChart(xChart, xData, hData, string) {
+            var hourColor = document.getElementById(string + 'hour');
+            var startDateColor = document.getElementById(string + 'startDate');
 
             if (xChart.config.options.scales.x.time.unit === 'day') {
                 xChart.config.options.scales.x.time.unit = 'hour';
@@ -412,26 +425,37 @@ $languageList = returnLanguageList()[returnLanguage()]['info-device'];
             xChart.update();
         }
 
-        function endDateFilter(date, xChart, xData, hData) {
+
+        function endDateFilter(date, xChart, xData, hData, string) {
             const startDate = new Date(date.value);
             xChart.config.options.scales.x.max = startDate.setHours(0, 0, 0, 0);
             if (xChart.config.options.scales.x.time.unit === 'hour') {
-                switchChart(xChart, xData, hData);
+                switchChart(xChart, xData, hData, string);
             }
             xChart.update();
         }
 
-        document.write(BPMChart.config.options.scales.x.min);
+
+
+
+        const latitude = <?php echo json_encode($latitude); ?>;
+        const longitude = <?php echo json_encode($longitude); ?>;
+        document.write(latitude);
+        document.write(longitude);
 
         // map localisation
-        navigator.geolocation.getCurrentPosition(position => {
-            const {
-                latitude,
-                longitude
-            } = position.coords;
+        // navigator.geolocation.getCurrentPosition(position => {
+        //     const {
+        //         latitude,
+        //         longitude
+        //     } = position.coords;
 
-            map.innerHTML = '<iframe width="350" height="250" src="https://maps.google.com/maps?q=' + latitude + ',' + longitude + '&amp;z=15&amp;output=embed"></iframe>';
-        });
+
+
+
+
+        map.innerHTML = '<iframe width="100%" height="100%"  src="https://maps.google.com/maps?q=' + latitude + ',' + longitude + '&amp;z=15&amp;output=embed"></iframe>';
+        // });
     </script>
 
 
