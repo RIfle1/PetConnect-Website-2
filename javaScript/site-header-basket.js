@@ -34,12 +34,12 @@ const basketDeleteAllButtonElement = $("#"+basketDeleteAllButtonID);
 const basketDeleteItemImgClass = 'sih-delete-product-img'
 
 // VOLATILE SPAN CLASSES
-const priceSpanClass = "sih-price-span";
+const basketPriceSpanClass = "sih-price-span";
 
 // VARIABLE TO CHECK WHEN displayProduct is done
 let basketListLength = basketList.length;
 let productsDisplayed = 0;
-let basketTotal = 0;
+let productTotal = 0;
 
 if(basketList.length > 0) {
     basketList.forEach(function(value) {
@@ -70,15 +70,14 @@ function checkBasketContents() {
     }
 }
 
-function updateBasketTotal(value) {
+function updateProductTotal(value, productTotalDivElement, productPriceSpanClass) {
     productsDisplayed ++;
 
     let prdPrice = value['prdPrice'];
-    basketTotal += parseFloat(prdPrice);
-
+    productTotal += parseFloat(prdPrice);
 
     if(productsDisplayed === basketListLength) {
-        displayBasketTotalDiv(basketTotal);
+        displayProductTotalSpan(productTotal, productTotalDivElement, productPriceSpanClass);
     }
 }
 
@@ -116,10 +115,12 @@ function onClickDeleteItemImg(deleteItemImgElement, productElement, value) {
     // RESET GLOBAL VARIABLES
     basketListLength = basketList.length;
     productsDisplayed = 0;
-    basketTotal = 0;
+    productTotal = 0;
 
     // RECALCULATE TOTAL PRICE
-    basketList.forEach(updateBasketTotal);
+    basketList.forEach(function(value) {
+        updateProductTotal(value, basketTotalDivElement, basketPriceSpanClass)
+    })
 }
 
 function onClickAddToCartButton(addToCartButtonElement, value) {
@@ -160,10 +161,12 @@ function onClickAddToCartButton(addToCartButtonElement, value) {
         // RESET GLOBAL VARIABLES
         basketListLength = basketList.length;
         productsDisplayed = 0;
-        basketTotal = 0;
+        productTotal = 0;
 
         // RECALCULATE TOTAL PRICE
-        basketList.forEach(updateBasketTotal);
+        basketList.forEach(function(value) {
+            updateProductTotal(value, basketTotalDivElement, basketPriceSpanClass)
+        })
 
         checkBasketContents();
     }
@@ -216,10 +219,12 @@ function onClickBasketDeleteAllButton() {
     // RESET GLOBAL VARIABLES
     basketListLength = basketList.length;
     productsDisplayed = 0;
-    basketTotal = 0;
+    productTotal = 0;
 
     // RECALCULATE TOTAL PRICE
-    basketList.forEach(updateBasketTotal);
+    basketList.forEach(function(value) {
+        updateProductTotal(value, basketTotalDivElement, basketPriceSpanClass)
+    })
 }
 
 function setBasketDeleteAllButton(deleteAllButtonElement) {
@@ -308,25 +313,30 @@ function displayProduct(value, mainProductDivElement, deleteItemImgClass, produc
     // SET DELETE ITEM IMG
     setDeleteItemImg(deleteItemImgElement, productElement, value);
 
-    basketTotal += parseFloat(prdPrice);
+    productTotal += parseFloat(prdPrice);
 
-    if(productsDisplayed === basketListLength) {
-        displayBasketTotalDiv(basketTotal);
-    }
+    // RESET GLOBAL VARIABLES
+    basketListLength = basketList.length;
+    productsDisplayed = 0;
+    productTotal = 0;
+
+    basketList.forEach(function(value) {
+        updateProductTotal(value, basketTotalDivElement, basketPriceSpanClass)
+    })
 }
 
-function displayBasketTotalDiv(basketTotal) {
-    let basketTotalInt = returnFormattedValueFromNumber(basketTotal, 'int');
-    let basketTotalDecimal = returnFormattedValueFromNumber(basketTotal, 'decimal');
+function displayProductTotalSpan(productTotal, productTotalDivElement, productPriceSpanClass) {
+    let productTotalInt = returnFormattedValueFromNumber(productTotal, 'int');
+    let productTotalDecimal = returnFormattedValueFromNumber(productTotal, 'decimal');
 
     // REMOVE PREVIOUS PRICE IF EXISTS
-    let priceSpanClassElement = $("."+priceSpanClass);
+    let priceSpanClassElement = $("."+productPriceSpanClass);
     priceSpanClassElement.remove();
 
-    let basketTotalHtml =
-        `<span class="sih-price-span-normal ${priceSpanClass}">${basketTotalInt}€</span><span id='sih-price-span-decimal' class="${priceSpanClass}">${basketTotalDecimal}</span>\n`
+    let productTotalHtml =
+        `<span class="sih-price-span-normal ${productPriceSpanClass}">${productTotalInt}€</span><span id='sih-price-span-decimal' class="${productPriceSpanClass}">${productTotalDecimal}</span>\n`
 
-    basketTotalDivElement.append(basketTotalHtml);
+    productTotalDivElement.append(productTotalHtml);
 }
 
 setBasketDeleteAllButton(basketDeleteAllButtonElement);

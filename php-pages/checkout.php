@@ -31,7 +31,13 @@ $basketList = returnBasketList();
             <!--        BASKET WILL BE DISPLAYED HERE-->
         </div>
 
+        <div id="ch-checkout-total-div">
+            <span>Your Total is:</span>
+        </div>
 
+        <div id="ch-checkout-buttons-div">
+
+        </div>
 
     </div>
 </div>

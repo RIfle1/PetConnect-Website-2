@@ -20,7 +20,7 @@ $languageList = returnLanguageList()[returnLanguage()]['devices'];
     <link rel="stylesheet" href="../css/devices-styles.css">
     <!--    Jquery-->
 
-    <title>PetConnect Connection and Security</title>
+    <title>Devices</title>
 </head>
 
 <body>
