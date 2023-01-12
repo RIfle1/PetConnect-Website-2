@@ -96,12 +96,16 @@ $basketList = returnBasketList();
                         <span><?php echo $languageList['New Client?'] ?><a id="sih-signup-a2" href="signup.php"><?php echo $languageList['Signup.'] ?></a></span>
                     </div>
                 <?php endif; ?>
-                <?php if (isset($loggedIn)) : ?>
+                <?php if (isset($loggedIn) || isset($clientLoggedIn) || isset($adminLoggedIn)) : ?>
                     <?php if ($loggedIn) : ?>
                         <div class="separation-line-1"></div>
-                        <a href="profile.php"><?php echo $languageList['My Account'] ?></a>
-                        <a href="#"><?php echo $languageList['My Orders'] ?></a>
-                        <a href="#"><?php echo $languageList['My Devices'] ?></a>
+                        <?php if($clientLoggedIn || $adminLoggedIn): ?>
+                            <a href="profile.php"><?php echo $languageList['My Account'] ?></a>
+                        <?php endif; ?>
+                        <?php if($clientLoggedIn): ?>
+                            <a href="#"><?php echo $languageList['My Orders'] ?></a>
+                            <a href="devices.php"><?php echo $languageList['My Devices'] ?></a>
+                        <?php endif; ?>
                         <div class="separation-line-1"></div>
                         <a href="../php-processes/logout.php"><?php echo $languageList['Logout'] ?></a>
                     <?php endif; ?>
