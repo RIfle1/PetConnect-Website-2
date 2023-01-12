@@ -109,8 +109,8 @@ $languageList = returnLanguageList()[returnLanguage()]['info-device'];
 
                     <div class="case">
                         <img src="<?php echo getImage("position.png") ?>" />
-                        <h3>XXXXXXX</h3>
-                        <p>Proche</p>
+
+                        <!-- <p>Proche</p> -->
                         <h4>Localisation</h4>
                         <div class="graph">
                             <div id="map"></div>
@@ -121,7 +121,24 @@ $languageList = returnLanguageList()[returnLanguage()]['info-device'];
         </div>
     </main>
 
+    <?php
 
+    $idate = "%01-02%";
+    $selectData_Device = runSQLResult("SELECT *,DATE_FORMAT(dapDate,'%d-%m') AS FormatDate,DATE_FORMAT(dapDate,'%H:%i') AS FormatTime FROM Data_Device WHERE Dapdate LIKE ('%01-02%') ");
+    $BPM = array();
+    $date = array();
+
+    while ($row = $selectData_Device->fetch_assoc()) {
+        $BPM[] = $row["dapBPM"];
+        $date[] = $row["dapDate"];
+        $dateFormat[] = $row["FormatDate"];
+        $timeFormat[] = $row["FormatTime"];
+    }
+
+    echo $idate;
+    // print_r($BPM);
+    print_r($date);
+    ?>
 
     <?php include 'site-footer.php' ?>
 
@@ -130,12 +147,185 @@ $languageList = returnLanguageList()[returnLanguage()]['info-device'];
     <script src="https://cdn.jsdelivr.net/npm/luxon@3.1.1/build/global/luxon.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.3.0/dist/chartjs-adapter-luxon.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-streaming@2.0.0/dist/chartjs-plugin-streaming.min.js"></script>
-    <script src="../javaScript/charts.js">
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+
     </script>
     <script type="text/javascript">
         setMarginTop('site-header-main-header', 'id', 'ids-form-body', 'id', 40)
     </script>
 
+    <script>
+        var ladate = new Date();
+        document.write(ladate.getDate() + "-" + (ladate.getMonth() + 1));
+
+        const BPM = <?php echo json_encode($BPM); ?>;
+        const date = <?php echo json_encode($dateFormat); ?>;
+        const time = <?php echo json_encode($timeFormat); ?>;
+        // const labeltime = ['00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00'];
+
+
+        // data Rythme cardiaque
+        const dataBPM = {
+            labels: time.slice(0, 24),
+            datasets: [{
+                label: 'BPM',
+                data: BPM,
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1
+            }]
+        };
+
+
+        // data Qualité de l'air
+        const dataPPM = {
+            datasets: [{
+                label: 'PPM',
+                data: [],
+                backgroundColor: 'rgb(6, 219, 28, 0.2)',
+                borderColor: 'rgb(6, 219, 28)',
+                borderWidth: 1
+            }]
+        };
+
+        // data Température
+        const dataTc = {
+            datasets: [{
+                label: '°C',
+                data: [],
+                backgroundColor: 'rgb(255, 184, 0, 0.2)',
+                borderColor: 'rgb(255, 184, 0)',
+                borderWidth: 1
+            }]
+        };
+
+        // data Décibel
+        const dataDB = {
+            datasets: [{
+                label: 'DB',
+                data: [],
+                backgroundColor: 'rgb(105, 166, 170, 0.2)',
+                borderColor: 'rgb(105, 166, 170)',
+                borderWidth: 1
+            }]
+        };
+
+
+
+
+        // config block
+        function config(data, ymin, ymax) {
+            const config = {
+                type: 'bar',
+                data: data,
+                options: {
+                    scales: {
+                        x: {
+
+                        },
+                        y: {
+                            suggestedMin: ymin,
+                            suggestedMax: ymax,
+                        }
+                    }
+                }
+            }
+            return config
+        }
+        // Rythme cardique
+        const BPMChart = new Chart(
+            document.getElementById('graphBPM'),
+            config(dataBPM, 0, 200)
+        );
+
+        // Qualité de l'air
+        const PPMChart = new Chart(
+            document.getElementById('graphPPM'),
+            config(dataPPM, 400, 1600, 800, 1200)
+        );
+
+        // Température
+        const TcChart = new Chart(
+            document.getElementById('graphTc'),
+            config(dataTc, 0, 45, 37, 40)
+        );
+
+
+        // Aboiement
+        const DBChart = new Chart(
+            document.getElementById('graphDB'),
+            config(dataDB, 0, 110, 0, 10)
+        );
+
+
+
+        function typeChart(xChart) {
+            if (xChart.config.type === 'line') {
+                xChart.config.type = 'bar';
+            } else {
+                xChart.config.type = 'line';
+            }
+            xChart.update();
+
+
+        }
+
+
+
+
+        function dayChart(xChart) {
+            if (xChart.data.labels === time) {
+                xChart.data.labels = date;
+            } else {
+                xChart.data.labels = time;
+            }
+            xChart.update();
+        };
+
+
+        function weekChart(xChart) {
+
+            if (xChart.options.plugins.streaming.duration !== 604800000) {
+                xChart.options.plugins.streaming.duration = 604800000;
+            } else {
+                xChart.options.plugins.streaming.duration = 20000;
+            }
+            xChart.update();
+
+
+
+
+
+            // var a = 1;
+            // var b = 2;
+            // window.location.href = "info-device.php?var1=" + a + "&var2=" + b;
+        };
+
+        function monthChart(xChart) {
+
+            if (xChart.options.plugins.streaming.duration !== 2628002880) {
+                xChart.options.plugins.streaming.duration = 2628002880;
+            } else {
+                xChart.options.plugins.streaming.duration = 20000;
+            }
+            xChart.update();
+        };
+
+
+
+
+
+
+        // map localisation
+        navigator.geolocation.getCurrentPosition(position => {
+            const {
+                latitude,
+                longitude
+            } = position.coords;
+
+            map.innerHTML = '<iframe width="350" height="250" src="https://maps.google.com/maps?q=' + latitude + ',' + longitude + '&amp;z=15&amp;output=embed"></iframe>';
+        });
+    </script>
 
 
 </body>
