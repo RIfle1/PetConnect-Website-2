@@ -75,10 +75,10 @@ INSERT INTO admin (admID, admEmail, admUsername, admPassword, admPfpName) VALUES
 INSERT INTO admin (admID, admEmail, admUsername, admPassword, admPfpName) VALUES ('adm4', 'philipe.barakat5@gmail.com', 'ADMIN5', '$2y$10$kOeEgAJU04emD4fT6.dW8OoEWivgwuWROTd07DvI/ETjZEuOkbuaO', 'dedpol.png');
 INSERT INTO admin (admID, admEmail, admUsername, admPassword, admPfpName) VALUES ('adm5', 'philipe.barakat6@gmail.com', 'ADMIN6', '$2y$10$kOeEgAJU04emD4fT6.dW8OoEWivgwuWROTd07DvI/ETjZEuOkbuaO', 'dedpol.png');
 
-INSERT INTO product(prdID, prdName, prdPrice, prdReleaseDate) VALUES ('prd1', 'Connected Collars for dogs v1', 499.99, '2023-01-01');
-INSERT INTO product(prdID, prdName, prdPrice, prdReleaseDate) VALUES ('prd2', 'Connected Collars for dogs v2', 499.99, '2023-01-01');
-INSERT INTO product(prdID, prdName, prdPrice, prdReleaseDate) VALUES ('prd3', 'Connected Collars for dogs v3', 499.99, '2023-01-01');
-INSERT INTO product(prdID, prdName, prdPrice, prdReleaseDate) VALUES ('prd4', 'iCollar v4', 32.99, '2023-01-01');
+INSERT INTO product(prdID, prdName, prdPrice, prdReleaseDate) VALUES ('prd1', 'iCollar v1', 99.99, '2023-01-01');
+INSERT INTO product(prdID, prdName, prdPrice, prdReleaseDate) VALUES ('prd2', 'iCollar v2', 199.99, '2023-01-01');
+INSERT INTO product(prdID, prdName, prdPrice, prdReleaseDate) VALUES ('prd3', 'iCollar v3', 299.99, '2023-01-01');
+INSERT INTO product(prdID, prdName, prdPrice, prdReleaseDate) VALUES ('prd4', 'iCollar v4', 399.99, '2023-01-01');
 
 INSERT INTO product_color(prcID, prcColor, Product_prdID) VALUES ('prc1', 'black', 'prd1');
 INSERT INTO product_color(prcID, prcColor, Product_prdID) VALUES ('prc2', 'blue', 'prd1');

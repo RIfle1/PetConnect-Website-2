@@ -4,11 +4,21 @@
 const checkoutProductDivID = "ch-checkout-product-div";
 
 const checkoutTotalDivID = "ch-checkout-total-div";
+const checkoutEmptyDivID = "ch-checkout-empty-div";
+const checkoutButtonsDivID = "ch-checkout-buttons-div"
+
+// HARDCODED BUTTON IDS
+const checkoutBuyProductsButtonID = "ch-checkout-buy-products-button"
 
 // HARDCODED DIV ELEMENTS
 const checkoutProductDivElement = $("#"+checkoutProductDivID)
 
 const checkoutTotalDivElement = $("#"+checkoutTotalDivID);
+const checkoutEmptyDivElement = $("#"+checkoutEmptyDivID);
+const checkoutButtonsDivElement = $("#"+checkoutButtonsDivID);
+
+// HARDCODED BUTTON ELEMENTS
+const checkoutBuyProductsButtonElement = $("#"+checkoutBuyProductsButtonID);
 
 // VOLATILE BUTTONS IDS
 const checkoutDeleteItemImgClass = 'ch-delete-product-img';
@@ -18,6 +28,8 @@ const checkoutProductClass = 'ch-checkout-product';
 
 // VOLATILE SPAN CLASSES
 const checkoutPriceSpanClass = "ch-price-span";
+
+checkBasketContents();
 
 if(basketList.length > 0) {
     basketList.forEach(function(value) {
@@ -30,14 +42,17 @@ if(basketList.length > 0) {
     });
 }
 
-// RESET GLOBAL VARIABLES
+updateProductTotal(checkoutTotalDivElement, checkoutPriceSpanClass)
 
-basketListLength = basketList.length;
-productsDisplayed = 0;
-productTotal = 0;
-
-basketList.forEach(function(value) {
-    updateProductTotal(value, checkoutTotalDivElement, checkoutPriceSpanClass)
+checkoutBuyProductsButtonElement.click(function() {
+    $.ajax({
+        url: '../php-processes/checkout-process.php',
+        method: "POST",
+        data: {
+            basketList: basketList,
+        }
+    })
 })
+
 
 

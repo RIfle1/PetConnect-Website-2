@@ -60,6 +60,12 @@ function checkBasketContents() {
         basketSeparationLineElement.css("display", "block")
         basketDeleteAllButtonElement.css("display", "block")
         basketCountSpanElement.text(basketList.length);
+
+        if(typeof(checkoutTotalDivElement) !== "undefined") {
+            checkoutTotalDivElement.css("display", "flex");
+            checkoutEmptyDivElement.css("display", "none");
+            checkoutButtonsDivElement.css("display", "flex");
+        }
     }
     else {
         basketEmptyDivElement.css("display", "flex");
@@ -67,20 +73,30 @@ function checkBasketContents() {
         basketCountSpanElement.css("display", 'none');
         basketSeparationLineElement.css("display", "none")
         basketDeleteAllButtonElement.css("display", "none")
+
+        if(typeof(checkoutTotalDivElement) !== "undefined") {
+            checkoutTotalDivElement.css("display", "none");
+            checkoutEmptyDivElement.css("display", "flex");
+            checkoutButtonsDivElement.css("display", "none");
+        }
     }
 }
 
-function updateProductTotal(value, productTotalDivElement, productPriceSpanClass) {
-    productsDisplayed ++;
+function updateProductTotal(productTotalDivElement, productPriceSpanClass) {
+    // RESET GLOBAL VARIABLES
+    basketListLength = basketList.length;
+    productsDisplayed = 0;
+    productTotal = 0;
 
-    let prdPrice = value['prdPrice'];
-    productTotal += parseFloat(prdPrice);
+    basketList.forEach(function(value) {
+        productsDisplayed ++;
+        productTotal += parseFloat(value['prdPrice']);
 
-    if(productsDisplayed === basketListLength) {
-        console.log(productTotalDivElement)
-        console.log(productPriceSpanClass)
-        displayProductTotalSpan(productTotal, productTotalDivElement, productPriceSpanClass);
-    }
+        if(productsDisplayed === basketListLength) {
+            displayProductTotalSpan(productTotalDivElement, productPriceSpanClass);
+        }
+    })
+
 }
 
 function onClickDeleteItemImg(deleteItemImgElement, productElement, value) {
@@ -114,16 +130,9 @@ function onClickDeleteItemImg(deleteItemImgElement, productElement, value) {
         }
     })
 
-    // RESET GLOBAL VARIABLES
-    basketListLength = basketList.length;
-    productsDisplayed = 0;
-    productTotal = 0;
-
     // RECALCULATE TOTAL PRICE
-    basketList.forEach(function(value) {
-        updateProductTotal(value, basketTotalDivElement, basketPriceSpanClass)
-        updateProductTotal(value, checkoutTotalDivElement, checkoutPriceSpanClass)
-    })
+    updateProductTotal(basketTotalDivElement, basketPriceSpanClass)
+    updateProductTotal(checkoutTotalDivElement, checkoutPriceSpanClass)
 }
 
 function onClickAddToCartButton(addToCartButtonElement, value) {
@@ -161,15 +170,8 @@ function onClickAddToCartButton(addToCartButtonElement, value) {
         // ADD ELEMENT TO BASKET LIST
         basketList.push(newValue);
 
-        // RESET GLOBAL VARIABLES
-        basketListLength = basketList.length;
-        productsDisplayed = 0;
-        productTotal = 0;
-
         // RECALCULATE TOTAL PRICE
-        basketList.forEach(function(value) {
-            updateProductTotal(value, basketTotalDivElement, basketPriceSpanClass)
-        })
+        updateProductTotal(basketTotalDivElement, basketPriceSpanClass)
 
         checkBasketContents();
     }
@@ -219,15 +221,10 @@ function onClickBasketDeleteAllButton() {
         }
     })
 
-    // RESET GLOBAL VARIABLES
-    basketListLength = basketList.length;
-    productsDisplayed = 0;
-    productTotal = 0;
-
     // RECALCULATE TOTAL PRICE
-    basketList.forEach(function(value) {
-        updateProductTotal(value, basketTotalDivElement, basketPriceSpanClass)
-    })
+    updateProductTotal(basketTotalDivElement, basketPriceSpanClass)
+    updateProductTotal(checkoutTotalDivElement, checkoutPriceSpanClass)
+
 }
 
 function setBasketDeleteAllButton(deleteAllButtonElement) {
@@ -316,19 +313,10 @@ function displayProduct(value, mainProductDivElement, deleteItemImgClass, produc
     // SET DELETE ITEM IMG
     setDeleteItemImg(deleteItemImgElement, productElement, value);
 
-    productTotal += parseFloat(prdPrice);
-
-    // RESET GLOBAL VARIABLES
-    basketListLength = basketList.length;
-    productsDisplayed = 0;
-    productTotal = 0;
-
-    basketList.forEach(function(value) {
-        updateProductTotal(value, basketTotalDivElement, basketPriceSpanClass)
-    })
+    updateProductTotal(basketTotalDivElement, basketPriceSpanClass)
 }
 
-function displayProductTotalSpan(productTotal, productTotalDivElement, productPriceSpanClass) {
+function displayProductTotalSpan(productTotalDivElement, productPriceSpanClass) {
     let productTotalInt = returnFormattedValueFromNumber(productTotal, 'int');
     let productTotalDecimal = returnFormattedValueFromNumber(productTotal, 'decimal');
 
@@ -337,7 +325,7 @@ function displayProductTotalSpan(productTotal, productTotalDivElement, productPr
     priceSpanClassElement.remove();
 
     let productTotalHtml =
-        `<span class="sih-price-span-normal ${productPriceSpanClass}">${productTotalInt}€</span><span id='sih-price-span-decimal' class="${productPriceSpanClass}">${productTotalDecimal}</span>\n`
+        `<span class="${productPriceSpanClass}-normal ${productPriceSpanClass}">${productTotalInt}€</span><span id='${productPriceSpanClass}-decimal' class="${productPriceSpanClass}">${productTotalDecimal}</span>\n`
 
     productTotalDivElement.append(productTotalHtml);
 }
