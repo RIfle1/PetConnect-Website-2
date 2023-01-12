@@ -24,7 +24,9 @@ if(basketList.length > 0) {
         displayProduct(value,
             checkoutProductDivElement,
             checkoutDeleteItemImgClass,
-            checkoutProductClass)
+            checkoutProductClass,
+            checkoutTotalDivElement,
+            checkoutPriceSpanClass)
     });
 }
 

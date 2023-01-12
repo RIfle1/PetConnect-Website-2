@@ -77,6 +77,8 @@ function updateProductTotal(value, productTotalDivElement, productPriceSpanClass
     productTotal += parseFloat(prdPrice);
 
     if(productsDisplayed === basketListLength) {
+        console.log(productTotalDivElement)
+        console.log(productPriceSpanClass)
         displayProductTotalSpan(productTotal, productTotalDivElement, productPriceSpanClass);
     }
 }
@@ -120,6 +122,7 @@ function onClickDeleteItemImg(deleteItemImgElement, productElement, value) {
     // RECALCULATE TOTAL PRICE
     basketList.forEach(function(value) {
         updateProductTotal(value, basketTotalDivElement, basketPriceSpanClass)
+        updateProductTotal(value, checkoutTotalDivElement, checkoutPriceSpanClass)
     })
 }
 
