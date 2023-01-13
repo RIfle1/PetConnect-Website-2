@@ -32,7 +32,8 @@ $basketList = returnBasketList();
         </div>
 
         <div id="ch-checkout-empty-div" class="text-font-700">
-            <span>Start adding items to your basket!</span>
+            <span id="ch-empty-empty-span">Start adding items to your basket!</span>
+            <span id="ch-empty-buy-success-span">Thank you for buying our products! An email has been sent to you with all the details.</span>
         </div>
         <div id="ch-checkout-total-div" class="text-font-700">
             <span id="ch-checkout-price-span" class="ch-price-span-normal">Your Total is:</span>

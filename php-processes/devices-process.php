@@ -1,6 +1,6 @@
 <?php
 include '../php-processes/dbConnection.php';
-clientPage();
+onlyClientPage();
 $cltID = $_SESSION["ID"];
 if (isset($_POST["addDevice"])) {
 
@@ -8,7 +8,7 @@ if (isset($_POST["addDevice"])) {
 
     echo $deviceNumber;
 
-    $checkDevice = "SELECT * FROM Device WHERE Client_cltID ='" . $cltID . "'";
+    $checkDevice = "SELECT * FROM device WHERE Client_cltID ='" . $cltID . "'";
 
 
     $IDdevice =  runSQLResult($checkDevice);
@@ -18,9 +18,9 @@ if (isset($_POST["addDevice"])) {
         echo $device["devID"];
 
 
-        if ($deviceNumber == $device["devID"] and $device["devAdd"] == 0) {
+        if ($deviceNumber == $device["devCode"] and $device["devAdd"] == 0) {
             echo "success";
-            $updateDev =  "UPDATE Device  SET devAdd = 1  WHERE devID ='" . $device["devID"] . "' AND Client_cltID ='" . $cltID . "'";
+            $updateDev =  "UPDATE Device  SET devAdd = 1  WHERE devCode ='" . $device["devCode"] . "' AND Client_cltID ='" . $cltID . "'";
             runSQLResult($updateDev);
             header("Location: ../php-pages/devices.php?reg_err=success");
             die();
@@ -38,7 +38,7 @@ if (isset($_POST["addDevice"])) {
 
 
 if (isset($_POST["deleteDevice"])) {
-    $deleteDev =  "UPDATE Device  SET devAdd = 0  WHERE devID ='" . $_POST["deleteDevice"] . "' AND Client_cltID ='" . $cltID . "'";
+    $deleteDev =  "UPDATE Device  SET devAdd = 0  WHERE devCode ='" . $_POST["deleteDevice"] . "' AND Client_cltID ='" . $cltID . "'";
     runSQLResult($deleteDev);
     header("Location: ../php-pages/devices.php?reg_err=suppr");
     die();

@@ -45,12 +45,13 @@ if(basketList.length > 0) {
 updateProductTotal(checkoutTotalDivElement, checkoutPriceSpanClass)
 
 checkoutBuyProductsButtonElement.click(function() {
-    $.ajax({
+    let buyProductsAjax = $.ajax({
+        type: "GET",
         url: '../php-processes/checkout-process.php',
-        method: "POST",
-        data: {
-            basketList: basketList,
-        }
+        data: '',
+    })
+    buyProductsAjax.always(function() {
+        basketDeleteAllButtonElement.trigger('click');
     })
 })
 

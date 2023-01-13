@@ -117,6 +117,22 @@ function autoSetID($attributeFormat) : string {
     }
 }
 
+function generateRandomString($stringLength, $type): string {
+    try {
+        if($type === 'upper') {
+            return strtoupper(bin2hex(random_bytes($stringLength)));
+        }
+        else if($type === 'lower') {
+            return strtolower(bin2hex(random_bytes($stringLength)));
+        }
+        else {
+            return '';
+        }
+    } catch (Exception $e) {
+        return '';
+    }
+}
+
 // DEPRECATED
 function uploadImage($inputName, $imgCategory): void
 {
@@ -1293,6 +1309,9 @@ function returnLanguageList(): array
             ),
 
             // PHP PROCESSES
+            "checkout-process" => array(
+                'Thank you for buying our products' => 'Thank you for buying our products',
+            ), // ADD TO FRENCH
             "dbConnection" => array(
                 "Please login as a client to use this page." =>
                     "Please login as a client to use this page.",

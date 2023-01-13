@@ -1723,413 +1723,428 @@ Device_devID</ColNames>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="447" parent="345" name="Client_cltID">
-      <DataType>char(255)|0s</DataType>
+    <column id="447" parent="345" name="devCode">
+      <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="448" parent="345" name="devAdd">
-      <DataType>tinyint(4)|0s</DataType>
-      <DefaultExpression>0</DefaultExpression>
+    <column id="448" parent="345" name="prdID">
+      <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <foreign-key id="449" parent="345" name="fk_Device_Client1">
+    <column id="449" parent="345" name="prcColor">
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+    </column>
+    <column id="450" parent="345" name="devAdd">
+      <DataType>tinyint(4)|0s</DataType>
+      <DefaultExpression>0</DefaultExpression>
+      <NotNull>1</NotNull>
+      <Position>5</Position>
+    </column>
+    <column id="451" parent="345" name="Client_cltID">
+      <DataType>char(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>6</Position>
+    </column>
+    <foreign-key id="452" parent="345" name="fk_Device_Client1">
       <ColNames>Client_cltID</ColNames>
       <OnDelete>cascade</OnDelete>
       <OnUpdate>cascade</OnUpdate>
       <RefColNames>cltID</RefColNames>
       <RefTableName>client</RefTableName>
     </foreign-key>
-    <index id="450" parent="345" name="PRIMARY">
+    <index id="453" parent="345" name="PRIMARY">
       <ColNames>devID
 Client_cltID</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="451" parent="345" name="fk_Device_Client1_idx">
+    <index id="454" parent="345" name="fk_Device_Client1_idx">
       <ColNames>Client_cltID</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="452" parent="345" name="PRIMARY">
+    <key id="455" parent="345" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="453" parent="346" name="imgID">
+    <column id="456" parent="346" name="imgID">
       <DataType>char(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="454" parent="346" name="imgPath">
+    <column id="457" parent="346" name="imgPath">
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="455" parent="346" name="imgCategory">
+    <column id="458" parent="346" name="imgCategory">
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <index id="456" parent="346" name="PRIMARY">
+    <index id="459" parent="346" name="PRIMARY">
       <ColNames>imgID</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="457" parent="346" name="PRIMARY">
+    <key id="460" parent="346" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="458" parent="347" name="orhID">
+    <column id="461" parent="347" name="orhID">
       <DataType>char(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="459" parent="347" name="orhStatus">
+    <column id="462" parent="347" name="orhStatus">
       <DataType>varchar(10)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="460" parent="347" name="orhDate">
+    <column id="463" parent="347" name="orhDate">
       <DataType>date|0s</DataType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="461" parent="347" name="Client_cltID">
+    <column id="464" parent="347" name="Client_cltID">
       <DataType>char(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <foreign-key id="462" parent="347" name="fk_Order_History_Client1">
+    <foreign-key id="465" parent="347" name="fk_Order_History_Client1">
       <ColNames>Client_cltID</ColNames>
       <OnDelete>cascade</OnDelete>
       <OnUpdate>cascade</OnUpdate>
       <RefColNames>cltID</RefColNames>
       <RefTableName>client</RefTableName>
     </foreign-key>
-    <index id="463" parent="347" name="PRIMARY">
+    <index id="466" parent="347" name="PRIMARY">
       <ColNames>orhID
 Client_cltID</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="464" parent="347" name="fk_Order_History_Client1_idx">
+    <index id="467" parent="347" name="fk_Order_History_Client1_idx">
       <ColNames>Client_cltID</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="465" parent="347" name="PRIMARY">
+    <key id="468" parent="347" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="466" parent="348" name="mdpID">
+    <column id="469" parent="348" name="mdpID">
       <DataType>char(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="467" parent="348" name="pamType">
+    <column id="470" parent="348" name="pamType">
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="468" parent="348" name="pamCardNum">
+    <column id="471" parent="348" name="pamCardNum">
       <DataType>char(16)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="469" parent="348" name="pamCVV">
+    <column id="472" parent="348" name="pamCVV">
       <DataType>char(3)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <column id="470" parent="348" name="pamCardExpiryDate">
+    <column id="473" parent="348" name="pamCardExpiryDate">
       <DataType>char(4)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
-    <column id="471" parent="348" name="Client_cltID">
+    <column id="474" parent="348" name="Client_cltID">
       <DataType>char(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>6</Position>
     </column>
-    <foreign-key id="472" parent="348" name="fk_Payment_Method_Client1">
+    <foreign-key id="475" parent="348" name="fk_Payment_Method_Client1">
       <ColNames>Client_cltID</ColNames>
       <OnDelete>cascade</OnDelete>
       <OnUpdate>cascade</OnUpdate>
       <RefColNames>cltID</RefColNames>
       <RefTableName>client</RefTableName>
     </foreign-key>
-    <index id="473" parent="348" name="PRIMARY">
+    <index id="476" parent="348" name="PRIMARY">
       <ColNames>mdpID
 Client_cltID</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="474" parent="348" name="fk_Payment_Method_Client1_idx">
+    <index id="477" parent="348" name="fk_Payment_Method_Client1_idx">
       <ColNames>Client_cltID</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="475" parent="348" name="PRIMARY">
+    <key id="478" parent="348" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="476" parent="349" name="prdID">
+    <column id="479" parent="349" name="prdID">
       <DataType>char(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="477" parent="349" name="prdName">
+    <column id="480" parent="349" name="prdName">
       <DataType>varchar(30)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="478" parent="349" name="prdPrice">
+    <column id="481" parent="349" name="prdPrice">
       <DataType>decimal(10,2 digit)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="479" parent="349" name="prdReleaseDate">
+    <column id="482" parent="349" name="prdReleaseDate">
       <DataType>date|0s</DataType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <index id="480" parent="349" name="PRIMARY">
+    <index id="483" parent="349" name="PRIMARY">
       <ColNames>prdID</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="481" parent="349" name="PRIMARY">
+    <key id="484" parent="349" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="482" parent="350" name="prcID">
+    <column id="485" parent="350" name="prcID">
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="483" parent="350" name="prcColor">
+    <column id="486" parent="350" name="prcColor">
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="484" parent="350" name="Product_prdID">
+    <column id="487" parent="350" name="Product_prdID">
       <DataType>char(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <foreign-key id="485" parent="350" name="fk_Product_Color_Product1">
+    <foreign-key id="488" parent="350" name="fk_Product_Color_Product1">
       <ColNames>Product_prdID</ColNames>
       <OnDelete>cascade</OnDelete>
       <OnUpdate>cascade</OnUpdate>
       <RefColNames>prdID</RefColNames>
       <RefTableName>product</RefTableName>
     </foreign-key>
-    <index id="486" parent="350" name="PRIMARY">
+    <index id="489" parent="350" name="PRIMARY">
       <ColNames>prcID
 Product_prdID</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="487" parent="350" name="fk_Product_Color_Product1_idx">
+    <index id="490" parent="350" name="fk_Product_Color_Product1_idx">
       <ColNames>Product_prdID</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="488" parent="350" name="PRIMARY">
+    <key id="491" parent="350" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="489" parent="351" name="pimID">
+    <column id="492" parent="351" name="pimID">
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="490" parent="351" name="pimPath">
+    <column id="493" parent="351" name="pimPath">
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="491" parent="351" name="Product_Color_prcID">
+    <column id="494" parent="351" name="Product_Color_prcID">
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <foreign-key id="492" parent="351" name="fk_Product_Image_Product_Color1">
+    <foreign-key id="495" parent="351" name="fk_Product_Image_Product_Color1">
       <ColNames>Product_Color_prcID</ColNames>
       <OnDelete>cascade</OnDelete>
       <OnUpdate>cascade</OnUpdate>
       <RefColNames>prcID</RefColNames>
       <RefTableName>product_color</RefTableName>
     </foreign-key>
-    <index id="493" parent="351" name="PRIMARY">
+    <index id="496" parent="351" name="PRIMARY">
       <ColNames>pimID
 Product_Color_prcID</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="494" parent="351" name="fk_Product_Image_Product_Color1_idx">
+    <index id="497" parent="351" name="fk_Product_Image_Product_Color1_idx">
       <ColNames>Product_Color_prcID</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="495" parent="351" name="PRIMARY">
+    <key id="498" parent="351" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="496" parent="352" name="prdLstID">
+    <column id="499" parent="352" name="prdLstID">
       <DataType>char(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="497" parent="352" name="prcColor">
+    <column id="500" parent="352" name="prcColor">
       <DataType>varchar(255)|0s</DataType>
       <Position>2</Position>
     </column>
-    <column id="498" parent="352" name="Product_prdID">
+    <column id="501" parent="352" name="Product_prdID">
       <DataType>char(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="499" parent="352" name="Basket_basID">
+    <column id="502" parent="352" name="Basket_basID">
       <DataType>char(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <foreign-key id="500" parent="352" name="fk_Product_List_Product">
+    <foreign-key id="503" parent="352" name="fk_Product_List_Product">
       <ColNames>Product_prdID</ColNames>
       <OnDelete>cascade</OnDelete>
       <OnUpdate>cascade</OnUpdate>
       <RefColNames>prdID</RefColNames>
       <RefTableName>product</RefTableName>
     </foreign-key>
-    <foreign-key id="501" parent="352" name="fk_Product_List_Basket1">
+    <foreign-key id="504" parent="352" name="fk_Product_List_Basket1">
       <ColNames>Basket_basID</ColNames>
       <OnDelete>cascade</OnDelete>
       <OnUpdate>cascade</OnUpdate>
       <RefColNames>basID</RefColNames>
       <RefTableName>basket</RefTableName>
     </foreign-key>
-    <index id="502" parent="352" name="PRIMARY">
+    <index id="505" parent="352" name="PRIMARY">
       <ColNames>prdLstID
 Product_prdID
 Basket_basID</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="503" parent="352" name="fk_Product_List_Product_idx">
+    <index id="506" parent="352" name="fk_Product_List_Product_idx">
       <ColNames>Product_prdID</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="504" parent="352" name="fk_Product_List_Basket1_idx">
+    <index id="507" parent="352" name="fk_Product_List_Basket1_idx">
       <ColNames>Basket_basID</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="505" parent="352" name="PRIMARY">
+    <key id="508" parent="352" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="506" parent="353" name="qstID">
+    <column id="509" parent="353" name="qstID">
       <DataType>char(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="507" parent="353" name="qstQuestion">
+    <column id="510" parent="353" name="qstQuestion">
       <DataType>varchar(100)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <index id="508" parent="353" name="PRIMARY">
+    <index id="511" parent="353" name="PRIMARY">
       <ColNames>qstID</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="509" parent="353" name="PRIMARY">
+    <key id="512" parent="353" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="510" parent="354" name="qstRepID">
+    <column id="513" parent="354" name="qstRepID">
       <DataType>char(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="511" parent="354" name="qstRepAnswer">
+    <column id="514" parent="354" name="qstRepAnswer">
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="512" parent="354" name="qstRepBool">
+    <column id="515" parent="354" name="qstRepBool">
       <DataType>tinyint(4)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="513" parent="354" name="Question_qstID">
+    <column id="516" parent="354" name="Question_qstID">
       <DataType>char(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <foreign-key id="514" parent="354" name="fk_Question_Answers_Question1">
+    <foreign-key id="517" parent="354" name="fk_Question_Answers_Question1">
       <ColNames>Question_qstID</ColNames>
       <RefColNames>qstID</RefColNames>
       <RefTableName>question</RefTableName>
     </foreign-key>
-    <index id="515" parent="354" name="PRIMARY">
+    <index id="518" parent="354" name="PRIMARY">
       <ColNames>qstRepID
 Question_qstID</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="516" parent="354" name="fk_Question_Answers_Question1_idx">
+    <index id="519" parent="354" name="fk_Question_Answers_Question1_idx">
       <ColNames>Question_qstID</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="517" parent="354" name="PRIMARY">
+    <key id="520" parent="354" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="518" parent="355" name="sesMsgID">
+    <column id="521" parent="355" name="sesMsgID">
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="519" parent="355" name="sesMsgStartDate">
+    <column id="522" parent="355" name="sesMsgStartDate">
       <DataType>datetime|0s</DataType>
       <DefaultExpression>current_timestamp()</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="520" parent="355" name="sesMsgEndDate">
+    <column id="523" parent="355" name="sesMsgEndDate">
       <DataType>datetime|0s</DataType>
       <Position>3</Position>
     </column>
-    <column id="521" parent="355" name="Client_cltID">
+    <column id="524" parent="355" name="Client_cltID">
       <DataType>char(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <foreign-key id="522" parent="355" name="fk_Session_Message_Client1">
+    <foreign-key id="525" parent="355" name="fk_Session_Message_Client1">
       <ColNames>Client_cltID</ColNames>
       <OnDelete>cascade</OnDelete>
       <OnUpdate>cascade</OnUpdate>
       <RefColNames>cltID</RefColNames>
       <RefTableName>client</RefTableName>
     </foreign-key>
-    <index id="523" parent="355" name="PRIMARY">
+    <index id="526" parent="355" name="PRIMARY">
       <ColNames>sesMsgID
 Client_cltID</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="524" parent="355" name="fk_Session_Message_Client1_idx">
+    <index id="527" parent="355" name="fk_Session_Message_Client1_idx">
       <ColNames>Client_cltID</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="525" parent="355" name="PRIMARY">
+    <key id="528" parent="355" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>

@@ -205,6 +205,7 @@ function setDeleteItemImg(deleteItemImgElement, productElement, value) {
 function onClickBasketDeleteAllButton() {
     // DELETE ALL ELEMENTS FROM PAGE
     $("."+basketProductClass).remove();
+    $("."+checkoutProductClass).remove();
 
     // DELETE ALL ELEMENT FROM GLOBAL ARRAY BASKET LIST
     basketList = [];

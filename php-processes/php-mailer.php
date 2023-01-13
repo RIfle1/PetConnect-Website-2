@@ -3,7 +3,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 require '../vendor/autoload.php';
 
-function sendGmail($cltEmail, $cltFirstName, $body, $subject): bool {
+function sendGmail($email, $firstName, $body, $subject): bool {
     $mail = new PHPMailer(True);
 
     try {
@@ -17,12 +17,12 @@ function sendGmail($cltEmail, $cltFirstName, $body, $subject): bool {
         $mail->Port       = 587;                // TCP port to connect to
 
         $mail->setFrom('petconecttech@gmail.com', 'PetConnect Support');
-        $mail->addAddress($cltEmail, $cltFirstName);
+        $mail->addAddress($email, $firstName);
         $mail->isHTML();
 
         $mail->Subject = $subject;
         $mail->Body = $body;
-// ENABLE THIS TO ACTUAL SEND EMAILS
+// ENABLE THIS TO ACTUALLY SEND EMAILS
 //        $mail->send();
         return true;
 
