@@ -20,14 +20,14 @@ if(isset($clientLoggedIn) || isset($loggedIn)) {
 
                 // DELETE THE PRODUCT FROM PRODUCT LIST
                 $deleteProductSql = "DELETE FROM product_list WHERE prdLstID = '".$prdLstID."'";
-                runSQLResult($deleteProductSql);
+                runSQLQuery($deleteProductSql);
 
                 // CHECK IF THERE ARE ANY PRODUCTS LEFT IN PRODUCT LIST
                 $checkProductListSql = "SELECT * FROM product_list WHERE Basket_basID = '".$cltID."'";
 
-                if(mysqli_num_rows(runSQLResult($checkProductListSql)) === 0) {
+                if(mysqli_num_rows(runSQLQuery($checkProductListSql)) === 0) {
                     $removeBasketSql = "DELETE FROM basket WHERE basID = '".$cltID."'";
-                    runSQLResult($removeBasketSql);
+                    runSQLQuery($removeBasketSql);
                 }
 
             }
@@ -60,7 +60,7 @@ if(isset($clientLoggedIn) || isset($loggedIn)) {
 
                 // DELETE THE BASKET
                 $deleteBasketSql = "DELETE FROM basket WHERE basID = '".$cltID."'";
-                runSQLResult($deleteBasketSql);
+                runSQLQuery($deleteBasketSql);
             }
             else if(!$loggedIn) {
                 setcookie("Basket-cookie", "", [

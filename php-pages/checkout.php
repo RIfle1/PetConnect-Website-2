@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 include '../php-processes/dbConnection.php';
 clientAndNoUserPage();

@@ -37,7 +37,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     $updateSql = "UPDATE ".$table." SET ".$entityAttribute." = '".$entityValue."' WHERE ".$entityAttributes['Token']." = '".$token."'";
     echo $updateSql;
 
-    runSQLResult($updateSql);
+    runSQLQuery($updateSql);
 
 }
 

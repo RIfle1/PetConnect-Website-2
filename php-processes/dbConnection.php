@@ -21,7 +21,7 @@ function CloseCon($conn): void
     $conn->close();
 }
 
-function runSQLResult($query) : bool|mysqli_result
+function runSQLQuery($query) : bool|mysqli_result
 {
     $conn = OpenCon();
     $result = mysqli_query($conn, $query);
@@ -50,7 +50,7 @@ function insertSQL($sql): string
 function getImage($imgPath): string
 {
     $sql = "SELECT * FROM image WHERE imgPath = '".$imgPath."'";
-    $getImageResult = runSQLResult($sql)->fetch_assoc();
+    $getImageResult = runSQLQuery($sql)->fetch_assoc();
 
     return "../img/".$getImageResult['imgCategory']."/".$getImageResult['imgPath'];
 }
@@ -58,7 +58,7 @@ function getImage($imgPath): string
 function getPfp($AttributeID, $table, $ID): bool|array|null
 {
     $sql = "SELECT * FROM ".$table." WHERE ".$AttributeID."='".$ID."'";
-    return runSQLResult($sql)->fetch_assoc();
+    return runSQLQuery($sql)->fetch_assoc();
 }
 
 function findMax($intArray) : int {
@@ -98,7 +98,7 @@ function returnLastIDInt($id, $table, $idFormat) : int {
     $idList_1 = array();
     $lastID = 0;
 
-    $result = runSQLResult("SELECT $id FROM $table");
+    $result = runSQLQuery("SELECT $id FROM $table");
     if (mysqli_num_rows($result) > 0) {
         while ($row = $result->fetch_assoc()) {
             $cltIDNumberInt = idToInt($row[$id], $idFormat);
@@ -192,7 +192,7 @@ function restrictedAdminPage($redirectPage): void {
 
 function isModerator($cltID): bool {
     $sql = "SELECT cltIsModerator FROM client WHERE cltID = '".$cltID."'";
-    $result = runSQLResult($sql);
+    $result = runSQLQuery($sql);
     $isModerator = $result->fetch_assoc();
 
     if($isModerator['cltIsModerator'] == 1) {
@@ -207,7 +207,7 @@ function compareIdAndToken($idToCheck, $tokenInput, $table): bool {
     if($table === 'client') {
         // CHECK IF TOKEN MATCHES NEW CLIENT ID
         $checkCltTokenSql = "SELECT cltID FROM client WHERE cltToken = '".$tokenInput."'";
-        $cltResult = runSQLResult($checkCltTokenSql);
+        $cltResult = runSQLQuery($checkCltTokenSql);
         $clientInfo = $cltResult->fetch_assoc();
 
         // Check if current cltID is the same as the cltID found from the token
@@ -217,7 +217,7 @@ function compareIdAndToken($idToCheck, $tokenInput, $table): bool {
     elseif($table === 'admin') {
         // CHECK IF TOKEN MATCHES NEW CLIENT ID
         $checkAdmTokenSql = "SELECT admID FROM admin WHERE admToken = '".$tokenInput."'";
-        $admResult = runSQLResult($checkAdmTokenSql);
+        $admResult = runSQLQuery($checkAdmTokenSql);
         $admInfo = $admResult->fetch_assoc();
 
         // Check if current cltID is the same as the cltID found from the token
@@ -233,7 +233,7 @@ function compareEmailAndToken($emailToCheck, $tokenInput, $table): bool {
     if($table === 'client') {
         // CHECK IF TOKEN MATCHES NEW CLIENT ID
         $checkCltTokenSql = "SELECT cltEmail FROM client WHERE cltToken = '".$tokenInput."'";
-        $cltResult = runSQLResult($checkCltTokenSql);
+        $cltResult = runSQLQuery($checkCltTokenSql);
         $clientInfo = $cltResult->fetch_assoc();
 
         // Check if current cltID is the same as the cltID found from the token
@@ -243,7 +243,7 @@ function compareEmailAndToken($emailToCheck, $tokenInput, $table): bool {
     elseif($table === 'admin') {
         // CHECK IF TOKEN MATCHES NEW CLIENT ID
         $checkAdmTokenSql = "SELECT admEmail FROM admin WHERE admToken = '".$tokenInput."'";
-        $admResult = runSQLResult($checkAdmTokenSql);
+        $admResult = runSQLQuery($checkAdmTokenSql);
         $admInfo = $admResult->fetch_assoc();
 
         // Check if current cltID is the same as the cltID found from the token
@@ -268,7 +268,7 @@ function returnEntityInfo(): bool|array|null
         else if($adminLoggedIn) {
             $sql = "SELECT admID, admUsername, admFirstName, admLastName, admEmail, admPfpName, admPhoneNumber, admSignupDate, admVerifiedEmail FROM admin WHERE admToken = '".$_SESSION['Token']."'";
         }
-        $result = runSQLResult($sql);
+        $result = runSQLQuery($sql);
         return $result->fetch_assoc();
     } else {
         return null;
@@ -390,8 +390,8 @@ function returnSessionMessages($sesMsgID): array {
 
 
 //    echo $getSessionMessagesSql;
-    $clientMessagesResult = runSQLResult($getClientMessagesSql);
-    $adminMessagesResult = runSQLResult($getAdminMessagesSql);
+    $clientMessagesResult = runSQLQuery($getClientMessagesSql);
+    $adminMessagesResult = runSQLQuery($getAdminMessagesSql);
     $sessionMessagesList = array();
 
 
@@ -454,8 +454,10 @@ function returnAllSessionMessages(): array
 {
 
     $getAllSessionMessagesIDsSql = "SELECT sesMsgID FROM session_message";
-    $allSessionMessagesIDsResult = runSQLResult($getAllSessionMessagesIDsSql);
+    $allSessionMessagesIDsResult = runSQLQuery($getAllSessionMessagesIDsSql);
     $allSessionMessagesIDsList = array();
+
+    $allSessionMessagesList = [];
 
     if(mysqli_num_rows($allSessionMessagesIDsResult) > 0) {
         while($allSessionMessagesIDs = $allSessionMessagesIDsResult ->fetch_assoc()) {
@@ -494,7 +496,7 @@ function logoutAndRedirect($page): void
 
             $insertTokenSql = "UPDATE ".$_SESSION['Table']." SET ".$entityAttributes['Token']." = '".$token."' WHERE ".$entityAttributes['Token']." = '".$_SESSION['Token']."'";
 
-            runSQLResult($insertTokenSql);
+            runSQLQuery($insertTokenSql);
 
             setcookie("Token-cookie", "", time() + (86400 * 30), "/");
             setcookie("Table-cookie", "", time() + (86400 * 30), "/");
@@ -508,7 +510,7 @@ function logoutAndRedirect($page): void
 
 }
 
-function returnList($runSQLResult): array {
+function returnList($runSQLQuery): array {
     // INPUT
     // OBJECT TYPE runSQLResult;
 
@@ -566,8 +568,24 @@ function returnList($runSQLResult): array {
     ];
 
     $list = array();
-    while($listRow = $runSQLResult->fetch_assoc()) {
+    while($listRow = $runSQLQuery->fetch_assoc()) {
         $list[] = $listRow;
+    }
+    return $list;
+}
+
+function returnObjectList($runSQLQuery, $objectID): array {
+    $list = array();
+    while($listRow = $runSQLQuery->fetch_assoc()) {
+        $list[$listRow[$objectID]] = $listRow;
+    }
+    return $list;
+}
+
+function returnItem($runSQLQuery): array {
+    $list = array();
+    while($listRow = $runSQLQuery->fetch_assoc()) {
+        $list = $listRow;
     }
     return $list;
 }
@@ -591,7 +609,7 @@ function returnImagePathList($groupList): array {
     return $imagePathList;
 }
 
-function returnGroupList($runSQLResult, $groupByID): array {
+function returnGroupList($runSQLQuery, $groupByID): array {
     // INPUT
     // OBJECT TYPE runSQLResult;
 
@@ -621,7 +639,7 @@ function returnGroupList($runSQLResult, $groupByID): array {
     ];
 
     $groupList = array();
-    while($listRow = $runSQLResult->fetch_assoc()) {
+    while($listRow = $runSQLQuery->fetch_assoc()) {
         $valueList = array();
         foreach($listRow as $mainKey => $mainValue) {
             if($mainKey !== $groupByID) {
@@ -634,7 +652,7 @@ function returnGroupList($runSQLResult, $groupByID): array {
     return $groupList;
 }
 
-function returnAssociativeList($runSQLResult, $groupByID): array {
+function returnAssociativeList($runSQLQuery, $groupByID): array {
     // INPUT
     // OBJECT TYPE runSQLResult;
 
@@ -657,7 +675,7 @@ function returnAssociativeList($runSQLResult, $groupByID): array {
     ];
 
     $list = array();
-    while($listRow = $runSQLResult->fetch_assoc()) {
+    while($listRow = $runSQLQuery->fetch_assoc()) {
 
         $list[$listRow[$groupByID]] = $listRow;
     }
@@ -803,14 +821,14 @@ function returnAddressList(): array {
                           INNER JOIN client c on address.Client_cltID = c.cltID
                           WHERE cltToken = '".$token."'";
 
-    return returnList(runSQLResult($getAddressListSql));
+    return returnList(runSQLQuery($getAddressListSql));
 }
 
 function returnAddressInfo($adrID) : array {
     $getAddressInfoSql = "SELECT adrID, adrAddress, adrAddressOptional, adrPostalCode, adrCity, adrDefault FROM address 
                           WHERE adrID = '".$adrID."'";
 
-    return returnList(runSQLResult($getAddressInfoSql));
+    return returnList(runSQLQuery($getAddressInfoSql));
 }
 
 function returnProductList($optionalPrdID) : array {
@@ -819,7 +837,7 @@ function returnProductList($optionalPrdID) : array {
     if(strlen($optionalPrdID) > 0) {
         $productListSql .= " WHERE prdID ='".$optionalPrdID."'";
     }
-    $productList = returnAssociativeList(runSQLResult($productListSql), 'prdID');
+    $productList = returnAssociativeList(runSQLQuery($productListSql), 'prdID');
 
     $prdImgListSql = "SELECT prdID, prcColor, pimPath from product
                       INNER JOIN product_color pc on product.prdID = pc.Product_prdID
@@ -827,7 +845,7 @@ function returnProductList($optionalPrdID) : array {
     if(strlen($optionalPrdID) > 0) {
         $prdImgListSql .= " WHERE prdID ='".$optionalPrdID."'";
     }
-    $prdImgList = returnGroupList(runSQLResult($prdImgListSql), 'prdID');
+    $prdImgList = returnGroupList(runSQLQuery($prdImgListSql), 'prdID');
     $prdImgList2 = returnImagePathList($prdImgList);
     $prdImgList3 = returnCombinedList2($prdImgList2, 'prdImg');
 
@@ -893,7 +911,7 @@ function returnBasketList():array {
                                    INNER JOIN basket b on client.cltID = b.Client_cltID
                                    INNER JOIN product_list pl on b.basID = pl.Basket_basID
                                    WHERE cltID = '".$cltID."'";
-            $getClientBasketListResult = runSQLResult($getClientBasketListSql);
+            $getClientBasketListResult = runSQLQuery($getClientBasketListSql);
 
             if(mysqli_num_rows($getClientBasketListResult) > 0) {
                 $clientBasketList = returnList($getClientBasketListResult);
@@ -933,6 +951,89 @@ function returnBasketList():array {
     }
 }
 
+function returnDevicesList(): array {
+    if(isset($_SESSION['Table']) && $_SESSION['Table'] === 'client') {
+
+        $cltID = $_SESSION['ID'];
+        $getClientDevicesListSql = "SELECT * FROM device
+                                    WHERE Client_cltID = '".$cltID."'";
+
+        $getClientDevicesListResult = runSQLQuery($getClientDevicesListSql);
+
+        $productsList = returnProductList('');
+
+        if(mysqli_num_rows($getClientDevicesListResult) > 0) {
+            $clientDevicesList = returnList($getClientDevicesListResult);
+
+            foreach($clientDevicesList as $clientDevicesListIndex => $clientDevicesListItem) {
+                $prdID = $clientDevicesListItem['prdID'];
+                $prcColor = $clientDevicesListItem['prcColor'];
+                $prdImg = $productsList[$prdID]['prdImg'][$prcColor];
+                $clientDevicesList[$clientDevicesListIndex]['prdImg'] = $prdImg;
+            }
+
+            return $clientDevicesList;
+        }
+        else {
+            return array();
+        }
+    }
+    else {
+        return array();
+    }
+}
+
+function returnMiscImgList(): array {
+    return array (
+        'edit.png' => getImage('edit.png'),
+        'cancel.png' => getImage('cancel.png'),
+        'confirm.png' => getImage('confirm.png'),
+        'heart.png' => getImage('heart.png'),
+        'co2.png' => getImage('co2.png'),
+        'thermo.png' => getImage('thermo.png'),
+    );
+}
+
+function returnAssistanceList($optionalAstID, $astApproved, $type): array {
+    if(strlen($optionalAstID) === 0) {
+        if(strlen($astApproved) === 0) {
+            $getAssistanceListSql = "SELECT * FROM assistance";
+        }
+        else {
+            $getAssistanceListSql = "SELECT * FROM assistance WHERE astApproved = '".$astApproved."'";
+        }
+    }
+    else {
+        if(strlen($astApproved === 0)) {
+            $getAssistanceListSql = "SELECT * FROM assistance WHERE astID = '".$optionalAstID."'";
+        }
+        else {
+            $getAssistanceListSql = "SELECT * FROM assistance WHERE astID = '".$optionalAstID."' AND astApproved = '".$astApproved."'";
+        }
+    }
+
+    $assistanceListResult = runSQLQuery($getAssistanceListSql);
+
+    if(mysqli_num_rows($assistanceListResult) > 0) {
+        if(strlen($optionalAstID) === 0) {
+            if($type === 'object') {
+                return returnObjectList($assistanceListResult, 'astID');
+            }
+            else if($type == 'list') {
+                return returnList($assistanceListResult);
+            }
+
+        }
+        else {
+            return returnItem($assistanceListResult);
+        }
+
+    }
+    else {
+        return array();
+    }
+}
+
 function returnLastMessagesList($type): array {
     if($type === 'message') {
         $getActiveMessagesSql = "SELECT DISTINCT cltID, cltUsername FROM client
@@ -941,7 +1042,7 @@ function returnLastMessagesList($type): array {
                              WHERE sesMsgEndDate is null 
                              ORDER BY sesMsgStartDate";
 
-        $activeMessagesResult = runSQLResult($getActiveMessagesSql);
+        $activeMessagesResult = runSQLQuery($getActiveMessagesSql);
 
         if(mysqli_num_rows($activeMessagesResult) > 0) {
             while($activeMessages = $activeMessagesResult->fetch_assoc()) {
@@ -972,7 +1073,7 @@ function returnLastMessagesList($type): array {
                                    WHERE sesMsgID LIKE '%resolved%'
                                    ORDER BY sesMsgEndDate";
 
-        $resolvedMessagesResult = runSQLResult($getResolvedMessagesSql);
+        $resolvedMessagesResult = runSQLQuery($getResolvedMessagesSql);
 
         if(mysqli_num_rows($resolvedMessagesResult) > 0) {
             while($resolvedMessages = $resolvedMessagesResult -> fetch_assoc()) {
@@ -1032,7 +1133,39 @@ function returnLanguageList(): array
 
                 "Submit Changes" => "Submit Changes",
             ),
-            "assistance" => array(),
+            "assistance" => array(
+                "Assistance" => "Assistance",
+                "Need help?" => "Need Help?",
+                "Find the answer to all of your questions" => "Find the answer to all of your questions",
+                "Frequent Questions" => "Frequent Questions",
+                "Can't find your question?" => "Can't find your question?",
+                "Click" => "Click",
+                "here" => "here",
+                "to ask a new question" => "to ask a new question",
+                "No questions have been found." => "No questions have been found.",
+            ),
+            "assistance-answer" => array(
+                "Assistance Answer" => "Assistance Answer",
+            ),
+            "assistance-question" => array(
+                "Ask a new question" => "Ask a new question",
+                "Write your question here" => "Write your question here",
+                "New question" => "New question",
+                "Ask question" => "Ask question",
+                "Your question has been successfully sent and will be reviewed soon" => "Your question has been successfully sent and will be reviewed soon",
+                "Your question could not be processed" => "Your question could not be processed",
+            ),
+            "assistance-manage" => array(
+                "Answer Questions" => "Answer Questions",
+                "Manage Questions" => "Manage Questions",
+                "Control Panel" => "Control Panel",
+                "Save Changes" => "Save Changes",
+                "Approve Question" => "Approve Question",
+                "Disapprove Question" => "Disapprove Question",
+                "Delete Selected Question" => "Delete Selected Question",
+                "Edit Question" => "Edit Question",
+                "Answer to the question" => "Answer to the question",
+            ),
             "checkout" => array(
                 "Checkout" => "Checkout",
             ),

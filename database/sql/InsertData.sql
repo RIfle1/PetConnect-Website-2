@@ -48,6 +48,9 @@ INSERT INTO image (imgID, imgPath, imgCategory) VALUES ('img38', 'eco.png', 'mis
 INSERT INTO image (imgID, imgPath, imgCategory) VALUES ('img39', 'delivery.png', 'misc');
 INSERT INTO image (imgID, imgPath, imgCategory) VALUES ('img40', 'satisfied.png', 'misc');
 INSERT INTO image (imgID, imgPath, imgCategory) VALUES ('img41', 'trash.png', 'misc');
+INSERT INTO image (imgID, imgPath, imgCategory) VALUES ('img42', 'edit.png', 'misc');
+INSERT INTO image (imgID, imgPath, imgCategory) VALUES ('img43', 'cancel.png', 'misc');
+INSERT INTO image (imgID, imgPath, imgCategory) VALUES ('img44', 'confirm.png', 'misc');
 
 INSERT INTO client (cltID, cltUsername, cltFirstName, cltLastName, cltEmail, cltPhoneNumber, cltPassword, cltPfpName, cltSignupDate, cltVerifiedEmail) VALUES ('clt19', 'Jeff', 'fEFF', 'hgEtus', 'pppbbb616000@gmail.com', '123456789', '$2y$10$kOeEgAJU04emD4fT6.dW8OoEWivgwuWROTd07DvI/ETjZEuOkbuaO', 'chien.jpg', NOW(), 1);
 INSERT INTO client (cltID, cltUsername, cltFirstName, cltLastName, cltEmail, cltPhoneNumber, cltPassword, cltPfpName, cltSignupDate, cltVerifiedEmail) VALUES ('clt2', 'zenry123', 'fgenry', 'aEEtus', 'henry@yeetus.com', '123456789', '$2y$10$kOeEgAJU04emD4fT6.dW8OoEWivgwuWROTd07DvI/ETjZEuOkbuaO', 'chien.jpg', NOW(), 1);
@@ -135,3 +138,26 @@ INSERT INTO product_image(pimID, pimPath, Product_Color_prcID) VALUES ('pim21', 
 INSERT INTO product_image(pimID, pimPath, Product_Color_prcID) VALUES ('pim22', 'iCollar_v1_red.png', 'prc22');
 INSERT INTO product_image(pimID, pimPath, Product_Color_prcID) VALUES ('pim23', 'iCollar_v1_white.png', 'prc23');
 INSERT INTO product_image(pimID, pimPath, Product_Color_prcID) VALUES ('pim24', 'iCollar_v1_yellow.png', 'prc24');
+
+INSERT INTO assistance(astID, astQuestion, astAnswer, astApproved) VALUES ('ast1', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus, laboriosam?', 'I don\'t know dude', 1);
+INSERT INTO assistance(astID, astQuestion, astAnswer, astApproved) VALUES ('ast2', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus, laboriosam?', 'I don\'t know dude', 1);
+INSERT INTO assistance(astID, astQuestion, astAnswer, astApproved) VALUES ('ast3', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus, laboriosam?', 'I don\'t know dude', 1);
+INSERT INTO assistance(astID, astQuestion, astAnswer, astApproved) VALUES ('ast4', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus, laboriosam?', 'I don\'t know dude', 1);
+INSERT INTO assistance(astID, astQuestion, astAnswer, astApproved) VALUES ('ast5', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus, laboriosam?', 'I don\'t know dude', 1);
+INSERT INTO assistance(astID, astQuestion, astAnswer, astApproved) VALUES ('ast6', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus, laboriosam?', 'I don\'t know dude', 1);
+INSERT INTO assistance(astID, astQuestion, astAnswer, astApproved) VALUES ('ast7', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus, laboriosam?', 'I don\'t know dude', 1);
+
+INSERT INTO assistance(astID, astQuestion, astAnswer, astApproved) VALUES ('ast8', 'Question1?', 'I don\'t know dude', 1);
+INSERT INTO assistance(astID, astQuestion, astAnswer, astApproved) VALUES ('ast9', 'Question2?', 'I don\'t know dude', 1);
+INSERT INTO assistance(astID, astQuestion, astAnswer, astApproved) VALUES ('ast10', 'Question3?', 'I don\'t know dude', 1);
+INSERT INTO assistance(astID, astQuestion, astAnswer, astApproved) VALUES ('ast11', 'Question4?', 'I don\'t know dude', 1);
+INSERT INTO assistance(astID, astQuestion, astAnswer, astApproved) VALUES ('ast12', 'Question5?', 'I don\'t know dude', 1);
+INSERT INTO assistance(astID, astQuestion, astAnswer, astApproved) VALUES ('ast13', 'Question6?', 'I don\'t know dude', 1);
+INSERT INTO assistance(astID, astQuestion, astAnswer, astApproved) VALUES ('ast14', 'Question7?', 'I don\'t know dude', 1);
+
+INSERT INTO assistance(astID, astQuestion, astAnswer, astApproved) VALUES ('ast15', 'Question8?', 'I don\'t know dude', 0);
+INSERT INTO assistance(astID, astQuestion, astAnswer, astApproved) VALUES ('ast16', 'Question8?', 'I don\'t know dude', 0);
+INSERT INTO assistance(astID, astQuestion, astAnswer, astApproved) VALUES ('ast17', 'Question8?', 'I don\'t know dude', 0);
+INSERT INTO assistance(astID, astQuestion, astAnswer, astApproved) VALUES ('ast18', 'Question8?', 'I don\'t know dude', 0);
+INSERT INTO assistance(astID, astQuestion, astAnswer, astApproved) VALUES ('ast19', 'Question8?', 'I don\'t know dude', 0);
+INSERT INTO assistance(astID, astQuestion, astAnswer, astApproved) VALUES ('ast20', 'Question8?', 'I don\'t know dude', 0);

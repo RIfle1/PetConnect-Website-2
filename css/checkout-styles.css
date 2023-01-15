@@ -146,10 +146,12 @@
 }
 
 #ch-empty-empty-span {
+    display: none;
     font-size: 25px;
 }
 
 #ch-empty-buy-success-span {
+    display: none;
     color: #73B43E;
     font-size: 20px;
 }

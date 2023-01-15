@@ -6,7 +6,11 @@ include_once '../php-processes/authenticity-check.php';
 
 //header("Content-Type: application/json");
 
-//var_dump(deObjectifyList(returnProductList('')));
+//var_dump(returnProductList('prd1'));
+
+//var_dump(returnDevicesList());
+
+//var_dump(returnMiscImgList());
 
 //var_dump(returnBasketList());
 
@@ -17,4 +21,6 @@ include_once '../php-processes/authenticity-check.php';
 //print_r(json_decode($_COOKIE['Basket-cookie']));
 
 //echo sizeof($_COOKIE['Basket-cookie']);
+
+var_dump(returnAssistanceList('', ''));
 

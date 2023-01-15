@@ -70,7 +70,7 @@ if(!empty($_GET['ID'])) {
     $sql ='';
 }
 
-$result = runSQLResult($sql);
+$result = runSQLQuery($sql);
 
 while($entityInfo = $result->fetch_array()) {
 

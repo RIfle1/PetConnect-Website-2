@@ -22,11 +22,11 @@ if(isset($clientLoggedIn) || isset($loggedIn)) {
 
                 $insertNewBasketSql = "INSERT IGNORE INTO basket(basID, Client_cltID) 
                                    VALUES ('".$cltID."', '".$cltID."')";
-                runSQLResult($insertNewBasketSql);
+                runSQLQuery($insertNewBasketSql);
 
                 $insertProductSql = "INSERT INTO product_list(prdLstID, prcColor, Product_prdID, Basket_basID) 
                                  VALUES ('".$prdLstID."', '".$prcColor."', '".$prdID."', '".$cltID."')";
-                runSQLResult($insertProductSql);
+                runSQLQuery($insertProductSql);
             }
         }
 

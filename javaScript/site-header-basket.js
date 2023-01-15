@@ -64,6 +64,7 @@ function checkBasketContents() {
         if(typeof(checkoutTotalDivElement) !== "undefined") {
             checkoutTotalDivElement.css("display", "flex");
             checkoutEmptyDivElement.css("display", "none");
+            checkoutEmptySpanElement.css("display", "none");
             checkoutButtonsDivElement.css("display", "flex");
         }
     }
@@ -77,6 +78,7 @@ function checkBasketContents() {
         if(typeof(checkoutTotalDivElement) !== "undefined") {
             checkoutTotalDivElement.css("display", "none");
             checkoutEmptyDivElement.css("display", "flex");
+            checkoutEmptySpanElement.css("display", "flex");
             checkoutButtonsDivElement.css("display", "none");
         }
     }

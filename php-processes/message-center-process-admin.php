@@ -37,14 +37,14 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     sesMsgID = '".$sesMsgID."-resolved-".$resolvedID."'
                                     WHERE sesMsgID = '".$sesMsgID."'";
 
-        runSQLResult($updateSessionMessageSql);
+        runSQLQuery($updateSessionMessageSql);
     }
 
     if(!empty($_POST['sesMsgID']) && !empty($_POST['deleteConversation'])) {
         $sesMsgID = $_POST['sesMsgID'];
 
         $deleteSessionMessageSql = "DELETE FROM session_message WHERE sesMsgID = '".$sesMsgID."'";
-        runSQLResult($deleteSessionMessageSql);
+        runSQLQuery($deleteSessionMessageSql);
     }
 
     if(!empty($_POST['deleteInterval'])) {
@@ -55,7 +55,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
         $deleteSessionMessageIntervalSql = "DELETE FROM session_message WHERE ".$sesMsgDate." between '".$startDate."' 
                                                                               AND '".$endDate."'
                                                                               AND sesMsgID LIKE '%resolved%'";
-        runSQLResult($deleteSessionMessageIntervalSql);
+        runSQLQuery($deleteSessionMessageIntervalSql);
     }
 
 }

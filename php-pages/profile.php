@@ -93,8 +93,8 @@ $languageList = returnLanguageList()[returnLanguage()]['profile'];
         <a href="<?php restrictedAdminPage('../php-pages/payment-method.php') ?>"><span><?php echo $languageList["Payment Method"]?></span></a>
         <a href="<?php restrictedAdminPage('../php-pages/address.php') ?>"><span><?php echo $languageList["Addresses"]?></span></a>
         <?php elseif ($adminLoggedIn): ?>
-            <a href="manage-user.php"><span><?php echo $languageList["Manage Users"]?></span></a>
-            <a href="#"><span><?php echo $languageList["Answer Questions"]?></span></a>
+            <a href="../php-pages/manage-user.php"><span><?php echo $languageList["Manage Users"]?></span></a>
+            <a href="assistance-manage.php"><span><?php echo $languageList["Answer Questions"]?></span></a>
 <!--            <a href="#"><span>Gérer les données</span></a>-->
         <?php endif; ?>
         <a href="<?php restrictedNoUserPage('../php-pages/connection-security.php') ?>"><span><?php echo $languageList["Connection And Security"]?></span></a>

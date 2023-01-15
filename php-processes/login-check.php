@@ -12,9 +12,9 @@ if(!empty($_COOKIE['Token-cookie']) && !empty($_COOKIE['Table-cookie'])) {
     }
 
     $loginCheckSql = "SELECT * FROM ".$_COOKIE['Table-cookie']." WHERE ".$IDLetters."Token = '".$_COOKIE['Token-cookie']."'";
-    $entityInfo = runSQLResult($loginCheckSql)->fetch_assoc();
+    $entityInfo = runSQLQuery($loginCheckSql)->fetch_assoc();
 
-    if( mysqli_num_rows(runSQLResult($loginCheckSql)) > 0) {
+    if( mysqli_num_rows(runSQLQuery($loginCheckSql)) > 0) {
         $_SESSION['Token'] = $_COOKIE['Token-cookie'];
         $_SESSION[$_COOKIE['Table-cookie'].'LoggedIn'] = true;
 

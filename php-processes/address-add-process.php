@@ -37,7 +37,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
                        WHERE adrID = '".$adrID."'";
     }
 
-    runSQLResult($addressSql);
+    runSQLQuery($addressSql);
 
     header("Location: ../php-pages/address.php", true, 303);
 }

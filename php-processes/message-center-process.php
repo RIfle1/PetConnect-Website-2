@@ -50,7 +50,7 @@ if($_SERVER['REQUEST_METHOD'] === 'GET') {
         if($Table === 'client') {
             $cltID = $entityID;
             $insertMessageInNewSessionSql = "INSERT IGNORE INTO session_message (sesMsgID, Client_cltID) VALUES ('".$cltID."', '".$cltID."')";
-            runSQLResult($insertMessageInNewSessionSql);
+            runSQLQuery($insertMessageInNewSessionSql);
         }
         elseif($Table === 'admin') {
             $cltID = $_GET['ID'];
@@ -60,7 +60,7 @@ if($_SERVER['REQUEST_METHOD'] === 'GET') {
                             VALUES ('".$newMsgID."','".$msgMessage."','".$entityID."', '".$cltID."')";
 
         echo $insertNewMessageSql;
-        runSQLResult($insertNewMessageSql);
+        runSQLQuery($insertNewMessageSql);
 //        echo $insertNewMessageSql;
     }
 }

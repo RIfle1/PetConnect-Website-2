@@ -34,7 +34,7 @@ validateEmail($cltEmail);
 validatePassword($cltPassword, $newPasswordConfirmation);
 
 $emailSQL = "SELECT cltEmail FROM Client WHERE cltEmail='".$cltEmail."'";
-$result = runSQLResult($emailSQL);
+$result = runSQLQuery($emailSQL);
 $userEmail = $result->fetch_assoc();
 
 if (!(is_null($userEmail))) {

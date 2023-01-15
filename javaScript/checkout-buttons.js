@@ -10,6 +10,10 @@ const checkoutButtonsDivID = "ch-checkout-buttons-div"
 // HARDCODED BUTTON IDS
 const checkoutBuyProductsButtonID = "ch-checkout-buy-products-button"
 
+// HARDCODED SPAN IDS
+const checkoutEmptySpanID = 'ch-empty-empty-span';
+const checkoutBuySuccessSpanID = 'ch-empty-buy-success-span';
+
 // HARDCODED DIV ELEMENTS
 const checkoutProductDivElement = $("#"+checkoutProductDivID)
 
@@ -19,6 +23,10 @@ const checkoutButtonsDivElement = $("#"+checkoutButtonsDivID);
 
 // HARDCODED BUTTON ELEMENTS
 const checkoutBuyProductsButtonElement = $("#"+checkoutBuyProductsButtonID);
+
+// HARDCODED SPAN ELEMENTS
+const checkoutEmptySpanElement = $("#"+checkoutEmptySpanID);
+const checkoutBuySuccessSpanElement = $("#"+checkoutBuySuccessSpanID);
 
 // VOLATILE BUTTONS IDS
 const checkoutDeleteItemImgClass = 'ch-delete-product-img';
@@ -52,6 +60,7 @@ checkoutBuyProductsButtonElement.click(function() {
     })
     buyProductsAjax.always(function() {
         basketDeleteAllButtonElement.trigger('click');
+        checkoutBuySuccessSpanElement.css("display", "block")
     })
 })
 
