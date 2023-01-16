@@ -58,7 +58,11 @@ $languageList = returnLanguageList()[returnLanguage()]['connection-security'];
                             <p>Livraison gratuite en France <br> métropolitaine</p>
                         </div>
                         <div id="continue">
-                            <a href="">Payer</a>
+                            <form action="../php-processes/shop-process.php" method="post">
+                                <button type="submit" name="pay">
+                                    <a>Payer</a>
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>

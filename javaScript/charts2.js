@@ -1,8 +1,12 @@
+var truc = getElementById
+alert("salut");
+alert(BPM);
 // data Rythme cardiaque
 const dataBPM = {
+    labels: ['Day 1', 'Day 2', 'Day 3'],
     datasets: [{
         label: 'BPM',
-        data: [],
+        data: [15, 36, 86],
         backgroundColor: 'rgba(255, 99, 132, 0.2)',
         borderColor: 'rgba(255, 99, 132, 1)',
         borderWidth: 1
@@ -49,13 +53,12 @@ const dataDB = {
 // config block
 function config(data, ymin, ymax, vmin, vmax) {
     const config = {
-        type: 'line',
+        type: 'bar',
         data: data,
         options: {
             plugins: {
                 streaming: {
                     duration: 20000,
-
                     refresh: 200,
                     // frameRate: 20
                 }
@@ -65,22 +68,9 @@ function config(data, ymin, ymax, vmin, vmax) {
             },
             scales: {
                 x: {
-                    type: 'realtime',
-                    realtime: {
-                        onRefresh: chart => {
-                            chart.data.datasets.forEach(dataset => {
-                                dataset.data.push({
-                                    x: Date.now(),
-                                    y: Math.random() * (vmax - vmin) + vmin,
-                                });
-                            });
-                        }
-                    }
-
                 },
                 y: {
-                    suggestedMin: ymin,
-                    suggestedMax: ymax,
+                    beginAtZero: true
                 }
             }
         }

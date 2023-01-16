@@ -1,0 +1,143 @@
+#ids-form-body{
+    display: flex;
+    flex-direction: column;
+    margin-left: 5vw;
+    margin-right: 5vw;
+    margin-bottom: 50px;
+}
+
+
+#info_app h2{
+    font-weight: 700;
+    font-size: 36px;
+
+    padding-left: 93px;
+}
+
+
+#produit img{
+    position: relative;
+    width: 14em;
+    top:-3em;
+    left: 5em;
+}
+
+
+.grid3{
+    margin: -5em 3em 0 3em;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, auto);
+    grid-gap: 20px;
+}
+.case{
+    background: #FFFFFF;
+    border: 1px solid #D9D9D9;
+    border-radius: 34px;
+    padding-bottom: 2em;
+
+}
+
+.elementChart{
+    display: flex;
+    flex-direction: row;
+}
+
+.controlChart{
+    margin-top: 10px;
+    margin-right: 10px;
+    width: 70%;
+    background-color: rgba(124, 124, 124, 0.431);
+    border-radius: 20px;
+    padding: 20px;
+ 
+}
+
+.case h3{
+    font-weight: 700;
+    font-size: 16px;
+    margin-top: 0px;
+
+}
+
+
+.controlChart-flex{
+    display: flex;
+    flex-direction: row;
+}
+
+.case img{
+    position: relative;
+    width: 4em;
+    height: 4em;
+    margin-top: .5em;
+    margin-left: 1em;
+}
+
+.case input{
+    height: 20px;
+    border-radius: 5px;
+    margin: 0 5px 0 5px;
+    border:  none;
+
+
+
+ 
+}
+
+
+.case h4{
+    text-align: center;
+
+}
+
+
+.case button {
+    position: relative;
+    width: 60px;
+    height: 20px;
+  border: 1px solid rgb(87, 84, 84);
+  border-radius: 5px;
+  color: white;
+  background-color: #918D8D;
+}
+
+.case button:hover{
+    background: #1E45A9;
+}
+
+
+.case .graph > div{
+    position: relative;
+    width: 420px;
+    height:320px;
+    border: solid 16px rgb(188, 188, 188);
+    border-radius: 24px;
+    left: 50%;
+    top: 12em;
+    margin-left: 2px;
+    transform: translate(-50%, -50%)
+}
+
+
+
+
+#plan h4{
+    margin-top: -50px;
+}
+
+
+@media screen and (max-width: 1230px){
+    .grid3{
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(3, auto);
+    }
+}
+
+@media screen and (max-width: 830px){
+    .grid3{
+        grid-template-columns: repeat(1, 1fr);
+        grid-template-rows: repeat(5, auto);
+    }
+}
+

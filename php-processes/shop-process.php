@@ -1,5 +1,8 @@
 <?php
 include '../php-processes/dbConnection.php';
+
+include 'php-mailer.php';
+
 clientPage();
 if (isset($_POST["addBasket"]) or isset($_POST["buy"])) {
 
@@ -49,8 +52,36 @@ if (isset($_POST["suppr"])) {
 
     $deleteBasket = " DELETE Product_list,Basket FROM Basket INNER JOIN Product_List ON (Basket.basID = Product_List.Basket_basID) WHERE Client_cltID ='" . $cltID . "'";
 
-    echo $deleteBasket;
+    // echo $deleteBasket;
     runSQLResult($deleteBasket);
 
     header('Location:../php-pages/shop.php');
+    exit;
+}
+
+
+
+
+if (isset($_POST["pay"])) {
+    $cltID = $_SESSION["ID"];
+    $deviceCode = generateVerificationCode();
+    $entityInfo = returnEntityInfo();
+    $cltEmail = $entityInfo["cltEmail"];
+    $cltFirstName = $entityInfo["cltFirstName"];
+    $body = returnEmailCodeDeviceStructure($deviceCode)["body"];
+    $subject = returnEmailCodeDeviceStructure($deviceCode)["subject"];
+    echo "pay";
+
+
+
+    if (sendGmail($cltEmail, $cltFirstName, $body, $subject)) {
+        echo "payme";
+
+        $insertDevice = "INSERT INTO Device(devID, Client_cltID) VALUES('" . $deviceCode . "', '" . $cltID . "')";
+        echo $insertDevice;
+        runSQLResult($insertDevice);
+
+        header('Location:../php-pages/payment-success.php');
+        die();
+    }
 }
