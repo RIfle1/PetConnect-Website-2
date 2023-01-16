@@ -51,6 +51,7 @@ productJson['buyAmount'] = parseInt(selectedAmountSpanElement.text());
 //ITEM LISTS
 const amountHiddenItemList = [1,2,3,4,5,6,7,8,9]
 let colorHiddenItemList = getColorList(productJson);
+console.log(colorHiddenItemList);
 const productImageList = getImageList(productJson)
 
 //----------------------------------------------------------------------------------------------------------------------

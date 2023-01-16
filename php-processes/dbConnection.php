@@ -1354,7 +1354,7 @@ function returnLanguageList(): array
                 "Ecological Packaging" => "Ecological Packaging",
                 "Delivery under 48h" => "Delivery under 48h",
                 "Satisfied or reimbursed" => "Satisfied or reimbursed",
-            ), // this
+            ),
             "profile" => array(
                 "Select Image" => "Select Image",
                 "Upload Image" => "Upload Image",
@@ -1581,6 +1581,14 @@ function returnLanguageList(): array
 
 
             ),
+            "product-buttons" => array(
+                "white" => "white",
+                "blue" => "blue",
+                "green" => "green",
+                "red" => "red",
+                "yellow" => "yellow",
+                "black" => "black",
+            ),
             "validation-functions" => array(
                 "Client Username is required" => "Client Username is required",
                 "Client Username must be at least 3 characters" => "Client Username must be at least 3 characters",
@@ -1662,7 +1670,7 @@ function returnLanguageList(): array
                 "Answer to the question" => "Répondre à la question",
             ),
             "checkout" => array(
-                "Checkout" => "Caissier",
+                "Checkout" => "Panier",
                 "Start adding items to your basket!" => "Commencez à ajouter des articles à votre panier!",
                 "Thank you for buying our products! An email has been sent to you with all the details." => "Merci d'avoir acheté nos produits! Un e-mail vous a été envoyé avec tous les détails.",
                 "Your Total is" => "Votre total est",
@@ -1810,6 +1818,14 @@ function returnLanguageList(): array
                 "Your account password could not be changed." => "Votre mot de passe de compte n'a pas pu être modifié.",
                 "You can now" => "Vous pouvez maintenant",
                 "login" => "vous-identifiez",
+            ),
+            "product" => array(
+                "White" => "Blanc",
+                "Add to basket" => "Ajouter au panier",
+                "Buy this product" => "Acheter ce produit",
+                "Ecological Packaging" => "Emballage écologique",
+                "Delivery under 48h" => "Livraison sous 48h",
+                "Satisfied or reimbursed" => "Satisfait ou remboursé",
             ),
             "profile" => array(
                 "Select Image" => "Sélectionner une image",
@@ -2061,9 +2077,13 @@ function returnLanguageList(): array
                 "Please input a Date." => "Veuillez entrer une date.",
                 "Please input a Start Date and an End Date." => "Veuillez entrer une date de début et une date de fin.",
         ),
-            "password-reset-validation" => array(
-                "New Password is required" => "New Password is required",
-                "Passwords should match" => "Passwords should match",
+            "product-buttons" => array(
+                "white" => "blanc",
+                "blue" => "bleu",
+                "green" => "vert",
+                "red" => "rouge",
+                "yellow" => "jaune",
+                "black" => "noir",
             ),
             "validation-functions" => array(
                 "Client Username is required" => "Nom d'utilisateur du client requis",

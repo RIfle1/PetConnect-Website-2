@@ -78,6 +78,8 @@ $basketList = returnBasketList();
                     <?php if (isset($loggedIn) && isset($entityInfo) && isset($entityAttributes)) : ?>
                         <?php if ($loggedIn && strlen($entityInfo[$entityAttributes["PfpName"]]) > 0) : ?>
                             <img class="sih-interaction-img-1" src="../img/pfp/<?php echo getPfp($entityAttributes['ID'], $entityAttributes['Table'], $entityInfo[$entityAttributes['ID']])[$entityAttributes["PfpName"]] ?>" alt="Profile picture">
+                        <?php else: ?>
+                            <img class="sih-interaction-img-1" src="<?php echo getImage('client.png') ?>" alt="Profile picture">
                         <?php endif; ?>
                     <?php else : ?>
                         <img class="sih-interaction-img-1" src="<?php echo getImage('client.png') ?>" alt="Client-logo">

@@ -9,6 +9,7 @@ clientAndNoUserPage();
 include 'site-header.php';
 
 $languageList = returnLanguageList()[returnLanguage()]['product'];
+$javaScriptLanguageList = returnLanguageList()[returnLanguage()]['product-buttons'];
 
 $product = returnProductList('')[$_GET['prdID']];
 $productPriceInt = returnProductIntPrice($product['prdPrice']);
@@ -18,6 +19,7 @@ $productPriceDecimal = returnProductDecimalPrice($product['prdPrice']);
 <script>
     // JSON VARIABLES
     let productJson = <?php echo json_encode($product) ?>;
+    let javaScriptLanguageList = <?php echo json_encode($javaScriptLanguageList) ?>;
 </script>
 
 <!doctype html>
