@@ -5,6 +5,8 @@ onlyClientPage();
 include 'site-header.php';
 
 $languageList = returnLanguageList()[returnLanguage()]['address'];
+$javaScriptLanguageList = returnLanguageList()[returnLanguage()]['address-buttons'];
+$addressList = returnAddressList();
 ?>
 
 <!doctype html>
@@ -17,6 +19,11 @@ $languageList = returnLanguageList()[returnLanguage()]['address'];
     <title>Addresses</title>
 </head>
 <body>
+
+<script>
+    let addressList = <?php echo json_encode($addressList) ?>;
+    let javaScriptLanguageList = <?php echo json_encode($javaScriptLanguageList) ?>;
+</script>
 
 <div id="ad-main-body-div" class="text-font-700">
 
@@ -41,7 +48,7 @@ $languageList = returnLanguageList()[returnLanguage()]['address'];
 <?php include '../php-pages/site-footer.php' ?>
 
 <script type="text/javascript">
-    setMarginTop('site-header-main-header', 'id', 'ad-main-body-div', 'id', 40)
+    setMarginTop('sih-main-header', 'id', 'ad-main-body-div', 'id', 40)
 
     // setToWindowHeight('ad-main-body-div', 'id', 0)
     setMarginTopFooter('ad-main-body-div', 'id', 'site-footer-main-div', 'id', 0)

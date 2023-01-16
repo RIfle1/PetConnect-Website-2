@@ -6,76 +6,12 @@ $clientLoggedIn = $_SESSION['clientLoggedIn'];
 $adminLoggedIn = $_SESSION['adminLoggedIn'];
 $loggedIn = $_SESSION['loggedIn'];
 
-adminPage();
+onlyAdminPage();
 
 if($_SERVER['REQUEST_METHOD'] === 'GET') {
-    if(!empty($_GET['getMessages']) && $_GET['getMessages'] === 'message') {
-        $getActiveMessagesSql = "SELECT DISTINCT cltID, cltUsername FROM client
-                             INNER JOIN client_message cm on client.cltID = cm.Client_cltID
-                             INNER JOIN session_message sm on cm.Session_Message_sesMsgID = sm.sesMsgID
-                             WHERE sesMsgEndDate is null 
-                             ORDER BY sesMsgStartDate";
-
-        $activeMessagesResult = runSQLResult($getActiveMessagesSql);
-
-        if(mysqli_num_rows($activeMessagesResult) > 0) {
-            while($activeMessages = $activeMessagesResult->fetch_assoc()) {
-                $sesMsgID = $activeMessages['cltID'];
-
-                $sessionMessages = returnSessionMessages($sesMsgID);
-                $lastSessionMessage = end($sessionMessages[$sesMsgID]);
-
-                $activeMessagesList[] = array(
-                    'cltID' => $activeMessages['cltID'],
-                    'cltUsername' => $activeMessages['cltUsername'],
-
-                    'username' => $lastSessionMessage['username'],
-                    'msgMessage' => $lastSessionMessage['msgMessage'],
-                    'msgDate' => $lastSessionMessage['msgDate'],
-                );
-            }
-        }
-        else {
-            $activeMessagesList = array();
-        }
-
+    if(!empty($_GET['getMessages'])) {
         header("Content-Type: application/json");
-        echo json_encode(["lastMessagesList" => $activeMessagesList]);
-    }
-
-    if(!empty($_GET['getMessages']) && $_GET['getMessages'] === 'resolved') {
-        $getResolvedMessagesSql = "SELECT DISTINCT sesMsgID, sesMsgStartDate ,sesMsgEndDate, cltUsername  FROM session_message 
-                                   LEFT JOIN client_message cm on session_message.sesMsgID = cm.Session_Message_sesMsgID
-                                   LEFT JOIN client c on cm.Client_cltID = c.cltID
-                                   WHERE sesMsgID LIKE '%resolved%'
-                                   ORDER BY sesMsgEndDate";
-
-        $resolvedMessagesResult = runSQLResult($getResolvedMessagesSql);
-
-        if(mysqli_num_rows($resolvedMessagesResult) > 0) {
-            while($resolvedMessages = $resolvedMessagesResult -> fetch_assoc()) {
-
-//                $sessionMessages = returnSessionMessages($resolvedMessages['sesMsgID']);
-//                $lastSessionMessage = end($sessionMessages);
-
-                $resolvedMessagesList[] = array(
-                    'sesMsgID' => $resolvedMessages['sesMsgID'],
-                    'cltUsername' => $resolvedMessages['cltUsername'],
-                    'sesMsgEndDate' => $resolvedMessages['sesMsgEndDate'],
-                    'sesMsgStartDate' => $resolvedMessages['sesMsgStartDate'],
-
-//                    'username' => $lastSessionMessage['username'],
-//                    'msgMessage' => $lastSessionMessage['msgMessage'],
-//                    'msgDate' => $lastSessionMessage['msgDate'],
-                );
-            }
-        }
-        else {
-            $resolvedMessagesList = array();
-        }
-
-        header("Content-Type: application/json");
-        echo json_encode(["lastMessagesList" => $resolvedMessagesList]);
+        echo json_encode(["lastMessagesList" => returnLastMessagesList($_GET['getMessages'])]);
     }
 
     if(!empty($_GET['sessionMessages'])) {
@@ -101,14 +37,14 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     sesMsgID = '".$sesMsgID."-resolved-".$resolvedID."'
                                     WHERE sesMsgID = '".$sesMsgID."'";
 
-        runSQLResult($updateSessionMessageSql);
+        runSQLQuery($updateSessionMessageSql);
     }
 
     if(!empty($_POST['sesMsgID']) && !empty($_POST['deleteConversation'])) {
         $sesMsgID = $_POST['sesMsgID'];
 
         $deleteSessionMessageSql = "DELETE FROM session_message WHERE sesMsgID = '".$sesMsgID."'";
-        runSQLResult($deleteSessionMessageSql);
+        runSQLQuery($deleteSessionMessageSql);
     }
 
     if(!empty($_POST['deleteInterval'])) {
@@ -119,7 +55,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
         $deleteSessionMessageIntervalSql = "DELETE FROM session_message WHERE ".$sesMsgDate." between '".$startDate."' 
                                                                               AND '".$endDate."'
                                                                               AND sesMsgID LIKE '%resolved%'";
-        runSQLResult($deleteSessionMessageIntervalSql);
+        runSQLQuery($deleteSessionMessageIntervalSql);
     }
 
 }

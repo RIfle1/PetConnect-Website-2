@@ -50,7 +50,6 @@ function onClickSubmitButton() {
             }
         }
 
-
         console.log(errorBool)
 
     }, 100)

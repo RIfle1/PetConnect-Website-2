@@ -40,7 +40,6 @@ include 'site-header.php';
 $languageList = returnLanguageList()[returnLanguage()]['password-reset'];
 $commonStringsLanguageList = returnLanguageList()[returnLanguage()]['common-strings'];
 $captchaLanguage = strtolower(substr(returnLanguage(), 0, 2));
-
 ?>
 <!doctype html>
 <html lang="en">
@@ -118,7 +117,7 @@ $captchaLanguage = strtolower(substr(returnLanguage(), 0, 2));
 
 <?php include '../php-pages/site-footer.php' ?>
 <script type="text/javascript">
-    // setMarginTop('site-header-main-header', 'id', 'sign-form-body', 'id', -60)
+    // setMarginTop('sih-main-header', 'id', 'sign-form-body', 'id', -60)
 
     setToWindowHeight('sign-form-body', 'id', 0)
     setMarginTopFooter('sign-form-body', 'id', 'site-footer-main-div', 'id', 0)

@@ -93,8 +93,8 @@ $languageList = returnLanguageList()[returnLanguage()]['profile'];
         <a href="<?php restrictedAdminPage('../php-pages/payment-method.php') ?>"><span><?php echo $languageList["Payment Method"]?></span></a>
         <a href="<?php restrictedAdminPage('../php-pages/address.php') ?>"><span><?php echo $languageList["Addresses"]?></span></a>
         <?php elseif ($adminLoggedIn): ?>
-            <a href="manage-user.php"><span><?php echo $languageList["Manage Users"]?></span></a>
-            <a href="#"><span><?php echo $languageList["Answer Questions"]?></span></a>
+            <a href="../php-pages/manage-user.php"><span><?php echo $languageList["Manage Users"]?></span></a>
+            <a href="assistance-manage.php"><span><?php echo $languageList["Answer Questions"]?></span></a>
 <!--            <a href="#"><span>Gérer les données</span></a>-->
         <?php endif; ?>
         <a href="<?php restrictedNoUserPage('../php-pages/connection-security.php') ?>"><span><?php echo $languageList["Connection And Security"]?></span></a>
@@ -104,7 +104,7 @@ $languageList = returnLanguageList()[returnLanguage()]['profile'];
 
 <?php include '../php-pages/site-footer.php' ?>
 <script type="text/javascript">
-    setMarginTop('site-header-main-header', 'id', 'profile-main-div', 'id', 20)
+    setMarginTop('sih-main-header', 'id', 'profile-main-div', 'id', 20)
 
     // setToWindowHeight('profile-main-div', 'id', 0)
     setMarginTopFooter('profile-main-div', 'id', 'site-footer-main-div', 'id', 0)

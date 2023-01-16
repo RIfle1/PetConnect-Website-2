@@ -6,18 +6,18 @@ $clientLoggedIn = $_SESSION['clientLoggedIn'];
 $adminLoggedIn = $_SESSION['adminLoggedIn'];
 $loggedIn = $_SESSION['loggedIn'];
 
-clientPage();
+clientAndAdminPage();
 $entityInfo = returnEntityInfo();
 
 
 if($_SERVER['REQUEST_METHOD'] === 'GET') {
-    if(!empty($_GET['userInfo'])) {
-
-        $entityInfo['Table'] = $_SESSION['Table'];
-
-        header("Content-Type: application/json");
-        echo json_encode(["entityInfo" => $entityInfo]);
-    }
+//    if(!empty($_GET['userInfo'])) {
+//
+//        $entityInfo['Table'] = $_SESSION['Table'];
+//
+//        header("Content-Type: application/json");
+//        echo json_encode(["entityInfo" => $entityInfo]);
+//    }
 
     if(!empty($_GET['sessionMessages'])) {
 
@@ -50,7 +50,7 @@ if($_SERVER['REQUEST_METHOD'] === 'GET') {
         if($Table === 'client') {
             $cltID = $entityID;
             $insertMessageInNewSessionSql = "INSERT IGNORE INTO session_message (sesMsgID, Client_cltID) VALUES ('".$cltID."', '".$cltID."')";
-            runSQLResult($insertMessageInNewSessionSql);
+            runSQLQuery($insertMessageInNewSessionSql);
         }
         elseif($Table === 'admin') {
             $cltID = $_GET['ID'];
@@ -60,7 +60,7 @@ if($_SERVER['REQUEST_METHOD'] === 'GET') {
                             VALUES ('".$newMsgID."','".$msgMessage."','".$entityID."', '".$cltID."')";
 
         echo $insertNewMessageSql;
-        runSQLResult($insertNewMessageSql);
+        runSQLQuery($insertNewMessageSql);
 //        echo $insertNewMessageSql;
     }
 }

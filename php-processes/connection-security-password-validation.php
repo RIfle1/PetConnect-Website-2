@@ -11,7 +11,7 @@ $newPassword = $_GET['newPassword'];
 $entityAttributes = returnEntityAttributes();
 
 $crossCheckPasswordSql = "SELECT * FROM ".$table." WHERE ".$entityAttributes['Token']." = '".$token."'";
-$result = runSQLResult($crossCheckPasswordSql);
+$result = runSQLQuery($crossCheckPasswordSql);
 $entityInfo = $result->fetch_assoc();
 
 $oldPasswordHash = $entityInfo[$entityAttributes['Password']];

@@ -1,9 +1,9 @@
 // CALL JSON FUNCTION TO GET THE DATA ASAP
-refreshMessagesMessageJson();
-refreshMessagesResolvedJson();
-refreshVolatileJson();
-refreshStaticJson();
-refreshLanguageList();
+// refreshMessagesMessageJson();
+// refreshMessagesResolvedJson();
+// refreshSessionMessagesListJson();
+// refreshStaticJson();
+// refreshLanguageList();
 
     // CONSTANTS FOR MESSAGING SYSTEM
 // VOLATILE BUTTONS / DIVS / SPANS
@@ -122,56 +122,53 @@ const mainDivClassElement = $("."+mainDivClass);
 const leftSideMenuDivClassElement = $("."+leftSideMenuDivClass)
 
     // STORE JSON INFORMATION
-let getMessagesMessage;
-let getMessagesResolved;
-let userInfo;
-let sessionMessagesList;
+// let getMessagesMessage;
+// let getMessagesResolved;
+// let userInfo;
+// let sessionMessagesList;
 // let language;
-let languageList;
+// let javaScriptLanguageList;
+let getMessagesResolvedJsonProcess
 
     // MISC
 const animationSpeed = 500;
 // ---------------------------------------------------------------------------------------------------------
 // INITIALIZE JSONS
 
-    function refreshMessagesMessageJson() {
-        const getMessagesMessageUrl = "../php-processes/message-center-process-admin.php?getMessages=message";
-        $.getJSON(getMessagesMessageUrl, function(json) {
-            getMessagesMessage = json.lastMessagesList
-        })
-    }
+    // function refreshMessagesMessageJson() {
+    //     const getMessagesMessageUrl = "../php-processes/message-center-process-admin.php?getMessages=message";
+    //     $.getJSON(getMessagesMessageUrl, function(json) {
+    //         getMessagesMessage = json.lastMessagesList
+    //     })
+    // }
 
     function refreshMessagesResolvedJson() {
         const getMessagesResolvedUrl = "../php-processes/message-center-process-admin.php?getMessages=resolved";
-        $.getJSON(getMessagesResolvedUrl, function(json) {
+        getMessagesResolvedJsonProcess = $.getJSON(getMessagesResolvedUrl, function(json) {
             getMessagesResolved = json.lastMessagesList
         })
     }
 
-    function refreshVolatileJson() {
+    function refreshSessionMessagesListJson() {
         let getSessionMessagesUrl = "../php-processes/message-center-process.php?sessionMessages=True";
         $.getJSON(getSessionMessagesUrl, function(json) {
             sessionMessagesList = json.sessionMessagesList
         })
     }
 
-    function refreshStaticJson() {
-        const getEntityInfoUrl = "../php-processes/message-center-process.php?userInfo=True";
-        $.getJSON(getEntityInfoUrl, function (json) {
-            userInfo = json.entityInfo
-        })
-    }
+    // function refreshStaticJson() {
+    //     const getEntityInfoUrl = "../php-processes/message-center-process.php?userInfo=True";
+    //     $.getJSON(getEntityInfoUrl, function (json) {
+    //         userInfo = json.entityInfo
+    //     })
+    // }
 
-
-
-function refreshLanguageList() {
-    let languageUrl = "../php-processes/language-list-process.php?file=message-center-buttons"
-    $.getJSON(languageUrl, function(json) {
-        // language = json.language;
-        // languageList = returnLanguageList()[language]['message-center-buttons'];
-        languageList = json.languageList;
-    })
-}
+    // function refreshLanguageList() {
+    //     let languageUrl = "../php-processes/language-list-process.php?file=message-center-buttons"
+    //     $.getJSON(languageUrl, function(json) {
+    //         javaScriptLanguageList = json.languageList;
+    //     })
+    // }
 
 // ---------------------------------------------------------------------------------------------------------
 // FUNCTIONALITY FUNCTIONS
@@ -288,7 +285,7 @@ function refreshLanguageList() {
 
         let mainDivClassElementObserver = new ResizeObserver(() => {
             if(mainDivClassElement.width() < 650) {
-                if(typeof(languageList) !== "undefined") {
+                if(typeof(javaScriptLanguageList) !== "undefined") {
 
                     if(messageShowHideButtonElement.attr("name") === 'Hide') {
                         messageShowHideButtonElement.trigger('click');
@@ -425,28 +422,25 @@ function displayMessage(currentUserDivClass, foreignUserDivClass, textDivID, ent
 
         removeTextMessages(currentUserDivClass, foreignUserDivClass);
 
-        setTimeout(() => {
-            let sessionMessages = sessionMessagesList[sesMsgID];
+        let sessionMessages = sessionMessagesList[sesMsgID];
 
-            for (let i = 0; i < sessionMessages.length; i++) {
+        for (let i = 0; i < sessionMessages.length; i++) {
 
+            let sessionMessage = sessionMessages[i]
 
-                let sessionMessage = sessionMessages[i]
+            let msgOwnership = sessionMessage['msgOwnership'];
+            let username = sessionMessage['username'];
+            let msgDate = sessionMessage['msgDate'];
+            let msgMessage = sessionMessage['msgMessage'];
 
-                let msgOwnership = sessionMessage['msgOwnership'];
-                let username = sessionMessage['username'];
-                let msgDate = sessionMessage['msgDate'];
-                let msgMessage = sessionMessage['msgMessage'];
+            const editedMsgDate = getDateAndTime(new Date(msgDate));
 
-                const editedMsgDate = getDateAndTime(new Date(msgDate));
-
-                if (msgOwnership === 'current') {
-                    displayMessage(currentUserDivClass, foreignUserDivClass, textDivID, username, msgMessage, editedMsgDate, 'current')
-                } else if (msgOwnership === 'foreign') {
-                    displayMessage(currentUserDivClass, foreignUserDivClass, textDivID, username, msgMessage, editedMsgDate, 'foreign');
-                }
+            if (msgOwnership === 'current') {
+                displayMessage(currentUserDivClass, foreignUserDivClass, textDivID, username, msgMessage, editedMsgDate, 'current')
+            } else if (msgOwnership === 'foreign') {
+                displayMessage(currentUserDivClass, foreignUserDivClass, textDivID, username, msgMessage, editedMsgDate, 'foreign');
             }
-        }, 200)
+        }
     }
 
 // DISPLAY ACTIVE MESSAGES IN THE ACTIVE MESSAGES TAB AND SET A BUTTON COMMAND FOR EACH
@@ -515,124 +509,122 @@ function displayMessage(currentUserDivClass, foreignUserDivClass, textDivID, ent
 
         let lastMessagesList
 
-        setTimeout(() => {
+        if (message) {
+            lastMessagesList = getMessagesMessage;
+        } else if (resolved) {
+            lastMessagesList = getMessagesResolved;
+        }
+
+        if (lastMessagesList.length > 0) {
+            // DISPLAY FIRST CLIENT MESSAGE SESSION BY DEFAULT
+            let firstID;
+
             if (message) {
-                lastMessagesList = getMessagesMessage;
+                firstID = lastMessagesList[0]['cltID'];
             } else if (resolved) {
-                lastMessagesList = getMessagesResolved;
+                firstID = lastMessagesList[0]['sesMsgID'];
             }
 
-            if (lastMessagesList.length > 0) {
-                // DISPLAY FIRST CLIENT MESSAGE SESSION BY DEFAULT
-                let firstID;
+            displaySessionMessages(firstID, textDivID, currentUserDivClass, foreignUserDivClass)
+
+            // SET BUTTONS VALUES
+            setButtonValues(type, firstID)
+
+            for (let i = 0; i < lastMessagesList.length; i++) {
+                const lastMessage = lastMessagesList[i];
+                let buttonID;
+                let activeOwnerID;
+                let activeUsernameID;
+                let activeShortMessageID;
+                let activeTimeID;
+
+                let ID;
+
+                let username;
+                let msgMessage;
+                let msgShortMessage;
+                let msgDate;
+                let editedMsgDate;
+
+                let sesMsgEndDate
+                let sesMsgStartDate
+                let editedSesMsgEndDate
+                let editedSesMsgStartDate
 
                 if (message) {
-                    firstID = lastMessagesList[0]['cltID'];
+                    ID = lastMessage['cltID'];
+                    username = lastMessage['username'];
+
+                    msgMessage = lastMessage['msgMessage'];
+                    msgShortMessage = returnShortMessage(msgMessage);
+
+                    msgDate = lastMessage['msgDate'];
+                    editedMsgDate = getDateAndTime(new Date(msgDate));
+
                 } else if (resolved) {
-                    firstID = lastMessagesList[0]['sesMsgID'];
+                    ID = lastMessage['sesMsgID'];
+                    sesMsgEndDate = lastMessage['sesMsgEndDate'];
+                    sesMsgStartDate = lastMessage['sesMsgStartDate'];
+                    editedSesMsgEndDate = getDateAndTime(new Date(sesMsgEndDate));
+                    editedSesMsgStartDate = getDateAndTime(new Date(sesMsgStartDate));
                 }
 
-                displaySessionMessages(firstID, textDivID, currentUserDivClass, foreignUserDivClass)
 
-                // SET BUTTONS VALUES
-                setButtonValues(type, firstID)
-
-                for (let i = 0; i < lastMessagesList.length; i++) {
-                    const lastMessage = lastMessagesList[i];
-                    let buttonID;
-                    let activeOwnerID;
-                    let activeUsernameID;
-                    let activeShortMessageID;
-                    let activeTimeID;
-
-                    let ID;
-
-                    let username;
-                    let msgMessage;
-                    let msgShortMessage;
-                    let msgDate;
-                    let editedMsgDate;
-
-                    let sesMsgEndDate
-                    let sesMsgStartDate
-                    let editedSesMsgEndDate
-                    let editedSesMsgStartDate
-
-                    if (message) {
-                        ID = lastMessage['cltID'];
-                        username = lastMessage['username'];
-
-                        msgMessage = lastMessage['msgMessage'];
-                        msgShortMessage = returnShortMessage(msgMessage);
-
-                        msgDate = lastMessage['msgDate'];
-                        editedMsgDate = getDateAndTime(new Date(msgDate));
-
-                    } else if (resolved) {
-                        ID = lastMessage['sesMsgID'];
-                        sesMsgEndDate = lastMessage['sesMsgEndDate'];
-                        sesMsgStartDate = lastMessage['sesMsgStartDate'];
-                        editedSesMsgEndDate = getDateAndTime(new Date(sesMsgEndDate));
-                        editedSesMsgStartDate = getDateAndTime(new Date(sesMsgStartDate));
-                    }
+                const cltUsername = lastMessage['cltUsername'];
 
 
-                    const cltUsername = lastMessage['cltUsername'];
+                buttonID = buttonClass + "-" + ID;
+                activeOwnerID = activeOwnerClass + "-" + ID;
+                activeUsernameID = activeUsernameClass + "-" + ID;
+                activeShortMessageID = activeShortMessageClass + "-" + ID;
+                activeTimeID = activeTimeClass + "-" + ID;
 
 
-                    buttonID = buttonClass + "-" + ID;
-                    activeOwnerID = activeOwnerClass + "-" + ID;
-                    activeUsernameID = activeUsernameClass + "-" + ID;
-                    activeShortMessageID = activeShortMessageClass + "-" + ID;
-                    activeTimeID = activeTimeClass + "-" + ID;
+                const messageHtml =
+                    "<button value=" + ID + " id=" + buttonID + " class=" + buttonClass + ">\n" +
+                    "                    <span id =" + activeOwnerID + "  class=" + activeOwnerClass + ">"+javaScriptLanguageList['Message Owner:']+" "+ cltUsername + "</span>\n" +
+                    "                    <div class=\"mc-message-active-separation-line\"></div>\n" +
+                    "                    <span id =" + activeUsernameID + " class=" + activeUsernameClass + ">" + username + "</span>\n" +
+                    "                    <span id =" + activeShortMessageID + " class=" + activeShortMessageClass + ">" + msgShortMessage + "</span>\n" +
+                    "                    <div class=\"mc-message-active-separation-line\"></div>\n" +
+                    "                    <span id =" + activeTimeID + " class=" + activeTimeClass + ">" + editedMsgDate + "</span>\n" +
+                    "                </button>"
 
+                const resolvedHtml =
+                    "<button value=" + ID + " id=" + buttonID + " class=" + buttonClass + ">\n" +
+                    "                    <span id =" + activeOwnerID + "  class=" + activeOwnerClass + ">"+javaScriptLanguageList['Message Owner:']+" "+ cltUsername + "</span>\n" +
+                    "                    <div class=\"mc-message-active-separation-line\"></div>\n" +
+                    "                    <span id =" + activeTimeID + " class=" + activeOwnerClass + ">"+javaScriptLanguageList['Start Date:']+" "+ editedSesMsgStartDate + "</span>\n" +
+                    "                    <span id =" + activeTimeID + " class=" + activeOwnerClass + ">"+javaScriptLanguageList['End Date:']+" "+ editedSesMsgEndDate + "</span>\n" +
+                    "                </button>"
 
-                    const messageHtml =
-                        "<button value=" + ID + " id=" + buttonID + " class=" + buttonClass + ">\n" +
-                        "                    <span id =" + activeOwnerID + "  class=" + activeOwnerClass + ">"+languageList['Message Owner:']+" "+ cltUsername + "</span>\n" +
-                        "                    <div class=\"mc-message-active-separation-line\"></div>\n" +
-                        "                    <span id =" + activeUsernameID + " class=" + activeUsernameClass + ">" + username + "</span>\n" +
-                        "                    <span id =" + activeShortMessageID + " class=" + activeShortMessageClass + ">" + msgShortMessage + "</span>\n" +
-                        "                    <div class=\"mc-message-active-separation-line\"></div>\n" +
-                        "                    <span id =" + activeTimeID + " class=" + activeTimeClass + ">" + editedMsgDate + "</span>\n" +
-                        "                </button>"
-
-                    const resolvedHtml =
-                        "<button value=" + ID + " id=" + buttonID + " class=" + buttonClass + ">\n" +
-                        "                    <span id =" + activeOwnerID + "  class=" + activeOwnerClass + ">"+languageList['Message Owner:']+" "+ cltUsername + "</span>\n" +
-                        "                    <div class=\"mc-message-active-separation-line\"></div>\n" +
-                        "                    <span id =" + activeTimeID + " class=" + activeOwnerClass + ">"+languageList['Start Date:']+" "+ editedSesMsgStartDate + "</span>\n" +
-                        "                    <span id =" + activeTimeID + " class=" + activeOwnerClass + ">"+languageList['End Date:']+" "+ editedSesMsgEndDate + "</span>\n" +
-                        "                </button>"
-
-                    if (message) {
-                        userDivElement.append(messageHtml);
-                    } else if (resolved) {
-                        userDivElement.append(resolvedHtml);
-                    }
-
-                    setActiveUserButton(buttonID, textDivID, currentUserDivClass, foreignUserDivClass, type);
-
-
-                }
-            } else {
-                // MESSAGE IN CASE THERE ARE NO ACTIVE MESSAGES
-                let text;
-                if(message) {
-                    text = "No Active Messages";
-                }
-                else if(resolved) {
-                    text = "No Resolved Messages";
+                if (message) {
+                    userDivElement.append(messageHtml);
+                } else if (resolved) {
+                    userDivElement.append(resolvedHtml);
                 }
 
-                const noActiveMessageHtml =
-                    "<div class=" + noActiveUserClass + ">\n" +
-                    "                    <span  class=" + activeOwnerClass + ">"+text+"</span>\n" +
-                    "                </div>"
+                setActiveUserButton(buttonID, textDivID, currentUserDivClass, foreignUserDivClass, type);
 
-                userDivElement.append(noActiveMessageHtml);
+
             }
-        }, 400)
+        } else {
+            // MESSAGE IN CASE THERE ARE NO ACTIVE MESSAGES
+            let text;
+            if(message) {
+                text = "No Active Messages";
+            }
+            else if(resolved) {
+                text = "No Resolved Messages";
+            }
+
+            const noActiveMessageHtml =
+                "<div class=" + noActiveUserClass + ">\n" +
+                "                    <span  class=" + activeOwnerClass + ">"+text+"</span>\n" +
+                "                </div>"
+
+            userDivElement.append(noActiveMessageHtml);
+        }
 
     }
 // ---------------------------------------------------------------------------------------------------------
@@ -690,7 +682,7 @@ function displayMessage(currentUserDivClass, foreignUserDivClass, textDivID, ent
             // }
             // catch(err) {}
 
-            buttonElement.text(languageList[buttonShowText])
+            buttonElement.text(javaScriptLanguageList[buttonShowText])
 
             leftSideMenuElement.animate({
                 width: '0px',
@@ -704,7 +696,7 @@ function displayMessage(currentUserDivClass, foreignUserDivClass, textDivID, ent
             //     buttonElement.text(languageList[buttonShowText]);
             // } catch(err) {}
 
-            buttonElement.text(languageList[buttonHideText]);
+            buttonElement.text(javaScriptLanguageList[buttonHideText]);
 
             leftSideMenuElement.animate({
                 width: '283px',
@@ -726,13 +718,19 @@ function displayMessage(currentUserDivClass, foreignUserDivClass, textDivID, ent
                 data: {
                     sesMsgID: markedResolvedValue,
                     markResolved: true,
+                },
+                success: function() {
+                    refreshMessagesResolvedJson();
+                    refreshSessionMessagesListJson();
+                    getMessagesResolvedJsonProcess.always(function() {
+                        displayActives('resolved');
+                    })
                 }
             })
 
             removeTextMessages(messageCurrentUserDivClass, messageForeignUserDivClass);
             removeActiveUserElement(markedResolvedValue, 'message');
         }
-
     })
 
 // DELETE CONVERSATION BUTTON
@@ -761,7 +759,6 @@ function displayMessage(currentUserDivClass, foreignUserDivClass, textDivID, ent
         }
     }
 
-
     function setDeleteConversationButton(buttonElement, type) {
         $(buttonElement).click(function() {
             onClickDeleteConversationButton(buttonElement, type)
@@ -782,13 +779,13 @@ function displayMessage(currentUserDivClass, foreignUserDivClass, textDivID, ent
         let resolvedSelectIntervalValue = resolvedSelectIntervalElement.val();
 
         if(resolvedSelectIntervalValue === "before" || resolvedSelectIntervalValue === "after") {
-            resolvedInputLabelStartElement.text( languageList["Select Date:"]);
+            resolvedInputLabelStartElement.text( javaScriptLanguageList["Select Date:"]);
 
             resolvedInputLabelEndElement.css("display", "none");
             resolvedInputDateEndElement.css("display", "none");
         }
         else if(resolvedSelectIntervalValue === "between") {
-            resolvedInputLabelStartElement.text( languageList["Select Start Date:"]);
+            resolvedInputLabelStartElement.text( javaScriptLanguageList["Select Start Date:"]);
 
             resolvedInputLabelEndElement.css("display", "block");
             resolvedInputDateEndElement.css("display", "block");
@@ -820,14 +817,14 @@ function displayMessage(currentUserDivClass, foreignUserDivClass, textDivID, ent
                 endDate = resolvedInputDateStartValue;
                 startDate = new Date('0-0-0');
                 errorMsg =
-                    languageList["Resolved messages before"]
+                    javaScriptLanguageList["Resolved messages before"]
                     +" "+getDateAndTime(new Date(resolvedInputDateStartValue))
-                    +" "+languageList["have been deleted."]
+                    +" "+javaScriptLanguageList["have been deleted."]
 
                 ajax = true;
             }
             else {
-                errorMsg = languageList['Please input a Date.'];
+                errorMsg = javaScriptLanguageList['Please input a Date.'];
             }
 
         }
@@ -836,14 +833,14 @@ function displayMessage(currentUserDivClass, foreignUserDivClass, textDivID, ent
                 startDate = resolvedInputDateStartValue;
                 endDate = getDateAndTimeDB(new Date());
                 errorMsg =
-                    languageList["Resolved messages after"]
+                    javaScriptLanguageList["Resolved messages after"]
                     +" "+getDateAndTime(new Date(resolvedInputDateStartValue))
-                    +" "+languageList["have been deleted."]
+                    +" "+javaScriptLanguageList["have been deleted."]
 
                 ajax = true;
             }
             else {
-                errorMsg = languageList['Please input a Date.'];
+                errorMsg = javaScriptLanguageList['Please input a Date.'];
             }
         }
         else if(resolvedSelectIntervalValue === 'between') {
@@ -851,15 +848,15 @@ function displayMessage(currentUserDivClass, foreignUserDivClass, textDivID, ent
                 startDate = resolvedInputDateStartValue;
                 endDate = resolvedInputDateEndValue;
                 errorMsg =
-                    languageList["Resolved messages between"]
+                    javaScriptLanguageList["Resolved messages between"]
                     +" "+getDateAndTime(new Date(resolvedInputDateStartValue))
-                    +" "+languageList["and"]
+                    +" "+javaScriptLanguageList["and"]
                     +" "+getDateAndTime(new Date(resolvedInputDateEndValue))
-                    +" "+languageList["have been deleted."]
+                    +" "+javaScriptLanguageList["have been deleted."]
                 ajax = true;
             }
             else {
-                errorMsg = languageList['Please input a Start Date and an End Date.'];
+                errorMsg = javaScriptLanguageList['Please input a Start Date and an End Date.'];
             }
         }
 
@@ -878,13 +875,11 @@ function displayMessage(currentUserDivClass, foreignUserDivClass, textDivID, ent
             resolvedInputDateStartElement.val('');
             resolvedInputDateEndElement.val('');
 
-            setTimeout(() => {
-                refreshMessagesResolvedJson();
+            refreshMessagesResolvedJson();
+            getMessagesResolvedJsonProcess.always(function() {
                 displayActives('resolved');
-            },100)
-
+            })
         }
-
         resolvedDeleteNotificationSpanElement.text(errorMsg);
     })
 

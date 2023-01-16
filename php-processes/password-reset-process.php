@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if ($_SESSION['Table'] === 'client') {
         // Check that the new password isn't the same as the old one
         $getPasswordSql = "SELECT cltPassword, cltID FROM client WHERE cltToken = '" . $token . "'";
-        $cltResult = runSQLResult($getPasswordSql);
+        $cltResult = runSQLQuery($getPasswordSql);
         $clientInfo = $cltResult->fetch_assoc();
 
         $cltPassword = $clientInfo['cltPassword'];
@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     } elseif ($_SESSION['Table'] === 'admin') {
         // Check that the new password isn't the same as the old one
         $getPasswordSql = "SELECT admPassword FROM admin WHERE admToken = '" . $token . "'";
-        $admResult = runSQLResult($getPasswordSql);
+        $admResult = runSQLQuery($getPasswordSql);
         $adminInfo = $admResult->fetch_assoc();
 
         $admPassword = $adminInfo['admPassword'];
@@ -58,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 //INSERT SQL INTO DB
     if ($_SESSION['Table'] === 'client' || $_SESSION['Table'] === 'admin') {
-        runSQLResult($updateSql);
+        runSQLQuery($updateSql);
         header('Location: ../php-pages/password-reset-success.php?success=1', true, 303);
     }
     else {

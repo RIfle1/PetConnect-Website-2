@@ -89,6 +89,8 @@
     font-size: 15px;
     transition: background-color 0.2s ease-in-out;
     margin: 10px;
+
+    cursor: pointer;
 }
 
 #cs-form-temp-span {

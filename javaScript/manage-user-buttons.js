@@ -1,7 +1,7 @@
 // CALL JSON FUNCTION TO GET THE DATA ASAP
 refreshClientTableJson();
 refreshAdminTableJson();
-refreshLanguageList();
+// refreshLanguageList();
 
 // CONSTANTS
 // VOLATILE BUTTONS ID's
@@ -55,7 +55,7 @@ const adminOrderInputElement = $('#'+adminOrderInputID);
 // STORE JSON INFORMATION
 let getClientTable
 let getAdminTable
-let languageList
+// let javaScriptLanguageList
 
 // ---------------------------------------------------------------------------------------------------------
 // INITIALIZE JSONS
@@ -73,12 +73,12 @@ function refreshAdminTableJson() {
     })
 }
 
-function refreshLanguageList() {
-    let languageUrl = "../php-processes/language-list-process.php?file=manage-user-buttons"
-    $.getJSON(languageUrl, function(json) {
-        languageList = json.languageList;
-    })
-}
+// function refreshLanguageList() {
+//     let languageUrl = "../php-processes/language-list-process.php?file=manage-user-buttons"
+//     $.getJSON(languageUrl, function(json) {
+//         javaScriptLanguageList = json.languageList;
+//     })
+// }
 
 // ---------------------------------------------------------------------------------------------------------
 
@@ -152,13 +152,13 @@ function onClickButton(buttonName, buttonID) {
     }
     // PROMOTES A USER ON THE TABLE --> CHANGES TEXT AND COLOR OF THE BUTTON
     else if(buttonName === 'promote-button') {
-        if(buttonElement.text() === languageList["Promote User"]) {
-            setPromoteButtonStyle(entityID, "grey", '#69A6E3', languageList["Promoted"]);
+        if(buttonElement.text() === javaScriptLanguageList["Promote User"]) {
+            setPromoteButtonStyle(entityID, "grey", '#69A6E3', javaScriptLanguageList["Promoted"]);
 
         }
-        else if(buttonElement.text() === languageList["Promoted"]) {
+        else if(buttonElement.text() === javaScriptLanguageList["Promoted"]) {
 
-            setPromoteButtonStyle(entityID, "#d9d9d9", '#69A6E3', languageList["Promote User"]);
+            setPromoteButtonStyle(entityID, "#d9d9d9", '#69A6E3', javaScriptLanguageList["Promote User"]);
         }
 
     }
@@ -244,7 +244,7 @@ function printTable(IDLetters, table) {
                 "        name=" + deleteButtonName +
                 "        type='button'" +
                 "        value=" + entityID +
-                ">"+languageList["Delete User"]+"</button>" +
+                ">"+javaScriptLanguageList["Delete User"]+"</button>" +
                 "</td>"
             submitButtonHtml =
                 "\n<!--                        Submit Button-->\n" +
@@ -254,7 +254,7 @@ function printTable(IDLetters, table) {
                 "        name=" + submitButtonName +
                 "        type='button'" +
                 "        value=" + entityID +
-                ">"+languageList["Submit Changes"]+"</button>" +
+                ">"+javaScriptLanguageList["Submit Changes"]+"</button>" +
                 "</td>"
         } else {
             deleteButtonHtml = '';
@@ -271,7 +271,7 @@ function printTable(IDLetters, table) {
                 "        name=" + promoteButtonName +
                 "        type='button'" +
                 "        value=" + entityID +
-                ">"+languageList["Promote User"]+"</button>" +
+                ">"+javaScriptLanguageList["Promote User"]+"</button>" +
                 "</td>"
             // messageButtonHtml =
             //     "\n<!--                        Message Button-->\n" +
@@ -314,10 +314,10 @@ function printTable(IDLetters, table) {
         // setButton(submitButtonName, submitButtonPersonalID);
 
         if(entityIsModerator === '1') {
-            setPromoteButtonStyle(entityID, "grey", '#69A6E3', languageList["Promoted"]);
+            setPromoteButtonStyle(entityID, "grey", '#69A6E3', javaScriptLanguageList["Promoted"]);
         }
         else if(entityIsModerator === '0') {
-            setPromoteButtonStyle(entityID, "#d9d9d9", '#69A6E3', languageList["Promote User"]);
+            setPromoteButtonStyle(entityID, "#d9d9d9", '#69A6E3', javaScriptLanguageList["Promote User"]);
         }
     }
 

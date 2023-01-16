@@ -1,12 +1,9 @@
 <?php
-
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-
 require '../vendor/autoload.php';
 
-function sendGmail($cltEmail, $cltFirstName, $body, $subject): bool
-{
+function sendGmail($email, $firstName, $body, $subject): bool {
     $mail = new PHPMailer(True);
 
     try {
@@ -20,29 +17,28 @@ function sendGmail($cltEmail, $cltFirstName, $body, $subject): bool
         $mail->Port       = 587;                // TCP port to connect to
 
         $mail->setFrom('petconecttech@gmail.com', 'PetConnect Support');
-        $mail->addAddress($cltEmail, $cltFirstName);
+        $mail->addAddress($email, $firstName);
         $mail->isHTML();
 
         $mail->Subject = $subject;
         $mail->Body = $body;
-        // ENABLE THIS TO ACTUAL SEND EMAILS
-        $mail->send();
+// ENABLE THIS TO ACTUALLY SEND EMAILS
+//        $mail->send();
         return true;
+
     } catch (Exception $e) {
         return false;
     }
 }
 
-function generateVerificationCode(): string
-{
+function generateVerificationCode():string {
     return substr(number_format(time() * rand(), 0, '', ''), 0, 6);
 }
 
-function generateToken($cltID): string
-{
+function generateToken($cltID): string {
     try {
-        return $cltID . "-" . bin2hex(random_bytes(16));
-    } catch (Exception | \Exception $e) {
+        return $cltID."-".bin2hex(random_bytes(16));
+    } catch (Exception|\Exception $e) {
     }
 }
 
@@ -50,7 +46,7 @@ function returnEmailCodeValidationStructure($verificationCode): array
 {
     $languagesList = returnLanguageList()[returnLanguage()]['php-mailer'];
     return  array(
-        "body" => "<p>" . $languagesList['Verification code is:'] . " " . $verificationCode . "</p>",
+        "body" => "<p>".$languagesList['Verification code is:']." ".$verificationCode."</p>",
         "subject" => $languagesList["Email Verification"],
     );
 }

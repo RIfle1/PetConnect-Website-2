@@ -1,0 +1,386 @@
+#pr-main-body-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 0 0 0;
+}
+
+.pr-container {
+    display: flex;
+
+    width: calc(100% - 20%);
+
+    padding: 20px;
+    margin-bottom: 24px;
+
+    border-radius: 30px;
+    background: #E4E4E4;
+}
+
+#pr-main-header-div {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: start;
+
+}
+
+#pr-main-header-div h1 {
+    font-size: 25px;
+    margin: 0;
+}
+
+#pr-main-header-div span {
+    font-size: 16px;
+    margin: 0;
+    color: #7C7C7C;
+}
+
+#pr-header-info-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+}
+#pr-header-product-img-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#pr-header-product-img-div img{
+    width: 200px;
+}
+
+
+
+#pr-shaped-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    height: 30px;
+
+    background: white;
+
+    width: calc(100% - 20% + 40px);
+}
+#pr-shaped-weird-div {
+    display: flex;
+    flex-direction: row;
+    margin-left: 30%;
+    height: 30px;
+}
+
+
+.weird-shape {
+    height: 30px;
+    width: 30px;
+}
+
+#pr-weird-shape-1 {
+    background: #E4E4E4;
+}
+
+#pr-weird-shape-1-absolute {
+    position: absolute;
+    background: white;
+    border-bottom-right-radius: 17px;
+}
+
+#pr-weird-shape-2 {
+    background: #E4E4E4;
+    width: 30px;
+
+    border-top-left-radius: 17px;
+}
+
+#pr-shaped-rest-div {
+    width: calc(100% - 30% - 30px);
+    height: 30px;
+    background: #E4E4E4;
+    border-top-right-radius: 17px;
+}
+
+#pr-main-product-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    border-top-right-radius: 0;
+}
+
+#pr-image-display-div, #pr-info-div {
+    display: flex;
+    flex-direction: column;
+    width: 48%;
+}
+
+#pr-image-display-div {
+}
+
+#pr-current-image-div img{
+    width: 100%;
+}
+
+
+#pr-image-interaction-div {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    margin: 20px 0;
+}
+
+#pr-image-interaction-div img {
+    width: 80px;
+    padding: 0 10px;
+}
+
+#pr-info-div p {
+    margin: 0 0 20px 0;
+}
+
+#pr-info-price-div {
+    display: flex;
+    justify-content: start;
+    align-items: start;
+}
+
+#pr-info-price-div #pr-info-price-span-1 {
+    font-size: 40px;
+    font-weight: 700;
+}
+
+#pr-info-price-div #pr-info-price-span-2 {
+    font-size: 28px;
+    font-weight: 500;
+}
+
+#pr-info-interaction-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    font-size: 15px;
+}
+
+.pr-interaction-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.pr-interaction-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.pr-interaction-column, .pr-interaction-row {
+    margin-top: 20px;
+}
+
+.pr-color {
+    background: #B8B8B8;
+
+    border-radius: 10px;
+    border: grey solid 1px;
+    width: 90px;
+    height: 38px;
+
+    padding: 0 8px;
+}
+
+.pr-amount {
+    background: #B8B8B8;
+
+    border-radius: 10px;
+    border: grey solid 1px;
+    width: 48px;
+    height: 38px;
+
+    padding: 0 0 0 22px;
+}
+
+#pr-amount-input {
+    display: none;
+
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.pr-select-active {
+    display: flex;
+    align-items: center;
+    margin: 0 0 0 22px;
+
+    cursor: pointer;
+}
+
+#pr-color-active svg {
+    margin-left: 20px;
+    width: 10px;
+    height: 10px;
+}
+
+#pr-amount-active svg {
+    margin-left: 22px;
+    width: 10px;
+    height: 10px;
+}
+
+.pr-select-hidden {
+    display: none;
+    position: absolute;
+    margin: 40px 0 0 22px;
+
+    border-radius: 0;
+    border: none;
+
+    padding: 0;
+}
+
+#pr-color-hidden {
+    width: 108px;
+    height: 142px;
+}
+
+#pr-amount-hidden {
+    width: 72px;
+    height: 112px;
+}
+
+.pr-select-hidden ul{
+    overflow-y: scroll ;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    border-left: grey solid 1px;
+    border-right: grey solid 1px;
+}
+
+#pr-color-hidden ul {
+    height: 142px;
+}
+
+#pr-amount-hidden ul {
+    height: 112px;
+}
+
+.pr-select-hidden li {
+    height: 40px;
+    line-height: 40px;
+
+    cursor: pointer;
+}
+
+.pr-select-hidden li:hover {
+    background: #69A6E3;
+}
+
+#pr-color-hidden li {
+    padding: 0 0 0 8px;
+}
+
+#pr-amount-hidden li {
+    padding: 0 0 0 22px;
+}
+
+.pr-select-custom {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #B8B8B8;
+
+    border: solid 1px grey;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+
+    text-align: center;
+
+    cursor: pointer;
+}
+
+#pr-color-custom {
+    height: 10px;
+    width: 106px;
+}
+
+#pr-amount-custom {
+    height: 40px;
+    width: 70px;
+}
+
+#pr-info-interaction-div button {
+    border-radius: 10px;
+    height: 40px;
+
+    padding: 0 22px;
+    margin: 0 0 0 22px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    transition: background-color 0.2s ease-in-out;
+}
+
+#pr-interaction-add-button {
+    border: solid 1px #73B43E;
+    background: #73B43E;
+    color: #E2E2E2;
+}
+
+#pr-interaction-add-button:hover {
+    background:  #E2E2E2;
+    color: #73B43E;
+}
+
+#pr-interaction-buy-button {
+    border: solid 1px #73B43E;
+    background: #E2E2E2;
+    color: #73B43E;
+}
+
+#pr-interaction-buy-button:hover {
+    background: #73B43E;
+    color: #E2E2E2;
+}
+
+#pr-info-delivery-div {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border: solid 1px #73B43E;
+    border-radius: 10px;
+
+    margin-top: 20px;
+}
+
+.pr-delivery-span-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    padding: 7px;
+}
+
+#pr-info-delivery-div img, #pr-info-delivery-div span{
+    padding: 0 0 0 10px;
+    height: 30px;
+}
+
+@media only screen and (max-width: 960px) {
+    #pr-main-header-div {
+        flex-direction: column;
+    }
+    #pr-header-product-img-div img{
+        padding: 20px;
+    }
+    #pr-header-product-img-div {
+        width: 100%;
+    }
+
+    #pr-main-product-div {
+        flex-direction: column;
+    }
+    #pr-image-display-div, #pr-info-div {
+        width: 100%;
+    }
+}

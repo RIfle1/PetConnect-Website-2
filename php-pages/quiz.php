@@ -55,7 +55,7 @@ $languageList = returnLanguageList()[returnLanguage()]['home'];
 <?php include '../php-pages/site-footer.php' ?>
 
 <script type="text/javascript">
-    // setMarginTop('site-header-main-header', 'id', 'quiz-main-div', 'id', 20)
+    // setMarginTop('sih-main-header', 'id', 'quiz-main-div', 'id', 20)
 
     setToWindowHeight('quiz-main-div', 'id', 0)
     setMarginTopFooter('quiz-main-div', 'id', 'site-footer-main-div', 'id', 0)

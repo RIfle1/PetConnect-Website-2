@@ -10,7 +10,7 @@ function returnLoggedUser(): string {
     if($_SESSION['Table'] === 'client' && $_SESSION['loggedIn'] === true) {
         $cltToken = $_SESSION['Token'];
         $cltCheckSql = "SELECT * FROM client WHERE cltToken = '".$cltToken."'";
-        $cltResult = runSQLResult($cltCheckSql);
+        $cltResult = runSQLQuery($cltCheckSql);
         $clientInfo = $cltResult->fetch_assoc();
 
         if(!$clientInfo || !compareIdAndToken($_SESSION['ID'], $cltToken, 'client')) {
@@ -22,7 +22,7 @@ function returnLoggedUser(): string {
     elseif($_SESSION['Table'] === 'admin' && $_SESSION['loggedIn'] === true) {
         $admToken = $_SESSION['Token'];
         $admCheckSql = "SELECT * FROM admin WHERE admToken = '" . $admToken . "'";
-        $admResult = runSQLResult($admCheckSql);
+        $admResult = runSQLQuery($admCheckSql);
         $adminInfo = $admResult->fetch_assoc();
 
         if (!$adminInfo || !compareIdAndToken($_SESSION['ID'], $admToken, 'admin')) {

@@ -1,5 +1,5 @@
-refreshLanguageList();
-refreshAddressList();
+// refreshLanguageList();
+// refreshAddressList();
 // CONSTANTS
 // HARDCODED DIV IDS
 const addressMainDivID = "ad-main-div";
@@ -18,25 +18,17 @@ const addressDivClass = "ad-address-div-2";
 const addressMainDivElement = $("#"+addressMainDivID);
 
 // JSON VARIABLES
-let addressList;
-let languageList;
-
-function refreshLanguageList() {
-    let languageUrl = "../php-processes/language-list-process.php?file=address-buttons"
-    $.getJSON(languageUrl, function(json) {
-        languageList = json.languageList;
-    })
-}
+let ajaxPostVariable;
 
 function refreshAddressList() {
     let addressListUrl = "../php-processes/address-process.php"
     $.getJSON(addressListUrl, function(json) {
         addressList = json.addressList;
-        setTimeout(()=> {
-            addressList.forEach(displayAddress)
-        }, 100)
+        addressList.forEach(displayAddress)
     })
 }
+
+addressList.forEach(displayAddress)
 
 function displayAddress(item, index, arr){
     let adrID = item['adrID'];
@@ -57,12 +49,12 @@ function displayAddress(item, index, arr){
     if(adrDefault) {
         addressDefaultDiv =
             "            <div class='ad-default-div'>\n" +
-            "                <span class='text-font-500'>"+languageList['Default address']+"</span>\n" +
+            "                <span class='text-font-500'>"+javaScriptLanguageList['Default address']+"</span>\n" +
             "            </div>"
     }
 
     let addressDivHtml =
-        "        <div id="+addressDivID+" class='ad-address-div ad-address-div-2'>\n" +
+        `        <div id=${addressDivID} class='ad-address-div ad-address-div-2'>\n` +
                         addressDefaultDiv+
         "            <div class='ad-info-div-no-default'>\n" +
         "                <span class='text-font-700'>"+adrAddress+"</span>\n" +
@@ -72,11 +64,11 @@ function displayAddress(item, index, arr){
         "            </div>\n" +
         "\n" +
         "            <div class='ad-button-div'>\n" +
-        "                <a class='text-font-500' href='"+modifyAddressHref+"'>"+languageList['Modify']+"</a>\n" +
+        "                <a class='text-font-500' href='"+modifyAddressHref+"'>"+javaScriptLanguageList['Modify']+"</a>\n" +
         "                <div class='ad-vertical-line-small'></div>\n" +
-        "                <button class='text-font-500' type='button' id="+addressDeleteButtonID+">"+languageList['Delete']+"</button>\n" +
+        "                <button class='text-font-500' type='button' id="+addressDeleteButtonID+">"+javaScriptLanguageList['Delete']+"</button>\n" +
         "                <div class='ad-vertical-line-small'></div>\n" +
-        "                <button class='text-font-500' type='button' id="+addressDefaultButtonID+">"+languageList['Set as default']+"</button>\n" +
+        "                <button class='text-font-500' type='button' id="+addressDefaultButtonID+">"+javaScriptLanguageList['Set as default']+"</button>\n" +
         "            </div>\n" +
         "\n" +
         "        </div>"
@@ -92,7 +84,7 @@ function displayAddress(item, index, arr){
 
 function sendAddressAjaxPost(adrID, type) {
     let addressDeleteUrl = '../php-processes/address-process.php'
-    $.ajax({
+    ajaxPostVariable = $.ajax({
         type: "POST",
         url: addressDeleteUrl,
         data: {
@@ -115,11 +107,11 @@ function setAddressDeleteButton(addressDeleteButtonElement, addressDivElement, a
 
 function onClickAddressDefaultButton(addressDefaultButtonElement, addressDivElement, adrID) {
     sendAddressAjaxPost(adrID, 'default');
-    setTimeout(()=> {
-        let addressDivClassElement = $("."+addressDivClass);
-        addressDivClassElement.remove()
+    let addressDivClassElement = $("."+addressDivClass);
+    addressDivClassElement.remove()
+    ajaxPostVariable.always(function() {
         refreshAddressList();
-    }, 100)
+    })
 
 }
 

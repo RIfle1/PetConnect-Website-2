@@ -43,7 +43,7 @@ $languageList = returnLanguageList()[returnLanguage()]['restricted-access'];
 
 <?php include '../php-pages/site-footer.php' ?>
 <script type="text/javascript">
-    // setMarginTop('site-header-main-header', 'id', 'sign-form-body', 'id', -120)
+    // setMarginTop('sih-main-header', 'id', 'sign-form-body', 'id', -120)
 
     setToWindowHeight('sign-form-body', 'id', 0)
     setMarginTopFooter('sign-form-body', 'id', 'site-footer-main-div', 'id', 0)

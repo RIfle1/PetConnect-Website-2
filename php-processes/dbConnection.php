@@ -1,7 +1,5 @@
 <?php
 
-use JetBrains\PhpStorm\NoReturn;
-
 function OpenCon()
 {
     $dbHost = "localhost";
@@ -23,7 +21,7 @@ function CloseCon($conn): void
     $conn->close();
 }
 
-function runSQLResult($query) : bool|mysqli_result
+function runSQLQuery($query) : bool|mysqli_result
 {
     $conn = OpenCon();
     $result = mysqli_query($conn, $query);
@@ -52,7 +50,7 @@ function insertSQL($sql): string
 function getImage($imgPath): string
 {
     $sql = "SELECT * FROM image WHERE imgPath = '".$imgPath."'";
-    $getImageResult = runSQLResult($sql)->fetch_assoc();
+    $getImageResult = runSQLQuery($sql)->fetch_assoc();
 
     return "../img/".$getImageResult['imgCategory']."/".$getImageResult['imgPath'];
 }
@@ -60,7 +58,7 @@ function getImage($imgPath): string
 function getPfp($AttributeID, $table, $ID): bool|array|null
 {
     $sql = "SELECT * FROM ".$table." WHERE ".$AttributeID."='".$ID."'";
-    return runSQLResult($sql)->fetch_assoc();
+    return runSQLQuery($sql)->fetch_assoc();
 }
 
 function findMax($intArray) : int {
@@ -100,7 +98,7 @@ function returnLastIDInt($id, $table, $idFormat) : int {
     $idList_1 = array();
     $lastID = 0;
 
-    $result = runSQLResult("SELECT $id FROM $table");
+    $result = runSQLQuery("SELECT $id FROM $table");
     if (mysqli_num_rows($result) > 0) {
         while ($row = $result->fetch_assoc()) {
             $cltIDNumberInt = idToInt($row[$id], $idFormat);
@@ -116,6 +114,22 @@ function autoSetID($attributeFormat) : string {
     try {
         return $attributeFormat.bin2hex(random_bytes(16));
     } catch (Exception|\Exception $e) {
+    }
+}
+
+function generateRandomString($stringLength, $type): string {
+    try {
+        if($type === 'upper') {
+            return strtoupper(bin2hex(random_bytes($stringLength)));
+        }
+        else if($type === 'lower') {
+            return strtolower(bin2hex(random_bytes($stringLength)));
+        }
+        else {
+            return '';
+        }
+    } catch (Exception $e) {
+        return '';
     }
 }
 
@@ -178,7 +192,7 @@ function restrictedAdminPage($redirectPage): void {
 
 function isModerator($cltID): bool {
     $sql = "SELECT cltIsModerator FROM client WHERE cltID = '".$cltID."'";
-    $result = runSQLResult($sql);
+    $result = runSQLQuery($sql);
     $isModerator = $result->fetch_assoc();
 
     if($isModerator['cltIsModerator'] == 1) {
@@ -193,7 +207,7 @@ function compareIdAndToken($idToCheck, $tokenInput, $table): bool {
     if($table === 'client') {
         // CHECK IF TOKEN MATCHES NEW CLIENT ID
         $checkCltTokenSql = "SELECT cltID FROM client WHERE cltToken = '".$tokenInput."'";
-        $cltResult = runSQLResult($checkCltTokenSql);
+        $cltResult = runSQLQuery($checkCltTokenSql);
         $clientInfo = $cltResult->fetch_assoc();
 
         // Check if current cltID is the same as the cltID found from the token
@@ -203,7 +217,7 @@ function compareIdAndToken($idToCheck, $tokenInput, $table): bool {
     elseif($table === 'admin') {
         // CHECK IF TOKEN MATCHES NEW CLIENT ID
         $checkAdmTokenSql = "SELECT admID FROM admin WHERE admToken = '".$tokenInput."'";
-        $admResult = runSQLResult($checkAdmTokenSql);
+        $admResult = runSQLQuery($checkAdmTokenSql);
         $admInfo = $admResult->fetch_assoc();
 
         // Check if current cltID is the same as the cltID found from the token
@@ -219,7 +233,7 @@ function compareEmailAndToken($emailToCheck, $tokenInput, $table): bool {
     if($table === 'client') {
         // CHECK IF TOKEN MATCHES NEW CLIENT ID
         $checkCltTokenSql = "SELECT cltEmail FROM client WHERE cltToken = '".$tokenInput."'";
-        $cltResult = runSQLResult($checkCltTokenSql);
+        $cltResult = runSQLQuery($checkCltTokenSql);
         $clientInfo = $cltResult->fetch_assoc();
 
         // Check if current cltID is the same as the cltID found from the token
@@ -229,7 +243,7 @@ function compareEmailAndToken($emailToCheck, $tokenInput, $table): bool {
     elseif($table === 'admin') {
         // CHECK IF TOKEN MATCHES NEW CLIENT ID
         $checkAdmTokenSql = "SELECT admEmail FROM admin WHERE admToken = '".$tokenInput."'";
-        $admResult = runSQLResult($checkAdmTokenSql);
+        $admResult = runSQLQuery($checkAdmTokenSql);
         $admInfo = $admResult->fetch_assoc();
 
         // Check if current cltID is the same as the cltID found from the token
@@ -254,7 +268,7 @@ function returnEntityInfo(): bool|array|null
         else if($adminLoggedIn) {
             $sql = "SELECT admID, admUsername, admFirstName, admLastName, admEmail, admPfpName, admPhoneNumber, admSignupDate, admVerifiedEmail FROM admin WHERE admToken = '".$_SESSION['Token']."'";
         }
-        $result = runSQLResult($sql);
+        $result = runSQLQuery($sql);
         return $result->fetch_assoc();
     } else {
         return null;
@@ -305,8 +319,8 @@ function returnEntityAttributes(): array
 
 }
 
-function adminPage(): void
-{
+function onlyAdminPage(): void {
+    // ONLY ADMIN CAN ACCESS THIS PAGE
     include_once "login-check.php";
 
     if (isset($_SESSION['clientLoggedIn']) || empty($_SESSION['loggedIn'])) {
@@ -320,8 +334,20 @@ function adminPage(): void
 
 }
 
-function clientPage(): void
-{
+function onlyClientPage(): void {
+    //ONLY CLIENT CAN ACCESS THIS PAGE
+    include_once "login-check.php";
+
+    if (isset($_SESSION['adminLoggedIn']) || empty($_SESSION['loggedIn'])) {
+        if($_SESSION['adminLoggedIn'] || empty($_SESSION['loggedIn'])) {
+            header("Location: ../php-pages/restricted-access.php", true,303);
+            exit;
+        }
+    }
+}
+
+function clientAndAdminPage(): void {
+    // ONLY CLIENT AND ADMIN CAN ACCESS THIS PAGE
     include_once "login-check.php";
 
     if(empty($_SESSION['loggedIn'])) {
@@ -331,12 +357,12 @@ function clientPage(): void
 
 }
 
-function onlyClientPage(): void {
-
+function clientAndNoUserPage(): void {
+    // ONLY CLIENT AND NO USER CAN ACCESS THIS PAGE
     include_once "login-check.php";
 
-    if (isset($_SESSION['adminLoggedIn']) || empty($_SESSION['loggedIn'])) {
-        if($_SESSION['adminLoggedIn'] || empty($_SESSION['loggedIn'])) {
+    if(isset($_SESSION['adminLoggedIn'])) {
+        if($_SESSION['adminLoggedIn']) {
             header("Location: ../php-pages/restricted-access.php", true,303);
             exit;
         }
@@ -364,8 +390,8 @@ function returnSessionMessages($sesMsgID): array {
 
 
 //    echo $getSessionMessagesSql;
-    $clientMessagesResult = runSQLResult($getClientMessagesSql);
-    $adminMessagesResult = runSQLResult($getAdminMessagesSql);
+    $clientMessagesResult = runSQLQuery($getClientMessagesSql);
+    $adminMessagesResult = runSQLQuery($getAdminMessagesSql);
     $sessionMessagesList = array();
 
 
@@ -428,8 +454,10 @@ function returnAllSessionMessages(): array
 {
 
     $getAllSessionMessagesIDsSql = "SELECT sesMsgID FROM session_message";
-    $allSessionMessagesIDsResult = runSQLResult($getAllSessionMessagesIDsSql);
+    $allSessionMessagesIDsResult = runSQLQuery($getAllSessionMessagesIDsSql);
     $allSessionMessagesIDsList = array();
+
+    $allSessionMessagesList = [];
 
     if(mysqli_num_rows($allSessionMessagesIDsResult) > 0) {
         while($allSessionMessagesIDs = $allSessionMessagesIDsResult ->fetch_assoc()) {
@@ -468,7 +496,7 @@ function logoutAndRedirect($page): void
 
             $insertTokenSql = "UPDATE ".$_SESSION['Table']." SET ".$entityAttributes['Token']." = '".$token."' WHERE ".$entityAttributes['Token']." = '".$_SESSION['Token']."'";
 
-            runSQLResult($insertTokenSql);
+            runSQLQuery($insertTokenSql);
 
             setcookie("Token-cookie", "", time() + (86400 * 30), "/");
             setcookie("Table-cookie", "", time() + (86400 * 30), "/");
@@ -482,14 +510,309 @@ function logoutAndRedirect($page): void
 
 }
 
-function returnList($runSQLResult): array {
-    $list = array();
+function returnList($runSQLQuery): array {
+    // INPUT
+    // OBJECT TYPE runSQLResult;
 
-    while($listRow = $runSQLResult->fetch_assoc()) {
+    // OUTPUT
+    $outputExample = [
+        [
+            "prdID" => "prd1",
+            "pimPath" => "iCollar_v1.png_black"
+        ],
+        [
+            "prdID" => "prd1",
+            "pimPath" => "iCollar_v1.png_blue"
+        ],
+        [
+            "prdID" => "prd1",
+            "pimPath" => "iCollar_v1.png_green"
+        ],
+        [
+            "prdID" => "prd1",
+            "pimPath" => "iCollar_v1.png_red"
+        ],
+        [
+            "prdID" => "prd1",
+            "pimPath" => "iCollar_v1.png_white"
+        ],
+        [
+            "prdID" => "prd1",
+            "pimPath" => "iCollar_v1.png_yellow"
+        ],
+        [
+            "prdID" => "prd2",
+            "pimPath" => "iCollar_v2.png_red"
+        ],
+        [
+            "prdID" => "prd2",
+            "pimPath" => "iCollar_v2.png_white"
+        ],
+        [
+            "prdID" => "prd2",
+            "pimPath" => "iCollar_v2.png_yellow"
+        ],
+        [
+            "prdID" => "prd2",
+            "pimPath" => "iCollar_v2.png_black"
+        ],
+        [
+            "prdID" => "prd2",
+            "pimPath" => "iCollar_v2.png_blue"
+        ],
+        [
+            "prdID" => "prd2",
+            "pimPath" => "iCollar_v2.png_green"
+        ]
+
+    ];
+
+    $list = array();
+    while($listRow = $runSQLQuery->fetch_assoc()) {
         $list[] = $listRow;
     }
-
     return $list;
+}
+
+function returnObjectList($runSQLQuery, $objectID): array {
+    $list = array();
+    while($listRow = $runSQLQuery->fetch_assoc()) {
+        $list[$listRow[$objectID]] = $listRow;
+    }
+    return $list;
+}
+
+function returnItem($runSQLQuery): array {
+    $list = array();
+    while($listRow = $runSQLQuery->fetch_assoc()) {
+        $list = $listRow;
+    }
+    return $list;
+}
+
+function returnImagePathList($groupList): array {
+    $imagePathList = array();
+
+    foreach($groupList as $groupListKey => $groupListValue ) {
+        foreach($groupListValue as $AttributeKey => $attributeValue) {
+            foreach($attributeValue as $rowValue) {
+                if($AttributeKey === 'pimPath') {
+                    $imagePathList[$groupListKey][$AttributeKey][] = getImage($rowValue);
+                }
+                else {
+                    $imagePathList[$groupListKey][$AttributeKey][] = $rowValue;
+                }
+            }
+        };
+    }
+
+    return $imagePathList;
+}
+
+function returnGroupList($runSQLQuery, $groupByID): array {
+    // INPUT
+    // OBJECT TYPE runSQLResult;
+
+    // OUTPUT
+    $outputExample = [
+        "prd1" => [
+            "prcColor" => [
+                "black",
+                "blue",
+                "green",
+                "red",
+                "white",
+                "yellow"
+            ]
+        ],
+        "prd2" => [
+            "prcColor" => [
+                "red",
+                "white",
+                "yellow",
+                "black",
+                "blue",
+                "green"
+            ]
+        ]
+
+    ];
+
+    $groupList = array();
+    while($listRow = $runSQLQuery->fetch_assoc()) {
+        $valueList = array();
+        foreach($listRow as $mainKey => $mainValue) {
+            if($mainKey !== $groupByID) {
+                $groupList[$listRow[$groupByID]][$mainKey][] = $mainValue;
+            }
+        };
+
+
+    }
+    return $groupList;
+}
+
+function returnAssociativeList($runSQLQuery, $groupByID): array {
+    // INPUT
+    // OBJECT TYPE runSQLResult;
+
+    // OUTPUT
+    $outputExample = [
+        [
+            "prd1" => [
+                "prdID" => "prd1",
+                "prdName" => "Connected Collars for dogs v1",
+                "prdPrice" => "499.99",
+                "prdReleaseDate" => "2023-01-01"
+            ],
+            "prd2" => [
+                "prdID" => "prd2",
+                "prdName" => "Connected Collars for dogs v2",
+                "prdPrice" => "499.99",
+                "prdReleaseDate" => "2023-01-01"
+            ]
+        ]
+    ];
+
+    $list = array();
+    while($listRow = $runSQLQuery->fetch_assoc()) {
+
+        $list[$listRow[$groupByID]] = $listRow;
+    }
+    return $list;
+}
+
+function returnMergedList($mainArray): array {
+    // INPUT
+    $inputExample = [
+        [
+            "prd1" => [
+                "prcColor" => [
+                    "black",
+                    "blue",
+                    "green",
+                    "red",
+                    "white",
+                    "yellow"
+                ]
+            ],
+            "prd2" => [
+                "prcColor" => [
+                    "red",
+                    "white",
+                    "yellow",
+                    "black",
+                    "blue",
+                    "green"
+                ]
+            ]
+        ],
+        [
+            "prd1" => [
+                "pimPath" => [
+                    "iCollar_v1.png_black",
+                    "iCollar_v1.png_blue",
+                    "iCollar_v1.png_green",
+                    "iCollar_v1.png_red",
+                    "iCollar_v1.png_white",
+                    "iCollar_v1.png_yellow"
+                ]
+            ],
+            "prd2" => [
+                "pimPath" => [
+                    "iCollar_v2.png_red",
+                    "iCollar_v2.png_white",
+                    "iCollar_v2.png_yellow",
+                    "iCollar_v2.png_black",
+                    "iCollar_v2.png_blue",
+                    "iCollar_v2.png_green"
+                ]
+            ]
+        ]
+    ];
+
+    // OUTPUT
+    $outputExample = [
+        "prd1" => [
+            "prcColor" => [
+                "black",
+                "blue",
+                "green",
+                "red",
+                "white",
+                "yellow"
+            ],
+            "pimPath" => [
+                "iCollar_v1.png_black",
+                "iCollar_v1.png_blue",
+                "iCollar_v1.png_green",
+                "iCollar_v1.png_red",
+                "iCollar_v1.png_white",
+                "iCollar_v1.png_yellow"
+            ]
+        ],
+        "prd2" => [
+            "prcColor" => [
+                "red",
+                "white",
+                "yellow",
+                "black",
+                "blue",
+                "green"
+            ],
+            "pimPath" => [
+                "iCollar_v2.png_red",
+                "iCollar_v2.png_white",
+                "iCollar_v2.png_yellow",
+                "iCollar_v2.png_black",
+                "iCollar_v2.png_blue",
+                "iCollar_v2.png_green"
+            ]
+        ]
+    ];
+
+    $mergedList = array();
+
+    foreach($mainArray as $secondArray) {
+
+        foreach($secondArray as $thirdArrayKey => $thirdArray) {
+            foreach($thirdArray as $rowKey => $row) {
+                $mergedList[$thirdArrayKey][$rowKey] = $row;
+            }
+        }
+    }
+
+    return $mergedList;
+}
+
+function returnCombinedList2($mainArray, $combinedListID): array {
+//    $orderedList = returnMergedList($mainArray);
+    $AttributeList = array();
+    $combinedList = array();
+
+    foreach($mainArray as $mainListKey => $mainListValue) {
+        foreach($mainListValue as $subListKey => $subListValue) {
+            $AttributeList[$mainListKey][] = $subListKey;
+        }
+
+        foreach($AttributeList as $mainListKey2 => $mainListValue2) {
+            $keyListName = $mainListValue2[0];
+            $valueListName = $mainListValue2[1];
+
+            $keyList = $mainArray[$mainListKey2][$keyListName];
+            $valueList = $mainArray[$mainListKey2][$valueListName];
+
+            foreach($keyList as $keyListKey => $keyListValue) {
+                foreach($valueList as $valueListKey => $valueListValue) {
+                    if($keyListKey === $valueListKey) {
+                        $combinedList[$mainListKey2][$combinedListID][$keyListValue] = $valueListValue;
+                    }
+                }
+            }
+        }
+    }
+
+    return $combinedList;
 }
 
 function returnAddressList(): array {
@@ -498,58 +821,290 @@ function returnAddressList(): array {
                           INNER JOIN client c on address.Client_cltID = c.cltID
                           WHERE cltToken = '".$token."'";
 
-    return returnList(runSQLResult($getAddressListSql));
+    return returnList(runSQLQuery($getAddressListSql));
 }
 
 function returnAddressInfo($adrID) : array {
     $getAddressInfoSql = "SELECT adrID, adrAddress, adrAddressOptional, adrPostalCode, adrCity, adrDefault FROM address 
                           WHERE adrID = '".$adrID."'";
 
-    return returnList(runSQLResult($getAddressInfoSql));
+    return returnList(runSQLQuery($getAddressInfoSql));
 }
 
-function countBasket(): string
-{
-    $cltID = $_SESSION["ID"];
-    $result = runSQLResult('SELECT * FROM Basket WHERE Client_cltID = "' .   $cltID  . '"');
-    $result = mysqli_num_rows($result);
-    return $result;
+function returnProductList($optionalPrdID) : array {
+
+    $productListSql = "SELECT * FROM product";
+    if(strlen($optionalPrdID) > 0) {
+        $productListSql .= " WHERE prdID ='".$optionalPrdID."'";
+    }
+    $productList = returnAssociativeList(runSQLQuery($productListSql), 'prdID');
+
+    $prdImgListSql = "SELECT prdID, prcColor, pimPath from product
+                      INNER JOIN product_color pc on product.prdID = pc.Product_prdID
+                      INNER JOIN product_image pi on pc.prcID = pi.Product_Color_prcID";
+    if(strlen($optionalPrdID) > 0) {
+        $prdImgListSql .= " WHERE prdID ='".$optionalPrdID."'";
+    }
+    $prdImgList = returnGroupList(runSQLQuery($prdImgListSql), 'prdID');
+    $prdImgList2 = returnImagePathList($prdImgList);
+    $prdImgList3 = returnCombinedList2($prdImgList2, 'prdImg');
+
+    //    ACTUAL RETURN STUFF
+    $finalList = array($productList, $prdImgList3);
+    return returnMergedList($finalList);
+
+
 }
 
-// Couleur > 0 dans le panier
-function getColorProduct(): array
+function deObjectifyList($objectList): array {
+
+    foreach ($objectList as $objectListItem) {
+        $deObjectifiedList[] = $objectListItem;
+    }
+    return $deObjectifiedList;
+}
+
+function returnProductIntPrice($value): string
 {
-    $cltID = $_SESSION["ID"];
-    $result = runSQLResult('SELECT * FROM Basket INNER JOIN Product_List ON (Basket.basID = Product_List.Basket_basID) INNER JOIN Product ON (Product_List.Product_prdID = Product.prdID) WHERE Client_cltID = "' .   $cltID  . '"');
+    return substr($value ,0 , strlen($value)-3);
+}
 
+function returnProductDecimalPrice($value): string
+{
+    return substr($value ,strlen($value)-2 , strlen($value));
+}
 
-    $couleurs = array();
-    $blanc = $bleu = $rose = $jaune = $vert = $noir = 0;
-    while ($color = $result->fetch_assoc()) {
+function returnBasketList():array {
 
+    if(isset($_SESSION['Table']) || isset($_SESSION['loggedIn'])) {
+        if(!$_SESSION['loggedIn'] && isset($_COOKIE['Basket-cookie'])){
 
-        if ($color["prdColour"] == "blanc") {
-            $blanc += 1;
-            $couleurs['blanc'] = $blanc;
-        } elseif ($color["prdColour"] == "bleu") {
-            $bleu += 1;
-            $couleurs['bleu'] = $bleu;
-        } elseif ($color["prdColour"] == "jaune") {
-            $jaune += 1;
-            $couleurs['jaune'] = $jaune;
-        } elseif ($color["prdColour"] == "Rose") {
-            $rose += 1;
-            $couleurs['Rose'] = $rose;
-        } elseif ($color["prdColour"] == "vert") {
-            $vert += 1;
-            $couleurs['vert'] = $vert;
-        } else {
-            $noir += 1;
-            $couleurs['noir'] = $noir;
+            $cookieBasketList =  json_decode($_COOKIE['Basket-cookie']);
+
+            if(!(gettype($cookieBasketList) === "NULL")) {
+                foreach ($cookieBasketList as $cookieBasketListItem) {
+                    $prdID = $cookieBasketListItem[0];
+                    $prdColor = $cookieBasketListItem[1];
+
+                    $productList = returnProductList($prdID);
+                    foreach ($productList as $productListItem) {
+                        foreach($productListItem as $productListItemKey => $productListItemRow) {
+                            if($productListItemKey !== $prdID) {
+                                $basketItem[$productListItemKey] = $productListItemRow;
+                            }
+                        }
+                        $basketItem['prcColor'] = $prdColor;
+                    }
+                    $basketList[] = $basketItem;
+                }
+                return $basketList;
+            }
+            else {
+                return array();
+            }
+
+        }
+        else if(isset($_SESSION['Table']) && $_SESSION['Table'] === 'client') {
+            $cltID = $_SESSION['ID'];
+            $getClientBasketListSql = "SELECT Product_prdID AS prdID, prcColor, prdLstID
+                                   FROM client
+                                   INNER JOIN basket b on client.cltID = b.Client_cltID
+                                   INNER JOIN product_list pl on b.basID = pl.Basket_basID
+                                   WHERE cltID = '".$cltID."'";
+            $getClientBasketListResult = runSQLQuery($getClientBasketListSql);
+
+            if(mysqli_num_rows($getClientBasketListResult) > 0) {
+                $clientBasketList = returnList($getClientBasketListResult);
+
+                foreach ($clientBasketList as $clientBasketListItem) {
+                    $prdID = $clientBasketListItem['prdID'];
+                    $additionalList = array();
+                    $basketItem = array();
+
+                    foreach ($clientBasketListItem as $clientBasketListItemKey => $clientBasketListItemRow) {
+                        $basketItem[$clientBasketListItemKey] = $clientBasketListItemRow;
+                    }
+
+                    foreach (returnProductList($prdID) as $productListItem) {
+                        foreach($productListItem as $productListItemKey => $productListItemRow) {
+                            if($productListItemKey !== $prdID) {
+                                $basketItem[$productListItemKey] = $productListItemRow;
+                            }
+                        }
+                    }
+                    $basketList[] = $basketItem;
+
+                }
+
+                return $basketList;
+            }
+            else {
+                return array();
+            }
+        }
+        else {
+            return array();
         }
     }
-    $nProduct = $couleurs;
-    return  $nProduct;
+    else {
+        return array();
+    }
+}
+
+function returnDevicesList(): array {
+    if(isset($_SESSION['Table']) && $_SESSION['Table'] === 'client') {
+
+        $cltID = $_SESSION['ID'];
+        $getClientDevicesListSql = "SELECT * FROM device
+                                    WHERE Client_cltID = '".$cltID."'";
+
+        $getClientDevicesListResult = runSQLQuery($getClientDevicesListSql);
+
+        $productsList = returnProductList('');
+
+        if(mysqli_num_rows($getClientDevicesListResult) > 0) {
+            $clientDevicesList = returnList($getClientDevicesListResult);
+
+            foreach($clientDevicesList as $clientDevicesListIndex => $clientDevicesListItem) {
+                $prdID = $clientDevicesListItem['prdID'];
+                $prcColor = $clientDevicesListItem['prcColor'];
+                $prdImg = $productsList[$prdID]['prdImg'][$prcColor];
+                $clientDevicesList[$clientDevicesListIndex]['prdImg'] = $prdImg;
+            }
+
+            return $clientDevicesList;
+        }
+        else {
+            return array();
+        }
+    }
+    else {
+        return array();
+    }
+}
+
+function returnMiscImgList(): array {
+    return array (
+        'edit.png' => getImage('edit.png'),
+        'cancel.png' => getImage('cancel.png'),
+        'confirm.png' => getImage('confirm.png'),
+        'heart.png' => getImage('heart.png'),
+        'co2.png' => getImage('co2.png'),
+        'thermo.png' => getImage('thermo.png'),
+    );
+}
+
+function returnAssistanceList($optionalAstID, $astApproved, $type): array {
+    if(strlen($optionalAstID) === 0) {
+        if(strlen($astApproved) === 0) {
+            $getAssistanceListSql = "SELECT * FROM assistance";
+        }
+        else {
+            $getAssistanceListSql = "SELECT * FROM assistance WHERE astApproved = '".$astApproved."'";
+        }
+    }
+    else {
+        if(strlen($astApproved === 0)) {
+            $getAssistanceListSql = "SELECT * FROM assistance WHERE astID = '".$optionalAstID."'";
+        }
+        else {
+            $getAssistanceListSql = "SELECT * FROM assistance WHERE astID = '".$optionalAstID."' AND astApproved = '".$astApproved."'";
+        }
+    }
+
+    $assistanceListResult = runSQLQuery($getAssistanceListSql);
+
+    if(mysqli_num_rows($assistanceListResult) > 0) {
+        if(strlen($optionalAstID) === 0) {
+            if($type === 'object') {
+                return returnObjectList($assistanceListResult, 'astID');
+            }
+            else if($type == 'list') {
+                return returnList($assistanceListResult);
+            }
+            else {
+                return array();
+            }
+
+        }
+        else {
+            return returnItem($assistanceListResult);
+        }
+
+    }
+    else {
+        return array();
+    }
+
+}
+
+function returnLastMessagesList($type): array {
+    if($type === 'message') {
+        $getActiveMessagesSql = "SELECT DISTINCT cltID, cltUsername FROM client
+                             INNER JOIN client_message cm on client.cltID = cm.Client_cltID
+                             INNER JOIN session_message sm on cm.Session_Message_sesMsgID = sm.sesMsgID
+                             WHERE sesMsgEndDate is null 
+                             ORDER BY sesMsgStartDate";
+
+        $activeMessagesResult = runSQLQuery($getActiveMessagesSql);
+
+        if(mysqli_num_rows($activeMessagesResult) > 0) {
+            while($activeMessages = $activeMessagesResult->fetch_assoc()) {
+                $sesMsgID = $activeMessages['cltID'];
+
+                $sessionMessages = returnSessionMessages($sesMsgID);
+                $lastSessionMessage = end($sessionMessages[$sesMsgID]);
+
+                $lastMessagesList[] = array(
+                    'cltID' => $activeMessages['cltID'],
+                    'cltUsername' => $activeMessages['cltUsername'],
+
+                    'username' => $lastSessionMessage['username'],
+                    'msgMessage' => $lastSessionMessage['msgMessage'],
+                    'msgDate' => $lastSessionMessage['msgDate'],
+                );
+            }
+        }
+        else {
+            $lastMessagesList = array();
+        }
+        return $lastMessagesList;
+    }
+    else if($type === 'resolved') {
+        $getResolvedMessagesSql = "SELECT DISTINCT sesMsgID, sesMsgStartDate ,sesMsgEndDate, cltUsername  FROM session_message 
+                                   LEFT JOIN client_message cm on session_message.sesMsgID = cm.Session_Message_sesMsgID
+                                   LEFT JOIN client c on cm.Client_cltID = c.cltID
+                                   WHERE sesMsgID LIKE '%resolved%'
+                                   ORDER BY sesMsgEndDate";
+
+        $resolvedMessagesResult = runSQLQuery($getResolvedMessagesSql);
+
+        if(mysqli_num_rows($resolvedMessagesResult) > 0) {
+            while($resolvedMessages = $resolvedMessagesResult -> fetch_assoc()) {
+
+//                $sessionMessages = returnSessionMessages($resolvedMessages['sesMsgID']);
+//                $lastSessionMessage = end($sessionMessages);
+
+                $lastMessagesList[] = array(
+                    'sesMsgID' => $resolvedMessages['sesMsgID'],
+                    'cltUsername' => $resolvedMessages['cltUsername'],
+                    'sesMsgEndDate' => $resolvedMessages['sesMsgEndDate'],
+                    'sesMsgStartDate' => $resolvedMessages['sesMsgStartDate'],
+
+//                    'username' => $lastSessionMessage['username'],
+//                    'msgMessage' => $lastSessionMessage['msgMessage'],
+//                    'msgDate' => $lastSessionMessage['msgDate'],
+                );
+            }
+        }
+        else {
+            $lastMessagesList = array();
+        }
+        return $lastMessagesList;
+    }
+    else {
+        return array();
+    }
 }
 
 function returnLanguage(): string {
@@ -626,7 +1181,46 @@ function returnLanguageList(): array
 
                 "Submit Changes" => "Submit Changes",
             ),
-            "assistance" => array(),
+            "assistance" => array(
+                "Assistance" => "Assistance",
+                "Need help?" => "Need Help?",
+                "Find the answer to all of your questions" => "Find the answer to all of your questions",
+                "Frequent Questions" => "Frequent Questions",
+                "Can't find your question?" => "Can't find your question?",
+                "Click" => "Click",
+                "here" => "here",
+                "to ask a new question" => "to ask a new question",
+                "No questions have been found." => "No questions have been found.",
+            ),
+            "assistance-answer" => array(
+                "Assistance Answer" => "Assistance Answer",
+            ),
+            "assistance-question" => array(
+                "Ask a new question" => "Ask a new question",
+                "Write your question here" => "Write your question here",
+                "New question" => "New question",
+                "Ask question" => "Ask question",
+                "Your question has been successfully sent and will be reviewed soon" => "Your question has been successfully sent and will be reviewed soon",
+                "Your question could not be processed" => "Your question could not be processed",
+            ),
+            "assistance-manage" => array(
+                "Answer Questions" => "Answer Questions",
+                "Manage Questions" => "Manage Questions",
+                "Control Panel" => "Control Panel",
+                "Save Changes" => "Save Changes",
+                "Approve Question" => "Approve Question",
+                "Disapprove Question" => "Disapprove Question",
+                "Delete Selected Question" => "Delete Selected Question",
+                "Edit Question" => "Edit Question",
+                "Answer to the question" => "Answer to the question",
+            ),
+            "checkout" => array(
+                "Checkout" => "Checkout",
+                "Start adding items to your basket!" => "Start adding items to your basket!",
+                "Thank you for buying our products! An email has been sent to you with all the details." => "Thank you for buying our products! An email has been sent to you with all the details.",
+                "Your Total is" => "Your Total is",
+                "Buy Products" => "Buy Products",
+            ),
             "connection-security" => array(
                 "Connection and Security" => "Connection and Security",
                 "Username :" => "Username :",
@@ -740,6 +1334,14 @@ function returnLanguageList(): array
                 "You can now" => "You can now",
                 "login" => "login",
             ),
+            "product" => array(
+                "White" => "White",
+                "Add to basket" => "Add to basket",
+                "Buy this product" => "Buy this product",
+                "Ecological Packaging" => "Ecological Packaging",
+                "Delivery under 48h" => "Delivery under 48h",
+                "Satisfied or reimbursed" => "Satisfied or reimbursed",
+            ), // this
             "profile" => array(
                 "Select Image" => "Select Image",
                 "Upload Image" => "Upload Image",
@@ -838,7 +1440,7 @@ function returnLanguageList(): array
                 "My Devices" => "My Devices",
                 "Logout" => "Logout",
             ),
-                        "order-history" => array(
+            "order-history" => array(
                 "Account" => "Account",
                 "Order History" => "Order History",
                 "Purchase date" => "Purchase date",
@@ -847,22 +1449,7 @@ function returnLanguageList(): array
                 "Status: <strong>In transit</strong> " => "Status: <strong>In transit</strong>",
             ),
             "shop" => array(
-                "Connected dog collar" => "Connected dog collar",
-                "Color" => "Color",
-                "In stock" => "In stock",
-                "Yellow" => "Yellow",
-                "Green" => "Green",
-                "Pink" => "Pink",
-                "Blue" =>  "Blue",
-                "Black" => "Black",
-                "White" => "White",
-                "Add to cart" => "Add to cart",
-                "Buy now" => "Buy now",
-                "GPS localisation" => "GPS localisation",
-                "Heart rate sensor" => "Heart rate sensor",
-                "Thermal sensor" => "Thermal sensor",
-                "Sound sensor" => "Sound sensor",
-                "CO2 concentration" => "CO2 concentration",
+                "Shop" => "Shop",
             ),
             "payment-method" => array(
                 "Account" => "Account",
@@ -898,6 +1485,9 @@ function returnLanguageList(): array
             ),
 
             // PHP PROCESSES
+            "checkout-process" => array(
+                'Thank you for buying our products' => 'Thank you for buying our products',
+            ),
             "dbConnection" => array(
                 "Please login as a client to use this page." =>
                     "Please login as a client to use this page.",
@@ -989,10 +1579,6 @@ function returnLanguageList(): array
 
 
             ),
-            "password-reset-validation" => array(
-                "New Password is required" => "New Password is required",
-                "Passwords should match" => "Passwords should match",
-            ),
             "validation-functions" => array(
                 "Client Username is required" => "Client Username is required",
                 "Client Username must be at least 3 characters" => "Client Username must be at least 3 characters",
@@ -1040,7 +1626,46 @@ function returnLanguageList(): array
                 "City" =>"Ville",
                 "Submit Changes" => "Soumettre les modifications",
             ),
-            "assistance" => array(),
+            "assistance" => array(
+                "Assistance" => "Assistance",
+                "Need help?" => "Avez-vous besoin d'aide?",
+                "Find the answer to all of your questions" => "Trouvez la réponse à toutes vos questions",
+                "Frequent Questions" => "Questions fréquentes",
+                "Can't find your question?" => "Vous ne trouvez pas votre question?",
+                "Click" => "Cliquez",
+                "here" => "ici",
+                "to ask a new question" => "pour poser une nouvelle question",
+                "No questions have been found." => "Aucune question n'a été trouvée.",
+            ),
+            "assistance-answer" => array(
+                "Assistance Answer" => "Réponse d'assistance",
+            ),
+            "assistance-question" => array(
+                "Ask a new question" => "Posez une nouvelle question",
+                "Write your question here" => "Écrivez votre question ici",
+                "New question" => "Nouvelle question",
+                "Ask question" => "Poser une question",
+                "Your question has been successfully sent and will be reviewed soon" => "Votre question a été envoyée avec succès et sera bientôt examinée",
+                "Your question could not be processed" => "Votre question n'a pas pu être traitée",
+            ),
+            "assistance-manage" => array(
+                "Answer Questions" => "Répondre aux questions",
+                "Manage Questions" => "Gérer les questions",
+                "Control Panel" => "Panneau de contrôle",
+                "Save Changes" => "Enregistrer les modifications",
+                "Approve Question" => "Approuver la question",
+                "Disapprove Question" => "Désapprouver la question",
+                "Delete Selected Question" => "Supprimer la question sélectionnée",
+                "Edit Question" => "Modifier la question",
+                "Answer to the question" => "Répondre à la question",
+            ),
+            "checkout" => array(
+                "Checkout" => "Caissier",
+                "Start adding items to your basket!" => "Commencez à ajouter des articles à votre panier!",
+                "Thank you for buying our products! An email has been sent to you with all the details." => "Merci d'avoir acheté nos produits! Un e-mail vous a été envoyé avec tous les détails.",
+                "Your Total is" => "Votre total est",
+                "Buy Products" => "Acheter des produits",
+            ),
             "connection-security" => array(
                 "Connection and Security" => "Connexion et sécurité",
                 "Username :" => "Nom d'utilisateur :",
@@ -1208,8 +1833,8 @@ function returnLanguageList(): array
                 "Verification Code:" => "Code de vérification:",
                 "The verification code is incorrect." => "Le code de vérification est incorrect.",
                 "Validate Email" => "Valider l'adresse électronique",
-                "Your email has been validated. You can now" => "Votre email a été validé, vous pouvez maintenant vous",
-                "Login" => "connecter"
+                "Your email has been validated. You can now" => "Votre email a été validé, vous pouvez maintenant",
+                "Login" => "vous-identifier"
             ),
             "site-footer" => array(
                 "GIFT CARDS" => "CARTES CADEAUX",
@@ -1264,22 +1889,7 @@ function returnLanguageList(): array
                 "Status: <strong>In transit</strong> " => "Statut: <strong>En cours de livraison</strong>",
             ),
             "shop" => array(
-                "Connected dog collar" => "Collier connecté pour chien",
-                "Color" => "Couleur",
-                "In stock" => "En stock",
-                "Yellow" => "Jaune",
-                "Green" => "Vert",
-                "Pink" => "Rose",
-                "Blue" => "Bleu",
-                "Black" => "Noir",
-                "White" => "Blanc",
-                "Add to cart" => "Ajouter au panier",
-                "Buy now" => "Acheter maintenant",
-                "GPS localisation" => "Localisation GPS",
-                "Heart rate sensor" => "Capteur cardiaque",
-                "Thermal sensor" => "Capteur thermique",
-                "Sound sensor" => "Capteur sonore",
-                "CO2 concentration" => "Taux de CO2",
+                "Shop" => "Magasin"
             ),
             "payment-method" => array(
                 "Account" => "Compte",
@@ -1317,6 +1927,9 @@ function returnLanguageList(): array
 
 
             // PHP PROCESSES
+            "checkout-process" => array(
+                "Thank you for buying our products" => "Merci d'avoir acheté nos produits",
+            ),
             "dbConnection" => array(
                 "Please login as a client to use this page." =>
                     "Veuillez vous connecter en tant que client pour utiliser cette page.",
@@ -1460,6 +2073,8 @@ function returnLanguageList(): array
             ),
 
         ),
-        "Russian" => array(),
+        "Russian" => array(
+        ),
+
     );
 }

@@ -1,110 +1,57 @@
 // CONSTANTS
 // HARDCODED DIV IDS
-const amountActiveDivID = "sh-amount-active";
-const amountHiddenDivID = "sh-amount-hidden";
-const amountCustomDivID = "sh-amount-custom";
-
-const colorActiveDivID = "sh-color-active";
-const colorHiddenDivID = "sh-color-hidden";
-
-// HARDCODED INPUT IDS
-const amountInputID = "sh-amount-input";
+const mainDivID = "sh-main-div";
 
 // HARDCODED DIV ELEMENTS
-const amountActiveDivElement = $("#"+amountActiveDivID);
-const amountHiddenDivElement = $("#"+amountHiddenDivID);
-const amountCustomDivElement = $("#"+amountCustomDivID);
+const mainDivElement = $("#"+mainDivID);
 
-const colorActiveDivElement = $("#"+colorActiveDivID);
-const colorHiddenDivElement = $("#"+colorHiddenDivID);
+// VOLATILE BUTTON IDS
+const addToCartButtonCommonID = "sh-add-to-cart-button"
 
-// HARDCODED INPUT ELEMENTS
-const amountInputElement = $("#"+amountInputID);
+productList.forEach(displayShopProduct)
 
-//ITEM LISTS
-const amountHiddenItemList = [1,2,3,4,5,6,7,8,9]
-const colorHiddenItemList = [
-    'Black',
-    'Blue',
-    'Green',
-    'Red',
-    'White',
-    'Yellow',
-]
+function displayShopProduct(value) {
+    let prdID = value['prdID'];
+    let prdName = value['prdName'];
 
-//----------------------------------------------------------------------------------------------------------------------
+    let prdPrice = value['prdPrice'];
+    let prdPriceInt = prdPrice.substring(0, prdPrice.length - 3)
+    let prdPriceDecimal = prdPrice.substring(prdPrice.length - 2, prdPrice.length)
 
-function onClickSelectActiveDiv(selectActiveDivElement, selectHiddenDivElement) {
-    selectActiveDivElement.click(function() {
-        let selectHiddenDivState = selectHiddenDivElement.attr("state");
-        selectHiddenDivElement.animate({
-            "height": "toggle",
-        }, 300, function() {
-            if(selectHiddenDivState === "visible") {
-                selectHiddenDivElement.attr("state", "hidden");
+    let prdReleaseDate = value['prdReleaseDate'];
+    let prdImgPath = Object.values(value['prdImg'])[0];
 
-                selectActiveDivElement.css({
-                    "border-bottom-right-radius" : "10px",
-                    "border-bottom-left-radius" : "10px",
-                })
-            }
-        });
+    value['prcColor'] = Object.keys(value['prdImg'])[0];
 
-        if(selectHiddenDivState === "hidden") {
-            selectHiddenDivElement.attr("state", "visible");
+    let addToCartButtonID = addToCartButtonCommonID+"-"+generateString(5);
 
-            selectActiveDivElement.css({
-                "border-bottom-right-radius" : "0",
-                "border-bottom-left-radius" : "0",
-            })
+    let productHtml =
+        "<div class='sh-product-div'>\n" +
+        `                <a class='sh-product-image-div sh-href-container' href='../php-pages/product.php?prdID=${prdID}'>\n` +
+        `                    <img class='sh-product-image' src='${prdImgPath}' alt='product image'>\n` +
+        `                    <div class='sh-product-image-background'><span>Click for More Info</span></div>\n` +
+        "                </a>\n" +
+        "                <div class='sh-product-info-div'>\n" +
+        `                    <a class='sh-info-name sh-href-container' href='../php-pages/product.php?prdID=${prdID}'>\n` +
+        `                        <span>${prdName}</span>\n` +
+        "                    </a>\n" +
+        "                    <div class='sh-info-description text-font-300'>\n" +
+        "                        <p>\n" +
+        "                            GPS Location, Heart sensor, Thermal Sensor, Sound Sensor, CO2 Rate (ADD TO DB)\n" +
+        "                        </p>\n" +
+        "                    </div>\n" +
+        "                </div>\n" +
+        "                <div class='sh-price-button-div'>\n" +
+        "                    <div class='sh-price-div'>\n" +
+        `                        <span class='sh-price-span-1'>${prdPriceInt}€</span><span class='sh-price-span-2'>${prdPriceDecimal}</span>\n` +
+        "                    </div>\n" +
+        "                    <div class='sh-button-div'>\n" +
+        `                        <button id='${addToCartButtonID}' type='button' >Add to cart</button>\n` +
+        "                    </div>\n" +
+        "                </div>\n" +
+        "            </div>";
 
-        }
-    })
+    mainDivElement.append(productHtml);
+    let addToCartButtonElement = $("#"+addToCartButtonID);
+    setAddToCartButton(addToCartButtonElement, value);
 }
-
-function setSelectActiveDiv(selectActiveDivElement, selectHiddenDivElement) {
-    onClickSelectActiveDiv(selectActiveDivElement, selectHiddenDivElement);
-}
-
-function onClickAmountCustomDiv() {
-    amountActiveDivElement.css("display", "none");
-    amountHiddenDivElement.css("display", "none");
-    amountInputElement.css("display", "block")
-}
-
-function setAmountCustomDiv(amountCustomDivElement) {
-    amountCustomDivElement.click(function() {
-        onClickAmountCustomDiv(amountCustomDivElement)
-    })
-}
-
-function onClickSelectHiddenItem(selectActiveDivElement, selectHiddenLiElement) {
-    let selectHiddenLiText = selectHiddenLiElement.text();
-    selectActiveDivElement.children().first().text(selectHiddenLiText)
-    selectActiveDivElement.trigger("click");
-}
-
-function setSelectHiddenItem(selectActiveDivElement, selectHiddenLiElement) {
-    selectHiddenLiElement.click(function() {
-        onClickSelectHiddenItem(selectActiveDivElement, selectHiddenLiElement)
-    })
-}
-
-function setSelectHiddenItemList(selectActiveDivElement, selectHiddenDivElement, selectHiddenItemList) {
-    selectHiddenItemList.forEach(item => {
-        let selectHiddenLiID = selectHiddenDivElement.attr("id")+"-li-"+item
-        let selectHiddenUl = selectHiddenDivElement.children().first();
-        selectHiddenUl.append("<li id="+selectHiddenLiID+">"+item+"</li>")
-
-        let selectHiddenLiElement = $("#"+selectHiddenLiID);
-        setSelectHiddenItem(selectActiveDivElement, selectHiddenLiElement);
-    })
-}
-
-setSelectActiveDiv(amountActiveDivElement, amountHiddenDivElement);
-setAmountCustomDiv(amountCustomDivElement);
-
-setSelectActiveDiv(colorActiveDivElement, colorHiddenDivElement);
-
-setSelectHiddenItemList(amountActiveDivElement, amountHiddenDivElement, amountHiddenItemList);
-setSelectHiddenItemList(colorActiveDivElement, colorHiddenDivElement, colorHiddenItemList);

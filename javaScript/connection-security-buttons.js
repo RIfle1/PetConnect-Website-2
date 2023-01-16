@@ -1,4 +1,3 @@
-refreshLanguageList();
 // CONSTANTS
 // COMMON HARDCODED SPAN IDs
 const titleSpanCommonID = "cs-form-title-span-";
@@ -88,15 +87,15 @@ const editInputPasswordRepeatElement = $("#"+editInputPasswordRepeatID)
 
 // JSON VARIABLES
 let processValues;
-let languageListConnectionSecurityButtons
+// let javaScriptLanguageList
 // ---------------------------------------------------------------------------------------------------------
 // JSON INITIALIZATION
-function refreshLanguageList() {
-    let languageUrl = "../php-processes/language-list-process.php?file=connection-security-buttons"
-    $.getJSON(languageUrl, function(json) {
-        languageListConnectionSecurityButtons = json.languageList;
-    })
-}
+// function refreshLanguageList() {
+//     let languageUrl = "../php-processes/language-list-process.php?file=connection-security-buttons"
+//     $.getJSON(languageUrl, function(json) {
+//         javaScriptLanguageList = json.languageList;
+//     })
+// }
 function refreshProcessValues(email) {
     const sendEmailUrl = "../php-processes/connection-security-email-validation.php?newEmail=" + encodeURIComponent(email);
     $.getJSON(sendEmailUrl, function (json) {
@@ -171,10 +170,10 @@ function onClickEditButton(editButtonElement) {
     errorBool = 0;
 
     if (buttonName === 'Edit') {
-        editButtonElement.text(languageListConnectionSecurityButtons['Confirm']);
+        editButtonElement.text(javaScriptLanguageList['Confirm']);
         editButtonElement.attr("name", "Confirm");
 
-        titleSpanElement.text(titleSpanElement.text().replace("", languageListConnectionSecurityButtons["New"]+" "));
+        titleSpanElement.text(titleSpanElement.text().replace("", javaScriptLanguageList["New"]+" "));
         infoSpanElement.css('display', 'none');
 
         spanCommonElement.css('display', 'block');
@@ -194,7 +193,7 @@ function onClickEditButton(editButtonElement) {
             // CLIENT EMAIL
             validateEmailVar = validateEmail(inputCommonElementValue);
 
-            setTimeout(()=> {
+            emailAvailableJson.always(function() {
                 if(validateEmailVar.emailTaken) {
                     validateEmailVar = validateEmailTaken();
                 }
@@ -211,7 +210,7 @@ function onClickEditButton(editButtonElement) {
 
                     inputCommonElement.val("");
 
-                    editButtonElement.text(languageListConnectionSecurityButtons['Confirm Code']);
+                    editButtonElement.text(javaScriptLanguageList['Confirm Code']);
                     editButtonElement.attr("name", "Confirm Code");
                     $("."+commonErrorSpanClass+buttonAttribute).remove();
 
@@ -219,8 +218,7 @@ function onClickEditButton(editButtonElement) {
                 else {
                     processSuccessFunction(editButtonElement, processSuccess, validateEmailVar.errorMsg, buttonAttribute, entityAttribute, entityValue)
                 }
-
-            }, 100)
+            })
 
         }
         else if(editButtonElement === editButtonPasswordElement) {
@@ -235,7 +233,7 @@ function onClickEditButton(editButtonElement) {
             validatePasswordVar = validatePassword(editInputPasswordOldValue, true);
             errorMsgList.push(validatePasswordVar.errorMsg);
 
-            setTimeout(()=> {
+            passwordAvailableJson.always(function() {
                 if(validatePasswordVar.passwordTaken) {
                     validatePasswordVar = validatePasswordAvailable(false);
                     errorMsgList.push(validatePasswordVar.errorMsg)
@@ -253,7 +251,7 @@ function onClickEditButton(editButtonElement) {
                 // if(processSuccess) {
                 //     console.log('VALIDATED')
                 // }
-            }, 100)
+            })
 
         }
         else if(editButtonElement !== editButtonPasswordElement && editButtonElement !== editButtonEmailElement) {
@@ -317,7 +315,7 @@ function onClickCancelButton(cancelButtonElement) {
 
     let buttonCommonElement = elementsList[6]
 
-    titleSpanElement.text(titleSpanElement.text().replace(languageListConnectionSecurityButtons["New"]+" ", ""));
+    titleSpanElement.text(titleSpanElement.text().replace(javaScriptLanguageList["New"]+" ", ""));
     infoSpanElement.css('display', 'block');
     infoSpan2Element.css('display', 'none');
     infoSpan2Element.text("")
@@ -329,7 +327,7 @@ function onClickCancelButton(cancelButtonElement) {
 
     buttonCommonElement.css("display", "none")
 
-    editButtonElement.text(languageListConnectionSecurityButtons["Edit"]);
+    editButtonElement.text(javaScriptLanguageList["Edit"]);
     editButtonElement.attr("name", "Edit");
 
 }

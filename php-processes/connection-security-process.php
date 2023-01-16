@@ -2,7 +2,7 @@
 include '../php-processes/dbConnection.php';
 include 'validation-functions.php';
 session_start();
-clientPage();
+clientAndAdminPage();
 
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -37,7 +37,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     $updateSql = "UPDATE ".$table." SET ".$entityAttribute." = '".$entityValue."' WHERE ".$entityAttributes['Token']." = '".$token."'";
     echo $updateSql;
 
-    runSQLResult($updateSql);
+    runSQLQuery($updateSql);
 
 }
 
