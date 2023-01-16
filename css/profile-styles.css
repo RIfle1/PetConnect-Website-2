@@ -2,7 +2,26 @@
     display: flex;
     flex-direction: column;
     margin: 93px 0 0 0;
+ 
+  
+
 }
+
+#background-image {
+    background-image: url("../img/dogs/empreinte.jpg");
+    width: 100%;
+    top: 0;
+    left: 0;
+    height:100%; 
+    opacity: 0.1;
+    position: fixed;
+    background-repeat: repeat-y;
+    background-size: 100% auto;
+    padding: 0;
+    margin: 0;
+    z-index:-10;
+}
+  
 
 #profile-top-div {
     display: flex;
@@ -25,6 +44,7 @@
     border-radius: 5vw;
     margin: 0 0 0 4vw;
     background: #d9d9d9;
+
 }
 
 #profile-pfp-overlay {
@@ -96,14 +116,17 @@
     width: 500px;
     text-decoration: none;
     color: black;
-    background-color: #d9d9d9;
+    /* opacity: 0.8; */
+    /* background-color: #d9d9d9; */
+    background: linear-gradient(to bottom right, rgb(116, 116, 116), rgb(255, 255, 255));
     margin: 20px;
     border-radius: 20px;
     transition: background-color 0.2s ease-in-out;
 }
 
 #profile-bottom-div a:hover {
-    background-color: #0356A9;
+    background: #0356A9;
+    background: linear-gradient(to bottom right, rgb(12, 53, 255), rgb(136, 134, 211));
 }
 
 #profile-bottom-div span {
