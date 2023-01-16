@@ -1,0 +1,60 @@
+
+
+
+#pm-form-body{
+    margin: 0 0 0 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+
+#py-form-body{
+    display: flex;
+    flex-direction: column;
+    margin-left: 5vw;
+    margin-right: 50vw;
+    margin-bottom: 50px;
+}
+
+
+
+
+/*   position et style du texte "Enregistrer un mode de paiement" */
+form h2{
+    font-weight: 700;
+    font-size: 36px;
+
+}
+
+/*   position des éléments encadrés*/
+#pay li{
+    padding-top:20px ; 
+    display: block;
+    margin: 20px;
+
+}
+
+/*   styles et position des éléments encadrés*/
+#pay li a{
+    display: block;
+    padding: 25px;
+    height: 50px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 36px;
+    color: #918D8D;
+    text-decoration: none;
+
+}
+
+#pay li a:hover{
+    background-color: rgb(215, 216, 216);
+}
+
+
+#py-form-body li a {
+    height: 90px;
+}

@@ -30,7 +30,6 @@ $prdImg = $deviceInfo[0]['prdImg']
 <body>
     <main>
         <div id="ids-form-body" class="text-font-500">
-            <lien><a href="profile.php"><?php echo $languageList["Account"] ?></a>><a href="devices.php"><?php echo $languageList["My devices"] ?></a>><a id="actif" href=""><?php echo $languageList["Device information"] ?></a></lien>
             <section id="info_app">
                 <h2><?php echo $devName ?></h2>
                 <div id="produit">
