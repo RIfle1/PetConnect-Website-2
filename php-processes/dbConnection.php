@@ -1022,6 +1022,9 @@ function returnAssistanceList($optionalAstID, $astApproved, $type): array {
             else if($type == 'list') {
                 return returnList($assistanceListResult);
             }
+            else {
+                return array();
+            }
 
         }
         else {
@@ -1032,6 +1035,7 @@ function returnAssistanceList($optionalAstID, $astApproved, $type): array {
     else {
         return array();
     }
+
 }
 
 function returnLastMessagesList($type): array {
@@ -1168,6 +1172,10 @@ function returnLanguageList(): array
             ),
             "checkout" => array(
                 "Checkout" => "Checkout",
+                "Start adding items to your basket!" => "Start adding items to your basket!",
+                "Thank you for buying our products! An email has been sent to you with all the details." => "Thank you for buying our products! An email has been sent to you with all the details.",
+                "Your Total is" => "Your Total is",
+                "Buy Products" => "Buy Products",
             ),
             "connection-security" => array(
                 "Connection and Security" => "Connection and Security",
@@ -1282,6 +1290,14 @@ function returnLanguageList(): array
                 "You can now" => "You can now",
                 "login" => "login",
             ),
+            "product" => array(
+                "White" => "White",
+                "Add to basket" => "Add to basket",
+                "Buy this product" => "Buy this product",
+                "Ecological Packaging" => "Ecological Packaging",
+                "Delivery under 48h" => "Delivery under 48h",
+                "Satisfied or reimbursed" => "Satisfied or reimbursed",
+            ), // this
             "profile" => array(
                 "Select Image" => "Select Image",
                 "Upload Image" => "Upload Image",
@@ -1390,23 +1406,6 @@ function returnLanguageList(): array
             ),
             "shop" => array(
                 "Shop" => "Shop",
-
-                "Connected dog collar" => "Connected dog collar",
-                "Color" => "Color",
-                "In stock" => "In stock",
-                "Yellow" => "Yellow",
-                "Green" => "Green",
-                "Pink" => "Pink",
-                "Blue" =>  "Blue",
-                "Black" => "Black",
-                "White" => "White",
-                "Add to cart" => "Add to cart",
-                "Buy now" => "Buy now",
-                "GPS localisation" => "GPS localisation",
-                "Heart rate sensor" => "Heart rate sensor",
-                "Thermal sensor" => "Thermal sensor",
-                "Sound sensor" => "Sound sensor",
-                "CO2 concentration" => "CO2 concentration",
             ),
             "payment-method" => array(
                 "Account" => "Account",
@@ -1444,7 +1443,7 @@ function returnLanguageList(): array
             // PHP PROCESSES
             "checkout-process" => array(
                 'Thank you for buying our products' => 'Thank you for buying our products',
-            ), // ADD TO FRENCH
+            ),
             "dbConnection" => array(
                 "Please login as a client to use this page." =>
                     "Please login as a client to use this page.",
@@ -1583,7 +1582,46 @@ function returnLanguageList(): array
                 "City" =>"Ville",
                 "Submit Changes" => "Soumettre les modifications",
             ),
-            "assistance" => array(),
+            "assistance" => array(
+                "Assistance" => "Assistance",
+                "Need help?" => "Avez-vous besoin d'aide?",
+                "Find the answer to all of your questions" => "Trouvez la réponse à toutes vos questions",
+                "Frequent Questions" => "Questions fréquentes",
+                "Can't find your question?" => "Vous ne trouvez pas votre question?",
+                "Click" => "Cliquez",
+                "here" => "ici",
+                "to ask a new question" => "pour poser une nouvelle question",
+                "No questions have been found." => "Aucune question n'a été trouvée.",
+            ),
+            "assistance-answer" => array(
+                "Assistance Answer" => "Réponse d'assistance",
+            ),
+            "assistance-question" => array(
+                "Ask a new question" => "Posez une nouvelle question",
+                "Write your question here" => "Écrivez votre question ici",
+                "New question" => "Nouvelle question",
+                "Ask question" => "Poser une question",
+                "Your question has been successfully sent and will be reviewed soon" => "Votre question a été envoyée avec succès et sera bientôt examinée",
+                "Your question could not be processed" => "Votre question n'a pas pu être traitée",
+            ),
+            "assistance-manage" => array(
+                "Answer Questions" => "Répondre aux questions",
+                "Manage Questions" => "Gérer les questions",
+                "Control Panel" => "Panneau de contrôle",
+                "Save Changes" => "Enregistrer les modifications",
+                "Approve Question" => "Approuver la question",
+                "Disapprove Question" => "Désapprouver la question",
+                "Delete Selected Question" => "Supprimer la question sélectionnée",
+                "Edit Question" => "Modifier la question",
+                "Answer to the question" => "Répondre à la question",
+            ),
+            "checkout" => array(
+                "Checkout" => "Caissier",
+                "Start adding items to your basket!" => "Commencez à ajouter des articles à votre panier!",
+                "Thank you for buying our products! An email has been sent to you with all the details." => "Merci d'avoir acheté nos produits! Un e-mail vous a été envoyé avec tous les détails.",
+                "Your Total is" => "Votre total est",
+                "Buy Products" => "Acheter des produits",
+            ),
             "connection-security" => array(
                 "Connection and Security" => "Connexion et sécurité",
                 "Username :" => "Nom d'utilisateur :",
@@ -1807,22 +1845,7 @@ function returnLanguageList(): array
                 "Status: <strong>In transit</strong> " => "Statut: <strong>En cours de livraison</strong>",
             ),
             "shop" => array(
-                "Connected dog collar" => "Collier connecté pour chien",
-                "Color" => "Couleur",
-                "In stock" => "En stock",
-                "Yellow" => "Jaune",
-                "Green" => "Vert",
-                "Pink" => "Rose",
-                "Blue" => "Bleu",
-                "Black" => "Noir",
-                "White" => "Blanc",
-                "Add to cart" => "Ajouter au panier",
-                "Buy now" => "Acheter maintenant",
-                "GPS localisation" => "Localisation GPS",
-                "Heart rate sensor" => "Capteur cardiaque",
-                "Thermal sensor" => "Capteur thermique",
-                "Sound sensor" => "Capteur sonore",
-                "CO2 concentration" => "Taux de CO2",
+                "Shop" => "Magasin"
             ),
             "payment-method" => array(
                 "Account" => "Compte",
@@ -1860,6 +1883,9 @@ function returnLanguageList(): array
 
 
             // PHP PROCESSES
+            "checkout-process" => array(
+                "Thank you for buying our products" => "Merci d'avoir acheté nos produits",
+            ),
             "dbConnection" => array(
                 "Please login as a client to use this page." =>
                     "Veuillez vous connecter en tant que client pour utiliser cette page.",

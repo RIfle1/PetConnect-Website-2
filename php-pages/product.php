@@ -8,7 +8,8 @@ include '../php-processes/dbConnection.php';
 clientAndNoUserPage();
 include 'site-header.php';
 
-$languageList = returnLanguageList()[returnLanguage()]['shop'];
+$languageList = returnLanguageList()[returnLanguage()]['product'];
+
 $product = returnProductList('')[$_GET['prdID']];
 $productPriceInt = returnProductIntPrice($product['prdPrice']);
 $productPriceDecimal = returnProductDecimalPrice($product['prdPrice']);
@@ -90,7 +91,7 @@ $productPriceDecimal = returnProductDecimalPrice($product['prdPrice']);
             <div id="pr-info-interaction-div" class="text-font-700">
                 <div id="pr-interaction-color" class="pr-interaction-column">
                     <div id="pr-color-active" class="pr-color pr-select-active">
-                        <span id="pr-active-selected-color-span">White</span>
+                        <span id="pr-active-selected-color-span"><?php echo $languageList['White']?></span>
                         <div>
                             <svg viewBox="141.487 173.152 12.86 11.627" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                 <path d="M 146.325 -183.555 Q 147.592 -185.862 148.986 -183.555 L 153.817 -175.564 Q 155.211 -173.257 152.55 -173.257 L 143.331 -173.257 Q 140.67 -173.257 141.937 -175.564 Z" style="fill-rule: nonzero; stroke-miterlimit: 1; stroke-width: 0px; paint-order: fill; stroke: rgb(197, 190, 190); fill: rgb(135, 137, 131);" transform="matrix(1, 0, 0, -1, 0, 0)"></path>
@@ -141,22 +142,22 @@ $productPriceDecimal = returnProductDecimalPrice($product['prdPrice']);
                 </div>
 
                 <div id="pr-interaction-buttons" class="pr-interaction-row">
-                    <button id="pr-interaction-add-button" type="button" value="prd01">Add to basket</button>
-                    <button id="pr-interaction-buy-button" type="button" value="prd01">Buy this product</button>
+                    <button id="pr-interaction-add-button" type="button" value="prd01"><?php echo $languageList['Add to basket']?></button>
+                    <button id="pr-interaction-buy-button" type="button" value="prd01"><?php echo $languageList['Buy this product']?></button>
                 </div>
             </div>
 
             <div id="pr-info-delivery-div">
                 <div class="pr-delivery-span-div">
-                    <span>Ecological Packaging </span>
+                    <span><?php echo $languageList['Ecological Packaging']?></span>
                     <img src="<?php echo getImage('eco.png') ?>" alt="">
                 </div>
                 <div class="pr-delivery-span-div">
-                    <span>Delivery under 48h </span>
+                    <span><?php echo $languageList['Delivery under 48h']?></span>
                     <img src="<?php echo getImage('delivery.png') ?>" alt="">
                 </div>
                 <div class="pr-delivery-span-div">
-                    <span>Satisfied or reimbursed</span>
+                    <span><?php echo $languageList['Satisfied or reimbursed']?></span>
                     <img src="<?php echo getImage('satisfied.png') ?>" alt="">
                 </div>
             </div>

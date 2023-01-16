@@ -106,26 +106,10 @@ function onClickQuestionSpanButton(questionSpanElement, value, astID) {
     questionSpanElement.css('border-color', '#69A6E3')
 }
 
-function onHoverQuestionSpanButton(questionSpanElement) {
-    let questionSpanClass = questionSpanElement.attr('class').split(' ')[0]
-    let questionSpanClassElement = $("."+questionSpanClass);
-
-    if(questionSpanElement.is(":hover")) {
-        questionSpanClass.css('border-color', '#69A6E3')
-    }
-    else {
-        questionSpanClass.css('border-color', '#9E9E9E')
-    }
-}
-
 function setQuestionSpanButton(questionSpanElement, value, astID) {
     questionSpanElement.click(function() {
         onClickQuestionSpanButton(questionSpanElement, value, astID)
     })
-    questionSpanElement.hover(function() {
-        onHoverQuestionSpanButton(questionSpanElement, value, astID)
-    })
-
 }
 
 function onClickSaveButton(saveButtonElement) {

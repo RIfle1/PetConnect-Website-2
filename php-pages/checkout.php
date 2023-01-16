@@ -31,14 +31,14 @@ $basketList = returnBasketList();
         </div>
 
         <div id="ch-checkout-empty-div" class="text-font-700">
-            <span id="ch-empty-empty-span">Start adding items to your basket!</span>
-            <span id="ch-empty-buy-success-span">Thank you for buying our products! An email has been sent to you with all the details.</span>
+            <span id="ch-empty-empty-span"><?php echo $languageList['Start adding items to your basket!']?></span>
+            <span id="ch-empty-buy-success-span"><?php echo $languageList['Thank you for buying our products! An email has been sent to you with all the details.']?></span>
         </div>
         <div id="ch-checkout-total-div" class="text-font-700">
-            <span id="ch-checkout-price-span" class="ch-price-span-normal">Your Total is:</span>
+            <span id="ch-checkout-price-span" class="ch-price-span-normal"><?php echo $languageList['Your Total is']?>:</span>
         </div>
         <div id="ch-checkout-buttons-div">
-            <button id="ch-checkout-buy-products-button">Buy Products</button>
+            <button id="ch-checkout-buy-products-button"><?php echo $languageList['Buy Products']?></button>
         </div>
     </div>
 </div>
