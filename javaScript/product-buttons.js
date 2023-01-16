@@ -45,9 +45,8 @@ const selectedColorSpanElement = $("#"+selectedColorSpanID);
 const selectedAmountSpanElement = $("#"+selectedAmountSpanID);
 
 // DEFINE KEY
-const productJsonKey = ["0", productJson];
-productJsonKey[1]['prcColor'] = selectedColorSpanElement.text().toLowerCase();
-productJsonKey[1]['buyAmount'] = parseInt(selectedAmountSpanElement.text());
+productJson['prcColor'] = selectedColorSpanElement.text().toLowerCase();
+productJson['buyAmount'] = parseInt(selectedAmountSpanElement.text());
 
 //ITEM LISTS
 const amountHiddenItemList = [1,2,3,4,5,6,7,8,9]
@@ -127,10 +126,10 @@ function onClickSelectHiddenItem(selectActiveDivElement, selectHiddenLiElement, 
     selectActiveDivElement.trigger("click");
 
     if(selectedSpanElement === selectedColorSpanElement) {
-        productJsonKey[1]['prcColor'] = selectHiddenLiText.toLowerCase();
+        productJson['prcColor'] = selectHiddenLiText.toLowerCase();
     }
     else if(selectedSpanElement === selectedAmountSpanElement) {
-        productJsonKey[1]['buyAmount'] = parseInt(selectHiddenLiText);
+        productJson['buyAmount'] = parseInt(selectHiddenLiText);
     }
 }
 
@@ -180,7 +179,7 @@ function displayProductImages(currentImageDivElement, imageInteractionDivElement
     })
 }
 
-setAddToCartButton(addButtonElement, productJsonKey)
+setAddToCartButton(addButtonElement, productJson)
 
 setSelectActiveDiv(amountActiveDivElement, amountHiddenDivElement);
 setAmountCustomDiv(amountCustomDivElement);
