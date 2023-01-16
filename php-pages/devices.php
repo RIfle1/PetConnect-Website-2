@@ -16,7 +16,7 @@ $languageList = returnLanguageList()[returnLanguage()]['devices'];
 <body>
 
 <script>
-    let devicesList = <?php echo json_encode(returnDevicesList()) ?>;
+    let devicesList = <?php echo json_encode(returnDevicesListByClient()) ?>;
     let miscImgList = <?php echo json_encode(returnMiscImgList()) ?>;
     console.log(devicesList);
 </script>

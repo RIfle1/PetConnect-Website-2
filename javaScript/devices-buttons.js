@@ -68,7 +68,7 @@ function displayDevice(value) {
         "        </div>\n" +
         "    </div>\n" +
         "    <div class='dv-product-button-div'>\n" +
-        `        <button id="${devicesMoreInfoButtonID}" class='${devicesMoreInfoButtonClass}' type='button'>More information</button>\n` +
+        `        <a href="../php-pages/info-device.php?devID=${devID}" id="${devicesMoreInfoButtonID}" class='${devicesMoreInfoButtonClass}' type='button'>More information</a>\n` +
         "    </div>\n" +
         "</div>"
 

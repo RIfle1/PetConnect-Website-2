@@ -951,7 +951,7 @@ function returnBasketList():array {
     }
 }
 
-function returnDevicesList(): array {
+function returnDevicesListByClient(): array {
     if(isset($_SESSION['Table']) && $_SESSION['Table'] === 'client') {
 
         $cltID = $_SESSION['ID'];
@@ -981,6 +981,35 @@ function returnDevicesList(): array {
     else {
         return array();
     }
+}
+
+function returnDevicesList($optionalDevID): array {
+    if(strlen($optionalDevID) > 0) {
+        $getClientDevicesListSql = "SELECT * FROM device WHERE devID = '".$optionalDevID."'";
+    }
+    else {
+        $getClientDevicesListSql = "SELECT * FROM device";
+    }
+
+    $getClientDevicesListResult = runSQLQuery($getClientDevicesListSql);
+    $productsList = returnProductList('');
+
+    if(mysqli_num_rows($getClientDevicesListResult) > 0) {
+        $clientDevicesList = returnList($getClientDevicesListResult);
+
+        foreach($clientDevicesList as $clientDevicesListIndex => $clientDevicesListItem) {
+            $prdID = $clientDevicesListItem['prdID'];
+            $prcColor = $clientDevicesListItem['prcColor'];
+            $prdImg = $productsList[$prdID]['prdImg'][$prcColor];
+            $clientDevicesList[$clientDevicesListIndex]['prdImg'] = $prdImg;
+        }
+
+        return $clientDevicesList;
+    }
+    else {
+        return array();
+    }
+
 }
 
 function returnMiscImgList(): array {
@@ -1216,6 +1245,18 @@ function returnLanguageList(): array
                 "Our community" => "Our community",
                 "Join the PetConnect community" => "Join the PetConnect community",
             ),
+            "info-device" => array(
+                "Account" => "Account",
+                "My devices" => "My devices",
+                "Device information" =>  "Device information",
+                "Day" => "Day",
+                "From" => "From",
+                "to" => "to",
+                "Temperature" => "Temperature",
+                "Number of decibels" => "Number of decibels",
+                "Heart rate" => "Heart rate",
+                "Air quality" => "Air quality",
+            ),
             "login" => array(
                 "Sign in" => "Sign in",
                 "Email" => "Email",
@@ -1444,17 +1485,6 @@ function returnLanguageList(): array
                 "Collar number" => "Collar number",
                 "Add" => "Add",
             ),
-            "info-device" => array(
-                "Account" => "Account",
-                "My devices" => "My devices",
-                "Device information" =>  "Device information",
-                "Good" => "Good",
-                "Day" => "Day",
-                "Week" => "Week",
-                "Month" => "Month",
-                "Add" => "Add",
-
-            ),
 
             // PHP PROCESSES
             "checkout-process" => array(
@@ -1677,6 +1707,19 @@ function returnLanguageList(): array
                 "Our community" => "Notre communauté",
                 "Join the PetConnect community" => "Rejoignez la communauté PetConnect",
 
+            ),
+            "info-device" => array(
+                "Account" => "Compte",
+                "My devices" => "Mes appareils",
+                "Device information" => "Information appareil",
+                "Day" => "Jour",
+                "Add" => "Ajouter",
+                "From" => "Du",
+                "to" => "au",
+                "Temperature" => "Température",
+                "Number of decibels" => "Nombre de décibels",
+                "Heart rate" => "Fréquence cardiaque",
+                "Air quality" => "Qualité de l'air",
             ),
             "login" => array(
                 "Sign in" => "Identifiez-vous",
@@ -1902,17 +1945,6 @@ function returnLanguageList(): array
                 "Add" => "Ajouter",
 
             ),
-            "info-device" => array(
-                "Account" => "Compte",
-                "My devices" => "Mes appareils",
-                "Device information" => "Information appareil",
-                "Good" => "Bon",
-                "Day" => "Jour",
-                "Week" => "Semaine",
-                "Month" => "Mois",
-                "Add" => "Ajouter",
-
-            ),
 
 
             // PHP PROCESSES
@@ -2062,8 +2094,8 @@ function returnLanguageList(): array
             ),
 
         ),
-        "Russian" => array(
-        ),
+//        "Russian" => array(
+//        ),
 
     );
 }

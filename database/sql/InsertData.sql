@@ -161,3 +161,5 @@ INSERT INTO assistance(astID, astQuestion, astAnswer, astApproved) VALUES ('ast1
 INSERT INTO assistance(astID, astQuestion, astAnswer, astApproved) VALUES ('ast18', 'Question8?', 'I don\'t know dude', 0);
 INSERT INTO assistance(astID, astQuestion, astAnswer, astApproved) VALUES ('ast19', 'Question8?', 'I don\'t know dude', 0);
 INSERT INTO assistance(astID, astQuestion, astAnswer, astApproved) VALUES ('ast20', 'Question8?', 'I don\'t know dude', 0);
+
+INSERT INTO device(devID, devName, prdID, prcColor, Client_cltID) VALUES ('dev1', 'iCollar With Values', 'prd1', 'red', 'clt2');
