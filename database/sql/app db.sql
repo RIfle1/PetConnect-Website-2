@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `APP DB`.`Client` (
   `cltVerifiedEmail` TINYINT NOT NULL DEFAULT 0,
   `cltIsModerator` TINYINT NOT NULL DEFAULT 0,
   PRIMARY KEY (`cltID`),
-  UNIQUE INDEX `cltEmail_UNIQUE` (`cltEmail` ASC) VISIBLE)
+  UNIQUE INDEX `cltEmail_UNIQUE` (`cltEmail` ASC))
 ENGINE = InnoDB;
 
 
@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS `APP DB`.`Address` (
   `adrDefault` TINYINT NOT NULL DEFAULT 0,
   `Client_cltID` CHAR(255) NOT NULL,
   PRIMARY KEY (`adrID`, `Client_cltID`),
-  INDEX `fk_Address_Client1_idx` (`Client_cltID` ASC) VISIBLE,
+  INDEX `fk_Address_Client1_idx` (`Client_cltID` ASC),
   CONSTRAINT `fk_Address_Client1`
     FOREIGN KEY (`Client_cltID`)
     REFERENCES `APP DB`.`Client` (`cltID`)
@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS `APP DB`.`Basket` (
   `basDate` DATETIME NOT NULL DEFAULT NOW(),
   `Client_cltID` CHAR(255) NOT NULL,
   PRIMARY KEY (`basID`, `Client_cltID`),
-  INDEX `fk_Basket_Client1_idx` (`Client_cltID` ASC) VISIBLE,
+  INDEX `fk_Basket_Client1_idx` (`Client_cltID` ASC),
   CONSTRAINT `fk_Basket_Client1`
     FOREIGN KEY (`Client_cltID`)
     REFERENCES `APP DB`.`Client` (`cltID`)
@@ -97,7 +97,7 @@ CREATE TABLE IF NOT EXISTS `APP DB`.`Order_History` (
   `orhDate` DATE NOT NULL,
   `Client_cltID` CHAR(255) NOT NULL,
   PRIMARY KEY (`orhID`, `Client_cltID`),
-  INDEX `fk_Order_History_Client1_idx` (`Client_cltID` ASC) VISIBLE,
+  INDEX `fk_Order_History_Client1_idx` (`Client_cltID` ASC),
   CONSTRAINT `fk_Order_History_Client1`
     FOREIGN KEY (`Client_cltID`)
     REFERENCES `APP DB`.`Client` (`cltID`)
@@ -116,7 +116,7 @@ CREATE TABLE IF NOT EXISTS `APP DB`.`Device` (
   `prcColor` VARCHAR(255) NOT NULL,
   `Client_cltID` CHAR(255) NOT NULL,
   PRIMARY KEY (`devID`, `Client_cltID`),
-  INDEX `fk_Device_Client1_idx` (`Client_cltID` ASC) VISIBLE,
+  INDEX `fk_Device_Client1_idx` (`Client_cltID` ASC),
   CONSTRAINT `fk_Device_Client1`
     FOREIGN KEY (`Client_cltID`)
     REFERENCES `APP DB`.`Client` (`cltID`)
@@ -134,8 +134,8 @@ CREATE TABLE IF NOT EXISTS `APP DB`.`Product_List` (
   `Product_prdID` CHAR(255) NOT NULL,
   `Basket_basID` CHAR(255) NOT NULL,
   PRIMARY KEY (`prdLstID`, `Product_prdID`, `Basket_basID`),
-  INDEX `fk_Product_List_Product_idx` (`Product_prdID` ASC) VISIBLE,
-  INDEX `fk_Product_List_Basket1_idx` (`Basket_basID` ASC) VISIBLE,
+  INDEX `fk_Product_List_Product_idx` (`Product_prdID` ASC),
+  INDEX `fk_Product_List_Basket1_idx` (`Basket_basID` ASC),
   CONSTRAINT `fk_Product_List_Product`
     FOREIGN KEY (`Product_prdID`)
     REFERENCES `APP DB`.`Product` (`prdID`)
@@ -164,7 +164,7 @@ CREATE TABLE IF NOT EXISTS `APP DB`.`Data_Device` (
   `dapDate` DATETIME NOT NULL,
   `Device_devID` CHAR(255) NOT NULL,
   PRIMARY KEY (`dapID`, `Device_devID`),
-  INDEX `fk_Data_Device_Device1_idx` (`Device_devID` ASC) VISIBLE,
+  INDEX `fk_Data_Device_Device1_idx` (`Device_devID` ASC),
   CONSTRAINT `fk_Data_Device_Device1`
     FOREIGN KEY (`Device_devID`)
     REFERENCES `APP DB`.`Device` (`devID`)
@@ -184,7 +184,7 @@ CREATE TABLE IF NOT EXISTS `APP DB`.`Payment_Method` (
   `pamCardExpiryDate` CHAR(4) NOT NULL,
   `Client_cltID` CHAR(255) NOT NULL,
   PRIMARY KEY (`mdpID`, `Client_cltID`),
-  INDEX `fk_Payment_Method_Client1_idx` (`Client_cltID` ASC) VISIBLE,
+  INDEX `fk_Payment_Method_Client1_idx` (`Client_cltID` ASC),
   CONSTRAINT `fk_Payment_Method_Client1`
     FOREIGN KEY (`Client_cltID`)
     REFERENCES `APP DB`.`Client` (`cltID`)
@@ -221,7 +221,7 @@ CREATE TABLE IF NOT EXISTS `APP DB`.`Session_Message` (
   `sesMsgEndDate` DATETIME NULL,
   `Client_cltID` CHAR(255) NOT NULL,
   PRIMARY KEY (`sesMsgID`, `Client_cltID`),
-  INDEX `fk_Session_Message_Client1_idx` (`Client_cltID` ASC) VISIBLE,
+  INDEX `fk_Session_Message_Client1_idx` (`Client_cltID` ASC),
   CONSTRAINT `fk_Session_Message_Client1`
     FOREIGN KEY (`Client_cltID`)
     REFERENCES `APP DB`.`Client` (`cltID`)
@@ -240,8 +240,8 @@ CREATE TABLE IF NOT EXISTS `APP DB`.`Client_Message` (
   `Client_cltID` CHAR(255) NOT NULL,
   `Session_Message_sesMsgID` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`cltMsgID`, `Client_cltID`, `Session_Message_sesMsgID`),
-  INDEX `fk_Client_Message_Client1_idx` (`Client_cltID` ASC) VISIBLE,
-  INDEX `fk_Client_Message_Session_Message1_idx` (`Session_Message_sesMsgID` ASC) VISIBLE,
+  INDEX `fk_Client_Message_Client1_idx` (`Client_cltID` ASC),
+  INDEX `fk_Client_Message_Session_Message1_idx` (`Session_Message_sesMsgID` ASC),
   CONSTRAINT `fk_Client_Message_Client1`
     FOREIGN KEY (`Client_cltID`)
     REFERENCES `APP DB`.`Client` (`cltID`)
@@ -298,7 +298,7 @@ CREATE TABLE IF NOT EXISTS `APP DB`.`Question_Answers` (
   `qstRepBool` TINYINT NOT NULL,
   `Question_qstID` CHAR(255) NOT NULL,
   PRIMARY KEY (`qstRepID`, `Question_qstID`),
-  INDEX `fk_Question_Answers_Question1_idx` (`Question_qstID` ASC) VISIBLE,
+  INDEX `fk_Question_Answers_Question1_idx` (`Question_qstID` ASC),
   CONSTRAINT `fk_Question_Answers_Question1`
     FOREIGN KEY (`Question_qstID`)
     REFERENCES `APP DB`.`Question` (`qstID`)
@@ -317,8 +317,8 @@ CREATE TABLE IF NOT EXISTS `APP DB`.`Admin_Message` (
   `Admin_admID` CHAR(255) NOT NULL,
   `Session_Message_sesMsgID` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`admMsgID`, `Admin_admID`, `Session_Message_sesMsgID`),
-  INDEX `fk_Admin_Message_Admin1_idx` (`Admin_admID` ASC) VISIBLE,
-  INDEX `fk_Admin_Message_Session_Message1_idx` (`Session_Message_sesMsgID` ASC) VISIBLE,
+  INDEX `fk_Admin_Message_Admin1_idx` (`Admin_admID` ASC),
+  INDEX `fk_Admin_Message_Session_Message1_idx` (`Session_Message_sesMsgID` ASC),
   CONSTRAINT `fk_Admin_Message_Admin1`
     FOREIGN KEY (`Admin_admID`)
     REFERENCES `APP DB`.`Admin` (`admID`)
@@ -340,7 +340,7 @@ CREATE TABLE IF NOT EXISTS `APP DB`.`Product_Color` (
   `prcColor` VARCHAR(255) NOT NULL,
   `Product_prdID` CHAR(255) NOT NULL,
   PRIMARY KEY (`prcID`, `Product_prdID`),
-  INDEX `fk_Product_Color_Product1_idx` (`Product_prdID` ASC) VISIBLE,
+  INDEX `fk_Product_Color_Product1_idx` (`Product_prdID` ASC),
   CONSTRAINT `fk_Product_Color_Product1`
     FOREIGN KEY (`Product_prdID`)
     REFERENCES `APP DB`.`Product` (`prdID`)
@@ -357,7 +357,7 @@ CREATE TABLE IF NOT EXISTS `APP DB`.`Product_Image` (
   `pimPath` VARCHAR(255) NOT NULL,
   `Product_Color_prcID` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`pimID`, `Product_Color_prcID`),
-  INDEX `fk_Product_Image_Product_Color1_idx` (`Product_Color_prcID` ASC) VISIBLE,
+  INDEX `fk_Product_Image_Product_Color1_idx` (`Product_Color_prcID` ASC),
   CONSTRAINT `fk_Product_Image_Product_Color1`
     FOREIGN KEY (`Product_Color_prcID`)
     REFERENCES `APP DB`.`Product_Color` (`prcID`)
