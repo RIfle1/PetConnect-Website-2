@@ -11,7 +11,7 @@ $languageList = returnLanguageList()[returnLanguage()]['site-footer'];
 <head>
     <link rel="stylesheet" href="../css/common-styles.css">
     <link rel="stylesheet" href="../css/site-footer-style-2.css">
-    <title>Site-footer</title>
+<!--    <title>Site-footer</title>-->
 </head>
 
 <body>

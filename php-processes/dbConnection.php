@@ -5,8 +5,8 @@ function OpenCon()
     $dbHost = "localhost";
     $dbUser = "root";
     $dbPass = "";
-    $db = "app db";
-    $conn = new mysqli($dbHost, $dbUser, $dbPass,$db) or die("Connect failed: %s\n". $conn -> error);
+    $db = "appdb";
+    $conn = mysqli_connect($dbHost, $dbUser, $dbPass,$db) or die("Connect failed: %s\n". $conn -> error);
 
     if ($conn->connect_errno) {
         die("Connection Error: " . $conn->connect_error);
@@ -145,11 +145,6 @@ function uploadImage($inputName, $imgCategory): void
 
     insertSQL($sql);
 
-    if (move_uploaded_file($tempname, $folder)) {
-        echo "<script type='text/javascript'>console.log('Image Uploaded Successfully')</script>";
-    } else {
-        echo "<script type='text/javascript'>console.log('Failed to upload image')</script>";
-    }
 }
 
 function uploadPfp($inputName, $table, $xxxPfpName): void
@@ -162,12 +157,6 @@ function uploadPfp($inputName, $table, $xxxPfpName): void
 
     // Execute query
     insertSQL($sql);
-
-    if (move_uploaded_file($tempName, $folder)) {
-        echo "<script type='text/javascript'>console.log('Image Uploaded Successfully')</script>";
-    } else {
-        echo "<script type='text/javascript'>console.log('Failed to upload image')</script>";
-    }
 }
 
 function restrictedNoUserPage($redirectPage): void
@@ -328,7 +317,7 @@ function onlyAdminPage(): void {
         if($_SESSION['clientLoggedIn'] || empty($_SESSION['loggedIn'])) {
 
             header("Location: ../php-pages/restricted-access.php", true,303);
-            exit;
+            exit();
         }
     }
 
@@ -341,7 +330,7 @@ function onlyClientPage(): void {
     if (isset($_SESSION['adminLoggedIn']) || empty($_SESSION['loggedIn'])) {
         if($_SESSION['adminLoggedIn'] || empty($_SESSION['loggedIn'])) {
             header("Location: ../php-pages/restricted-access.php", true,303);
-            exit;
+            exit();
         }
     }
 }
@@ -352,7 +341,7 @@ function clientAndAdminPage(): void {
 
     if(empty($_SESSION['loggedIn'])) {
         header("Location: ../php-pages/restricted-access.php", true,303);
-        exit;
+        exit();
     }
 
 }
@@ -364,7 +353,7 @@ function clientAndNoUserPage(): void {
     if(isset($_SESSION['adminLoggedIn'])) {
         if($_SESSION['adminLoggedIn']) {
             header("Location: ../php-pages/restricted-access.php", true,303);
-            exit;
+            exit();
         }
     }
 }
@@ -486,13 +475,13 @@ function generateID($idLength): string
 function logoutAndRedirect($page): void
 {
     session_start();
+
     if(isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true) {
         include_once '../php-processes/php-mailer.php';
         // CHANGE TOKEN WHEN LOGGING OUT
         if(isset($_SESSION['Table']) && isset($_SESSION['Token'])) {
             $entityAttributes = returnEntityAttributes();
             $token = generateToken($_SESSION["ID"]);
-            echo $token;
 
             $insertTokenSql = "UPDATE ".$_SESSION['Table']." SET ".$entityAttributes['Token']." = '".$token."' WHERE ".$entityAttributes['Token']." = '".$_SESSION['Token']."'";
 
@@ -504,10 +493,8 @@ function logoutAndRedirect($page): void
         session_destroy();
 
         header('Location: '.$page, true, 303);
-        exit;
+        exit();
     }
-    session_destroy();
-
 }
 
 function returnList($runSQLQuery): array {
@@ -1136,6 +1123,32 @@ function returnLastMessagesList($type): array {
     }
 }
 
+function randFloat($start, $end, $decimals):float {
+    return mt_rand($start*pow(10, $decimals),$end*pow(10,$decimals))/(pow(10,$decimals));
+}
+
+function generateDeviceData($devID, $dataAmount): void {
+    $dapDate = date('2023-01-01 00:00:00');
+
+    for($i = 0 ; $i < $dataAmount; $i++) {
+        $dapID = autoSetID('dap');
+        $dapBPM = rand(80, 100);
+        $dapLatitude = randFloat(48,49,5);
+        $dapLongitude = randFloat(2,3,5);
+        $dapCO2 = rand(800, 1200);
+        $dapDecibel = rand(0, 10);
+        $dapTemp = rand(37, 40);
+
+        $insertDataSql = "INSERT INTO data_device(dapID, dapBPM, dapLatitude, dapLongitude, dapCO2, dapDecibel, dapTemp, dapDate, Device_devID) 
+                          VALUES ('".$dapID."', '".$dapBPM."', '".$dapLatitude."', '".$dapLongitude."', '".$dapCO2."', '".$dapDecibel."', '".$dapTemp."', '".$dapDate."', '".$devID."')";
+        runSQLQuery($insertDataSql);
+        $dapDate = date('Y-m-d H:i:s', strtotime($dapDate. ' + 1 hour'));
+//        echo $insertDataSql.'<br>';
+    }
+
+
+}
+
 function returnLanguage(): string {
     if(empty($_COOKIE['language-cookie'])) {
         return 'English';
@@ -1582,12 +1595,12 @@ function returnLanguageList(): array
 
             ),
             "product-buttons" => array(
-                "white" => "white",
-                "blue" => "blue",
-                "green" => "green",
-                "red" => "red",
-                "yellow" => "yellow",
-                "black" => "black",
+                "white" => "White",
+                "blue" => "Blue",
+                "green" => "Green",
+                "red" => "Red",
+                "yellow" => "Yellow",
+                "black" => "Black",
             ),
             "validation-functions" => array(
                 "Client Username is required" => "Client Username is required",
@@ -1674,7 +1687,7 @@ function returnLanguageList(): array
                 "Start adding items to your basket!" => "Commencez à ajouter des articles à votre panier!",
                 "Thank you for buying our products! An email has been sent to you with all the details." => "Merci d'avoir acheté nos produits! Un e-mail vous a été envoyé avec tous les détails.",
                 "Your Total is" => "Votre total est",
-                "Buy Products" => "Acheter des produits",
+                "Buy Products" => "Acheter les produits",
             ),
             "connection-security" => array(
                 "Connection and Security" => "Connexion et sécurité",
@@ -2078,12 +2091,12 @@ function returnLanguageList(): array
                 "Please input a Start Date and an End Date." => "Veuillez entrer une date de début et une date de fin.",
         ),
             "product-buttons" => array(
-                "white" => "blanc",
-                "blue" => "bleu",
-                "green" => "vert",
-                "red" => "rouge",
-                "yellow" => "jaune",
-                "black" => "noir",
+                "white" => "Blanc",
+                "blue" => "Bleu",
+                "green" => "Vert",
+                "red" => "Rouge",
+                "yellow" => "Jaune",
+                "black" => "Noir",
             ),
             "validation-functions" => array(
                 "Client Username is required" => "Nom d'utilisateur du client requis",

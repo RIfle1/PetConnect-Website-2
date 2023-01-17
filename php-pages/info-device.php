@@ -24,7 +24,7 @@ $prdImg = $deviceInfo[0]['prdImg']
     <link rel="stylesheet" href="../css/info-devices2-styles.css">
     <!--    Jquery-->
 
-    <title>PetConnectBasket</title>
+    <title>Device Info</title>
 </head>
 
 <body>

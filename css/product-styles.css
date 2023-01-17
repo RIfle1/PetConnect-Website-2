@@ -183,6 +183,7 @@
 
     border-radius: 10px;
     border: grey solid 1px;
+    margin: 0 0 0 22px;
     width: 90px;
     height: 38px;
 
@@ -194,6 +195,7 @@
 
     border-radius: 10px;
     border: grey solid 1px;
+    margin: 0 0 0 22px;
     width: 48px;
     height: 38px;
 
@@ -231,7 +233,7 @@
 .pr-select-hidden {
     display: none;
     position: absolute;
-    margin: 40px 0 0 22px;
+    margin-top: 40px;
 
     border-radius: 0;
     border: none;

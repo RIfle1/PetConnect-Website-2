@@ -10,7 +10,7 @@ $languageList = returnLanguageList()[returnLanguage()]['assistance-question'];
 <html lang="en">
 <head>
     <link rel="stylesheet" href="../css/assistance-styles.css">
-    <title>Assistance Answer</title>
+    <title>Assistance Question</title>
 </head>
 <body>
 

@@ -180,7 +180,7 @@ function onClickAddToCartButton(addToCartButtonElement, value) {
 
     // ADD ELEMENT TO DATABASE / COOKIE
     let addToCartUrl = "../php-processes/shop-processes.php"
-    $.ajax({
+    let addToCartAjax = $.ajax({
         type: "POST",
         url: addToCartUrl,
         data: {
@@ -190,6 +190,15 @@ function onClickAddToCartButton(addToCartButtonElement, value) {
             buyAmount: buyAmount,
         }
     })
+
+    addToCartAjax.always(function() {
+        if(typeof(buyButtonElement) !== "undefined") {
+            if(addToCartButtonElement === buyButtonElement) {
+                window.location.href = '../php-pages/checkout.php'
+            }
+        }
+    })
+
 }
 
 function setAddToCartButton(addToCartButtonElement, value) {
@@ -229,7 +238,9 @@ function onClickBasketDeleteAllButton() {
 
     // RECALCULATE TOTAL PRICE
     updateProductTotal(basketTotalDivElement, basketPriceSpanClass)
-    updateProductTotal(checkoutTotalDivElement, checkoutPriceSpanClass)
+    if(typeof(checkoutTotalDivElement) !== "undefined") {
+        updateProductTotal(checkoutTotalDivElement, checkoutPriceSpanClass)
+    }
 
 }
 

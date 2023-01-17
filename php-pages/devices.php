@@ -18,7 +18,6 @@ $languageList = returnLanguageList()[returnLanguage()]['devices'];
 <script>
     let devicesList = <?php echo json_encode(returnDevicesListByClient()) ?>;
     let miscImgList = <?php echo json_encode(returnMiscImgList()) ?>;
-    console.log(devicesList);
 </script>
 
 <div id="dv-main-body-div" class="text-font-500">

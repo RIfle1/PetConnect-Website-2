@@ -44,14 +44,13 @@ const amountInputElement = $("#"+amountInputID);
 const selectedColorSpanElement = $("#"+selectedColorSpanID);
 const selectedAmountSpanElement = $("#"+selectedAmountSpanID);
 
-// DEFINE KEY
-productJson['prcColor'] = selectedColorSpanElement.text().toLowerCase();
+// INITIALIZE KEYS
+productJson['prcColor'] = returnEnglishColor(selectedColorSpanElement.text());
 productJson['buyAmount'] = parseInt(selectedAmountSpanElement.text());
 
 //ITEM LISTS
 const amountHiddenItemList = [1,2,3,4,5,6,7,8,9]
 let colorHiddenItemList = getColorList(productJson);
-console.log(colorHiddenItemList);
 const productImageList = getImageList(productJson)
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -69,10 +68,14 @@ function getImageList(productJson) {
 function getColorList(productJson) {
     let colorList = [];
     Object.keys(productJson['prdImg']).forEach(key => {
-        colorList.push(key.charAt(0).toUpperCase() + key.slice(1));
+        colorList.push(javaScriptLanguageList[key]);
     })
 
     return colorList;
+}
+
+function returnEnglishColor(color) {
+    return Object.keys(javaScriptLanguageList).find(key => javaScriptLanguageList[key] === color)
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -127,7 +130,7 @@ function onClickSelectHiddenItem(selectActiveDivElement, selectHiddenLiElement, 
     selectActiveDivElement.trigger("click");
 
     if(selectedSpanElement === selectedColorSpanElement) {
-        productJson['prcColor'] = selectHiddenLiText.toLowerCase();
+        productJson['prcColor'] = returnEnglishColor(selectHiddenLiText);
     }
     else if(selectedSpanElement === selectedAmountSpanElement) {
         productJson['buyAmount'] = parseInt(selectHiddenLiText);
@@ -137,6 +140,22 @@ function onClickSelectHiddenItem(selectActiveDivElement, selectHiddenLiElement, 
 function setSelectHiddenItem(selectActiveDivElement, selectHiddenLiElement, selectedSpanElement) {
     selectHiddenLiElement.click(function() {
         onClickSelectHiddenItem(selectActiveDivElement, selectHiddenLiElement, selectedSpanElement)
+    })
+}
+
+function setAmountInput(amountInputElement) {
+    amountInputElement.keyup(function() {
+        let amountInputValue = amountInputElement.val();
+        if(checkIfNumber(amountInputValue)) {
+            amountInputElement.val(amountInputValue.substring(0, amountInputValue.length-1))
+        }
+        if(amountInputValue.length === 0) {
+            amountInputElement.val(1);
+        }
+    })
+
+    amountInputElement.focusout(function() {
+        productJson['buyAmount'] = parseInt(amountInputElement.val())
     })
 }
 
@@ -180,12 +199,15 @@ function displayProductImages(currentImageDivElement, imageInteractionDivElement
     })
 }
 
-setAddToCartButton(addButtonElement, productJson)
+setAddToCartButton(addButtonElement, productJson);
+setAddToCartButton(buyButtonElement, productJson);
 
 setSelectActiveDiv(amountActiveDivElement, amountHiddenDivElement);
 setAmountCustomDiv(amountCustomDivElement);
 
 setSelectActiveDiv(colorActiveDivElement, colorHiddenDivElement);
+
+setAmountInput(amountInputElement)
 
 displaySelectHiddenItemList(amountActiveDivElement, amountHiddenDivElement, amountHiddenItemList, selectedAmountSpanElement);
 displaySelectHiddenItemList(colorActiveDivElement, colorHiddenDivElement, colorHiddenItemList, selectedColorSpanElement);

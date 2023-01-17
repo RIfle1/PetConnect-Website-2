@@ -2,7 +2,7 @@
 session_start();
 if(empty($_GET['prdID'])) {
     header("Location: ../php-pages/restricted-access.php", true, 303);
-    exit;
+    exit();
 }
 include '../php-processes/dbConnection.php';
 clientAndNoUserPage();
