@@ -24,6 +24,10 @@
     width: 30%;
 }
 
+.lg-info-div span, .lg-info-div p {
+    text-align: justify;
+}
+
 .lg-staff-info-div {
     display: flex;
     flex-direction: column;

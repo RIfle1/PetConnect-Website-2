@@ -15,7 +15,7 @@ $languageList = returnLanguageList()[returnLanguage()]['order-history'];
     <!--    Style Sheet-->
     <link rel="stylesheet" href="../css/order-history-style.css">
     <!--    Jquery-->
-    <title>Order History</title>
+    <title><?php echo $languageList["Order History"] ?></title>
 </head>
 
 <body>

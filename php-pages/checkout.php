@@ -14,7 +14,7 @@ $basketList = returnBasketList();
 <html lang="en">
 <head>
     <link rel="stylesheet" href="../css/checkout-styles.css">
-    <title>Checkout</title>
+    <title><?php echo $languageList['Checkout'] ?></title>
 </head>
 <body>
 

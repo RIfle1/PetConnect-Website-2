@@ -20,7 +20,7 @@ $productList = deObjectifyList(returnProductList(''));
 <html lang="en">
 <head>
     <link rel="stylesheet" href="../css/shop-styles.css">
-    <title>Shop</title>
+    <title><?php echo $languageList['Shop'] ?></title>
 </head>
 <body>
 

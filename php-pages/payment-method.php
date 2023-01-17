@@ -16,7 +16,7 @@ $languageList = returnLanguageList()[returnLanguage()]['payment-method'];
     <link rel="stylesheet" href="../css/payment-method-style.css">
     <!--    Jquery-->
 
-    <title>Payment method</title>
+    <title><?php echo $languageList["Add payment method"] ?></title>
 </head>
 
 <body>

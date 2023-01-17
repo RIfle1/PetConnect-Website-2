@@ -23,8 +23,7 @@ $languageList = returnLanguageList()[returnLanguage()]['password-recovery-output
             integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
             crossorigin="anonymous">
     </script>
-
-    <title>Password Recovery</title>
+    <title><?php echo $languageList["Password Recovery"]?></title>
 </head>
 <body class="text-font-700">
 

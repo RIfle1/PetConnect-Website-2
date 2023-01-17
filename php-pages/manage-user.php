@@ -19,7 +19,7 @@ $javaScriptLanguageList = returnLanguageList()[returnLanguage()]['manage-user-bu
 <head>
 
     <link rel="stylesheet" href="../css/manage-user-styles.css">
-    <title>Manage Users</title>
+    <title><?php echo $languageList["Manage Clients"]?></title>
 </head>
 <body>
 
