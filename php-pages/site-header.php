@@ -33,7 +33,6 @@ $basketList = returnBasketList();
     </script>
     <!--    Css Function-->
     <script src="../javaScript/css-functions.js"></script>
-    <!--    <title>PetConnect</title>-->
 </head>
 
 <body>

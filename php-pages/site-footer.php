@@ -57,7 +57,7 @@ $languageList = returnLanguageList()[returnLanguage()]['site-footer'];
             <a href="#"><?php echo $languageList["Guides"]?></a>
             <a href="#"><?php echo $languageList["Terms of Use"]?></a>
             <a href="#"><?php echo $languageList["General conditions of sale"]?></a>
-            <a href="#"><?php echo $languageList["Legal notices"]?></a>
+            <a href="legal-notices.php"><?php echo $languageList["Legal notices"]?></a>
         </div>
         <div id="site-footer-row-2" class="site-footer-row">
             <div class="columns" id="column-1">

@@ -1270,6 +1270,24 @@ function returnLanguageList(): array
                 "Heart rate" => "Heart rate",
                 "Air quality" => "Air quality",
             ),
+            "legal-notice" => array(
+                "Legal Notices" => "Legal Notices",
+                "Site published by PetConnect®" => "Site published by PetConnect®",
+                "SA with a capital of 420 euros" => "SA with a capital of 420 euros",
+                "Head office" => "Head office",
+                "Intra-community VAT no." => "Intra-community VAT no.",
+                "Chairmen" => "Chairmen",
+                "Headquarters Location" => "Headquarters Location",
+                "Tel" => "Tel",
+                "Fax" => "Fax",
+
+                "Back end programming manager" => "Back end programming manager",
+                "Front end programming manager" => "Front end programming manager",
+                "Design manager" => "Design manager",
+                "Publication manager" => "Publication manager",
+                "Human Ressources manager" => "Human Ressources manager",
+                "Data analyst" => "Data analyst",
+            ), // translate
             "login" => array(
                 "Sign in" => "Sign in",
                 "Email" => "Email",
