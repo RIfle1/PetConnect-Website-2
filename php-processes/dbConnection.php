@@ -1287,7 +1287,7 @@ function returnLanguageList(): array
                 "Publication manager" => "Publication manager",
                 "Human Ressources manager" => "Human Ressources manager",
                 "Data analyst" => "Data analyst",
-            ), // translate
+            ),
             "login" => array(
                 "Sign in" => "Sign in",
                 "Email" => "Email",
@@ -1799,6 +1799,23 @@ function returnLanguageList(): array
                 "Heart rate" => "Fréquence cardiaque",
                 "Air quality" => "Qualité de l'air",
             ),
+            "legal-notice" => array(
+                "Legal Notices" => "Mentions légales",
+                "Site published by PetConnect®" => "Site publié par PetConnect®",
+                "SA with a capital of 420 euros" => "SA avec un capital de 420 euros",
+                "Head office" => "Siège social",
+                "Intra-community VAT no." => "Numéro de TVA intra-communautaire",
+                "Chairmen" => "Présidents",
+                "Headquarters Location" => "Emplacement du siège social",
+                "Tel" => "Tel",
+                "Fax" => "Fax",
+                "Back end programming manager" => "Responsable de la programmation côté serveur",
+                "Front end programming manager" => "Responsable de la programmation côté client",
+                "Design manager" => "Responsable de la conception",
+                "Publication manager" => "Responsable de la publication",
+                "Human Ressources manager" => "Responsable des ressources humaines",
+                "Data analyst" => "Analyste de données",
+            ),
             "login" => array(
                 "Sign in" => "Identifiez-vous",
                 "Email" => "Email",
@@ -2032,9 +2049,39 @@ function returnLanguageList(): array
 
             ),
             "terms-of-use" => array(
-
+                "Terms of use" => "Conditions d'utilisation",
+                "Welcome to the PetConnect website (the 'Site'). The Site is operated by PetConnect, LLC ('PetConnect,' 'we,' or 'us'). These Terms of Use (these 'Terms') govern your access to and use of the Site, including any content, functionality, and services offered on or through the Site."
+                => "Bienvenue sur le site web PetConnect (le 'Site'). Le Site est exploité par PetConnect, LLC ('PetConnect', 'nous' ou 'nous'). Ces conditions d'utilisation (ces 'conditions') régissent votre accès et votre utilisation du site, y compris tout contenu, fonctionnalité et services proposés sur ou via le Site.",
+                "By accessing or using the Site, you are accepting these Terms and agreeing to be bound by them. If you do not agree to these Terms, you must not access or use the Site."
+                => "En accédant ou en utilisant le Site, vous acceptez ces conditions et vous vous engagez à vous y soumettre. Si vous n'acceptez pas ces conditions, vous ne devez pas accéder ou utiliser le Site.",
+                "Use of the Site" => "Utilisation du Site",
+                "You may use the Site only for lawful purposes and in accordance with these Terms. You may not use the Site"
+                => "Vous pouvez utiliser le Site uniquement à des fins légales et conformément à ces conditions. Vous ne pouvez pas utiliser le Site",
+                "In any way that violates any applicable federal, state, local, or international law or regulation." =>
+                    "De quelconque manière qui viole toute loi ou règlement fédéral, étatique, local ou international applicable.",
+                "For the purpose of exploiting, harming, or attempting to exploit or harm minors in any way by exposing them to inappropriate content, asking for personally identifiable information, or otherwise." =>
+                    "Dans le but d'exploiter, de nuire ou de tenter d'exploiter ou de nuire les mineurs de quelque manière que ce soit en les exposant à un contenu inapproprié, en demandant des informations personnellement identifiables ou autrement.",
+                "To transmit, or procure the sending of, any advertising or promotional material, including any 'junk mail,' 'chain letter,' 'spam,' or any other similar solicitation." => "Transmettre ou faciliter l'envoi de tout matériel publicitaire ou promotionnel, y compris tout courrier indésirable, chaîne de lettres, spam ou toute autre sollicitation similaire.",
+                "To impersonate or attempt to impersonate PetConnect, a PetConnect employee, another user, or any other person or entity." =>
+                    "Se faire passer pour ou tenter de se faire passer pour PetConnect, un employé de PetConnect, un autre utilisateur ou toute autre",
+                "To engage in any other conduct that restricts or inhibits anyone's use or enjoyment of the Site, or which, as determined by PetConnect, may harm PetConnect or users of the Site or expose them to liability." =>
+                    "Engager dans tout autre comportement qui restreint ou inhibe l'utilisation ou le plaisir de quiconque sur le Site ou qui, comme déterminé par PetConnect, peut causer des dommages à PetConnect ou aux utilisateurs du site ou les exposer à une responsabilité.",
+                "Product Sales" =>
+                    "Ventes de produits",
+                "The Site may offer for sale certain smart collars for dogs ('Products'). By placing an order for a Product, you are offering to purchase the Product on and subject to these Terms. All orders are subject to availability and confirmation of the order price." =>
+                    "Le Site peut offrir à la vente certains colliers intelligents pour chiens ('Produits'). En passant une commande pour un produit, vous offrez d'acheter le produit et de vous soumettre à ces conditions. Toutes les commandes sont soumises à disponibilité et confirmation du prix de la commande.",
+                "Warranty Disclaimer" =>
+                    "Clause de non-garantie",
+                "The Site, including all content, functionality, and services offered on or through the Site, are provided 'as is,' 'as available,' and 'with all faults.' PetConnect makes no representations or warranties of any kind, express or implied, as to the operation of the Site or the information, content, materials, or products included on the Site." =>
+                    "Le Site, y compris tout le contenu, les fonctionnalités et les services proposés sur ou via le Site, sont fournis 'tels quels', 'tels qu'ils sont disponibles' et 'avec tous les défauts'. PetConnect ne fait aucune représentation ou garantie de quelque nature que ce soit, expresse ou implicite, quant au fonctionnement du Site ou aux informations, contenus, matériaux ou produits inclus sur le Site.",
+                "Limitation of Liability" => "Limitation de responsabilité",
+                "In no event shall PetConnect, its directors, officers, employees, agents, partners, or suppliers be liable for any damages whatsoever, including without limitation, direct, indirect, special, incidental, or consequential damages, arising out of or in connection with the use, inability to use, or performance of the Site or the products offered on the Site." =>
+                    "Dans aucun cas, PetConnect, ses directeurs, officiers, employés, agents, partenaires ou fournisseurs ne seront responsables des dommages de quelque nature que ce soit, y compris, sans limitation, les dommages directs, indirects, spéciaux, accessoires ou consécutifs, découlant de ou en relation avec l'utilisation, l'incapacité d'utiliser ou la performance du Site ou des produits proposés sur le Site.",
+                "Changes to These Terms" => "Modifications de ces termes",
+                "PetConnect reserves the right to make changes to these Terms at any time. Your continued use of the Site following the posting of any changes to these Terms will mean you accept those changes." => "PetConnect se réserve le droit de modifier ces termes à tout moment. Votre utilisation continue du Site après la publication de toutes les modifications apportées à ces termes signifie que vous acceptez ces modifications.",
+                "Contact Us" => "Nous contacter",
+                "If you have any questions about these Terms, please contact us at petconnecttech@gmail.com." => "Si vous avez des questions sur ces termes, veuillez nous contacter à petconnecttech@gmail.com.",
             ),
-
 
             // PHP PROCESSES
             "checkout-process" => array(
