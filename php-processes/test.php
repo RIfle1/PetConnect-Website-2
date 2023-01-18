@@ -31,3 +31,5 @@ include_once '../php-processes/authenticity-check.php';
 //echo $_SERVER['REQUEST_URI'];
 
 //generateDeviceData('dev1', 10);
+
+echo getPfp('cltID', 'client', $_SESSION['ID']);

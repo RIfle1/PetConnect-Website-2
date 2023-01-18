@@ -65,6 +65,8 @@ else {
     $clientLoggedIn = $_SESSION['clientLoggedIn'] = false;
     $adminLoggedIn = $_SESSION['adminLoggedIn'] = false;
     $loggedIn = $_SESSION['loggedIn'] = false;
+    $_SESSION['Table'] = '';
+    $_SESSION['ID'] = '';
     $clientInfo = "";
     $adminInfo = "";
 }

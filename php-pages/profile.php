@@ -8,6 +8,7 @@ $clientLoggedIn = $_SESSION['clientLoggedIn'];
 $adminLoggedIn = $_SESSION['adminLoggedIn'];
 $loggedIn = $_SESSION['loggedIn'];
 $entityInfo = returnEntityInfo();
+$entityAttributes = returnEntityAttributes();
 
 
 // CHANGE PROFILE PICTURE FUNCTION
@@ -40,18 +41,10 @@ $languageList = returnLanguageList()[returnLanguage()]['profile'];
         <div id="profile-top-div">
             <div id="profile-top-div-column-1">
                 <?php if ($loggedIn) : ?>
-                    <?php if ($clientLoggedIn) : ?>
-                        <?php if (strlen($entityInfo['cltPfpName']) > 0) : ?>
-                            <img src="../img/pfp/<?php echo getPfp('cltID', 'client', $entityInfo['cltID'])['cltPfpName'] ?>" alt="Profile picture">
-                        <?php else : ?>
-                            <img src="<?php echo getImage('client.png') ?>" alt="Client Pfp">
-                        <?php endif; ?>
-                    <?php elseif ($adminLoggedIn) : ?>
-                        <?php if (strlen($entityInfo['admPfpName']) > 0) : ?>
-                            <img src="../img/pfp/<?php echo getPfp('admID', 'admin', $entityInfo['admID'])['admPfpName'] ?>" alt="Profile picture">
-                        <?php else : ?>
-                            <img src="<?php echo getImage('client.png') ?>" alt="Client Pfp">
-                        <?php endif; ?>
+                    <?php if (strlen($entityInfo[$entityAttributes['PfpName']]) > 0) : ?>
+                        <img src="<?php echo getPfp($entityAttributes['ID'], $entityAttributes['Table'], $_SESSION['ID']) ?>" alt="Profile picture">
+                    <?php else : ?>
+                        <img src="<?php echo getImage('client.png') ?>" alt="Client Pfp">
                     <?php endif; ?>
                     <div id="profile-pfp-overlay">
                         <form method="POST" action="" enctype="multipart/form-data">

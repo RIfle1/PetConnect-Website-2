@@ -55,10 +55,26 @@ function getImage($imgPath): string
     return "../img/".$getImageResult['imgCategory']."/".$getImageResult['imgPath'];
 }
 
-function getPfp($AttributeID, $table, $ID): bool|array|null
+function getPfp($AttributeID, $table, $ID): string
 {
-    $sql = "SELECT * FROM ".$table." WHERE ".$AttributeID."='".$ID."'";
-    return runSQLQuery($sql)->fetch_assoc();
+    if(strlen($AttributeID) > 0 && strlen($table) > 0 && strlen($ID) > 0) {
+        $sql = "SELECT * FROM ".$table." WHERE ".$AttributeID."='".$ID."'";
+        $getPfpResult =  runSQLQuery($sql);
+
+        if(mysqli_num_rows($getPfpResult) > 0) {
+            $getPfpRows = $getPfpResult -> fetch_assoc();
+            return "../img/pfp/".$getPfpRows[returnEntityAttributes()['PfpName']];
+        }
+        else {
+            return getImage('client.png');
+        }
+    }
+    else {
+        return getImage('client.png');
+    }
+
+
+
 }
 
 function findMax($intArray) : int {
@@ -303,7 +319,19 @@ function returnEntityAttributes(): array
         );
     }
     else {
-        return array();
+        return array (
+            "ID" => '',
+            "Username" => '',
+            "FirstName" => '',
+            "LastName" => '',
+            "Email" => '',
+            "PhoneNumber" => '',
+            "PfpName" => '',
+            "Password" => '',
+            "Token" => '',
+            "Table" => '',
+            "IDLetters" => '',
+        );
     }
 
 }
@@ -1390,6 +1418,7 @@ function returnLanguageList(): array
                 "Select Image" => "Select Image",
                 "Upload Image" => "Upload Image",
                 "Your account" => "Your account",
+
                 "Devices" => "Devices",
                 "Order History" => "Order History",
                 "Payment Method" => "Payment Method",
@@ -1479,10 +1508,23 @@ function returnLanguageList(): array
                 "Shop" => "Shop",
                 "Assistance" => "Assistance",
                 "Hello" => "Hello",
-                "My Account" => "My Account",
-                "My Orders" => "My Orders",
-                "My Devices" => "My Devices",
                 "Logout" => "Logout",
+
+                "My Account" => "My Account",
+
+                "My Devices" => "My Devices",
+                "My Order History" => "My Order History",
+                "My Payment Methods" => "My Payment Methods",
+                "My Addresses" => "My Addresses",
+                "Manage Users" => "Manage Users",
+                "Answer Questions" => "Answer Questions",
+                "Connection And Security" => "Connection And Security",
+                "Message Center" => "Message Center",
+
+                "Your Total is" => "Your Total is",
+                "Start adding items to your basket" => "Start adding items to your basket",
+                "Delete all items" => "Delete all items",
+                "Go to Checkout Page" => "Go to Checkout Page",
             ),
             "order-history" => array(
                 "Account" => "Account",
@@ -2010,10 +2052,25 @@ function returnLanguageList(): array
                 "Shop" => "Boutique",
                 "Assistance" => "Assistance",
                 "Hello" => "Bonjour",
+
                 "My Account" => "Mon compte",
-                "My Orders" => "Mes commandes",
+
                 "My Devices" => "Mes appareils",
+                "My Order History" => "Historique de mes commandes",
+                "My Payment Methods" => "Mes méthodes de paiement",
+                "My Addresses" => "Mes adresses",
+                "Manage Users" => "Gérer les utilisateurs",
+                "Answer Questions" => "Répondre aux questions",
+                "Connection And Security" => "Connexion et sécurité",
+                "Message Center" => "Centre de messagerie",
+
                 "Logout" => "Déconnexion",
+
+                "Your Total is" => "Votre total est",
+                "Start adding items to your basket" => "Commencez à ajouter des articles à votre panier",
+                "Delete all items" => "Supprimer tous les articles",
+                "Go to Checkout Page" => "Aller à la page de paiement",
+
             ),
             "order-history" => array(
                 "Account" => "Compte",
