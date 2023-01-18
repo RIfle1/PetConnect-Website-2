@@ -16,7 +16,7 @@ $addressList = returnAddressList();
 
     <link rel="stylesheet" href="../css/address-styles.css">
 
-    <title><?php echo $languageList["Addresses"]?></title>
+    <title>Addresses</title>
 </head>
 <body>
 

@@ -22,52 +22,56 @@ $languageList = returnLanguageList()[returnLanguage()]['home'];
     <slogan>
         <div class="fondimage">
             <h1>
-                <img src="<?php echo getImage("iCollar_logo.png") ?>" />
+                <img src="<?php echo getImage("iCollar_logo.png") ?>"  alt="image"/>
             </h1>
         </div>
         <h2>
-            <?php echo $languageList["Technology for your animals"]?>
+            La technologie pour vos animaux
         </h2>
     </slogan>
 
     <section1>
         <div class="grid reveal fade-bottom">
             <div class="carre black reveal fade-bottom2">
-                <p id="pink" class="reveal fade-bottom3"><?php echo $languageList["new"]?> </p>
+                <p id="pink" class="reveal fade-bottom3">nouveau</p>
                 <img class="reveal fade-bottom3" src="<?php echo getImage("iCollar_v1_white.png") ?>" />
                 <h3 id="iCollar">iCollar</h3>
-                <p id="grey"><?php echo $languageList["The connected dog collar"]?> </p>
+                <p id="grey">Le collier connecté pour chien</p>
                 <div>
-                    <a href="boutique.php" class="espace"><?php echo $languageList["See more"]?>  &gt;</a>
+                    <a href="shop.php" class="espace">En savoir plus &gt;</a>
 
-                    <a href="basket.php"><?php echo $languageList["Buy"]?>  +</a>
+                    <a href="basket.php">Acheter +</a>
                 </div>
             </div>
             <div class="box1">
-                <h3><?php echo $languageList["Free"]?> <br><?php echo $languageList["delivery"]?></h3>
-                <p><br><?php echo $languageList["Free delivery in Metropolitan France"]?></p>
+                <h3>Livraison <br>offerte</h3>
+                <p><br>Livraison gratuite en <strong>France Métropolitaine</strong></p>
             </div>
             <div class="box2 black">
-                <h3><?php echo $languageList["7-day trial"]?></h3>
-                <p><br><?php echo $languageList["We accept returns within 7 days of delivery"]?></p>
+                <h3>7 jours <br>d'essai</h3>
+                <p><br>Nous acceptons les retours dans les 7 jours après la livraison</p>
             </div>
             <div class="box2 black">
-                <h3><?php echo $languageList["Secure payments"]?></h3>
-                <p><br><?php echo $languageList["100% encrypted payments"]?><br>
-                    <br><?php echo $languageList["Accepted payment methods: Paypal, Visa, Mastercard or Apple Pay"]?>
+                <h3>Paiements <br>sécurisés</h3>
+                <p><br>Paiements 100% cryptés <br>
+                    <br>Méthodes de paiement acceptées:<strong> Paypal, Visa,
+                        Mastercard ou
+                        Apple Pay</strong>
                 </p>
             </div>
             <div class="box1">
-                <h3><?php echo $languageList["2 year warranty"]?></h3>
-                <p><br><?php echo $languageList["We will repair or replace your product for any issues covered by the warranty for the two years following the receipt of the product"]?></p>
+                <h3>2 ans de <br>garantie</h3>
+                <p><br>Nous réparons ou remplaçons votre produit pour tous problème couvert par la
+                    garantie pendant les
+                    deux années suivant la réception du produit</p>
             </div>
         </div>
     </section1>
 
     <section2>
         <div class="reveal fade-bottom">
-            <h2><?php echo $languageList["Our community"]?></h2>
-            <h3><?php echo $languageList["Join the PetConnect community"]?></h3>
+            <h2>Notre communauté</h2>
+            <h3>Rejoignez la communauté PetConnect</h3>
 
             <div class="grid reveal fade-bottom2">
                 <div class="chien one"></div>

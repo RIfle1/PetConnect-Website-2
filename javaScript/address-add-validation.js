@@ -40,6 +40,7 @@ function onClickAddressSubmitButton() {
     displayError(cityInputElement, validateCityVar.errorMsg, validateCityVar.errorBool);
 
     if(errorBool === 0) {
+        console.log("VALIDATED");
         addressFormElement.submit();
     }
 }

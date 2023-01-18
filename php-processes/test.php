@@ -22,12 +22,5 @@ include_once '../php-processes/authenticity-check.php';
 
 //echo sizeof($_COOKIE['Basket-cookie']);
 
-//var_dump(returnAssistanceList('', ''));
+var_dump(returnAssistanceList('', ''));
 
-//var_dump(returnDevicesList('dev1'));
-
-//echo $_SERVER['SCRIPT_NAME'];
-
-//echo $_SERVER['REQUEST_URI'];
-
-//generateDeviceData('dev1', 10);

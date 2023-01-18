@@ -17,7 +17,7 @@ $assistanceItem = returnAssistanceList($astID, 1, 'list');
 <html lang="en">
 <head>
     <link rel="stylesheet" href="../css/assistance-styles.css">
-    <title><?php echo $languageList['Assistance Answer'] ?></title>
+    <title>Assistance Answer</title>
 </head>
 <body>
 

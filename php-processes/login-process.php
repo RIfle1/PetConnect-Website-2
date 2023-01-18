@@ -54,7 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 }
 
                 header("Location: ../php-pages/signup-success.php", true, 303);
-                exit();
+                exit;
 
             } elseif ($clientInfo["cltVerifiedEmail"] === '1') {
                 $_SESSION["ID"] = $clientInfo["cltID"];
@@ -65,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 setcookie("Table-cookie", $_SESSION['Table'], time() + (86400 * 30), "/");
 
                 header("Location: ../php-pages/home.php", true, 303);
-                exit();
+                exit;
             }
 
         }
@@ -92,12 +92,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             setcookie("Table-cookie", $_SESSION['Table'], time() + (86400 * 30), "/");
 
             header("Location: ../php-pages/home.php", true, 303);
-            exit();
+            exit;
         }
     }
     $isInvalid = true;
     header('Location: ../php-pages/login.php?isInvalid='.$isInvalid.'&lgEmail-input='.$_POST["lgEmail-input"], true, 303);
-    exit();
+    exit;
 }
 
 

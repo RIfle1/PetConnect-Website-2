@@ -1,4 +1,3 @@
 <?php
-
-header("Location: php-pages/home.php");
-exit();
+include 'php-processes/dbConnection.php';
+header('Location: php-pages/home.php');

@@ -220,8 +220,3 @@ function generateString(length) {
 function autoSetID(attributeFormat) {
     return `${attributeFormat}${generateString(32)}`
 }
-
-function checkIfNumber(char){
-    let lastChar = parseInt(char.charAt(char.length-1))
-    return Number.isNaN(lastChar);
-}

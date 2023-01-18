@@ -82,6 +82,7 @@ function onClickSubmitButton() {
         // IF NO ERRORS
         if(errorBool === 0) {
             const captchaResponse = $("#g-recaptcha-response").val();
+            console.log("VALIDATED")
 
             document.getElementById("signup-form").submit();
 
@@ -92,6 +93,7 @@ function onClickSubmitButton() {
             //     document.getElementById("signup-form").submit();
             // }
         }
+        console.log(errorBool);
 
     }, 100)
 

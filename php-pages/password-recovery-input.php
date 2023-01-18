@@ -14,7 +14,7 @@ $captchaLanguage = strtolower(substr(returnLanguage(), 0, 2));
 <head>
 
     <link rel="stylesheet" href="../css/sign-styles.css">
-    <title><?php echo $languageList["Password Recovery"]?></title>
+    <title>Password Recovery</title>
 
     <script src="https://code.jquery.com/jquery-3.6.1.min.js"
             integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="

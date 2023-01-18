@@ -180,7 +180,7 @@ function onClickAddToCartButton(addToCartButtonElement, value) {
 
     // ADD ELEMENT TO DATABASE / COOKIE
     let addToCartUrl = "../php-processes/shop-processes.php"
-    let addToCartAjax = $.ajax({
+    $.ajax({
         type: "POST",
         url: addToCartUrl,
         data: {
@@ -190,15 +190,6 @@ function onClickAddToCartButton(addToCartButtonElement, value) {
             buyAmount: buyAmount,
         }
     })
-
-    addToCartAjax.always(function() {
-        if(typeof(buyButtonElement) !== "undefined") {
-            if(addToCartButtonElement === buyButtonElement) {
-                window.location.href = '../php-pages/checkout.php'
-            }
-        }
-    })
-
 }
 
 function setAddToCartButton(addToCartButtonElement, value) {
@@ -216,10 +207,7 @@ function setDeleteItemImg(deleteItemImgElement, productElement, value) {
 function onClickBasketDeleteAllButton() {
     // DELETE ALL ELEMENTS FROM PAGE
     $("."+basketProductClass).remove();
-
-    if(typeof(checkoutProductClass) !== "undefined") {
-        $("."+checkoutProductClass).remove();
-    }
+    $("."+checkoutProductClass).remove();
 
     // DELETE ALL ELEMENT FROM GLOBAL ARRAY BASKET LIST
     basketList = [];
@@ -238,9 +226,7 @@ function onClickBasketDeleteAllButton() {
 
     // RECALCULATE TOTAL PRICE
     updateProductTotal(basketTotalDivElement, basketPriceSpanClass)
-    if(typeof(checkoutTotalDivElement) !== "undefined") {
-        updateProductTotal(checkoutTotalDivElement, checkoutPriceSpanClass)
-    }
+    updateProductTotal(checkoutTotalDivElement, checkoutPriceSpanClass)
 
 }
 

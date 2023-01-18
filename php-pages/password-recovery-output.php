@@ -4,7 +4,7 @@ include '../php-processes/dbConnection.php';
 session_start();
 if(empty($_SESSION['resetPassword']) || empty($_SESSION['message'])) {
     header("Location: ../php-pages/restricted-access.php", true,303);
-    exit();
+    exit;
 }
 
 include 'site-header.php';
@@ -23,7 +23,8 @@ $languageList = returnLanguageList()[returnLanguage()]['password-recovery-output
             integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
             crossorigin="anonymous">
     </script>
-    <title><?php echo $languageList["Password Recovery"]?></title>
+
+    <title>Password Recovery</title>
 </head>
 <body class="text-font-700">
 

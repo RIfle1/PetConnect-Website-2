@@ -33,7 +33,7 @@ validatePhoneNumber($cltPhoneNumber);
 validateEmail($cltEmail);
 validatePassword($cltPassword, $newPasswordConfirmation);
 
-$emailSQL = "SELECT cltEmail FROM client WHERE cltEmail='".$cltEmail."'";
+$emailSQL = "SELECT cltEmail FROM Client WHERE cltEmail='".$cltEmail."'";
 $result = runSQLQuery($emailSQL);
 $userEmail = $result->fetch_assoc();
 
@@ -65,7 +65,7 @@ if(sendGmail($cltEmail, $cltFirstName, $body, $subject)) {
         $_SESSION['message'] = $languagesList["Signup Successful, Please verify your email address"];
 
         header("Location: ../php-pages/signup-success.php", true, 303);
-        exit();
+        exit;
     }
     else {
         echo insertSQL($insertSQL);

@@ -31,7 +31,7 @@ if (isset($_POST['upload'])) {
 <html>
 
 <head>
-<!--    <title>Image Upload</title>-->
+    <title>Image Upload</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="style.css" />
 </head>

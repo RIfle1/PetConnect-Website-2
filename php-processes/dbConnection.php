@@ -5,8 +5,8 @@ function OpenCon()
     $dbHost = "localhost";
     $dbUser = "root";
     $dbPass = "";
-    $db = "appdb";
-    $conn = mysqli_connect($dbHost, $dbUser, $dbPass,$db) or die("Connect failed: %s\n". $conn -> error);
+    $db = "app db";
+    $conn = new mysqli($dbHost, $dbUser, $dbPass,$db) or die("Connect failed: %s\n". $conn -> error);
 
     if ($conn->connect_errno) {
         die("Connection Error: " . $conn->connect_error);
@@ -145,6 +145,11 @@ function uploadImage($inputName, $imgCategory): void
 
     insertSQL($sql);
 
+    if (move_uploaded_file($tempname, $folder)) {
+        echo "<script type='text/javascript'>console.log('Image Uploaded Successfully')</script>";
+    } else {
+        echo "<script type='text/javascript'>console.log('Failed to upload image')</script>";
+    }
 }
 
 function uploadPfp($inputName, $table, $xxxPfpName): void
@@ -157,6 +162,12 @@ function uploadPfp($inputName, $table, $xxxPfpName): void
 
     // Execute query
     insertSQL($sql);
+
+    if (move_uploaded_file($tempName, $folder)) {
+        echo "<script type='text/javascript'>console.log('Image Uploaded Successfully')</script>";
+    } else {
+        echo "<script type='text/javascript'>console.log('Failed to upload image')</script>";
+    }
 }
 
 function restrictedNoUserPage($redirectPage): void
@@ -317,7 +328,7 @@ function onlyAdminPage(): void {
         if($_SESSION['clientLoggedIn'] || empty($_SESSION['loggedIn'])) {
 
             header("Location: ../php-pages/restricted-access.php", true,303);
-            exit();
+            exit;
         }
     }
 
@@ -330,7 +341,7 @@ function onlyClientPage(): void {
     if (isset($_SESSION['adminLoggedIn']) || empty($_SESSION['loggedIn'])) {
         if($_SESSION['adminLoggedIn'] || empty($_SESSION['loggedIn'])) {
             header("Location: ../php-pages/restricted-access.php", true,303);
-            exit();
+            exit;
         }
     }
 }
@@ -341,7 +352,7 @@ function clientAndAdminPage(): void {
 
     if(empty($_SESSION['loggedIn'])) {
         header("Location: ../php-pages/restricted-access.php", true,303);
-        exit();
+        exit;
     }
 
 }
@@ -353,7 +364,7 @@ function clientAndNoUserPage(): void {
     if(isset($_SESSION['adminLoggedIn'])) {
         if($_SESSION['adminLoggedIn']) {
             header("Location: ../php-pages/restricted-access.php", true,303);
-            exit();
+            exit;
         }
     }
 }
@@ -475,13 +486,13 @@ function generateID($idLength): string
 function logoutAndRedirect($page): void
 {
     session_start();
-
     if(isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true) {
         include_once '../php-processes/php-mailer.php';
         // CHANGE TOKEN WHEN LOGGING OUT
         if(isset($_SESSION['Table']) && isset($_SESSION['Token'])) {
             $entityAttributes = returnEntityAttributes();
             $token = generateToken($_SESSION["ID"]);
+            echo $token;
 
             $insertTokenSql = "UPDATE ".$_SESSION['Table']." SET ".$entityAttributes['Token']." = '".$token."' WHERE ".$entityAttributes['Token']." = '".$_SESSION['Token']."'";
 
@@ -493,8 +504,10 @@ function logoutAndRedirect($page): void
         session_destroy();
 
         header('Location: '.$page, true, 303);
-        exit();
+        exit;
     }
+    session_destroy();
+
 }
 
 function returnList($runSQLQuery): array {
@@ -938,7 +951,7 @@ function returnBasketList():array {
     }
 }
 
-function returnDevicesListByClient(): array {
+function returnDevicesList(): array {
     if(isset($_SESSION['Table']) && $_SESSION['Table'] === 'client') {
 
         $cltID = $_SESSION['ID'];
@@ -968,35 +981,6 @@ function returnDevicesListByClient(): array {
     else {
         return array();
     }
-}
-
-function returnDevicesList($optionalDevID): array {
-    if(strlen($optionalDevID) > 0) {
-        $getClientDevicesListSql = "SELECT * FROM device WHERE devID = '".$optionalDevID."'";
-    }
-    else {
-        $getClientDevicesListSql = "SELECT * FROM device";
-    }
-
-    $getClientDevicesListResult = runSQLQuery($getClientDevicesListSql);
-    $productsList = returnProductList('');
-
-    if(mysqli_num_rows($getClientDevicesListResult) > 0) {
-        $clientDevicesList = returnList($getClientDevicesListResult);
-
-        foreach($clientDevicesList as $clientDevicesListIndex => $clientDevicesListItem) {
-            $prdID = $clientDevicesListItem['prdID'];
-            $prcColor = $clientDevicesListItem['prcColor'];
-            $prdImg = $productsList[$prdID]['prdImg'][$prcColor];
-            $clientDevicesList[$clientDevicesListIndex]['prdImg'] = $prdImg;
-        }
-
-        return $clientDevicesList;
-    }
-    else {
-        return array();
-    }
-
 }
 
 function returnMiscImgList(): array {
@@ -1121,32 +1105,6 @@ function returnLastMessagesList($type): array {
     else {
         return array();
     }
-}
-
-function randFloat($start, $end, $decimals):float {
-    return mt_rand($start*pow(10, $decimals),$end*pow(10,$decimals))/(pow(10,$decimals));
-}
-
-function generateDeviceData($devID, $dataAmount): void {
-    $dapDate = date('2023-01-01 00:00:00');
-
-    for($i = 0 ; $i < $dataAmount; $i++) {
-        $dapID = autoSetID('dap');
-        $dapBPM = rand(80, 100);
-        $dapLatitude = randFloat(48,49,5);
-        $dapLongitude = randFloat(2,3,5);
-        $dapCO2 = rand(800, 1200);
-        $dapDecibel = rand(0, 10);
-        $dapTemp = rand(37, 40);
-
-        $insertDataSql = "INSERT INTO data_device(dapID, dapBPM, dapLatitude, dapLongitude, dapCO2, dapDecibel, dapTemp, dapDate, Device_devID) 
-                          VALUES ('".$dapID."', '".$dapBPM."', '".$dapLatitude."', '".$dapLongitude."', '".$dapCO2."', '".$dapDecibel."', '".$dapTemp."', '".$dapDate."', '".$devID."')";
-        runSQLQuery($insertDataSql);
-        $dapDate = date('Y-m-d H:i:s', strtotime($dapDate. ' + 1 hour'));
-//        echo $insertDataSql.'<br>';
-    }
-
-
 }
 
 function returnLanguage(): string {
@@ -1285,52 +1243,6 @@ function returnLanguageList(): array
             ),
             "home" => array(
                 "Technology for your animals" => "Technology for your animals",
-                "new" => "new",
-                "The connected dog collar" => "The connected dog collar",
-                "See more" => "See more",
-                "Buy" =>  "Buy",
-                "Free" => "Free",
-                "delivery" => "delivery",
-                "Free delivery in Metropolitan France" => "Free delivery in <strong> Metropolitan France</strong>",
-                "7-day trial" => "7-day <br> trial",
-                "We accept returns within 7 days of delivery" => "We accept returns within 7 days of delivery",
-                "Secure payments" => "Secure <br>payments",
-                "100% encrypted payments" => "100% encrypted payments",
-                "Accepted payment methods: Paypal, Visa, Mastercard or Apple Pay" => "Accepted payment methods:<strong> Paypal, Visa, Mastercard or Apple Pay</strong>",
-                "2 year warranty" =>  "2 year <br>warranty",
-                "We will repair or replace your product for any issues covered by the warranty for the two years following the receipt of the product" => "We will repair or replace your product for any issues covered by the warranty for the two years following the receipt of the product",
-                "Our community" => "Our community",
-                "Join the PetConnect community" => "Join the PetConnect community",
-            ),
-            "info-device" => array(
-                "Account" => "Account",
-                "My devices" => "My devices",
-                "Device information" =>  "Device information",
-                "Day" => "Day",
-                "From" => "From",
-                "to" => "to",
-                "Temperature" => "Temperature",
-                "Number of decibels" => "Number of decibels",
-                "Heart rate" => "Heart rate",
-                "Air quality" => "Air quality",
-            ),
-            "legal-notice" => array(
-                "Legal Notices" => "Legal Notices",
-                "Site published by PetConnect®" => "Site published by PetConnect®",
-                "SA with a capital of 420 euros" => "SA with a capital of 420 euros",
-                "Head office" => "Head office",
-                "Intra-community VAT no." => "Intra-community VAT no.",
-                "Chairmen" => "Chairmen",
-                "Headquarters Location" => "Headquarters Location",
-                "Tel" => "Tel",
-                "Fax" => "Fax",
-
-                "Back end programming manager" => "Back end programming manager",
-                "Front end programming manager" => "Front end programming manager",
-                "Design manager" => "Design manager",
-                "Publication manager" => "Publication manager",
-                "Human Ressources manager" => "Human Ressources manager",
-                "Data analyst" => "Data analyst",
             ),
             "login" => array(
                 "Sign in" => "Sign in",
@@ -1429,7 +1341,7 @@ function returnLanguageList(): array
                 "Ecological Packaging" => "Ecological Packaging",
                 "Delivery under 48h" => "Delivery under 48h",
                 "Satisfied or reimbursed" => "Satisfied or reimbursed",
-            ),
+            ), // this
             "profile" => array(
                 "Select Image" => "Select Image",
                 "Upload Image" => "Upload Image",
@@ -1560,44 +1472,16 @@ function returnLanguageList(): array
                 "Collar number" => "Collar number",
                 "Add" => "Add",
             ),
-            "terms-of-use" => array(
-                "Terms of use" => "Terms of use",
-                "Welcome to the PetConnect website (the 'Site'). The Site is operated by PetConnect, LLC ('PetConnect,' 'we,' or 'us'). These Terms of Use (these 'Terms') govern your access to and use of the Site, including any content, functionality, and services offered on or through the Site."
-                => "Welcome to the PetConnect website (the 'Site'). The Site is operated by PetConnect, LLC ('PetConnect,' 'we,' or 'us'). These Terms of Use (these 'Terms') govern your access to and use of the Site, including any content, functionality, and services offered on or through the Site.",
-                "By accessing or using the Site, you are accepting these Terms and agreeing to be bound by them. If you do not agree to these Terms, you must not access or use the Site."
-                => "By accessing or using the Site, you are accepting these Terms and agreeing to be bound by them. If you do not agree to these Terms, you must not access or use the Site.",
-                "Use of the Site" => "Use of the Site",
-                "You may use the Site only for lawful purposes and in accordance with these Terms. You may not use the Site"
-                => "You may use the Site only for lawful purposes and in accordance with these Terms. You may not use the Site",
-                "In any way that violates any applicable federal, state, local, or international law or regulation." =>
-                "In any way that violates any applicable federal, state, local, or international law or regulation.",
-                "For the purpose of exploiting, harming, or attempting to exploit or harm minors in any way by exposing them to inappropriate content, asking for personally identifiable information, or otherwise." =>
-                "For the purpose of exploiting, harming, or attempting to exploit or harm minors in any way by exposing them to inappropriate content, asking for personally identifiable information, or otherwise.",
-                "To transmit, or procure the sending of, any advertising or promotional material, including any 'junk mail,' 'chain letter,' 'spam,' or any other similar solicitation." => "To transmit, or procure the sending of, any advertising or promotional material, including any 'junk mail,' 'chain letter,' 'spam,' or any other similar solicitation.",
-                "To impersonate or attempt to impersonate PetConnect, a PetConnect employee, another user, or any other person or entity." =>
-                "To impersonate or attempt to impersonate PetConnect, a PetConnect employee, another user, or any other person or entity.",
-                "To engage in any other conduct that restricts or inhibits anyone's use or enjoyment of the Site, or which, as determined by PetConnect, may harm PetConnect or users of the Site or expose them to liability." =>
-                "To engage in any other conduct that restricts or inhibits anyone's use or enjoyment of the Site, or which, as determined by PetConnect, may harm PetConnect or users of the Site or expose them to liability.",
-                "Product Sales" =>
-                "Product Sales",
-                "The Site may offer for sale certain smart collars for dogs ('Products'). By placing an order for a Product, you are offering to purchase the Product on and subject to these Terms. All orders are subject to availability and confirmation of the order price." =>
-                "The Site may offer for sale certain smart collars for dogs ('Products'). By placing an order for a Product, you are offering to purchase the Product on and subject to these Terms. All orders are subject to availability and confirmation of the order price.",
-                "Warranty Disclaimer" =>
-                "Warranty Disclaimer",
-                "The Site, including all content, functionality, and services offered on or through the Site, are provided 'as is,' 'as available,' and 'with all faults.' PetConnect makes no representations or warranties of any kind, express or implied, as to the operation of the Site or the information, content, materials, or products included on the Site." =>
-                "The Site, including all content, functionality, and services offered on or through the Site, are provided 'as is,' 'as available,' and 'with all faults.' PetConnect makes no representations or warranties of any kind, express or implied, as to the operation of the Site or the information, content, materials, or products included on the Site.",
-                "Limitation of Liability" =>
-                "Limitation of Liability",
-                "In no event shall PetConnect, its directors, officers, employees, agents, partners, or suppliers be liable for any damages whatsoever, including without limitation, direct, indirect, special, incidental, or consequential damages, arising out of or in connection with the use, inability to use, or performance of the Site or the products offered on the Site." =>
-                "In no event shall PetConnect, its directors, officers, employees, agents, partners, or suppliers be liable for any damages whatsoever, including without limitation, direct, indirect, special, incidental, or consequential damages, arising out of or in connection with the use, inability to use, or performance of the Site or the products offered on the Site.",
-                "Changes to These Terms" =>
-                "Changes to These Terms",
-                "PetConnect reserves the right to make changes to these Terms at any time. Your continued use of the Site following the posting of any changes to these Terms will mean you accept those changes." =>
-                "PetConnect reserves the right to make changes to these Terms at any time. Your continued use of the Site following the posting of any changes to these Terms will mean you accept those changes.",
-                "Contact Us" =>
-                "Contact Us",
-                "If you have any questions about these Terms, please contact us at petconnecttech@gmail.com." =>
-                "If you have any questions about these Terms, please contact us at petconnecttech@gmail.com.",
+            "info-device" => array(
+                "Account" => "Account",
+                "My devices" => "My devices",
+                "Device information" =>  "Device information",
+                "Good" => "Good",
+                "Day" => "Day",
+                "Week" => "Week",
+                "Month" => "Month",
+                "Add" => "Add",
+
             ),
 
             // PHP PROCESSES
@@ -1695,14 +1579,6 @@ function returnLanguageList(): array
 
 
             ),
-            "product-buttons" => array(
-                "white" => "White",
-                "blue" => "Blue",
-                "green" => "Green",
-                "red" => "Red",
-                "yellow" => "Yellow",
-                "black" => "Black",
-            ),
             "validation-functions" => array(
                 "Client Username is required" => "Client Username is required",
                 "Client Username must be at least 3 characters" => "Client Username must be at least 3 characters",
@@ -1784,11 +1660,11 @@ function returnLanguageList(): array
                 "Answer to the question" => "Répondre à la question",
             ),
             "checkout" => array(
-                "Checkout" => "Panier",
+                "Checkout" => "Caissier",
                 "Start adding items to your basket!" => "Commencez à ajouter des articles à votre panier!",
                 "Thank you for buying our products! An email has been sent to you with all the details." => "Merci d'avoir acheté nos produits! Un e-mail vous a été envoyé avec tous les détails.",
                 "Your Total is" => "Votre total est",
-                "Buy Products" => "Acheter les produits",
+                "Buy Products" => "Acheter des produits",
             ),
             "connection-security" => array(
                 "Connection and Security" => "Connexion et sécurité",
@@ -1811,54 +1687,7 @@ function returnLanguageList(): array
                 "Edit" => "Modifier",
             ),
             "home" => array(
-                "Technology for your animals" => "La technologie pour vos animaux",
-                "new" => "nouveau",
-                "The connected dog collar" => "Le collier connecté pour chien",
-                "See more" => "En savoir plus",
-                "Buy" => "Acheter",
-                "Free" => "Livraison",
-                "delivery" => "offerte",
-                "Free delivery in Metropolitan France" => "Livraison gratuite en <strong>France Métropolitaine</strong>",
-                "7-day trial" => "7 jours <br>d'essai",
-                "We accept returns within 7 days of delivery" => " Nous acceptons les retours dans les 7 jours après la livraison",
-                "Secure payments" => "Paiements <br>sécurisés",
-                "100% encrypted payments" => "Paiements 100% cryptés",
-                "Accepted payment methods: Paypal, Visa, Mastercard or Apple Pay" => "Méthodes de paiement acceptées:<strong> Paypal, Visa, Mastercard ou Apple Pay</strong>",
-                "2 year warranty" => "2 ans de <br>garantie",
-                "We will repair or replace your product for any issues covered by the warranty for the two years following the receipt of the product" => "Nous réparons ou remplaçons votre produit pour tous problème couvert par la garantie pendant les deux années suivant la réception du produit",
-                "Our community" => "Notre communauté",
-                "Join the PetConnect community" => "Rejoignez la communauté PetConnect",
-
-            ),
-            "info-device" => array(
-                "Account" => "Compte",
-                "My devices" => "Mes appareils",
-                "Device information" => "Information appareil",
-                "Day" => "Jour",
-                "Add" => "Ajouter",
-                "From" => "Du",
-                "to" => "au",
-                "Temperature" => "Température",
-                "Number of decibels" => "Nombre de décibels",
-                "Heart rate" => "Fréquence cardiaque",
-                "Air quality" => "Qualité de l'air",
-            ),
-            "legal-notice" => array(
-                "Legal Notices" => "Mentions légales",
-                "Site published by PetConnect®" => "Site publié par PetConnect®",
-                "SA with a capital of 420 euros" => "SA avec un capital de 420 euros",
-                "Head office" => "Siège social",
-                "Intra-community VAT no." => "Numéro de TVA intra-communautaire",
-                "Chairmen" => "Présidents",
-                "Headquarters Location" => "Emplacement du siège social",
-                "Tel" => "Tel",
-                "Fax" => "Fax",
-                "Back end programming manager" => "Responsable de la programmation côté serveur",
-                "Front end programming manager" => "Responsable de la programmation côté client",
-                "Design manager" => "Responsable de la conception",
-                "Publication manager" => "Responsable de la publication",
-                "Human Ressources manager" => "Responsable des ressources humaines",
-                "Data analyst" => "Analyste de données",
+                "Technology for your animals" => "Technologie pour vos animaux",
             ),
             "login" => array(
                 "Sign in" => "Identifiez-vous",
@@ -1949,14 +1778,6 @@ function returnLanguageList(): array
                 "Your account password could not be changed." => "Votre mot de passe de compte n'a pas pu être modifié.",
                 "You can now" => "Vous pouvez maintenant",
                 "login" => "vous-identifiez",
-            ),
-            "product" => array(
-                "White" => "Blanc",
-                "Add to basket" => "Ajouter au panier",
-                "Buy this product" => "Acheter ce produit",
-                "Ecological Packaging" => "Emballage écologique",
-                "Delivery under 48h" => "Livraison sous 48h",
-                "Satisfied or reimbursed" => "Satisfait ou remboursé",
             ),
             "profile" => array(
                 "Select Image" => "Sélectionner une image",
@@ -2092,40 +1913,18 @@ function returnLanguageList(): array
                 "Add" => "Ajouter",
 
             ),
-            "terms-of-use" => array(
-                "Terms of use" => "Conditions d'utilisation",
-                "Welcome to the PetConnect website (the 'Site'). The Site is operated by PetConnect, LLC ('PetConnect,' 'we,' or 'us'). These Terms of Use (these 'Terms') govern your access to and use of the Site, including any content, functionality, and services offered on or through the Site."
-                => "Bienvenue sur le site web PetConnect (le 'Site'). Le Site est exploité par PetConnect, LLC ('PetConnect', 'nous' ou 'nous'). Ces conditions d'utilisation (ces 'conditions') régissent votre accès et votre utilisation du site, y compris tout contenu, fonctionnalité et services proposés sur ou via le Site.",
-                "By accessing or using the Site, you are accepting these Terms and agreeing to be bound by them. If you do not agree to these Terms, you must not access or use the Site."
-                => "En accédant ou en utilisant le Site, vous acceptez ces conditions et vous vous engagez à vous y soumettre. Si vous n'acceptez pas ces conditions, vous ne devez pas accéder ou utiliser le Site.",
-                "Use of the Site" => "Utilisation du Site",
-                "You may use the Site only for lawful purposes and in accordance with these Terms. You may not use the Site"
-                => "Vous pouvez utiliser le Site uniquement à des fins légales et conformément à ces conditions. Vous ne pouvez pas utiliser le Site",
-                "In any way that violates any applicable federal, state, local, or international law or regulation." =>
-                    "De quelconque manière qui viole toute loi ou règlement fédéral, étatique, local ou international applicable.",
-                "For the purpose of exploiting, harming, or attempting to exploit or harm minors in any way by exposing them to inappropriate content, asking for personally identifiable information, or otherwise." =>
-                    "Dans le but d'exploiter, de nuire ou de tenter d'exploiter ou de nuire les mineurs de quelque manière que ce soit en les exposant à un contenu inapproprié, en demandant des informations personnellement identifiables ou autrement.",
-                "To transmit, or procure the sending of, any advertising or promotional material, including any 'junk mail,' 'chain letter,' 'spam,' or any other similar solicitation." => "Transmettre ou faciliter l'envoi de tout matériel publicitaire ou promotionnel, y compris tout courrier indésirable, chaîne de lettres, spam ou toute autre sollicitation similaire.",
-                "To impersonate or attempt to impersonate PetConnect, a PetConnect employee, another user, or any other person or entity." =>
-                    "Se faire passer pour ou tenter de se faire passer pour PetConnect, un employé de PetConnect, un autre utilisateur ou toute autre",
-                "To engage in any other conduct that restricts or inhibits anyone's use or enjoyment of the Site, or which, as determined by PetConnect, may harm PetConnect or users of the Site or expose them to liability." =>
-                    "Engager dans tout autre comportement qui restreint ou inhibe l'utilisation ou le plaisir de quiconque sur le Site ou qui, comme déterminé par PetConnect, peut causer des dommages à PetConnect ou aux utilisateurs du site ou les exposer à une responsabilité.",
-                "Product Sales" =>
-                    "Ventes de produits",
-                "The Site may offer for sale certain smart collars for dogs ('Products'). By placing an order for a Product, you are offering to purchase the Product on and subject to these Terms. All orders are subject to availability and confirmation of the order price." =>
-                    "Le Site peut offrir à la vente certains colliers intelligents pour chiens ('Produits'). En passant une commande pour un produit, vous offrez d'acheter le produit et de vous soumettre à ces conditions. Toutes les commandes sont soumises à disponibilité et confirmation du prix de la commande.",
-                "Warranty Disclaimer" =>
-                    "Clause de non-garantie",
-                "The Site, including all content, functionality, and services offered on or through the Site, are provided 'as is,' 'as available,' and 'with all faults.' PetConnect makes no representations or warranties of any kind, express or implied, as to the operation of the Site or the information, content, materials, or products included on the Site." =>
-                    "Le Site, y compris tout le contenu, les fonctionnalités et les services proposés sur ou via le Site, sont fournis 'tels quels', 'tels qu'ils sont disponibles' et 'avec tous les défauts'. PetConnect ne fait aucune représentation ou garantie de quelque nature que ce soit, expresse ou implicite, quant au fonctionnement du Site ou aux informations, contenus, matériaux ou produits inclus sur le Site.",
-                "Limitation of Liability" => "Limitation de responsabilité",
-                "In no event shall PetConnect, its directors, officers, employees, agents, partners, or suppliers be liable for any damages whatsoever, including without limitation, direct, indirect, special, incidental, or consequential damages, arising out of or in connection with the use, inability to use, or performance of the Site or the products offered on the Site." =>
-                    "Dans aucun cas, PetConnect, ses directeurs, officiers, employés, agents, partenaires ou fournisseurs ne seront responsables des dommages de quelque nature que ce soit, y compris, sans limitation, les dommages directs, indirects, spéciaux, accessoires ou consécutifs, découlant de ou en relation avec l'utilisation, l'incapacité d'utiliser ou la performance du Site ou des produits proposés sur le Site.",
-                "Changes to These Terms" => "Modifications de ces termes",
-                "PetConnect reserves the right to make changes to these Terms at any time. Your continued use of the Site following the posting of any changes to these Terms will mean you accept those changes." => "PetConnect se réserve le droit de modifier ces termes à tout moment. Votre utilisation continue du Site après la publication de toutes les modifications apportées à ces termes signifie que vous acceptez ces modifications.",
-                "Contact Us" => "Nous contacter",
-                "If you have any questions about these Terms, please contact us at petconnecttech@gmail.com." => "Si vous avez des questions sur ces termes, veuillez nous contacter à petconnecttech@gmail.com.",
+            "info-device" => array(
+                "Account" => "Compte",
+                "My devices" => "Mes appareils",
+                "Device information" => "Information appareil",
+                "Good" => "Bon",
+                "Day" => "Jour",
+                "Week" => "Semaine",
+                "Month" => "Mois",
+                "Add" => "Ajouter",
+
             ),
+
 
             // PHP PROCESSES
             "checkout-process" => array(
@@ -2241,13 +2040,9 @@ function returnLanguageList(): array
                 "Please input a Date." => "Veuillez entrer une date.",
                 "Please input a Start Date and an End Date." => "Veuillez entrer une date de début et une date de fin.",
         ),
-            "product-buttons" => array(
-                "white" => "Blanc",
-                "blue" => "Bleu",
-                "green" => "Vert",
-                "red" => "Rouge",
-                "yellow" => "Jaune",
-                "black" => "Noir",
+            "password-reset-validation" => array(
+                "New Password is required" => "New Password is required",
+                "Passwords should match" => "Passwords should match",
             ),
             "validation-functions" => array(
                 "Client Username is required" => "Nom d'utilisateur du client requis",
@@ -2278,8 +2073,8 @@ function returnLanguageList(): array
             ),
 
         ),
-//        "Russian" => array(
-//        ),
+        "Russian" => array(
+        ),
 
     );
 }

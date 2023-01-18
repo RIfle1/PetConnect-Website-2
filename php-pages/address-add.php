@@ -40,7 +40,7 @@ else {
 
     <link rel="stylesheet" href="../css/address-add-styles.css">
 
-    <title><?php echo $languageList["Address"]?></title>
+    <title>Add an Address</title>
 </head>
 <body>
 

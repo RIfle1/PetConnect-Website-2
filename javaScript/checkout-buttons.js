@@ -53,20 +53,15 @@ if(basketList.length > 0) {
 updateProductTotal(checkoutTotalDivElement, checkoutPriceSpanClass)
 
 checkoutBuyProductsButtonElement.click(function() {
-    if(loggedIn) {
-        let buyProductsAjax = $.ajax({
-            type: "GET",
-            url: '../php-processes/checkout-process.php',
-            data: '',
-        })
-        buyProductsAjax.always(function() {
-            basketDeleteAllButtonElement.trigger('click');
-            checkoutBuySuccessSpanElement.css("display", "block")
-        })
-    }
-    else {
-        window.location.href = '../php-pages/login.php';
-    }
+    let buyProductsAjax = $.ajax({
+        type: "GET",
+        url: '../php-processes/checkout-process.php',
+        data: '',
+    })
+    buyProductsAjax.always(function() {
+        basketDeleteAllButtonElement.trigger('click');
+        checkoutBuySuccessSpanElement.css("display", "block")
+    })
 })
 
 

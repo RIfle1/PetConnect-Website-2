@@ -1,15 +1,11 @@
 <?php
 session_start();
 include '../php-processes/dbConnection.php';
-onlyClientPage();
+clientPage();
 include 'site-header.php';
 
 $languageList = returnLanguageList()[returnLanguage()]['info-device'];
 
-$devID = $_GET['devID'];
-$deviceInfo = returnDevicesList($devID);
-$devName = $deviceInfo[0]['devName'];
-$prdImg = $deviceInfo[0]['prdImg']
 ?>
 
 <!doctype html>
@@ -24,16 +20,20 @@ $prdImg = $deviceInfo[0]['prdImg']
     <link rel="stylesheet" href="../css/info-devices2-styles.css">
     <!--    Jquery-->
 
-    <title>Device Info</title>
+    <title>PetConnectBasket</title>
 </head>
 
 <body>
+
+
+
     <main>
         <div id="ids-form-body" class="text-font-500">
+            <lien><a href="profile.php"><?php echo $languageList["Account"] ?></a>><a href="devices.php"><?php echo $languageList["My devices"] ?></a>><a id="actif" href=""><?php echo $languageList["Device information"] ?></a></lien>
             <section id="info_app">
-                <h2><?php echo $devName ?></h2>
+                <h2>iCollar</h2>
                 <div id="produit">
-                    <img src="<?php echo $prdImg ?>" />
+                    <img src="<?php echo getImage("iCollar_blanc2.png") ?>" />
                 </div>
                 <div class="grid3">
                     <div class="case">
@@ -139,9 +139,9 @@ $prdImg = $deviceInfo[0]['prdImg']
     <?php
 
 
-    $selectData_Time = runSQLQuery("SELECT * FROM Data_Device WHERE Device_devID = '".$devID."' ORDER BY dapDate DESC");
-    $selectData_Date = runSQLQuery("SELECT AVG(dapBPM),AVG(dapCO2),AVG(dapDecibel),AVG(dapTemp),dapDate FROM `Data_Device` WHERE Device_devID = '".$devID."' GROUP BY CAST(dapDate AS DATE)");
-    $selectData_Coordinate = runSQLQuery("SELECT * FROM Data_Device WHERE Device_devID = '".$devID."' ORDER BY dapDate DESC LIMIT 0,1");
+    $selectData_Time = runSQLResult("SELECT * FROM Data_Device ORDER BY dapDate DESC");
+    $selectData_Date = runSQLResult("SELECT AVG(dapBPM),AVG(dapCO2),AVG(dapDecibel),AVG(dapTemp),dapDate FROM `Data_Device` GROUP BY CAST(dapDate AS DATE)");
+    $selectData_Coordinate = runSQLResult("SELECT * FROM Data_Device ORDER BY dapDate DESC LIMIT 0,1");
 
     while ($rowTime = $selectData_Time->fetch_assoc()) {
         $BPM_Time[] = $rowTime["dapBPM"];
@@ -168,16 +168,18 @@ $prdImg = $deviceInfo[0]['prdImg']
         $longitude[] = $rowCoordinate["dapLongitude"];
     }
 
+
+
+
+    // print_r($latitude);
+    // print_r($longitude);
+    // // // print_r($timeArray);
+    // // // print_r($timeDayArray);
+    // // print_r($BPM_Time);
+    // // // print_r($dateArray);
     ?>
 
     <?php include 'site-footer.php' ?>
-
-    <script type="text/javascript">
-        setMarginTop('sih-main-header', 'id', 'ids-form-body', 'id', 40)
-
-        // setToWindowHeight('ad-main-body-div', 'id', 0)
-        setMarginTopFooter('ids-form-body', 'id', 'site-footer-main-div', 'id', 0)
-    </script>
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
@@ -185,6 +187,11 @@ $prdImg = $deviceInfo[0]['prdImg']
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.3.0/dist/chartjs-adapter-luxon.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-streaming@2.0.0/dist/chartjs-plugin-streaming.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+
+    </script>
+    <script type="text/javascript">
+        setMarginTop('site-header-main-header', 'id', 'ids-form-body', 'id', 40)
+    </script>
 
     <script>
         // récupération des valeurs pour date

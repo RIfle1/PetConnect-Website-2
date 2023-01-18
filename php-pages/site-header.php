@@ -18,8 +18,6 @@ $basketList = returnBasketList();
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <!--    ICON-->
-    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon"/>
     <!--    Google Fonts-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -33,6 +31,7 @@ $basketList = returnBasketList();
     </script>
     <!--    Css Function-->
     <script src="../javaScript/css-functions.js"></script>
+    <!--    <title>PetConnect</title>-->
 </head>
 
 <body>
@@ -56,7 +55,7 @@ $basketList = returnBasketList();
 
     <div id="sih-interaction-main-div">
         <form id="sih-language-selector" class="text-font-500 sih-interaction-sub-div" method="POST" name="language-form"
-              action="../php-processes/language-process.php?page=<?php echo $_SERVER['REQUEST_URI']?>">
+              action="../php-processes/language-process.php?page=<?php echo $_SERVER['SCRIPT_NAME']?>">
             <div id="sih-language-selector-current-div">
                 <span><?php echo strtoupper(substr($language, 0, 2)) ?></span>
                 <img class="sih-interaction-img-2" src="<?php echo getImage($language . 'Flag.png') ?>" alt="EnglishFlag">
@@ -78,10 +77,7 @@ $basketList = returnBasketList();
                 <a href="<?php restrictedNoUserPage('../php-pages/profile.php') ?>">
                     <?php if (isset($loggedIn) && isset($entityInfo) && isset($entityAttributes)) : ?>
                         <?php if ($loggedIn && strlen($entityInfo[$entityAttributes["PfpName"]]) > 0) : ?>
-<!--                        OPTIMIZE THIS ->-->
                             <img class="sih-interaction-img-1" src="../img/pfp/<?php echo getPfp($entityAttributes['ID'], $entityAttributes['Table'], $entityInfo[$entityAttributes['ID']])[$entityAttributes["PfpName"]] ?>" alt="Profile picture">
-                        <?php else: ?>
-                            <img class="sih-interaction-img-1" src="<?php echo getImage('client.png') ?>" alt="Profile picture">
                         <?php endif; ?>
                     <?php else : ?>
                         <img class="sih-interaction-img-1" src="<?php echo getImage('client.png') ?>" alt="Client-logo">

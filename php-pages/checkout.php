@@ -14,13 +14,9 @@ $basketList = returnBasketList();
 <html lang="en">
 <head>
     <link rel="stylesheet" href="../css/checkout-styles.css">
-    <title><?php echo $languageList['Checkout'] ?></title>
+    <title>Checkout</title>
 </head>
 <body>
-
-<script>
-    let loggedIn = <?php if(isset($loggedIn)){ if($loggedIn) {echo 1;} else {echo 0;}}  ?>;
-</script>
 
 <div id="ch-main-body-div" class="text-font-500">
 

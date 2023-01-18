@@ -10,14 +10,14 @@ $languageList = returnLanguageList()[returnLanguage()]['password-reset'];
 if((empty($_GET['cltEmail']) || empty($_GET['admEmail'])) && empty($_GET['Token']) && empty($_GET['isInvalid'])) {
     $_SESSION['errorMsg'] = $languageList["We don't know what you want to reset."];
     header("Location: restricted-access.php", true, 303);
-    exit();
+    exit;
 }
 
 if(!empty($_GET['cltEmail'])) {
     if(!compareEmailAndToken($_GET['cltEmail'], $_GET['Token'], 'client')){
         $_SESSION['errorMsg'] = $languageList['The Link you are using to reset your password has expired or has already been used'];
         header("Location: restricted-access.php", true, 303);
-        exit();
+        exit;
     }
     $_SESSION['Token'] = $_GET['Token'];
     $_SESSION['Table'] = 'client';
@@ -28,7 +28,7 @@ elseif(!empty($_GET['admEmail'])) {
     if(!compareEmailAndToken($_GET['admEmail'], $_GET['Token'], 'admin')){
         $_SESSION['errorMsg'] = $languageList['The Link you are using to reset your password has expired or has already been used'];
         header("Location: restricted-access.php", true, 303);
-        exit();
+        exit;
     }
     $_SESSION['Token'] = $_GET['Token'];
     $_SESSION['Table'] = 'admin';
@@ -44,8 +44,15 @@ $captchaLanguage = strtolower(substr(returnLanguage(), 0, 2));
 <!doctype html>
 <html lang="en">
 <head>
+
+    <!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">-->
     <link rel="stylesheet" href="../css/sign-styles.css">
-    <title><?php echo $languageList["Password Recovery"]?></title>
+    <title>Password Recovery</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+            integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+            crossorigin="anonymous">
+    </script>
 
     <script type="text/javascript">
         var onloadCallback = function() {

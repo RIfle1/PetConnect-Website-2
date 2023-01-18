@@ -83,22 +83,3 @@ span[class*="form-error-span"] {
     background: #555;
 }
 
-lien{
-    text-align: center;
-}
-
-lien a{
-    color: grey;
-    text-decoration: none;
-}
-
-lien a:hover{
-    text-decoration: underline;
-}
-#actif{
-    color: rgb(208, 5, 208);
-}
-#actif:hover{
-    text-decoration: none;
-}
-

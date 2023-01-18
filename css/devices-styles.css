@@ -138,10 +138,9 @@
 
     border: solid 1px #73B43E;
     background: #73B43E;
-    color: white;
+    color: #E2E2E2;
 
     cursor: pointer;
-    text-decoration: none;
 }
 
 .dv-more-info-button:hover {
