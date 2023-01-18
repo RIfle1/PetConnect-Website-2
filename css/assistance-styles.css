@@ -27,7 +27,7 @@
 }
 
 #as-assistance-question-help-span {
-     margin: 10px 0;
+    margin: 10px 0;
 }
 
 #as-assistance-question-help-span a{
@@ -126,4 +126,30 @@
 .as-answer-question-span, .as-answer-answer-span {
     text-align: center;
     width: 100%;
+}
+
+
+.as-answer-question-span{
+    color: #ffffff;
+    background: #9c9c9c;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    border-radius: 10px;
+    border: solid 3px #828283;;
+
+
+
+}
+
+.as-answer-answer-span{
+
+
+    z-index: -1;
+    border: solid 3px #828283;;
+    border-radius: 10px;
+    margin-top: -40px;
+    padding-top: 55px;
+    padding-bottom: 50px;
+
+
 }
