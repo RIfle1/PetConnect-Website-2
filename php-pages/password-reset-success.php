@@ -4,7 +4,7 @@ logoutAndRedirect("../php-pages/password-reset-success.php");
 
 if(empty($_GET['success'])) {
     header("Location: ../php-pages/restricted-access.php",true, 303);
-    exit;
+    exit();
 }
 
 include_once 'site-header.php';

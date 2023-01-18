@@ -7,7 +7,7 @@ include '../php-processes/php-mailer.php';
 // Security stuff
 if (empty($_SESSION['Token']) || empty($_SESSION['resetPassword']) || empty($_SESSION['Table'])) {
     header("Location: ../php-pages/restricted-access.php", true, 303);
-    exit;
+    exit();
 }
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         if (password_verify($newPassword, $cltPassword)) {
             header("Location: ../php-pages/password-reset.php?isInvalid=1&cltEmail=".$_SESSION['cltEmail']."&Token=".$_SESSION['Token'], true,303);
-            exit;
+            exit();
         }
 
         // Generate new token to make previous link unavailable and update password
@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         if (password_verify($newPassword, $admPassword)) {
             header("Location: ../php-pages/password-reset.php?isInvalid=1&admEmail=".$_SESSION['admEmail']."&Token=".$_SESSION['Token'], true,303);
-            exit;
+            exit();
         }
         // Generate new token to make previous link unavailable and update password
         $newAdmToken = generateToken($admID);
@@ -64,5 +64,5 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     else {
         header('Location: ../php-pages/password-reset-success.php?success=2', true, 303);
     }
-    exit;
+    exit();
 }

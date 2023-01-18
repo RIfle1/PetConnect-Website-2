@@ -32,8 +32,11 @@ if($_SERVER['REQUEST_METHOD'] === 'GET') {
             ."&emsp;"."Product Price: ".$prdPrice."<br>";
 
         $insertDeviceSql = "INSERT INTO device(devID, devName, prdID, prcColor, Client_cltID) 
-VALUES ('".$devID."','".$prdName."', '".$prdID."', '".$prcColor."' , '".$cltID."')";
+                            VALUES ('".$devID."','".$prdName."', '".$prdID."', '".$prcColor."' , '".$cltID."')";
         runSQLQuery($insertDeviceSql);
+
+        // REMOVE THIS TO NOT GENERATE RANDOM DATA FOR DEVICES
+        generateDeviceData($devID, 565);
 //        echo $insertDeviceSql."<br>";
     }
 

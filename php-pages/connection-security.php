@@ -18,7 +18,7 @@ $javaScriptLanguageList = returnLanguageList()[returnLanguage()]['connection-sec
     <link rel="stylesheet" href="../css/edit-styles.css">
     <!--    Jquery-->
 
-    <title>Connection and Security</title>
+    <title><?php echo $languageList["Connection and Security"]?></title>
 </head>
 <body>
 

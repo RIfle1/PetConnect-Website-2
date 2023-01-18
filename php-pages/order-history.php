@@ -1,7 +1,7 @@
 <?php
 session_start();
 include '../php-processes/dbConnection.php';
-clientPage();
+onlyClientPage();
 include 'site-header.php';
 
 $languageList = returnLanguageList()[returnLanguage()]['order-history'];
@@ -12,22 +12,17 @@ $languageList = returnLanguageList()[returnLanguage()]['order-history'];
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
     <!--    Style Sheet-->
     <link rel="stylesheet" href="../css/order-history-style.css">
     <!--    Jquery-->
-
-    <title>PetConnect Connection and Security</title>
+    <title><?php echo $languageList["Order History"] ?></title>
 </head>
 
 <body>
 
     <main>
         <div id="oh-form-body" class="text-font-500">
-            <lien><a href="profile.php"><?php echo $languageList["Account"] ?></a>><a id="actif" href=""><?php echo $languageList["Order History"] ?></a></lien>
+<!--            <lien><a href="profile.php">--><?php //echo $languageList["Account"] ?><!--</a>><a id="actif" href="">--><?php //echo $languageList["Order History"] ?><!--</a></lien>-->
             <section id="historique">
                 <h2><?php echo $languageList["Order History"] ?></h2>
                 <div id="commande">
@@ -35,7 +30,7 @@ $languageList = returnLanguageList()[returnLanguage()]['order-history'];
                     <div>
                         <p><?php echo $languageList["Purchase date"] ?>: XX/XX/XXXX</p>
                     </div>
-                    <img src="<?php echo getImage("iCollar_blanc2.png") ?>" />
+                    <img src="<?php echo getImage("iCollar_v1_white.png") ?>" />
                     <div id="specific">
                         <div>
                             <h4>1 × iCollar <br><?php echo $languageList["Color"] ?></h4>
@@ -62,10 +57,12 @@ $languageList = returnLanguageList()[returnLanguage()]['order-history'];
     <?php include 'site-footer.php' ?>
 
     <script type="text/javascript">
-        setMarginTop('site-header-main-header', 'id', 'oh-form-body', 'id', 40)
+        setMarginTop('sih-main-header', 'id', 'oh-form-body', 'id', 20)
+
+        // setToWindowHeight('profile-main-div', 'id', 0)
+        setMarginTopFooter('oh-form-body', 'id', 'site-footer-main-div', 'id', 0)
     </script>
 
-    <script src="../javaScript/connection-security-buttons.js"></script>
 
 </body>
 

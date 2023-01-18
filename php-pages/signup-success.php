@@ -7,7 +7,7 @@ $commonStringsLanguageList = returnLanguageList()[returnLanguage()]['common-stri
 if(empty($_SESSION['newCltID']) || empty($_SESSION['verificationCode']) || empty($_SESSION['Token'])) {
     $_SESSION['errorMsg'] = $commonStringsLanguageList["You do not have access to this page, if you think this is a mistake contact the web developer"];
     header("Location: ../php-pages/restricted-access.php");
-    exit;
+    exit();
 }
 
 include 'site-header.php';

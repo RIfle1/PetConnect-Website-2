@@ -112,6 +112,6 @@ if($_SERVER["REQUEST_METHOD"] === "POST") {
     else {
         header("Location: ../php-pages/password-recovery-input.php?isInvalid=1&email-input=".$emailInput, true, 303);
     }
-    exit;
+    exit();
 }
 

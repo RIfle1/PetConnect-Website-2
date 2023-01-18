@@ -13,7 +13,7 @@ $languageList = returnLanguageList()[returnLanguage()]['assistance-manage'];
 <html lang="en">
 <head>
     <link rel="stylesheet" href="../css/assistance-manage-styles.css">
-    <title>Assistance Manage</title>
+    <title><?php echo $languageList['Manage Questions'] ?></title>
 </head>
 <body>
 

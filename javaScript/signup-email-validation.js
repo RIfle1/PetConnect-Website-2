@@ -9,8 +9,6 @@ $("#submit-button").click(function() {
         const verificationCodeInput = $("#verificationCode-input").val();
 
         console.log(verificationCode);
-        console.log(typeof cltVerifiedEmail);
-        // console.log(cltToken);
 
         if(verificationCode === verificationCodeInput) {
             $.ajax({
@@ -22,13 +20,11 @@ $("#submit-button").click(function() {
                     cltToken: cltToken
                 }
             })
-            console.log('verified')
             changeSignupSuccessPage();
 
         }
 
         else {
-            console.log('false code')
             $("#sign-form-validate-error").css('display', "flex");
         }
 

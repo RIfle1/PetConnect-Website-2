@@ -11,14 +11,13 @@ $languageList = returnLanguageList()[returnLanguage()]['devices'];
 <html lang="en">
 <head>
     <link rel="stylesheet" href="../css/devices-styles.css">
-    <title>Devices</title>
+    <title><?php echo $languageList['My devices'] ?></title>
 </head>
 <body>
 
 <script>
-    let devicesList = <?php echo json_encode(returnDevicesList()) ?>;
+    let devicesList = <?php echo json_encode(returnDevicesListByClient()) ?>;
     let miscImgList = <?php echo json_encode(returnMiscImgList()) ?>;
-    console.log(devicesList);
 </script>
 
 <div id="dv-main-body-div" class="text-font-500">

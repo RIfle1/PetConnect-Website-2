@@ -37,7 +37,6 @@ function onClickSubmitButton() {
 
             if(errorBool === 0) {
                 const captchaResponse = $("#g-recaptcha-response").val();
-                console.log("VALIDATED")
 
                 document.getElementById("password-reset-form").submit();
 
@@ -49,9 +48,6 @@ function onClickSubmitButton() {
                 // }
             }
         }
-
-        console.log(errorBool)
-
     }, 100)
 
 }

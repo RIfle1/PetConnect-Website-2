@@ -14,7 +14,7 @@ $languageList = returnLanguageList()[returnLanguage()]['restricted-access'];
 
     <!--  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">-->
     <link rel="stylesheet" href="../css/sign-styles.css">
-    <title>Restricted Access</title>
+    <title><?php echo $languageList["An Error has occurred"]?></title>
 </head>
 <body class="text-font-700">
 
