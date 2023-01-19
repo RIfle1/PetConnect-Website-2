@@ -32,4 +32,6 @@ include_once '../php-processes/authenticity-check.php';
 
 //generateDeviceData('dev1', 10);
 
-echo getPfp('cltID', 'client', $_SESSION['ID']);
+//echo getPfp('cltID', 'client', $_SESSION['ID']);
+
+var_dump(returnEntityList('client', 'ASC', 'cltUsername'));

@@ -1,6 +1,6 @@
 // CALL JSON FUNCTION TO GET THE DATA ASAP
-refreshClientTableJson();
-refreshAdminTableJson();
+// refreshClientTableJson();
+// refreshAdminTableJson();
 // refreshLanguageList();
 
 // CONSTANTS
@@ -8,7 +8,7 @@ refreshAdminTableJson();
 const promoteButtonID = "promote-button-id-";
 
 // VOLATILE TABLE CLASSES
-const commonRowClass = "mg-row-class-";
+const commonRowClass = "mg-row-class";
 const commonCellID = "mg-cell-id-";
 const commonCellClass = "mg-cell-class-";
 
@@ -19,8 +19,8 @@ const submitButtonCommonClass = "submit-button-class-";
 const messageButtonCommonClass = 'message-button-class-'
 
 // VOLATILE BUTTON IDs
-const deleteButtonCommonID = "delete-button-id-";
-const promoteButtonCommonID = "promote-button-id-";
+const userDeleteButtonCommonID = "delete-button-id-";
+const userPromoteButtonCommonID = "promote-button-id-";
 const submitButtonCommonID = "submit-button-id-";
 const messageButtonCommonID = "message-button-id-"
 
@@ -53,25 +53,30 @@ const adminSearchSubmitElement = $('#'+adminSearchSubmitID);
 const adminOrderInputElement = $('#'+adminOrderInputID);
 
 // STORE JSON INFORMATION
-let getClientTable
-let getAdminTable
+// let clientList
+// let adminList
 // let javaScriptLanguageList
+
+let tableRowNumber = '1';
+
+Object.entries(clientList).forEach(function(value) {displayEntity(value, 'clt')})
+Object.entries(adminList).forEach(function(value) {displayEntity(value, 'adm')})
 
 // ---------------------------------------------------------------------------------------------------------
 // INITIALIZE JSONS
-function refreshClientTableJson() {
-    let clientUrl = "../php-processes/manage-user-table.php?sortBy=cltUsername&orderBy=ASC&ID=client"
-    $.getJSON(clientUrl, function(json) {
-        getClientTable = json.entityList;
-    })
-}
-
-function refreshAdminTableJson() {
-    let adminUrl = '../php-processes/manage-user-table.php?sortBy=admUsername&orderBy=ASC&ID=admin'
-    $.getJSON(adminUrl, function(json) {
-        getAdminTable = json.entityList;
-    })
-}
+// function refreshClientTableJson() {
+//     let clientUrl = "../php-processes/manage-user-table.php?sortBy=cltUsername&orderBy=ASC&Table=client"
+//     $.getJSON(clientUrl, function(json) {
+//         clientList = json.entityList;
+//     })
+// }
+//
+// function refreshAdminTableJson() {
+//     let adminUrl = '../php-processes/manage-user-table.php?sortBy=admUsername&orderBy=ASC&Table=admin'
+//     $.getJSON(adminUrl, function(json) {
+//         adminList = json.entityList;
+//     })
+// }
 
 // function refreshLanguageList() {
 //     let languageUrl = "../php-processes/language-list-process.php?file=manage-user-buttons"
@@ -82,9 +87,220 @@ function refreshAdminTableJson() {
 
 // ---------------------------------------------------------------------------------------------------------
 
+function onClickUserDeleteButton(userDeleteButtonElement, value, IDLetters) {
+    let entityID = value[0];
+    let personalRowID = `${commonRowClass}-${entityID}`;
+    let personalRowElement = $("#"+personalRowID)
+
+    let table = '';
+    let entityIDAttribute = '';
+    let entityList;
+
+    if(IDLetters === 'clt') {
+        table = 'client';
+        entityIDAttribute = 'cltID';
+        entityList = clientList;
+    }
+    else if(IDLetters === 'adm') {
+        table = 'admin';
+        entityIDAttribute = 'admID';
+        entityList = adminList;
+    }
+    
+    // DELETE THE USER VISUALLY
+    personalRowElement.remove();
+
+    // DELETE THE USER FROM DATABASE
+    $.ajax({
+        type: "POST",
+        url: "../php-processes/manage-user-process.php",
+        data: {
+            type: 'delete',
+            table: table,
+            entityID: entityID,
+            entityIDAttribute : entityIDAttribute,
+        }
+    })
+
+    // DELETE THE USER FROM THE LIST
+    delete entityList[entityID];
+}
+
+function setUserDeleteButton(userDeleteButtonElement, value, IDLetters) {
+    userDeleteButtonElement.click(function() {
+        onClickUserDeleteButton(userDeleteButtonElement, value, IDLetters)
+    })
+}
+
+function onClickUserPromoteButton(userPromoteButtonElement, value, IDLetters) {
+    let entityID = value[0];
+
+    let table = '';
+    let entityIDAttribute = '';
+    let entityList = '';
+    let entityIsModerator = '';
+
+    if(IDLetters === 'clt') {
+        table = 'client';
+        entityIDAttribute = 'cltID';
+        entityList = clientList;
+
+        entityIsModerator = parseInt(value[1]['cltIsModerator']);
+    }
+    else if(IDLetters === 'adm') {
+        table = 'admin';
+        entityIDAttribute = 'admID';
+        entityList = adminList;
+    }
+
+    if(entityIsModerator) {
+        // CHANGE THE VALUES IN THE LIST
+        entityList[entityID]['cltIsModerator'] = "0";
+        entityIsModerator = parseInt(value[1]['cltIsModerator']);
+    }
+    else if(!entityIsModerator) {
+        // CHANGE THE VALUES IN THE LIST
+        entityList[entityID]['cltIsModerator'] = "1";
+        entityIsModerator = parseInt(value[1]['cltIsModerator']);
+    }
+
+    setPromoteButtonStyle(userPromoteButtonElement, entityIsModerator, entityList, entityID)
+
+    // CHANGE THE VALUES IN THE DATABASE
+    $.ajax({
+        type: "POST",
+        url: "../php-processes/manage-user-process.php",
+        data: {
+            type: 'promote',
+            table: table,
+            entityID: entityID,
+            entityIDAttribute : entityIDAttribute,
+        }
+    })
+
+}
+
+function setUserPromoteButton(userPromoteButtonElement, value, IDLetters) {
+    userPromoteButtonElement.click(function() {
+        onClickUserPromoteButton(userPromoteButtonElement, value, IDLetters)
+    })
+}
+
+function displayEntity(value, IDLetters) {
+    let entityID = value[0];
+    let entityUsername = value[1][`${IDLetters}Username`];
+    let entityEmail = value[1][`${IDLetters}Email`];
+    let entitySignupDate = value[1][`${IDLetters}SignupDate`];
+
+    let tableID = "mg-table-info-"+IDLetters;
+    let tableElement = $("#"+tableID)
+
+    let personalRowClass = `${commonRowClass}-${tableRowNumber}-${IDLetters}`;
+    let personalRowID = `${commonRowClass}-${entityID}`;
+
+    let userDeleteButtonID = `${userDeleteButtonCommonID}${entityID}`;
+    let userPromoteButtonID = `${userPromoteButtonCommonID}${entityID}`;
+
+    if(tableRowNumber === '1') {tableRowNumber = '2';}
+    else {tableRowNumber = '1';}
+
+    let messageButtonHtml = '';
+    let deleteButtonHtml = '';
+    let promoteButtonHtml = '';
+    let submitButtonHtml = '';
+
+    if(IDLetters === 'clt' || IDLetters === 'adm') {
+        deleteButtonHtml =
+            `<td>` +
+            "<button" +
+            `        id=${userDeleteButtonID}` +
+            `        name=${deleteButtonName}` +
+            `        type="button"` +
+            `        value=${entityID}` +
+            `>${javaScriptLanguageList["Delete User"]}</button>` +
+            "</td>"
+        // submitButtonHtml =
+        //     "\n<!--                        Submit Button-->\n" +
+        //     "<td class="+personalCellClass+" id="+personalSubmitButtonRowID+">" +
+        //     "<button class=" + submitButtonPersonalClass +
+        //     "        id=" + submitButtonPersonalID +
+        //     "        name=" + submitButtonName +
+        //     "        type='button'" +
+        //     "        value=" + entityID +
+        //     ">"+javaScriptLanguageList["Submit Changes"]+"</button>" +
+        //     "</td>"
+    }
+
+    if(IDLetters === 'clt') {
+        promoteButtonHtml =
+            `<td>` +
+            "<button" +
+            `        id=${userPromoteButtonID}` +
+            `        name=${promoteButtonName}` +
+            `        type="button"` +
+            `        value=${entityID}` +
+            `>${javaScriptLanguageList["Promote User"]}</button>` +
+            "</td>"
+        // messageButtonHtml =
+        //     "\n<!--                        Message Button-->\n" +
+        //     "<td class="+personalCellClass+" id="+personalMessageButtonRowID+">" +
+        //     "<button class=" + messageButtonPersonalClass +
+        //     "        id=" + messageButtonPersonalID +
+        //     "        name=" + messageButtonName +
+        //     "        type='button'" +
+        //     "        value=" + entityID +
+        //     ">Message User</button>" +
+        //     "</td>"
+
+    }
+
+    let newSignupDate = getDateAndTime(new Date(entitySignupDate));
+
+    $(tableElement).append(
+        `<tr class=${personalRowClass} id="${personalRowID}">` +
+        `<td>${entityUsername}</td>\n` +
+        `<td>${entityEmail}</td>\n` +
+        `<td>${newSignupDate}</td>`
+        +deleteButtonHtml
+        +promoteButtonHtml
+        +messageButtonHtml
+        +submitButtonHtml
+        +`</tr>`
+    );
+
+    let userDeleteButtonElement = $("#"+userDeleteButtonID);
+    let userPromoteButtonElement = $("#"+userPromoteButtonID)
+
+    if(IDLetters === 'clt') {
+        let entityList = clientList;
+        let entityIsModerator = parseInt(value[1]['cltIsModerator']);
+        setPromoteButtonStyle(userPromoteButtonElement, entityIsModerator, entityList, entityID)
+    }
+
+    setUserDeleteButton(userDeleteButtonElement, value, IDLetters)
+    setUserPromoteButton(userPromoteButtonElement, value, IDLetters)
+}
+
 // SET PROMOTE BUTTON STYLE
-function setPromoteButtonStyle(cltID, fromColor, toColor, text) {
-    $("#"+promoteButtonID+cltID)
+function setPromoteButtonStyle(userPromoteButtonElement, entityIsModerator) {
+    let fromColor = '';
+    let toColor = '';
+    let text = '';
+
+    if(entityIsModerator) {
+        // PROMOTE THE USER VISUALLY
+        fromColor = "grey";
+        toColor = '#69A6E3';
+        text = javaScriptLanguageList["Promoted"];
+    }
+    else if(!entityIsModerator) {
+        // DEMOTE THE USER VISUALLY
+        fromColor = "#d9d9d9";
+        toColor = '#69A6E3';
+        text = javaScriptLanguageList["Promote User"];
+    }
+
+    userPromoteButtonElement
         .css("background-color", fromColor)
         .hover(function() {
             $(this).css("background-color", toColor);
@@ -94,253 +310,7 @@ function setPromoteButtonStyle(cltID, fromColor, toColor, text) {
         .text(text);
 }
 
-// RETURN ATTRIBUTE LIST BASED ON ID LETTERS
-function returnAttributeList(IDLetters){
-    return {
-        id: IDLetters + "ID",
-        userName: IDLetters + "Username",
-        firstName: IDLetters + "FirstName",
-        lastName: IDLetters + "LastName",
-        email: IDLetters + "Email",
-        phoneNumber: IDLetters + "PhoneNumber",
-        isModerator: IDLetters + "IsModerator",
-        signupDate: IDLetters + "SignupDate",
-    }
-}
-
-// FUNCTION WHEN THE BUTTONS ARE CLICKED
-function onClickButton(buttonName, buttonID) {
-    const buttonElement = $('#'+buttonID);
-    const entityID = buttonElement.val();
-    let entity;
-    let entityIDAttribute;
-    let client = false;
-    let admin = false;
-
-    if (entityID.substring(0,3) === 'clt') {
-        entity = 'client';
-        client = true;
-        entityIDAttribute = 'cltID';
-    }
-    else if (entityID.substring(0,3) === 'adm') {
-        entity = 'admin';
-        entityIDAttribute = 'admID';
-        admin = true;
-    }
-    // EXECUTE BUTTON CODE IN THE DATABASE
-    $.ajax({
-        type: "POST",
-        url: "../php-processes/manage-user-process.php",
-        data: {
-            buttonName: buttonName,
-            buttonID: buttonID,
-            entity: entity,
-            entityID: entityID,
-            entityIDAttribute : entityIDAttribute,
-        }
-    })
-    // DELETE ROW FROM THE TABLE
-    if(buttonName === 'delete-button') {
-        $(".mg-cell-class-"+entityID).parent().remove();
-        if(client) {
-            removeObject(getClientTable, entityID);
-        }
-        else if(admin) {
-            removeObject(getAdminTable, entityID);
-        }
-
-    }
-    // PROMOTES A USER ON THE TABLE --> CHANGES TEXT AND COLOR OF THE BUTTON
-    else if(buttonName === 'promote-button') {
-        if(buttonElement.text() === javaScriptLanguageList["Promote User"]) {
-            setPromoteButtonStyle(entityID, "grey", '#69A6E3', javaScriptLanguageList["Promoted"]);
-
-        }
-        else if(buttonElement.text() === javaScriptLanguageList["Promoted"]) {
-
-            setPromoteButtonStyle(entityID, "#d9d9d9", '#69A6E3', javaScriptLanguageList["Promote User"]);
-        }
-
-    }
-}
-
-// SET THE FUNCTION FOR EACH BUTTON
-function setManageUserButton(buttonName, buttonID) {
-    $("#"+buttonID).click(function(){
-        onClickButton(buttonName, buttonID)
-    })
-}
-
-// PRINT TABLE FUNCTION
-
-function printTable(IDLetters, table) {
-    let attributeList = returnAttributeList(IDLetters)
-
-    let tableID = "#mg-table-info-"+IDLetters;
-
-    //Remove everything inside table
-    const rowClass1 = "mg-row-class-1-"+IDLetters;
-    const rowClass2 = "mg-row-class-2-"+IDLetters;
-
-    $("tr[class*='"+rowClass1+"']").remove();
-    $("tr[class*='"+rowClass2+"']").remove();
-
-    let entityList = table;
-    let tableRowNumber = 1;
-
-    for(let i = 1; i < entityList.length + 1; i++) {
-        // Table row number rotation
-        if(tableRowNumber === 1) {tableRowNumber = 2;}
-        else {tableRowNumber = 1;}
-
-        let entityID = entityList[i-1][attributeList.id];
-        let entityUsername = entityList[i-1][attributeList.userName];
-        let entityFirstName = entityList[i-1][attributeList.firstName];
-        let entityLastName = entityList[i-1][attributeList.lastName];
-        let entityEmail = entityList[i-1][attributeList.email];
-        let entityPhoneNumber = entityList[i-1][attributeList.phoneNumber];
-        let entityIsModerator = entityList[i-1][attributeList.isModerator];
-        let entitySignupDate = entityList[i-1][attributeList.signupDate];
-
-        const personalRowClass = commonRowClass+tableRowNumber+"-"+IDLetters+"-"+i;
-
-        const cellPersonalClass = commonCellClass+entityID
-
-        const personalIDID = commonCellID+IDLetters+"ID-"+i;
-        const personalUsernameID = commonCellID+IDLetters+"Username-"+i;
-        const personalFirstNameID = commonCellID+IDLetters+"FirstName-"+i;
-        const personalLastNameID = commonCellID+IDLetters+"LastName-"+i;
-        const personalEmailID = commonCellID+IDLetters+"Email-"+i;
-        const personalPhoneNumberID = commonCellID+IDLetters+"PhoneNumber-"+i;
-        const personalSignupDateID = commonCellID+IDLetters+"SignupDate-"+i;
-
-        const personalDeleteButtonRowID = commonCellID+IDLetters+"-"+deleteButtonName+"-"+i;
-        const personalPromoteButtonRowID = commonCellID+IDLetters+"-"+promoteButtonName+"-"+i;
-        const personalSubmitButtonRowID = commonCellID+IDLetters+"-"+submitButtonName+"-"+i;
-        const personalMessageButtonRowID = commonCellID+IDLetters+"-"+messageButtonName+"-"+i;
-
-
-        const deleteButtonPersonalClass = deleteButtonCommonClass+i;
-        const promoteButtonPersonalClass = promoteButtonCommonClass+i;
-        const submitButtonPersonalClass = submitButtonCommonClass+i;
-        const messageButtonPersonalClass = messageButtonCommonClass+i;
-
-        const deleteButtonPersonalID = deleteButtonCommonID+entityID;
-        const promoteButtonPersonalID = promoteButtonCommonID+entityID;
-        const submitButtonPersonalID = submitButtonCommonID+entityID;
-        const messageButtonPersonalID = messageButtonCommonID+entityID;
-
-        let messageButtonHtml;
-        let deleteButtonHtml;
-        let promoteButtonHtml;
-        let submitButtonHtml;
-
-        if(IDLetters === 'clt' || IDLetters === 'adm') {
-            deleteButtonHtml =
-                "\n<!--                        Delete Button-->\n" +
-                "<td class="+cellPersonalClass+" id="+personalDeleteButtonRowID+">" +
-                "<button class=" + deleteButtonPersonalClass +
-                "        id=" + deleteButtonPersonalID +
-                "        name=" + deleteButtonName +
-                "        type='button'" +
-                "        value=" + entityID +
-                ">"+javaScriptLanguageList["Delete User"]+"</button>" +
-                "</td>"
-            submitButtonHtml =
-                "\n<!--                        Submit Button-->\n" +
-                "<td class="+cellPersonalClass+" id="+personalSubmitButtonRowID+">" +
-                "<button class=" + submitButtonPersonalClass +
-                "        id=" + submitButtonPersonalID +
-                "        name=" + submitButtonName +
-                "        type='button'" +
-                "        value=" + entityID +
-                ">"+javaScriptLanguageList["Submit Changes"]+"</button>" +
-                "</td>"
-        } else {
-            deleteButtonHtml = '';
-            submitButtonHtml = '';
-        }
-
-
-        if(IDLetters === 'clt') {
-            promoteButtonHtml =
-                "\n<!--                        Promote Button-->\n" +
-                "<td class="+cellPersonalClass+" id="+personalPromoteButtonRowID+">" +
-                "<button class=" + promoteButtonPersonalClass +
-                "        id=" + promoteButtonPersonalID +
-                "        name=" + promoteButtonName +
-                "        type='button'" +
-                "        value=" + entityID +
-                ">"+javaScriptLanguageList["Promote User"]+"</button>" +
-                "</td>"
-            // messageButtonHtml =
-            //     "\n<!--                        Message Button-->\n" +
-            //     "<td class="+cellPersonalClass+" id="+personalMessageButtonRowID+">" +
-            //     "<button class=" + messageButtonPersonalClass +
-            //     "        id=" + messageButtonPersonalID +
-            //     "        name=" + messageButtonName +
-            //     "        type='button'" +
-            //     "        value=" + entityID +
-            //     ">Message User</button>" +
-            //     "</td>"
-
-        } else{
-            promoteButtonHtml = '';
-            messageButtonHtml = '';
-        }
-
-        let newSignupDate = getDateAndTime(new Date(entitySignupDate));
-
-        $(tableID).append("<tr class="+personalRowClass+">");
-        $('.'+personalRowClass).append(
-            // "<td class="+cellPersonalClass+" id="+personalIDID+">"+entityID+"</td>\n" +
-            "<td class="+cellPersonalClass+" id="+personalUsernameID+">"+entityUsername+"</td>\n" +
-            // "<td class="+cellPersonalClass+" id="+personalFirstNameID+">"+entityFirstName+"</td>\n" +
-            // "<td class="+cellPersonalClass+" id="+personalLastNameID+">"+entityLastName+"</td>\n" +
-            "<td class="+cellPersonalClass+" id="+personalEmailID+">"+entityEmail+"</td>\n" +
-            // "<td class="+cellPersonalClass+" id="+personalPhoneNumberID+">"+entityPhoneNumber+"</td>" +
-            "<td class="+cellPersonalClass+" id="+personalSignupDateID+">"+newSignupDate+"</td>"
-            +deleteButtonHtml
-            +promoteButtonHtml
-            +messageButtonHtml
-            +submitButtonHtml
-        ).css('display', 'none').fadeIn(300*i);
-
-        setManageUserButton(deleteButtonName, deleteButtonPersonalID);
-        if(IDLetters === 'clt') {
-            setManageUserButton(promoteButtonName, promoteButtonPersonalID);
-        }
-
-        // setButton(submitButtonName, submitButtonPersonalID);
-
-        if(entityIsModerator === '1') {
-            setPromoteButtonStyle(entityID, "grey", '#69A6E3', javaScriptLanguageList["Promoted"]);
-        }
-        else if(entityIsModerator === '0') {
-            setPromoteButtonStyle(entityID, "#d9d9d9", '#69A6E3', javaScriptLanguageList["Promote User"]);
-        }
-    }
-
-}
 // ---------------------------------------------------------------------------------------------------------
-
-// REMOVE AN OBJECT FROM A LIST BY ENTITY ID
-function removeObject(table, entityID) {
-    let breakVar = false;
-
-    for(let i=0; i < table.length; i++) {
-        for (const key in table[i]) {
-            if(breakVar) {break;}
-            if(key.substring(3) === "ID") {
-                if(table[i][key] === entityID) {
-                    table.splice(i, 1)
-                    breakVar = true;
-                }
-            }
-        }
-    }
-}
-
 // SORTING BUTTONS STUFF
 function sortTable(sortByInputElement, searchByInputElement, orderByInputElement, IDLetters) {
     const sortByInputValue = sortByInputElement.val();
@@ -348,33 +318,37 @@ function sortTable(sortByInputElement, searchByInputElement, orderByInputElement
     const orderByInputValue = orderByInputElement.val();
 
     let pattern;
-    let table;
-    let newTable = [];
+    let entityList;
+    let newEntityList = [];
 
     if(searchByInputValue.length === 0) {
         pattern = new RegExp(".*")
     }
     else {
-        pattern = new RegExp(".*"+searchByInputValue+".*")
+        pattern = new RegExp(".*"+searchByInputValue.toLowerCase()+".*")
     }
 
     if(IDLetters === 'clt') {
-        table = getClientTable;
+        entityList = clientList;
     }
     else if(IDLetters === 'adm') {
-        table = getAdminTable;
+        entityList = adminList;
     }
 
-    for(let i=0; i < table.length; i++) {
-        for (const key in table[i]) {
-            if(table[i][key].match(pattern)) {
-                newTable = newTable.concat(table[i])
-                break;
+    Object.entries(entityList).forEach(function(value) {
+        let append = true;
+        Object.values(value[1]).forEach(function(row) {
+            if(!(row === null)) {
+                if(row.toLowerCase().match(pattern) && append) {
+                    newEntityList.push(value[1]);
+                    append = false;
+                }
             }
-        }
-    }
 
-    newTable.sort(function(a, b) {
+        })
+    })
+
+    newEntityList.sort(function(a, b) {
         let x = a[sortByInputValue];
         let y = b[sortByInputValue];
         if(sortByInputValue.substring(3) === "SignupDate") {
@@ -396,32 +370,42 @@ function sortTable(sortByInputElement, searchByInputElement, orderByInputElement
         }
     })
 
-    return newTable;
+    let newEntityObjectList = {}
 
+    newEntityList.forEach(function(value) {
+        newEntityObjectList[value[`${IDLetters}ID`]] = value;
+    })
+
+    return newEntityObjectList;
+
+}
+
+function clearTable(IDLetters) {
+    //Remove everything inside table
+    let rowClass1 = "mg-row-class-1-"+IDLetters;
+    let rowClass2 = "mg-row-class-2-"+IDLetters;
+
+    $("tr[class*='"+rowClass1+"']").remove();
+    $("tr[class*='"+rowClass2+"']").remove();
 }
 
 function setSortingButton(sortByInputElement, searchByInputElement, submitButtonElement, orderByInputElement, IDLetters, submitType) {
-    if(submitType === 'click') {
-        submitButtonElement.click(function () {
-                printTable(IDLetters, sortTable(sortByInputElement, searchByInputElement, orderByInputElement, IDLetters));
-            }
-        )
-    } else if (submitType === 'keyup') {
-        submitButtonElement.keyup(function(e){
-            if(e.keyCode === 13) {
-                printTable(IDLetters, sortTable(sortByInputElement, searchByInputElement, orderByInputElement, IDLetters));
-            }
-        });
-    }
+    submitButtonElement.click(function () {
+        let newEntityObjectList = sortTable(sortByInputElement, searchByInputElement, orderByInputElement, IDLetters);
+        clearTable(IDLetters);
+        Object.entries(newEntityObjectList).forEach(function(value) {displayEntity(value, IDLetters)})
+        }
+    )
+    searchByInputElement.keyup(function(e){
+        if(e.keyCode === 13) {
+            let newEntityObjectList = sortTable(sortByInputElement, searchByInputElement, orderByInputElement, IDLetters);
+            clearTable(IDLetters);
+            Object.entries(newEntityObjectList).forEach(function(value) {displayEntity(value, IDLetters)})
+        }
+    });
 }
 
 // SEARCH / FILTER FOR CLIENT
-setSortingButton(
-    clientFilterInputElement,
-    clientSearchInputElement,
-    clientSearchInputElement,
-    clientOrderInputElement,
-    'clt','keyup');
 setSortingButton(
     clientFilterInputElement,
     clientSearchInputElement,
@@ -433,20 +417,8 @@ setSortingButton(
 setSortingButton(
     adminFilterInputElement,
     adminSearchInputElement,
-    adminSearchInputElement,
-    adminOrderInputElement,
-    'adm','keyup');
-setSortingButton(
-    adminFilterInputElement,
-    adminSearchInputElement,
     adminSearchSubmitElement,
     adminOrderInputElement,
     'adm','click');
 
-
-// CLIENT AND ADMIN TABLE GENERATION
-setTimeout(()=> {
-    printTable('clt', getClientTable)
-    printTable('adm', getAdminTable)
-}, 100)
 

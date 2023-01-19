@@ -86,9 +86,7 @@ $languageList = returnLanguageList()[returnLanguage()]['home'];
 
 <?php include '../php-pages/site-footer.php' ?>
 <script type="text/javascript">
-    setTimeout(()=> {
-        setMarginTopFooter('home-main-div', 'id', 'site-footer-main-div', 'id', 80)
-    }, 10)
+    setMarginTopFooter('home-main-div', 'id', 'site-footer-main-div', 'id', 80)
 </script>
 
 

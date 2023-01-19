@@ -200,7 +200,7 @@ function isModerator($cltID): bool {
     $result = runSQLQuery($sql);
     $isModerator = $result->fetch_assoc();
 
-    if($isModerator['cltIsModerator'] == 1) {
+    if($isModerator['cltIsModerator']) {
         return true;
     }
     else {
@@ -316,6 +316,59 @@ function returnEntityAttributes(): array
             "Token" => "admToken",
             "Table" => "admin",
             "IDLetters" => 'adm',
+        );
+    }
+    else {
+        return array (
+            "ID" => '',
+            "Username" => '',
+            "FirstName" => '',
+            "LastName" => '',
+            "Email" => '',
+            "PhoneNumber" => '',
+            "PfpName" => '',
+            "Password" => '',
+            "Token" => '',
+            "Table" => '',
+            "IDLetters" => '',
+        );
+    }
+
+}
+
+function returnEntityAttributesByTable($table): array
+{
+    if($table === 'client') {
+        return array(
+            'ID' => "cltID",
+            "Username" => "cltUsername",
+            "FirstName" => "cltFirstName",
+            "LastName" => "cltLastName",
+            "Email" => "cltEmail",
+            "PhoneNumber" => "cltPhoneNumber",
+            "PfpName" => "cltPfpName",
+            "Password" => "cltPassword",
+            "Token" => "cltToken",
+            "Table" => "client",
+            "IDLetters" => 'clt',
+            "SignupDate" => 'cltSignupDate',
+            "IsModerator" => "cltIsModerator",
+        );
+    }
+    elseif($table === 'admin') {
+        return array (
+            "ID" => "admID",
+            "Username" => "admUsername",
+            "FirstName" => "admFirstName",
+            "LastName" => "admLastName",
+            "Email" => "admEmail",
+            "PhoneNumber" => "admPhoneNumber",
+            "PfpName" => "admPfpName",
+            "Password" => "admPassword",
+            "Token" => "admToken",
+            "Table" => "admin",
+            "IDLetters" => 'adm',
+            "SignupDate" => 'admSignupDate',
         );
     }
     else {
@@ -1175,6 +1228,28 @@ function generateDeviceData($devID, $dataAmount): void {
     }
 
 
+}
+
+function returnEntityList($table, $orderBy, $sortBy): array {
+    $entityAttributes = returnEntityAttributesByTable($table);
+
+    $getEntityListSql = "SELECT 
+    ".$entityAttributes['ID'].", 
+    ".$entityAttributes['Username'].", 
+    ".$entityAttributes['FirstName'].", 
+    ".$entityAttributes['LastName'].", 
+    ".$entityAttributes['Email'].", 
+    ".$entityAttributes['PhoneNumber'].", 
+    ".$entityAttributes['SignupDate'];
+
+    if($table === 'client') {
+        $getEntityListSql .= ", cltIsModerator";
+    }
+
+    $getEntityListSql .= " FROM ".$table." ORDER BY ".$sortBy." ".$orderBy;
+    $getEntityListResult = runSQLQuery($getEntityListSql);
+
+    return returnObjectList($getEntityListResult, $entityAttributes['ID']);
 }
 
 function returnLanguage(): string {

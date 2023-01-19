@@ -102,11 +102,8 @@ $captchaLanguage = strtolower(substr(returnLanguage(), 0, 2));
 <script type="text/javascript">
     setMarginTop('sih-main-header', 'id', 'signup-form', 'id', 20)
 
-    setTimeout(() => {
-        setMarginTopFooter('signup-form', 'id', 'site-footer-main-div', 'id', 200)
-        // NEEDS TO BE FIXED => WHEN ERRORS APPEAR, FOOTER HAS WRONG MARGIN
-    }, 1);
-
+    setMarginTopFooter('signup-form', 'id', 'site-footer-main-div', 'id', 200)
+    // NEEDS TO BE FIXED => WHEN ERRORS APPEAR, FOOTER HAS WRONG MARGIN
 </script>
 
 <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit&hl=<?php echo $captchaLanguage ?>"

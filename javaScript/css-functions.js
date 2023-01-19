@@ -104,6 +104,8 @@ function setMarginTop(fromElementID, fromElementIDType, toElementID, toElementID
     let fromElement = getElement(fromElementID, fromElementIDType)
     let toElement = getElement(toElementID, toElementIDType)
 
+    setMarginTopFunction(fromElement, toElement, extraPx)
+
     $(window).ready(function() {
         setMarginTopFunction(fromElement, toElement, extraPx)
     })

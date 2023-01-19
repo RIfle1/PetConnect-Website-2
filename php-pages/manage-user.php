@@ -24,7 +24,9 @@ $javaScriptLanguageList = returnLanguageList()[returnLanguage()]['manage-user-bu
 <body>
 
 <script>
-    let javaScriptLanguageList = <?php echo json_encode($javaScriptLanguageList) ?>
+    let javaScriptLanguageList = <?php echo json_encode($javaScriptLanguageList) ?>;
+    let adminList = <?php echo json_encode(returnEntityList('admin','ASC', 'admUsername')) ?>;
+    let clientList = <?php echo json_encode(returnEntityList('client','ASC', 'cltUsername')) ?>;
 </script>
 
 <div id="mg-main-div" class="text-font-700">
