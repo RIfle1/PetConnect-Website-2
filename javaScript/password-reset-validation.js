@@ -38,14 +38,14 @@ function onClickSubmitButton() {
             if(errorBool === 0) {
                 const captchaResponse = $("#g-recaptcha-response").val();
 
-                document.getElementById("password-reset-form").submit();
+                // document.getElementById("password-reset-form").submit();
 
-                // if(captchaResponse.length === 0) {
-                //     $("#sign-form-robot").css("display", "flex")
-                // }
-                // else {
-                //     document.getElementById("password-reset-form").submit();
-                // }
+                if(captchaResponse.length === 0) {
+                    $("#sign-form-robot").css("display", "flex")
+                }
+                else {
+                    document.getElementById("password-reset-form").submit();
+                }
             }
         }
     }, 100)

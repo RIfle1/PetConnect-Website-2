@@ -23,7 +23,7 @@ function sendGmail($email, $firstName, $body, $subject): bool {
         $mail->Subject = $subject;
         $mail->Body = $body;
 // ENABLE THIS TO ACTUALLY SEND EMAILS
-//        $mail->send();
+        $mail->send();
         return true;
 
     } catch (Exception $e) {

@@ -83,14 +83,14 @@ function onClickSubmitButton() {
         if(errorBool === 0) {
             const captchaResponse = $("#g-recaptcha-response").val();
 
-            document.getElementById("signup-form").submit();
+            // document.getElementById("signup-form").submit();
 
-            // if(captchaResponse.length === 0) {
-            //     $("#sign-form-robot").css("display", "flex")
-            // }
-            // else {
-            //     document.getElementById("signup-form").submit();
-            // }
+            if(captchaResponse.length === 0) {
+                $("#sign-form-robot").css("display", "flex")
+            }
+            else {
+                document.getElementById("signup-form").submit();
+            }
         }
 
     }, 100)

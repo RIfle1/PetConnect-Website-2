@@ -38,9 +38,9 @@ $languageList = returnLanguageList()[returnLanguage()]['home'];
                 <h3 id="iCollar">iCollar</h3>
                 <p id="grey"><?php echo $languageList["The connected dog collar"]?> </p>
                 <div>
-                    <a href="boutique.php" class="espace"><?php echo $languageList["See more"]?>  &gt;</a>
+                    <a href="../php-pages/product.php?prdID=prd1" class="espace"><?php echo $languageList["See more"]?>  &gt;</a>
 
-                    <a href="basket.php"><?php echo $languageList["Buy"]?>  +</a>
+                    <a href="../php-pages/product.php?prdID=prd1"><?php echo $languageList["Buy"]?>  +</a>
                 </div>
             </div>
             <div class="box1">

@@ -34,7 +34,8 @@ body {
     height: 463px;
     max-height: 463px;
     border: solid 2px #494848;
-    border-radius: 30px;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
 }
 
 .mg-table-div, .mg-table-control-div {
