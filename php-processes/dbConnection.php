@@ -6,12 +6,11 @@ function OpenCon()
     $dbUser = "root";
     $dbPass = "";
     $db = "app db";
-    $conn = new mysqli($dbHost, $dbUser, $dbPass,$db) or die("Connect failed: %s\n". $conn -> error);
+    $conn = new mysqli($dbHost, $dbUser, $dbPass, $db) or die("Connect failed: %s\n" . $conn->error);
 
     if ($conn->connect_errno) {
         die("Connection Error: " . $conn->connect_error);
-    }
-    else {
+    } else {
         return $conn;
     }
 }
@@ -21,7 +20,7 @@ function CloseCon($conn): void
     $conn->close();
 }
 
-function runSQLQuery($query) : bool|mysqli_result
+function runSQLQuery($query): bool|mysqli_result
 {
     $conn = OpenCon();
     $result = mysqli_query($conn, $query);
@@ -34,48 +33,49 @@ function insertSQL($sql): string
     $mysqli = OpenCon();
     $stmt = $mysqli->stmt_init();
 
-    if ( ! $stmt->prepare($sql)) {
+    if (!$stmt->prepare($sql)) {
         die("SQL Error: " . $mysqli->error);
     }
 
-    if($stmt->execute()) {
+    if ($stmt->execute()) {
         CloseCon($mysqli);
         return "Success";
-    }
-    else {
+    } else {
         return ($mysqli->error . " " . $mysqli->errno);
     }
 }
 
 function getImage($imgPath): string
 {
-    $sql = "SELECT * FROM image WHERE imgPath = '".$imgPath."'";
+    $sql = "SELECT * FROM image WHERE imgPath = '" . $imgPath . "'";
     $getImageResult = runSQLQuery($sql)->fetch_assoc();
 
-    return "../img/".$getImageResult['imgCategory']."/".$getImageResult['imgPath'];
+    return "../img/" . $getImageResult['imgCategory'] . "/" . $getImageResult['imgPath'];
 }
 
 function getPfp($AttributeID, $table, $ID): bool|array|null
 {
-    $sql = "SELECT * FROM ".$table." WHERE ".$AttributeID."='".$ID."'";
+    $sql = "SELECT * FROM " . $table . " WHERE " . $AttributeID . "='" . $ID . "'";
     return runSQLQuery($sql)->fetch_assoc();
 }
 
-function findMax($intArray) : int {
+function findMax($intArray): int
+{
     $previousNumber = 0;
     $maxNumber = 0;
     for ($i = count($intArray); $i > 0; $i--) {
-        $currentNumber = $intArray[$i-1];
+        $currentNumber = $intArray[$i - 1];
         $maxNumber = max($currentNumber, $previousNumber);
         $previousNumber = $maxNumber;
     }
     return $maxNumber;
 }
 
-function idToInt($id, $idFormat): string{
+function idToInt($id, $idFormat): string
+{
     // Remove left Side of String
     $idIndex = stripos($id, $idFormat, 0);
-    $desiredId = substr($id, $idIndex, strlen($id)-$idIndex);
+    $desiredId = substr($id, $idIndex, strlen($id) - $idIndex);
 
     // Check if the desiredID is located at the end of the String
     $lengthTest1 = strlen($desiredId);
@@ -83,18 +83,18 @@ function idToInt($id, $idFormat): string{
 
     if ($lengthTest1 > $lengthTest2) {
         $idIndex = stripos($desiredId, "_", 0);
-    }
-    elseif ($lengthTest1 == $lengthTest2) {
+    } elseif ($lengthTest1 == $lengthTest2) {
         $idIndex = stripos($desiredId, $id, 0) + strlen($desiredId);
     }
 
     // Remove the right side of String
-    $desiredId = substr($desiredId, 0,$idIndex);
+    $desiredId = substr($desiredId, 0, $idIndex);
     $desiredId = trim($desiredId, $idFormat);
     return intval($desiredId);
 }
 
-function returnLastIDInt($id, $table, $idFormat) : int {
+function returnLastIDInt($id, $table, $idFormat): int
+{
     $idList_1 = array();
     $lastID = 0;
 
@@ -110,22 +110,22 @@ function returnLastIDInt($id, $table, $idFormat) : int {
     return $lastID;
 }
 
-function autoSetID($attributeFormat) : string {
+function autoSetID($attributeFormat): string
+{
     try {
-        return $attributeFormat.bin2hex(random_bytes(16));
-    } catch (Exception|\Exception $e) {
+        return $attributeFormat . bin2hex(random_bytes(16));
+    } catch (Exception | \Exception $e) {
     }
 }
 
-function generateRandomString($stringLength, $type): string {
+function generateRandomString($stringLength, $type): string
+{
     try {
-        if($type === 'upper') {
+        if ($type === 'upper') {
             return strtoupper(bin2hex(random_bytes($stringLength)));
-        }
-        else if($type === 'lower') {
+        } else if ($type === 'lower') {
             return strtolower(bin2hex(random_bytes($stringLength)));
-        }
-        else {
+        } else {
             return '';
         }
     } catch (Exception $e) {
@@ -138,10 +138,10 @@ function uploadImage($inputName, $imgCategory): void
 {
     $filename = $_FILES[$inputName]["name"];
     $tempname = $_FILES[$inputName]["tmp_name"];
-    $folder = "../img/".$imgCategory."/".$filename;
+    $folder = "../img/" . $imgCategory . "/" . $filename;
 
     $sql = "INSERT INTO image (imgID, imgPath, imgCategory) 
-            VALUES ('".autoSetID('imgID', 'image', 'img')."', '".$filename."', '".$imgCategory."')";
+            VALUES ('" . autoSetID('imgID', 'image', 'img') . "', '" . $filename . "', '" . $imgCategory . "')";
 
     insertSQL($sql);
 
@@ -156,9 +156,9 @@ function uploadPfp($inputName, $table, $xxxPfpName): void
 {
     $fileName = $_FILES[$inputName]["name"];
     $tempName = $_FILES[$inputName]["tmp_name"];
-    $folder = "../img/pfp/".$fileName;
+    $folder = "../img/pfp/" . $fileName;
 
-    $sql = "UPDATE ".$table." SET ".$xxxPfpName."='".$fileName."'";
+    $sql = "UPDATE " . $table . " SET " . $xxxPfpName . "='" . $fileName . "'";
 
     // Execute query
     insertSQL($sql);
@@ -174,83 +174,92 @@ function restrictedNoUserPage($redirectPage): void
 {
     if (!$_SESSION['loggedIn'] && (!$_SESSION['clientLoggedIn'] || !$_SESSION['adminLoggedIn'])) {
         echo '../php-pages/login.php';
-    }
-    else {
+    } else {
         echo $redirectPage;
     }
 }
 
-function restrictedAdminPage($redirectPage): void {
+function restrictedAdminPage($redirectPage): void
+{
     if (!$_SESSION['loggedIn'] || $_SESSION['adminLoggedIn']) {
         $_GET['errorMsg'] = 'Please login as a client to use this page.';
         echo '../php-pages/restricted-access.php';
-    }
-    else {
+    } else {
         echo $redirectPage;
     }
 }
 
-function isModerator($cltID): bool {
-    $sql = "SELECT cltIsModerator FROM client WHERE cltID = '".$cltID."'";
+function isModerator($cltID): bool
+{
+    $sql = "SELECT cltIsModerator FROM client WHERE cltID = '" . $cltID . "'";
     $result = runSQLQuery($sql);
     $isModerator = $result->fetch_assoc();
 
-    if($isModerator['cltIsModerator'] == 1) {
+    if ($isModerator['cltIsModerator'] == 1) {
         return true;
-    }
-    else {
+    } else {
         return false;
     }
 }
 
-function compareIdAndToken($idToCheck, $tokenInput, $table): bool {
-    if($table === 'client') {
+function compareIdAndToken($idToCheck, $tokenInput, $table): bool
+{
+    if ($table === 'client') {
         // CHECK IF TOKEN MATCHES NEW CLIENT ID
-        $checkCltTokenSql = "SELECT cltID FROM client WHERE cltToken = '".$tokenInput."'";
+        $checkCltTokenSql = "SELECT cltID FROM client WHERE cltToken = '" . $tokenInput . "'";
         $cltResult = runSQLQuery($checkCltTokenSql);
         $clientInfo = $cltResult->fetch_assoc();
 
         // Check if current cltID is the same as the cltID found from the token
-        if($idToCheck === $clientInfo['cltID']){return true;}
-        else{return false;}
-    }
-    elseif($table === 'admin') {
+        if ($idToCheck === $clientInfo['cltID']) {
+            return true;
+        } else {
+            return false;
+        }
+    } elseif ($table === 'admin') {
         // CHECK IF TOKEN MATCHES NEW CLIENT ID
-        $checkAdmTokenSql = "SELECT admID FROM admin WHERE admToken = '".$tokenInput."'";
+        $checkAdmTokenSql = "SELECT admID FROM admin WHERE admToken = '" . $tokenInput . "'";
         $admResult = runSQLQuery($checkAdmTokenSql);
         $admInfo = $admResult->fetch_assoc();
 
         // Check if current cltID is the same as the cltID found from the token
-        if($idToCheck === $admInfo['admID']){return true;}
-        else{return false;}
-    }
-    else {
+        if ($idToCheck === $admInfo['admID']) {
+            return true;
+        } else {
+            return false;
+        }
+    } else {
         return false;
     }
 }
 
-function compareEmailAndToken($emailToCheck, $tokenInput, $table): bool {
-    if($table === 'client') {
+function compareEmailAndToken($emailToCheck, $tokenInput, $table): bool
+{
+    if ($table === 'client') {
         // CHECK IF TOKEN MATCHES NEW CLIENT ID
-        $checkCltTokenSql = "SELECT cltEmail FROM client WHERE cltToken = '".$tokenInput."'";
+        $checkCltTokenSql = "SELECT cltEmail FROM client WHERE cltToken = '" . $tokenInput . "'";
         $cltResult = runSQLQuery($checkCltTokenSql);
         $clientInfo = $cltResult->fetch_assoc();
 
         // Check if current cltID is the same as the cltID found from the token
-        if($emailToCheck === $clientInfo['cltEmail']){return true;}
-        else{return false;}
-    }
-    elseif($table === 'admin') {
+        if ($emailToCheck === $clientInfo['cltEmail']) {
+            return true;
+        } else {
+            return false;
+        }
+    } elseif ($table === 'admin') {
         // CHECK IF TOKEN MATCHES NEW CLIENT ID
-        $checkAdmTokenSql = "SELECT admEmail FROM admin WHERE admToken = '".$tokenInput."'";
+        $checkAdmTokenSql = "SELECT admEmail FROM admin WHERE admToken = '" . $tokenInput . "'";
         $admResult = runSQLQuery($checkAdmTokenSql);
         $admInfo = $admResult->fetch_assoc();
 
         // Check if current cltID is the same as the cltID found from the token
-        if($emailToCheck === $admInfo['admEmail']){return true;}
-        else{return false;}
-    }
-    else {
+        if ($emailToCheck === $admInfo['admEmail']) {
+            return true;
+        } else {
+            return false;
+        }
+    } else {
         return false;
     }
 }
@@ -261,12 +270,11 @@ function returnEntityInfo(): bool|array|null
     $clientLoggedIn = $_SESSION['clientLoggedIn'];
     $adminLoggedIn = $_SESSION['adminLoggedIn'];
 
-    if($loggedIn) {
-        if($clientLoggedIn) {
-            $sql = "SELECT cltID, cltUsername, cltFirstName, cltLastName, cltEmail, cltPfpName, cltPhoneNumber, cltSignupDate, cltVerifiedEmail, cltIsModerator FROM client WHERE cltToken = '".$_SESSION['Token']."'";
-        }
-        else if($adminLoggedIn) {
-            $sql = "SELECT admID, admUsername, admFirstName, admLastName, admEmail, admPfpName, admPhoneNumber, admSignupDate, admVerifiedEmail FROM admin WHERE admToken = '".$_SESSION['Token']."'";
+    if ($loggedIn) {
+        if ($clientLoggedIn) {
+            $sql = "SELECT cltID, cltUsername, cltFirstName, cltLastName, cltEmail, cltPfpName, cltPhoneNumber, cltSignupDate, cltVerifiedEmail, cltIsModerator FROM client WHERE cltToken = '" . $_SESSION['Token'] . "'";
+        } else if ($adminLoggedIn) {
+            $sql = "SELECT admID, admUsername, admFirstName, admLastName, admEmail, admPfpName, admPhoneNumber, admSignupDate, admVerifiedEmail FROM admin WHERE admToken = '" . $_SESSION['Token'] . "'";
         }
         $result = runSQLQuery($sql);
         return $result->fetch_assoc();
@@ -282,7 +290,7 @@ function returnEntityAttributes(): array
 
     $table = $_SESSION['Table'];
 
-    if($clientLoggedIn || $table === 'client') {
+    if ($clientLoggedIn || $table === 'client') {
         return array(
             'ID' => "cltID",
             "Username" => "cltUsername",
@@ -297,9 +305,8 @@ function returnEntityAttributes(): array
             "IDLetters" => 'clt',
             "IsModerator" => "cltIsModerator",
         );
-    }
-    elseif($adminLoggedIn|| $table === 'admin') {
-        return array (
+    } elseif ($adminLoggedIn || $table === 'admin') {
+        return array(
             "ID" => "admID",
             "Username" => "admUsername",
             "FirstName" => "admFirstName",
@@ -312,58 +319,58 @@ function returnEntityAttributes(): array
             "Table" => "admin",
             "IDLetters" => 'adm',
         );
-    }
-    else {
+    } else {
         return array();
     }
-
 }
 
-function onlyAdminPage(): void {
+function onlyAdminPage(): void
+{
     // ONLY ADMIN CAN ACCESS THIS PAGE
     include_once "login-check.php";
 
     if (isset($_SESSION['clientLoggedIn']) || empty($_SESSION['loggedIn'])) {
 
-        if($_SESSION['clientLoggedIn'] || empty($_SESSION['loggedIn'])) {
+        if ($_SESSION['clientLoggedIn'] || empty($_SESSION['loggedIn'])) {
 
-            header("Location: ../php-pages/restricted-access.php", true,303);
+            header("Location: ../php-pages/restricted-access.php", true, 303);
             exit;
         }
     }
-
 }
 
-function onlyClientPage(): void {
+function onlyClientPage(): void
+{
     //ONLY CLIENT CAN ACCESS THIS PAGE
     include_once "login-check.php";
 
     if (isset($_SESSION['adminLoggedIn']) || empty($_SESSION['loggedIn'])) {
-        if($_SESSION['adminLoggedIn'] || empty($_SESSION['loggedIn'])) {
-            header("Location: ../php-pages/restricted-access.php", true,303);
+        if ($_SESSION['adminLoggedIn'] || empty($_SESSION['loggedIn'])) {
+            header("Location: ../php-pages/restricted-access.php", true, 303);
             exit;
         }
     }
 }
 
-function clientAndAdminPage(): void {
+function clientAndAdminPage(): void
+{
     // ONLY CLIENT AND ADMIN CAN ACCESS THIS PAGE
     include_once "login-check.php";
 
-    if(empty($_SESSION['loggedIn'])) {
-        header("Location: ../php-pages/restricted-access.php", true,303);
+    if (empty($_SESSION['loggedIn'])) {
+        header("Location: ../php-pages/restricted-access.php", true, 303);
         exit;
     }
-
 }
 
-function clientAndNoUserPage(): void {
+function clientAndNoUserPage(): void
+{
     // ONLY CLIENT AND NO USER CAN ACCESS THIS PAGE
     include_once "login-check.php";
 
-    if(isset($_SESSION['adminLoggedIn'])) {
-        if($_SESSION['adminLoggedIn']) {
-            header("Location: ../php-pages/restricted-access.php", true,303);
+    if (isset($_SESSION['adminLoggedIn'])) {
+        if ($_SESSION['adminLoggedIn']) {
+            header("Location: ../php-pages/restricted-access.php", true, 303);
             exit;
         }
     }
@@ -376,76 +383,70 @@ function date_compare($a, $b): int
     return $t1 - $t2;
 }
 
-function returnSessionMessages($sesMsgID): array {
+function returnSessionMessages($sesMsgID): array
+{
 
     $getClientMessagesSql = "SELECT sesMsgID, cltID,  cltUsername, cltMsgDate, cltMsgMessage FROM session_message
                              INNER JOIN client_message cm on session_message.sesMsgID = cm.Session_Message_sesMsgID
                              INNER JOIN client c on cm.Client_cltID = c.cltID                                       
-                             WHERE sesMsgID = '".$sesMsgID."'";
+                             WHERE sesMsgID = '" . $sesMsgID . "'";
 
     $getAdminMessagesSql = "SELECT sesMsgID, admID, admUsername, admMsgDate, admMsgMessage FROM session_message
                              INNER JOIN admin_message am on session_message.sesMsgID = am.Session_Message_sesMsgID
                              INNER JOIN admin a on am.Admin_admID = a.admID                                          
-                             WHERE sesMsgID = '".$sesMsgID."'";
+                             WHERE sesMsgID = '" . $sesMsgID . "'";
 
 
-//    echo $getSessionMessagesSql;
+    //    echo $getSessionMessagesSql;
     $clientMessagesResult = runSQLQuery($getClientMessagesSql);
     $adminMessagesResult = runSQLQuery($getAdminMessagesSql);
     $sessionMessagesList = array();
 
 
-    while($clientMessages = $clientMessagesResult->fetch_assoc()) {
+    while ($clientMessages = $clientMessagesResult->fetch_assoc()) {
         // CHECK OWNERSHIP OF THE MESSAGES => IF THEY ARE CURRENT OR FOREIGN
-        if($_SESSION['Table'] === 'client') {
+        if ($_SESSION['Table'] === 'client') {
             $messageOwnership = 'current';
-        }
-        else {
+        } else {
             $messageOwnership = 'foreign';
         }
 
         $sessionMessagesList[] = array(
-//            'sesMsgID' => $clientMessages['sesMsgID'],
+            //            'sesMsgID' => $clientMessages['sesMsgID'],
             'entityID' => $clientMessages['cltID'],
             'username' => $clientMessages['cltUsername'],
             'msgDate' => $clientMessages['cltMsgDate'],
             'msgMessage' => $clientMessages['cltMsgMessage'],
             'msgOwnership' => $messageOwnership,
         );
-
-
-
     }
 
-    while($adminMessages = $adminMessagesResult->fetch_assoc()) {
+    while ($adminMessages = $adminMessagesResult->fetch_assoc()) {
         // CHECK OWNERSHIP OF THE MESSAGES => IF THEY ARE CURRENT OR FOREIGN
-        if($_SESSION['Table'] === 'admin') {
-            if($_SESSION['ID'] === $adminMessages['admID']) {
+        if ($_SESSION['Table'] === 'admin') {
+            if ($_SESSION['ID'] === $adminMessages['admID']) {
                 $messageOwnership = 'current';
-            }
-            else {
+            } else {
                 $messageOwnership = 'foreign';
             }
-        }
-        else {
+        } else {
             $messageOwnership = 'foreign';
         }
 
         $sessionMessagesList[] = array(
-//            'sesMsgID' => $adminMessages['sesMsgID'],
+            //            'sesMsgID' => $adminMessages['sesMsgID'],
             'entityID' => $adminMessages['admID'],
             'username' => $adminMessages['admUsername'],
             'msgDate' => $adminMessages['admMsgDate'],
             'msgMessage' => $adminMessages['admMsgMessage'],
             'msgOwnership' => $messageOwnership,
         );
-
     }
 
     usort($sessionMessagesList, 'date_compare');
     $allSessionMessagesList[$sesMsgID] = $sessionMessagesList;
 
-//    $sessionMessagesList['test'] = 'test';
+    //    $sessionMessagesList['test'] = 'test';
 
     return $allSessionMessagesList;
 }
@@ -459,13 +460,13 @@ function returnAllSessionMessages(): array
 
     $allSessionMessagesList = [];
 
-    if(mysqli_num_rows($allSessionMessagesIDsResult) > 0) {
-        while($allSessionMessagesIDs = $allSessionMessagesIDsResult ->fetch_assoc()) {
+    if (mysqli_num_rows($allSessionMessagesIDsResult) > 0) {
+        while ($allSessionMessagesIDs = $allSessionMessagesIDsResult->fetch_assoc()) {
             $allSessionMessagesIDsList[] = $allSessionMessagesIDs['sesMsgID'];
         }
 
 
-        for($i = 0; $i < count($allSessionMessagesIDsList); $i++) {
+        for ($i = 0; $i < count($allSessionMessagesIDsList); $i++) {
             $sesMsgID = $allSessionMessagesIDsList[$i];
             $allSessionMessagesList[$sesMsgID] = returnSessionMessages($sesMsgID)[$sesMsgID];
         }
@@ -486,15 +487,15 @@ function generateID($idLength): string
 function logoutAndRedirect($page): void
 {
     session_start();
-    if(isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true) {
+    if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true) {
         include_once '../php-processes/php-mailer.php';
         // CHANGE TOKEN WHEN LOGGING OUT
-        if(isset($_SESSION['Table']) && isset($_SESSION['Token'])) {
+        if (isset($_SESSION['Table']) && isset($_SESSION['Token'])) {
             $entityAttributes = returnEntityAttributes();
             $token = generateToken($_SESSION["ID"]);
             echo $token;
 
-            $insertTokenSql = "UPDATE ".$_SESSION['Table']." SET ".$entityAttributes['Token']." = '".$token."' WHERE ".$entityAttributes['Token']." = '".$_SESSION['Token']."'";
+            $insertTokenSql = "UPDATE " . $_SESSION['Table'] . " SET " . $entityAttributes['Token'] . " = '" . $token . "' WHERE " . $entityAttributes['Token'] . " = '" . $_SESSION['Token'] . "'";
 
             runSQLQuery($insertTokenSql);
 
@@ -503,14 +504,14 @@ function logoutAndRedirect($page): void
         }
         session_destroy();
 
-        header('Location: '.$page, true, 303);
+        header('Location: ' . $page, true, 303);
         exit;
     }
     session_destroy();
-
 }
 
-function returnList($runSQLQuery): array {
+function returnList($runSQLQuery): array
+{
     // INPUT
     // OBJECT TYPE runSQLResult;
 
@@ -568,38 +569,40 @@ function returnList($runSQLQuery): array {
     ];
 
     $list = array();
-    while($listRow = $runSQLQuery->fetch_assoc()) {
+    while ($listRow = $runSQLQuery->fetch_assoc()) {
         $list[] = $listRow;
     }
     return $list;
 }
 
-function returnObjectList($runSQLQuery, $objectID): array {
+function returnObjectList($runSQLQuery, $objectID): array
+{
     $list = array();
-    while($listRow = $runSQLQuery->fetch_assoc()) {
+    while ($listRow = $runSQLQuery->fetch_assoc()) {
         $list[$listRow[$objectID]] = $listRow;
     }
     return $list;
 }
 
-function returnItem($runSQLQuery): array {
+function returnItem($runSQLQuery): array
+{
     $list = array();
-    while($listRow = $runSQLQuery->fetch_assoc()) {
+    while ($listRow = $runSQLQuery->fetch_assoc()) {
         $list = $listRow;
     }
     return $list;
 }
 
-function returnImagePathList($groupList): array {
+function returnImagePathList($groupList): array
+{
     $imagePathList = array();
 
-    foreach($groupList as $groupListKey => $groupListValue ) {
-        foreach($groupListValue as $AttributeKey => $attributeValue) {
-            foreach($attributeValue as $rowValue) {
-                if($AttributeKey === 'pimPath') {
+    foreach ($groupList as $groupListKey => $groupListValue) {
+        foreach ($groupListValue as $AttributeKey => $attributeValue) {
+            foreach ($attributeValue as $rowValue) {
+                if ($AttributeKey === 'pimPath') {
                     $imagePathList[$groupListKey][$AttributeKey][] = getImage($rowValue);
-                }
-                else {
+                } else {
                     $imagePathList[$groupListKey][$AttributeKey][] = $rowValue;
                 }
             }
@@ -609,7 +612,8 @@ function returnImagePathList($groupList): array {
     return $imagePathList;
 }
 
-function returnGroupList($runSQLQuery, $groupByID): array {
+function returnGroupList($runSQLQuery, $groupByID): array
+{
     // INPUT
     // OBJECT TYPE runSQLResult;
 
@@ -639,20 +643,19 @@ function returnGroupList($runSQLQuery, $groupByID): array {
     ];
 
     $groupList = array();
-    while($listRow = $runSQLQuery->fetch_assoc()) {
+    while ($listRow = $runSQLQuery->fetch_assoc()) {
         $valueList = array();
-        foreach($listRow as $mainKey => $mainValue) {
-            if($mainKey !== $groupByID) {
+        foreach ($listRow as $mainKey => $mainValue) {
+            if ($mainKey !== $groupByID) {
                 $groupList[$listRow[$groupByID]][$mainKey][] = $mainValue;
             }
         };
-
-
     }
     return $groupList;
 }
 
-function returnAssociativeList($runSQLQuery, $groupByID): array {
+function returnAssociativeList($runSQLQuery, $groupByID): array
+{
     // INPUT
     // OBJECT TYPE runSQLResult;
 
@@ -675,14 +678,15 @@ function returnAssociativeList($runSQLQuery, $groupByID): array {
     ];
 
     $list = array();
-    while($listRow = $runSQLQuery->fetch_assoc()) {
+    while ($listRow = $runSQLQuery->fetch_assoc()) {
 
         $list[$listRow[$groupByID]] = $listRow;
     }
     return $list;
 }
 
-function returnMergedList($mainArray): array {
+function returnMergedList($mainArray): array
+{
     // INPUT
     $inputExample = [
         [
@@ -773,10 +777,10 @@ function returnMergedList($mainArray): array {
 
     $mergedList = array();
 
-    foreach($mainArray as $secondArray) {
+    foreach ($mainArray as $secondArray) {
 
-        foreach($secondArray as $thirdArrayKey => $thirdArray) {
-            foreach($thirdArray as $rowKey => $row) {
+        foreach ($secondArray as $thirdArrayKey => $thirdArray) {
+            foreach ($thirdArray as $rowKey => $row) {
                 $mergedList[$thirdArrayKey][$rowKey] = $row;
             }
         }
@@ -785,26 +789,27 @@ function returnMergedList($mainArray): array {
     return $mergedList;
 }
 
-function returnCombinedList2($mainArray, $combinedListID): array {
-//    $orderedList = returnMergedList($mainArray);
+function returnCombinedList2($mainArray, $combinedListID): array
+{
+    //    $orderedList = returnMergedList($mainArray);
     $AttributeList = array();
     $combinedList = array();
 
-    foreach($mainArray as $mainListKey => $mainListValue) {
-        foreach($mainListValue as $subListKey => $subListValue) {
+    foreach ($mainArray as $mainListKey => $mainListValue) {
+        foreach ($mainListValue as $subListKey => $subListValue) {
             $AttributeList[$mainListKey][] = $subListKey;
         }
 
-        foreach($AttributeList as $mainListKey2 => $mainListValue2) {
+        foreach ($AttributeList as $mainListKey2 => $mainListValue2) {
             $keyListName = $mainListValue2[0];
             $valueListName = $mainListValue2[1];
 
             $keyList = $mainArray[$mainListKey2][$keyListName];
             $valueList = $mainArray[$mainListKey2][$valueListName];
 
-            foreach($keyList as $keyListKey => $keyListValue) {
-                foreach($valueList as $valueListKey => $valueListValue) {
-                    if($keyListKey === $valueListKey) {
+            foreach ($keyList as $keyListKey => $keyListValue) {
+                foreach ($valueList as $valueListKey => $valueListValue) {
+                    if ($keyListKey === $valueListKey) {
                         $combinedList[$mainListKey2][$combinedListID][$keyListValue] = $valueListValue;
                     }
                 }
@@ -815,35 +820,38 @@ function returnCombinedList2($mainArray, $combinedListID): array {
     return $combinedList;
 }
 
-function returnAddressList(): array {
+function returnAddressList(): array
+{
     $token = $_SESSION['Token'];
     $getAddressListSql = "SELECT adrID, adrAddress, adrAddressOptional, adrPostalCode, adrCity, adrDefault FROM address 
                           INNER JOIN client c on address.Client_cltID = c.cltID
-                          WHERE cltToken = '".$token."'";
+                          WHERE cltToken = '" . $token . "'";
 
     return returnList(runSQLQuery($getAddressListSql));
 }
 
-function returnAddressInfo($adrID) : array {
+function returnAddressInfo($adrID): array
+{
     $getAddressInfoSql = "SELECT adrID, adrAddress, adrAddressOptional, adrPostalCode, adrCity, adrDefault FROM address 
-                          WHERE adrID = '".$adrID."'";
+                          WHERE adrID = '" . $adrID . "'";
 
     return returnList(runSQLQuery($getAddressInfoSql));
 }
 
-function returnProductList($optionalPrdID) : array {
+function returnProductList($optionalPrdID): array
+{
 
     $productListSql = "SELECT * FROM product";
-    if(strlen($optionalPrdID) > 0) {
-        $productListSql .= " WHERE prdID ='".$optionalPrdID."'";
+    if (strlen($optionalPrdID) > 0) {
+        $productListSql .= " WHERE prdID ='" . $optionalPrdID . "'";
     }
     $productList = returnAssociativeList(runSQLQuery($productListSql), 'prdID');
 
     $prdImgListSql = "SELECT prdID, prcColor, pimPath from product
                       INNER JOIN product_color pc on product.prdID = pc.Product_prdID
                       INNER JOIN product_image pi on pc.prcID = pi.Product_Color_prcID";
-    if(strlen($optionalPrdID) > 0) {
-        $prdImgListSql .= " WHERE prdID ='".$optionalPrdID."'";
+    if (strlen($optionalPrdID) > 0) {
+        $prdImgListSql .= " WHERE prdID ='" . $optionalPrdID . "'";
     }
     $prdImgList = returnGroupList(runSQLQuery($prdImgListSql), 'prdID');
     $prdImgList2 = returnImagePathList($prdImgList);
@@ -852,11 +860,10 @@ function returnProductList($optionalPrdID) : array {
     //    ACTUAL RETURN STUFF
     $finalList = array($productList, $prdImgList3);
     return returnMergedList($finalList);
-
-
 }
 
-function deObjectifyList($objectList): array {
+function deObjectifyList($objectList): array
+{
 
     foreach ($objectList as $objectListItem) {
         $deObjectifiedList[] = $objectListItem;
@@ -866,30 +873,31 @@ function deObjectifyList($objectList): array {
 
 function returnProductIntPrice($value): string
 {
-    return substr($value ,0 , strlen($value)-3);
+    return substr($value, 0, strlen($value) - 3);
 }
 
 function returnProductDecimalPrice($value): string
 {
-    return substr($value ,strlen($value)-2 , strlen($value));
+    return substr($value, strlen($value) - 2, strlen($value));
 }
 
-function returnBasketList():array {
+function returnBasketList(): array
+{
 
-    if(isset($_SESSION['Table']) || isset($_SESSION['loggedIn'])) {
-        if(!$_SESSION['loggedIn'] && isset($_COOKIE['Basket-cookie'])){
+    if (isset($_SESSION['Table']) || isset($_SESSION['loggedIn'])) {
+        if (!$_SESSION['loggedIn'] && isset($_COOKIE['Basket-cookie'])) {
 
             $cookieBasketList =  json_decode($_COOKIE['Basket-cookie']);
 
-            if(!(gettype($cookieBasketList) === "NULL")) {
+            if (!(gettype($cookieBasketList) === "NULL")) {
                 foreach ($cookieBasketList as $cookieBasketListItem) {
                     $prdID = $cookieBasketListItem[0];
                     $prdColor = $cookieBasketListItem[1];
 
                     $productList = returnProductList($prdID);
                     foreach ($productList as $productListItem) {
-                        foreach($productListItem as $productListItemKey => $productListItemRow) {
-                            if($productListItemKey !== $prdID) {
+                        foreach ($productListItem as $productListItemKey => $productListItemRow) {
+                            if ($productListItemKey !== $prdID) {
                                 $basketItem[$productListItemKey] = $productListItemRow;
                             }
                         }
@@ -898,22 +906,19 @@ function returnBasketList():array {
                     $basketList[] = $basketItem;
                 }
                 return $basketList;
-            }
-            else {
+            } else {
                 return array();
             }
-
-        }
-        else if(isset($_SESSION['Table']) && $_SESSION['Table'] === 'client') {
+        } else if (isset($_SESSION['Table']) && $_SESSION['Table'] === 'client') {
             $cltID = $_SESSION['ID'];
             $getClientBasketListSql = "SELECT Product_prdID AS prdID, prcColor, prdLstID
                                    FROM client
                                    INNER JOIN basket b on client.cltID = b.Client_cltID
                                    INNER JOIN product_list pl on b.basID = pl.Basket_basID
-                                   WHERE cltID = '".$cltID."'";
+                                   WHERE cltID = '" . $cltID . "'";
             $getClientBasketListResult = runSQLQuery($getClientBasketListSql);
 
-            if(mysqli_num_rows($getClientBasketListResult) > 0) {
+            if (mysqli_num_rows($getClientBasketListResult) > 0) {
                 $clientBasketList = returnList($getClientBasketListResult);
 
                 foreach ($clientBasketList as $clientBasketListItem) {
@@ -926,46 +931,43 @@ function returnBasketList():array {
                     }
 
                     foreach (returnProductList($prdID) as $productListItem) {
-                        foreach($productListItem as $productListItemKey => $productListItemRow) {
-                            if($productListItemKey !== $prdID) {
+                        foreach ($productListItem as $productListItemKey => $productListItemRow) {
+                            if ($productListItemKey !== $prdID) {
                                 $basketItem[$productListItemKey] = $productListItemRow;
                             }
                         }
                     }
                     $basketList[] = $basketItem;
-
                 }
 
                 return $basketList;
-            }
-            else {
+            } else {
                 return array();
             }
-        }
-        else {
+        } else {
             return array();
         }
-    }
-    else {
+    } else {
         return array();
     }
 }
 
-function returnDevicesListByClient(): array {
-    if(isset($_SESSION['Table']) && $_SESSION['Table'] === 'client') {
+function returnDevicesListByClient(): array
+{
+    if (isset($_SESSION['Table']) && $_SESSION['Table'] === 'client') {
 
         $cltID = $_SESSION['ID'];
         $getClientDevicesListSql = "SELECT * FROM device
-                                    WHERE Client_cltID = '".$cltID."'";
+                                    WHERE Client_cltID = '" . $cltID . "'";
 
         $getClientDevicesListResult = runSQLQuery($getClientDevicesListSql);
 
         $productsList = returnProductList('');
 
-        if(mysqli_num_rows($getClientDevicesListResult) > 0) {
+        if (mysqli_num_rows($getClientDevicesListResult) > 0) {
             $clientDevicesList = returnList($getClientDevicesListResult);
 
-            foreach($clientDevicesList as $clientDevicesListIndex => $clientDevicesListItem) {
+            foreach ($clientDevicesList as $clientDevicesListIndex => $clientDevicesListItem) {
                 $prdID = $clientDevicesListItem['prdID'];
                 $prcColor = $clientDevicesListItem['prcColor'];
                 $prdImg = $productsList[$prdID]['prdImg'][$prcColor];
@@ -973,31 +975,29 @@ function returnDevicesListByClient(): array {
             }
 
             return $clientDevicesList;
-        }
-        else {
+        } else {
             return array();
         }
-    }
-    else {
+    } else {
         return array();
     }
 }
 
-function returnDevicesList($optionalDevID): array {
-    if(strlen($optionalDevID) > 0) {
-        $getClientDevicesListSql = "SELECT * FROM device WHERE devID = '".$optionalDevID."'";
-    }
-    else {
+function returnDevicesList($optionalDevID): array
+{
+    if (strlen($optionalDevID) > 0) {
+        $getClientDevicesListSql = "SELECT * FROM device WHERE devID = '" . $optionalDevID . "'";
+    } else {
         $getClientDevicesListSql = "SELECT * FROM device";
     }
 
     $getClientDevicesListResult = runSQLQuery($getClientDevicesListSql);
     $productsList = returnProductList('');
 
-    if(mysqli_num_rows($getClientDevicesListResult) > 0) {
+    if (mysqli_num_rows($getClientDevicesListResult) > 0) {
         $clientDevicesList = returnList($getClientDevicesListResult);
 
-        foreach($clientDevicesList as $clientDevicesListIndex => $clientDevicesListItem) {
+        foreach ($clientDevicesList as $clientDevicesListIndex => $clientDevicesListItem) {
             $prdID = $clientDevicesListItem['prdID'];
             $prcColor = $clientDevicesListItem['prcColor'];
             $prdImg = $productsList[$prdID]['prdImg'][$prcColor];
@@ -1005,15 +1005,14 @@ function returnDevicesList($optionalDevID): array {
         }
 
         return $clientDevicesList;
-    }
-    else {
+    } else {
         return array();
     }
-
 }
 
-function returnMiscImgList(): array {
-    return array (
+function returnMiscImgList(): array
+{
+    return array(
         'edit.png' => getImage('edit.png'),
         'cancel.png' => getImage('cancel.png'),
         'confirm.png' => getImage('confirm.png'),
@@ -1023,52 +1022,44 @@ function returnMiscImgList(): array {
     );
 }
 
-function returnAssistanceList($optionalAstID, $astApproved, $type): array {
-    if(strlen($optionalAstID) === 0) {
-        if(strlen($astApproved) === 0) {
+function returnAssistanceList($optionalAstID, $astApproved, $type): array
+{
+    if (strlen($optionalAstID) === 0) {
+        if (strlen($astApproved) === 0) {
             $getAssistanceListSql = "SELECT * FROM assistance";
+        } else {
+            $getAssistanceListSql = "SELECT * FROM assistance WHERE astApproved = '" . $astApproved . "'";
         }
-        else {
-            $getAssistanceListSql = "SELECT * FROM assistance WHERE astApproved = '".$astApproved."'";
-        }
-    }
-    else {
-        if(strlen($astApproved === 0)) {
-            $getAssistanceListSql = "SELECT * FROM assistance WHERE astID = '".$optionalAstID."'";
-        }
-        else {
-            $getAssistanceListSql = "SELECT * FROM assistance WHERE astID = '".$optionalAstID."' AND astApproved = '".$astApproved."'";
+    } else {
+        if (strlen($astApproved === 0)) {
+            $getAssistanceListSql = "SELECT * FROM assistance WHERE astID = '" . $optionalAstID . "'";
+        } else {
+            $getAssistanceListSql = "SELECT * FROM assistance WHERE astID = '" . $optionalAstID . "' AND astApproved = '" . $astApproved . "'";
         }
     }
 
     $assistanceListResult = runSQLQuery($getAssistanceListSql);
 
-    if(mysqli_num_rows($assistanceListResult) > 0) {
-        if(strlen($optionalAstID) === 0) {
-            if($type === 'object') {
+    if (mysqli_num_rows($assistanceListResult) > 0) {
+        if (strlen($optionalAstID) === 0) {
+            if ($type === 'object') {
                 return returnObjectList($assistanceListResult, 'astID');
-            }
-            else if($type == 'list') {
+            } else if ($type == 'list') {
                 return returnList($assistanceListResult);
-            }
-            else {
+            } else {
                 return array();
             }
-
-        }
-        else {
+        } else {
             return returnItem($assistanceListResult);
         }
-
-    }
-    else {
+    } else {
         return array();
     }
-
 }
 
-function returnLastMessagesList($type): array {
-    if($type === 'message') {
+function returnLastMessagesList($type): array
+{
+    if ($type === 'message') {
         $getActiveMessagesSql = "SELECT DISTINCT cltID, cltUsername FROM client
                              INNER JOIN client_message cm on client.cltID = cm.Client_cltID
                              INNER JOIN session_message sm on cm.Session_Message_sesMsgID = sm.sesMsgID
@@ -1077,8 +1068,8 @@ function returnLastMessagesList($type): array {
 
         $activeMessagesResult = runSQLQuery($getActiveMessagesSql);
 
-        if(mysqli_num_rows($activeMessagesResult) > 0) {
-            while($activeMessages = $activeMessagesResult->fetch_assoc()) {
+        if (mysqli_num_rows($activeMessagesResult) > 0) {
+            while ($activeMessages = $activeMessagesResult->fetch_assoc()) {
                 $sesMsgID = $activeMessages['cltID'];
 
                 $sessionMessages = returnSessionMessages($sesMsgID);
@@ -1093,13 +1084,11 @@ function returnLastMessagesList($type): array {
                     'msgDate' => $lastSessionMessage['msgDate'],
                 );
             }
-        }
-        else {
+        } else {
             $lastMessagesList = array();
         }
         return $lastMessagesList;
-    }
-    else if($type === 'resolved') {
+    } else if ($type === 'resolved') {
         $getResolvedMessagesSql = "SELECT DISTINCT sesMsgID, sesMsgStartDate ,sesMsgEndDate, cltUsername  FROM session_message 
                                    LEFT JOIN client_message cm on session_message.sesMsgID = cm.Session_Message_sesMsgID
                                    LEFT JOIN client c on cm.Client_cltID = c.cltID
@@ -1108,11 +1097,11 @@ function returnLastMessagesList($type): array {
 
         $resolvedMessagesResult = runSQLQuery($getResolvedMessagesSql);
 
-        if(mysqli_num_rows($resolvedMessagesResult) > 0) {
-            while($resolvedMessages = $resolvedMessagesResult -> fetch_assoc()) {
+        if (mysqli_num_rows($resolvedMessagesResult) > 0) {
+            while ($resolvedMessages = $resolvedMessagesResult->fetch_assoc()) {
 
-//                $sessionMessages = returnSessionMessages($resolvedMessages['sesMsgID']);
-//                $lastSessionMessage = end($sessionMessages);
+                //                $sessionMessages = returnSessionMessages($resolvedMessages['sesMsgID']);
+                //                $lastSessionMessage = end($sessionMessages);
 
                 $lastMessagesList[] = array(
                     'sesMsgID' => $resolvedMessages['sesMsgID'],
@@ -1120,27 +1109,25 @@ function returnLastMessagesList($type): array {
                     'sesMsgEndDate' => $resolvedMessages['sesMsgEndDate'],
                     'sesMsgStartDate' => $resolvedMessages['sesMsgStartDate'],
 
-//                    'username' => $lastSessionMessage['username'],
-//                    'msgMessage' => $lastSessionMessage['msgMessage'],
-//                    'msgDate' => $lastSessionMessage['msgDate'],
+                    //                    'username' => $lastSessionMessage['username'],
+                    //                    'msgMessage' => $lastSessionMessage['msgMessage'],
+                    //                    'msgDate' => $lastSessionMessage['msgDate'],
                 );
             }
-        }
-        else {
+        } else {
             $lastMessagesList = array();
         }
         return $lastMessagesList;
-    }
-    else {
+    } else {
         return array();
     }
 }
 
-function returnLanguage(): string {
-    if(empty($_COOKIE['language-cookie'])) {
+function returnLanguage(): string
+{
+    if (empty($_COOKIE['language-cookie'])) {
         return 'English';
-    }
-    else {
+    } else {
         return $_COOKIE['language-cookie'];
     }
 }
@@ -1160,9 +1147,9 @@ function returnLanguageList(): array
                 "Add new address" => "Add new address",
                 "Street address or P.O. Box" => "Street address or P.O. Box",
                 "Apt, suit, unit, building, floor, etc." => "Apt, suit, unit, building, floor, etc.",
-                "Address" =>"Address",
-                "Postal Code" =>"Postal Code",
-                "City" =>"City",
+                "Address" => "Address",
+                "Postal Code" => "Postal Code",
+                "City" => "City",
 
                 "Submit Changes" => "Submit Changes",
             ),
@@ -1218,9 +1205,9 @@ function returnLanguageList(): array
                 "Repeat New Password :" => "Repeat New Password :",
 
                 "A verification code has been sent to your new email address." =>
-                    "A verification code has been sent to your new email address.",
+                "A verification code has been sent to your new email address.",
                 "Input the confirmation code :" =>
-                    "Input the confirmation code :",
+                "Input the confirmation code :",
 
                 "Done" => "Done",
                 "Cancel" => "Cancel",
@@ -1333,12 +1320,12 @@ function returnLanguageList(): array
                 "New Password:" => "New Password:",
                 "Enter your new password again:" => "Enter your new password again:",
                 "Your new password has to be different from your old password." =>
-                    "Your new password has to be different from your old password.",
+                "Your new password has to be different from your old password.",
                 "Change Password" => "Change Password",
                 "The Link you are using to reset your password has expired or has already been used" =>
                 "The Link you are using to reset your password has expired or has already been used",
                 "We don't know what you want to reset." =>
-                    "We don't know what you want to reset.",
+                "We don't know what you want to reset.",
             ),
             "password-reset-success" => array(
                 "Reset your password" => "Reset your password",
@@ -1376,7 +1363,7 @@ function returnLanguageList(): array
             ),
             "signup" => array(
                 "Create an account" => "Create an account",
-                "Username:" => "Username:" ,
+                "Username:" => "Username:",
                 "First Name:" => "First Name:",
                 "Last Name:" => "Last Name:",
                 "Email:" => "Email:",
@@ -1492,30 +1479,30 @@ function returnLanguageList(): array
             ),
             "dbConnection" => array(
                 "Please login as a client to use this page." =>
-                    "Please login as a client to use this page.",
+                "Please login as a client to use this page.",
             ),
             "login-process" => array(
                 "Your account has been created but your email is still not validated. 
                 A code has been sent to your email to validate your account" =>
-                    "Your account has been created but your email is still not validated. 
+                "Your account has been created but your email is still not validated. 
                 A code has been sent to your email to validate your account",
                 "A validation code could not be sent to your email, please contact a web developer" =>
-                    "A validation code could not be sent to your email, please contact a web developer",
+                "A validation code could not be sent to your email, please contact a web developer",
 
             ),
             "password-recovery-process" => array(
                 "We got a request from you to reset your Password!." =>
-                    "We got a request from you to reset your Password!.",
+                "We got a request from you to reset your Password!.",
                 "Please click this link to reset your password" =>
-                    "Please click this link to reset your password",
+                "Please click this link to reset your password",
                 "Password Reset" => "Password Reset",
                 "A recovery link has been sent to" => "A recovery link has been sent to",
                 "please follow the link to reset your password." =>
-                    "please follow the link to reset your password.",
+                "please follow the link to reset your password.",
                 "The recovery link could not be sent to" =>
-                    "The recovery link could not be sent to",
+                "The recovery link could not be sent to",
                 "Contact a web developer if you think this is a mistake." =>
-                    "Contact a web developer if you think this is a mistake.",
+                "Contact a web developer if you think this is a mistake.",
             ),
             "php-mailer" => array(
                 "Verification code is:" => "Verification code is:",
@@ -1523,18 +1510,18 @@ function returnLanguageList(): array
             ),
             "signup-email-validation" => array(
                 "The new Client ID does not match the cltID fetched with the token. Review signup-email-validation" =>
-                    "The new Client ID does not match the cltID fetched with the token. Review signup-email-validation"
+                "The new Client ID does not match the cltID fetched with the token. Review signup-email-validation"
             ),
             "signup-process" => array(
                 "Signup Successful, Please verify your email address" =>
-                    "Signup Successful, Please verify your email address",
+                "Signup Successful, Please verify your email address",
             ),
 
             "common-strings" => array(
                 "You do not have access to this page, if you think this is a mistake contact the web developer" =>
-                    "You do not have access to this page, if you think this is a mistake contact the web developer",
+                "You do not have access to this page, if you think this is a mistake contact the web developer",
                 "Please verify that you are not a robot." =>
-                    "Please verify that you are not a robot.",
+                "Please verify that you are not a robot.",
             ),
 
             // JAVASCRIPT
@@ -1623,9 +1610,9 @@ function returnLanguageList(): array
                 "Add new address" => "Ajouter l'adresse",
                 "Street address or P.O. Box" => "Adresse de rue ou boîte postale",
                 "Apt, suit, unit, building, floor, etc." => "Appartement, suite, unité, bâtiment, étage, etc.",
-                "Address" =>"Adresse",
-                "Postal Code" =>"Code postal",
-                "City" =>"Ville",
+                "Address" => "Adresse",
+                "Postal Code" => "Code postal",
+                "City" => "Ville",
                 "Submit Changes" => "Soumettre les modifications",
             ),
             "assistance" => array(
@@ -1680,9 +1667,9 @@ function returnLanguageList(): array
                 "Repeat New Password :" => "Répéter le nouveau mot de passe :",
 
                 "A verification code has been sent to your new email address." =>
-                    "Un code de vérification a été envoyé à votre nouvelle adresse email.",
+                "Un code de vérification a été envoyé à votre nouvelle adresse email.",
                 "Input the confirmation code :" =>
-                    "Entrez le code de confirmation :",
+                "Entrez le code de confirmation :",
 
                 "Done" => "Terminé",
                 "Cancel" => "Annuler",
@@ -1754,7 +1741,7 @@ function returnLanguageList(): array
                 "Admin Control Panel" => "Panneau de contrôle de l'admin",
                 "Search in admin..." => "Rechercher dans l'admin...",
 
-        ),
+            ),
             "message-center" => array(
                 "Active Messages" => "Messages actifs",
                 "No Active Messages" => "Aucun message actif",
@@ -1782,7 +1769,7 @@ function returnLanguageList(): array
                 "Control Panel" => "Panneau de contrôle",
                 "Delete Current Conversation" => "Supprimer la conversation actuelle",
 
-        ),
+            ),
             "password-recovery-input" => array(
                 "Password Recovery" => "Récupération de mot de passe",
                 "Email:" => "Email:",
@@ -1797,12 +1784,12 @@ function returnLanguageList(): array
                 "New Password:" => "Nouveau mot de passe:",
                 "Enter your new password again:" => "Entrez à nouveau votre nouveau mot de passe:",
                 "Your new password has to be different from your old password." =>
-                    "Votre nouveau mot de passe doit être différent de votre ancien mot de passe.",
+                "Votre nouveau mot de passe doit être différent de votre ancien mot de passe.",
                 "Change Password" => "Changer de mot de passe",
                 "The Link you are using to reset your password has expired or has already been used" =>
-                    "Le lien que vous utilisez pour réinitialiser votre mot de passe a expiré ou a déjà été utilisé",
+                "Le lien que vous utilisez pour réinitialiser votre mot de passe a expiré ou a déjà été utilisé",
                 "We don't know what you want to reset." =>
-                    "Nous ne savons pas ce que vous souhaitez réinitialiser.",
+                "Nous ne savons pas ce que vous souhaitez réinitialiser.",
             ),
             "password-reset-success" => array(
                 "Reset your password" => "Réinitialiser votre mot de passe",
@@ -1832,7 +1819,7 @@ function returnLanguageList(): array
             ),
             "signup" => array(
                 "Create an account" => "Créer un compte",
-                "Username:" => "Nom d'utilisateur:" ,
+                "Username:" => "Nom d'utilisateur:",
                 "First Name:" => "Prénom:",
                 "Last Name:" => "Nom de famille:",
                 "Email:" => "Adresse électronique:",
@@ -1953,29 +1940,29 @@ function returnLanguageList(): array
             ),
             "dbConnection" => array(
                 "Please login as a client to use this page." =>
-                    "Veuillez vous connecter en tant que client pour utiliser cette page.",
+                "Veuillez vous connecter en tant que client pour utiliser cette page.",
             ),
             "login-process" => array(
                 "Your account has been created but your email is still not validated.
                  A code has been sent to your email to validate your account" =>
-                    "Votre compte a été créé mais votre adresse électronique n'a pas encore été validée.
+                "Votre compte a été créé mais votre adresse électronique n'a pas encore été validée.
                 Un code a été envoyé à votre adresse électronique pour valider votre compte",
                 "A validation code could not be sent to your email, please contact a web developer" =>
-                    "Impossible d'envoyer un code de validation à votre adresse électronique, veuillez contacter un développeur web",
+                "Impossible d'envoyer un code de validation à votre adresse électronique, veuillez contacter un développeur web",
             ),
             "password-recovery-process" => array(
                 "We got a request from you to reset your Password!." =>
-                    "Nous avons reçu une demande de votre part de réinitialiser votre mot de passe!",
+                "Nous avons reçu une demande de votre part de réinitialiser votre mot de passe!",
                 "Please click this link to reset your password" =>
-                    "Veuillez cliquer sur ce lien pour réinitialiser votre mot de passe",
+                "Veuillez cliquer sur ce lien pour réinitialiser votre mot de passe",
                 "Password Reset" => "Réinitialisation du mot de passe",
                 "A recovery link has been sent to" => "Un lien de récupération a été envoyé à",
                 "please follow the link to reset your password." =>
-                    "veuillez suivre le lien pour réinitialiser votre mot de passe.",
+                "veuillez suivre le lien pour réinitialiser votre mot de passe.",
                 "The recovery link could not be sent to" =>
-                    "Impossible d'envoyer le lien de récupération à",
+                "Impossible d'envoyer le lien de récupération à",
                 "Contact a web developer if you think this is a mistake." =>
-                    "Contactez un développeur web si vous pensez qu'il s'agit d'une erreur.",
+                "Contactez un développeur web si vous pensez qu'il s'agit d'une erreur.",
             ),
             "php-mailer" => array(
                 "Verification code is:" => "Le code de vérification est :",
@@ -1983,18 +1970,18 @@ function returnLanguageList(): array
             ),
             "signup-email-validation" => array(
                 "The new Client ID does not match the cltID fetched with the token. Review signup-email-validation" =>
-                    "L'ID de nouveau client ne correspond pas à l'ID de client récupéré avec le jeton. Vérifiez signup-email-validation",
+                "L'ID de nouveau client ne correspond pas à l'ID de client récupéré avec le jeton. Vérifiez signup-email-validation",
             ),
             "signup-process" => array(
                 "Signup Successful, Please verify your email address" =>
-                    "Inscription réussie, veuillez vérifier votre adresse électronique",
+                "Inscription réussie, veuillez vérifier votre adresse électronique",
             ),
 
             "common-strings" => array(
                 "You do not have access to this page, if you think this is a mistake contact the web developer" =>
-                    "Vous n'avez pas accès à cette page, si vous pensez qu'il s'agit d'une erreur, contactez le développeur web",
+                "Vous n'avez pas accès à cette page, si vous pensez qu'il s'agit d'une erreur, contactez le développeur web",
                 "Please verify that you are not a robot." =>
-                    "Veuillez vérifier que vous n'êtes pas un robot.",
+                "Veuillez vérifier que vous n'êtes pas un robot.",
             ),
 
             // JAVASCRIPT
@@ -2011,11 +1998,11 @@ function returnLanguageList(): array
                 "Confirm Code" => "Confirmer le code",
 
                 "Username must be at least 3 characters long" =>
-                    "Le nom d'utilisateur doit comporter au moins 3 caractères",
+                "Le nom d'utilisateur doit comporter au moins 3 caractères",
                 "First Name must be at least 3 characters long" =>
-                    "Le prénom doit comporter au moins 3 caractères",
+                "Le prénom doit comporter au moins 3 caractères",
                 "Last Name must be at least 3 characters long" =>
-                    "Le nom de famille doit comporter au moins 3 caractères",
+                "Le nom de famille doit comporter au moins 3 caractères",
 
                 "Must be a number" => "Doit être un nombre",
 
@@ -2060,7 +2047,7 @@ function returnLanguageList(): array
                 "have been deleted." => "ont été supprimés.",
                 "Please input a Date." => "Veuillez entrer une date.",
                 "Please input a Start Date and an End Date." => "Veuillez entrer une date de début et une date de fin.",
-        ),
+            ),
             "password-reset-validation" => array(
                 "New Password is required" => "New Password is required",
                 "Passwords should match" => "Passwords should match",
@@ -2094,8 +2081,8 @@ function returnLanguageList(): array
             ),
 
         ),
-//        "Russian" => array(
-//        ),
+        //        "Russian" => array(
+        //        ),
 
     );
 }
