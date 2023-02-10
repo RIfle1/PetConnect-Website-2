@@ -61,12 +61,13 @@ function getPfp($AttributeID, $table, $ID): string
         $sql = "SELECT * FROM ".$table." WHERE ".$AttributeID."='".$ID."'";
         $getPfpResult =  runSQLQuery($sql);
 
-        if(mysqli_num_rows($getPfpResult) > 0) {
-            $getPfpRows = $getPfpResult -> fetch_assoc();
-            return "../img/pfp/".$getPfpRows[returnEntityAttributes()['PfpName']];
+        if(mysqli_num_rows($getPfpResult) === 0) {
+            return getImage('client.png');
+
         }
         else {
-            return getImage('client.png');
+            $getPfpRows = $getPfpResult -> fetch_assoc();
+            return "../img/pfp/".$getPfpRows[returnEntityAttributes()['PfpName']];
         }
     }
     else {

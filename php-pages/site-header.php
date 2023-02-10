@@ -84,7 +84,7 @@ $basketList = returnBasketList();
         <div id="sih-profile-div" class="sih-interaction-sub-div">
             <div id="sih-profile-logo">
                 <a href="<?php restrictedNoUserPage('../php-pages/profile.php') ?>">
-                    <img class="sih-interaction-img-1" src="<?php echo getPfp($entityAttributes['ID'], $_SESSION['Table'], $_SESSION['ID'])?>" alt="Profile picture">
+                    <img class="sih-interaction-img-1" src="<?php echo getPfp($entityAttributes['ID'], $_SESSION['Table'], $_SESSION['ID'])?>">
                 </a>
             </div>
             <div id="sih-dropdown-menu-login" class="sih-dropdown-menu text-font-300">
