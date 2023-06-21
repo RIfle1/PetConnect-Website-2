@@ -1205,12 +1205,12 @@ function generateDeviceData($devID, $v, $date, $c): void
         $dapDecibel = $v;
     } elseif (hexdec($c) == 3) {
         $dapTemp = $v;
-    } elseif (hexdec($c) == 4) {
-        $dapCO2 = $v;
-    } elseif (hexdec($c) == 5) {
-        $dapTemp = $v;
     } elseif (hexdec($c) == 6) {
+        $dapCO2 = $v;
+    } elseif (hexdec($c) == 4) {
         $dapTemp = $v;
+    } elseif (hexdec($c) == 5) {
+        $dapBPM = $v;
     }
     $insertDataSql = "INSERT INTO data_device(dapID, dapBPM, dapLatitude, dapLongitude, dapCO2, dapDecibel, dapTemp, dapDate, Device_devID) 
                           VALUES ('" . $dapID . "', '" . $dapBPM . "', '" . $dapLatitude . "', '" . $dapLongitude . "', '" . $dapCO2 . "', '" . $dapDecibel . "', '" . $dapTemp . "', '" . $dapDate . "', '" . $devID . "')";

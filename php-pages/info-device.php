@@ -37,47 +37,10 @@ $prdImg = $deviceInfo[0]['prdImg'];
                     success: function(response) {
 
                         $('#element_a_actualiser').html(response);
-                        // Mise à jour du graphique BPM
-                        <?php
-                        // Include the file containing the variables
-
-                        $data = include 'data.php';
-                        // Access the variables from the included file
-                        $DB_Time = $data['DB_Time'];
-                        $timeArray = $data['timeArray'];
-                        ?>
-
-                        var dbChart = Chart.getChart('graphDB');
 
 
 
-                        const BPM_Time = <?php echo json_encode($BPM_Time); ?>;
-                        const PPM_Time = <?php echo json_encode($PPM_Time); ?>;
-                        const Tc_Time = <?php echo json_encode($Tc_Time); ?>;
-                        const DB_Time = <?php echo json_encode($DB_Time); ?>;
 
-
-
-                        const timeChartJS = timeArrayJS.map((day, index) => {
-                            let dayjs = new Date(day);
-                            return Date.parse(dayjs)
-                        })
-
-                        const dataDB_hour2 = {
-                            labels: timeChartJS,
-                            datasets: [{
-                                label: 'DB',
-                                data: DB_Time,
-                                backgroundColor: 'rgb(105, 166, 170, 0.2)',
-                                borderColor: 'rgb(105, 166, 170)',
-                                borderWidth: 1,
-                            }]
-                        };
-
-
-
-                        dbChart.data = dataDB_hour2;
-                        dbChart.update();
 
                     },
                     error: function() {
@@ -183,6 +146,25 @@ $prdImg = $deviceInfo[0]['prdImg'];
                     </div>
 
 
+                    <!-- <div class="case">
+                        <div class="elementChart">
+                            <img src="<?php echo getImage("aboiement.png") ?>" />
+                            <div class="controlChart">
+                                <div class="controlChart-flex">
+                                    <h3><?php echo $languageList["From"] ?></h3>
+                                    <input type="date" onchange="startDateFilter(this,HuChart)" value="2023-06-20" min="2023-06-20" max="2023-06-23" id="DBstartDate">
+                                    <h3><?php echo $languageList["to"] ?></h3>
+                                    <input type="date" onchange="endDateFilter(this,HuChart,dataHu,dataHu_hour,'Hu')" value="2023-06-23" min="2023-06-20" max="2023-06-23">
+                                </div>
+                                <button onclick="switchChart(DBChart,dataHu,dataHu_hour,'%')" id="Huhour"><?php echo $languageList["Day"] ?></button>
+                                <button onclick=" typeChart(DBChart)">Format</button>
+                            </div>
+                        </div>
+                        <h4>Pourcentage of Humidity</h4>
+                        <div class="graph">
+                            <canvas id="graphDB"></canvas>
+                        </div>
+                    </div> -->
 
 
                     <div class="case" id="plan">
@@ -201,6 +183,7 @@ $prdImg = $deviceInfo[0]['prdImg'];
     </main>
     <div id="element_a_actualiser">
         <?php
+
 
 
         $selectData_Time = runSQLQuery("SELECT * FROM Data_Device WHERE Device_devID = '" . $devID . "' ORDER BY dapDate DESC");
@@ -229,7 +212,7 @@ $prdImg = $deviceInfo[0]['prdImg'];
             $latitude[] = $rowCoordinate["dapLatitude"];
             $longitude[] = $rowCoordinate["dapLongitude"];
         }
-        print_r($DB_Time);
+        //print_r($DB_Time);
 
         ?>
     </div>
@@ -274,7 +257,7 @@ $prdImg = $deviceInfo[0]['prdImg'];
         const Tc_Time = <?php echo json_encode($Tc_Time); ?>;
         const DB_Time = <?php echo json_encode($DB_Time); ?>;
 
-
+        //document.write(DB_Time);
         const timeArrayJS = <?php echo json_encode($timeArray); ?>;
         //document.write(timeArrayJS);
 
@@ -355,6 +338,20 @@ $prdImg = $deviceInfo[0]['prdImg'];
             }]
         };
 
+
+
+        // const dataHu_hour = {
+        //     labels: timeChartJS,
+        //     datasets: [{
+        //         label: '°C',
+        //         data: hu_Time,
+        //         backgroundColor: 'rgb(255, 184, 0, 0.2)',
+        //         borderColor: 'rgb(255, 184, 0)',
+        //         borderWidth: 1,
+        //         // barThickness: 3,
+        //     }]
+        // };
+
         // data Décibel
         const dataDB = {
             labels: dateChartJS,
@@ -402,8 +399,9 @@ $prdImg = $deviceInfo[0]['prdImg'];
                     // autoSkip: false,
                     scales: {
                         x: {
-                            min: new Date().getTime(),
-                            max: new Date().getTime() + 599999,
+                            //min: new Date().getTime(),
+                            min: new Date().getTime() - 59999,
+                            max: new Date().getTime(),
                             type: 'time',
                             time: {
                                 unit: 'minute',
