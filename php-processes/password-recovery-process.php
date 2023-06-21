@@ -38,11 +38,11 @@ if($_SERVER["REQUEST_METHOD"] === "POST") {
     $emailInput = $_POST['email-input'];
 
     $selectClientSql = "SELECT * FROM client WHERE cltEmail='".$emailInput."'";
-    $cltResult = runSQLResult($selectClientSql);
+    $cltResult = runSQLQuery($selectClientSql);
     $clientInfo = $cltResult->fetch_assoc();
 
     $selectAdminSql = "SELECT * FROM admin WHERE admEmail='".$emailInput."'";
-    $admResult = runSQLResult($selectAdminSql);
+    $admResult = runSQLQuery($selectAdminSql);
     $adminInfo = $admResult->fetch_assoc();
 
     session_start();
@@ -52,8 +52,8 @@ if($_SERVER["REQUEST_METHOD"] === "POST") {
         $newToken = generateToken($clientInfo['cltID']);
         // Update client token and get new client info
         $updateCltTokenSQL = "UPDATE client SET cltToken = '".$newToken."' WHERE cltEmail='".$emailInput."' ";
-        runSQLResult($updateCltTokenSQL);
-        $cltResult2 = runSQLResult($selectClientSql);
+        runSQLQuery($updateCltTokenSQL);
+        $cltResult2 = runSQLQuery($selectClientSql);
         $clientInfo = $cltResult2->fetch_assoc();
 
         // Get new client variables
@@ -83,8 +83,8 @@ if($_SERVER["REQUEST_METHOD"] === "POST") {
         $newToken = generateToken($adminInfo['admID']);
         // Update client token and get new client info
         $updateAdmTokenSQL = "UPDATE admin SET admToken = '" . $newToken . "' WHERE admEmail='" . $emailInput . "' ";
-        runSQLResult($updateAdmTokenSQL);
-        $admResult2 = runSQLResult($selectAdminSql);
+        runSQLQuery($updateAdmTokenSQL);
+        $admResult2 = runSQLQuery($selectAdminSql);
         $adminInfo = $admResult2->fetch_assoc();
 
         // Get new client variables
@@ -112,6 +112,6 @@ if($_SERVER["REQUEST_METHOD"] === "POST") {
     else {
         header("Location: ../php-pages/password-recovery-input.php?isInvalid=1&email-input=".$emailInput, true, 303);
     }
-    exit;
+    exit();
 }
 

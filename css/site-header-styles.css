@@ -1,0 +1,405 @@
+/* font-family: 'Inter', sans-serif;*/
+/* min-size: 960 px*/
+/*php-pages -S localhost:4000*/
+
+body {
+    margin: 0 0 0 0;
+    min-width: 400px;
+}
+
+#sih-main-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    background: rgba(0, 0, 0, 0.7);
+    width: 100%;
+    min-height: 93px;
+    position: fixed;
+    top: 0;
+    z-index: 100;
+
+}
+
+
+#sih-logo, #sih-menu{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#sih-logo {
+    margin-left: 50px;
+}
+
+#sih-menu {
+    margin-right: 40px;
+    margin-left: 40px;
+}
+
+#sih-menu a {
+    text-decoration: none;
+    color: white;
+    margin: 0 10px 0 10px;
+    font-size: 20px;
+}
+
+#sih-logo img {
+    min-width: 100px;
+    max-width: 200px;
+}
+
+#sih-interaction-main-div {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-right: 50px;
+}
+
+.sih-interaction-sub-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+
+#sih-language-selector-current-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: #9E9E9E;
+    padding: 2px;
+    border-radius: 5px;
+}
+
+
+#sih-language-selector-button-div {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0.2s, opacity 0.3s;
+
+    background: #9E9E9E;
+    padding: 2px;
+    border-radius: 5px;
+}
+
+#sih-language-selector-button-div button{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    padding: 2px 0 2px 0;
+    border: none;
+    border-radius: 5px;
+    background: none;
+    margin: 2px 0 2px 0;
+}
+
+#sih-language-selector-button-div button:hover{
+    background: #7C7C7C;
+}
+
+#sih-language-selector span{
+    font-size: 15px;
+    margin: 0 5px 0 5px;
+    width: 25px;
+    text-align: center;
+}
+
+.sih-interaction-img-2 {
+    margin: 0 5px 0 5px;
+    width: 20px;
+    height: 100%;
+}
+
+#sih-language-selector:hover, #sih-language-selector:hover #sih-language-selector-button-div {
+    visibility:visible;
+    opacity: 1;
+}
+
+#sih-basket-logo {
+    display: flex;
+    justify-content: end;
+    align-items: end;
+}
+
+.sih-interaction-img-1 {
+    display: flex;
+    width: 65px;
+    height: 65px;
+    border-radius: 200px;
+    background: #d9d9d9;
+}
+
+#sih-basket-count-span {
+    display: none;
+    position: absolute;
+
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    color: #D9D9D9;
+
+    border-radius: 100%;
+
+    background: #5DA7E3;
+}
+
+
+
+/*#sih-profile-div {*/
+/*    align-items: center;*/
+/*}*/
+
+/*#sih-basket-div {*/
+/*    align-items: start;*/
+/*}*/
+
+.sih-dropdown-menu {
+    visibility: hidden;
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    z-index: 100;
+    padding: 10px 10px 10px 10px;
+    background-color: #d9d9d9;
+    border-radius: 5px;
+    transition: visibility 0.4s, opacity 0.4s;
+}
+
+#sih-dropdown-menu-login {
+    width: 300px;
+}
+
+/*#sih-dropdown-menu-basket {*/
+/*    visibility: visible;*/
+/*    opacity: 1;*/
+/*}*/
+
+#sih-basket-product-div {
+    width: 350px;
+    max-height: 380px;
+    overflow-y: auto;
+}
+
+#sih-basket-separation-line {
+    display: none;
+}
+
+.sih-basket-product {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+}
+
+.sih-basket-product {
+    height: 80px;
+}
+
+#sih-product-name-span {
+    width: 150px;
+}
+
+.sih-basket-button-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#sih-basket-delete-all-button {
+    display: none;
+    margin-bottom: 10px;
+}
+
+#sih-basket-total-div, #sih-basket-empty-div {
+    display: none;
+    flex-direction: row;
+    justify-content: center;
+    align-items: start;
+
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.sih-product-price-div {
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+
+    margin: 0 10px 0 10px;
+}
+
+
+.sih-basket-product .sih-product-img{
+    width: 60px;
+    margin-right: 10px;
+}
+
+.sih-basket-product .sih-delete-product-img {
+    width: 20px;
+
+    cursor: pointer;
+}
+
+.sih-basket-product span {
+    font-size: 15px;
+    width: 100%;
+}
+
+#sih-price-span-decimal {
+    font-size: 13px;
+}
+
+#sih-basket-total-div span{
+    text-align: center;
+}
+
+.sih-basket-price-span-normal {
+    font-size: 17px;
+}
+
+#sih-basket-price-span {
+    margin-right: 6px;
+}
+
+.sih-basket-button-div button {
+    border-radius: 10px;
+    padding: 10px 10px;
+
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    transition: background-color 0.2s ease-in-out;
+
+    border: solid 1px #73B43E;
+    background: #73B43E;
+    color: #E2E2E2;
+
+    cursor: pointer;
+}
+
+#sih-signup {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#sih-signup span {
+    text-align: center;
+}
+
+#sih-signup-a1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #69A6E3;
+    border: #69A6E3 solid 1px;
+    border-radius: 20px;
+}
+
+#sih-signup-a1:hover {
+    color: #69A6E3;
+    background: #D9D9D9;
+    border: grey solid 1px;
+}
+
+#sih-signup-a2:hover {
+    color: #69A6E3;
+}
+
+#sih-profile-logo:hover + #sih-dropdown-menu-login, #sih-dropdown-menu-login:hover {
+    visibility: visible;
+    opacity: 1;
+
+}
+
+#sih-basket-logo:hover + #sih-dropdown-menu-basket, #sih-dropdown-menu-basket:hover {
+    visibility: visible;
+    opacity: 1;
+
+}
+
+.sih-dropdown-menu span, .sih-dropdown-menu a{
+    margin: 0 0 0 0;
+    text-decoration: none;
+    color: #808080;
+}
+
+#sih-dropdown-menu-login span, #sih-dropdown-menu-login a {
+    padding: 10px 15px 10px 15px;
+}
+
+.sih-dropdown-menu a {
+    margin: 0 0 0 0;
+    text-decoration: none;
+    color: #808080;
+}
+
+.sih-dropdown-menu a:hover {
+    color: #69A6E3;
+}
+
+
+@media only screen and (max-width: 1106px) {
+    #sih-logo {
+        order: 1;
+    }
+
+    #sih-interaction-main-div {
+        order: 2;
+    }
+    #sih-menu {
+        order: 3;
+    }
+}
+
+@media only screen and (max-width: 650px) {
+    #sih-interaction-main-div {
+        margin-right: 0;
+    }
+
+    #sih-logo {
+        margin-left: 0;
+    }
+}
+
+
+
+@media only screen and (max-width: 350px) {
+    #sih-interaction-main-div {
+        justify-content: space-around;
+    }
+
+    #profile-img-1 {
+        margin: 0 0 0 0;
+    }
+
+    #profile-img-2 {
+        margin: 0 0 0 0;
+    }
+}
+

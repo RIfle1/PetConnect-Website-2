@@ -1,7 +1,4 @@
-
-
-
-#ds-form-body{
+#dv-main-body-div {
     display: flex;
     flex-direction: column;
     margin-left: 5vw;
@@ -9,174 +6,165 @@
     margin-bottom: 50px;
 }
 
- /* position et style du texte 'Mes appareils' */
- #g_appareils h2{
-    font-weight: 700;
-    font-size: 36px;
-    padding-bottom: 100px;
+#dv-main-div {
+    display: flex;
+    justify-content: start;
+    flex-direction: column;
+    margin: 20px 0;
 }
 
-
-
-/* nom de l'appareil */
-#appareil p{
-    font-weight: 700;
-    font-size: 16px;
-    margin-left: 43px;
-    margin-bottom: -20px;
-
+#dv-devices-product-div {
+    display: flex;
+    flex-direction: column;
 }
 
-#appareil ul li{
-    list-style-type: none;
-}
+.dv-devices-product {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
 
-.contour img{
-    position: relative;
-    top: 1em;
-    width: 6em;
-    height: 100px;
-    left: 1em;
+    color: black;
+    text-align: center;
+    border: solid 2px #494848;
+    border-radius: 20px;
 
-}
-/* position texte Bon */
-.contour p{
-    position: relative;
-    color: #06DB1C;
-    left: 7em;
-    top: -4em;
+    margin: 10px 10px;
 
 }
 
+.dv-product-image-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
-/* contour gris des images */
-.contour{
-    width: 20%;
-    display: inline-block;
-    height: 127px;
-    background: #FFFFFF;
-    border: 1px solid #D9D9D9;
-    border-radius: 34px;
-
+    width: 200px;
+    height: 120px;
+    margin: 10px;
 }
 
-/* style et position du lien "plus d'info" */
-#appareil ul a {
-    position: relative;
-    font-weight: 700;
+.dv-image-name-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    z-index: 1;
+}
+
+.dv-name-span {
     font-size: 15px;
-    color: #000000;
-    top: -6em;
-    left: 80%;
-  
-}
-
-
-#appareil #contour{
-    width: 100%;
-    height: 160px;
-    border-bottom: 2px solid grey;
-
-
-}
-
-
-
-
-/* taille + position  de l'image iCollar */
-
-
-#produit{
-    position: relative;
-    width: 14%;
-    border: none;
-}
-
-#produit img{
-    width: 8em;
-    height: 130px;
-}
-
-
-
-button[name="deleteDevice"]{
-    position: relative;
-    border: none;
     height: 20px;
+}
+
+.dv-name-input {
+    display: none;
+
+    height: 16px;
     width: 80px;
+    border: 1px solid #9E9E9E;
     border-radius: 5px;
-    background-color: rgb(157, 20, 20);
+    padding-left: 5px;
+    margin: 0 2px;
+
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+}
+
+.dv-name-img {
+    width: 20px;
+    height: 20px;
+    margin: 0 2px;
+
+    cursor: pointer;
+}
+
+.dv-name-cancel-img, .dv-name-confirm-img {
+    display: none;
+}
+
+.div-image-device {
+    width: 160px;
+    margin: -30px 0 -40px 0;
+    z-index: 0;
+}
+
+.dv-product-info-div {
+    display: flex;
+    flex-direction: row;
+
+}
+
+.dv-info-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+
+    height: 120px;
+    width: 250px;
+    margin: 10px;
+
+    border: 2px solid #C4C4C4;
+    border-radius: 30px;
+
+    cursor: pointer;
+}
+
+.dv-info-container:hover {
+    border: 2px solid #69A6E3;
+}
+
+.dv-container-image {
+    width: 100px;
+}
+
+.dv-product-button-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    margin: 10px;
+}
+
+.dv-more-info-button {
+    border-radius: 10px;
+    padding: 10px 10px;
+
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    transition: background-color 0.2s ease-in-out;
+
+    border: solid 1px #73B43E;
+    background: #73B43E;
     color: white;
-    top: -160px;
-    left: 40%;
 
- 
+    cursor: pointer;
+    text-decoration: none;
 }
 
-button[name="deleteDevice"]:hover{
-    background-color: rgb(213, 12, 12);
-  }
-
-
-
-
-  form{
-    text-align:center;
-
+.dv-more-info-button:hover {
+    background: #E2E2E2;
+    color: #73B43E;
 }
 
-
-
-
-form input{
-    position: relative;
-    top: 20px;
-
+@media only screen and (max-width: 1400px) {
+    .dv-devices-product {
+        flex-direction: column;
+    }
 }
 
-
-
-  input[name="addDevice"]{
-    position: relative;
-    background-color: #918D8D;
-    border: none;
-    border-radius: 15px;
-    color: white;
-    font-size: 20px;
-    width: 200px;
-    height: 50px;
-
+@media only screen and (max-width: 960px) {
+    .dv-product-info-div {
+        flex-direction: column;
+    }
+    .dv-devices-product {
+        width: 280px;
+    }
+    #dv-devices-product-div {
+        flex-direction: row;
+        overflow-x: auto;
+        height: auto;
+    }
 }
-
-input[type="submit"]:hover{
-    background: #1E45A9;
-    
-}
-
-
-
-  input[type="text"]{
-    position: relative;
-    border: none;
-    border:2px solid #918D8D;
-    border-radius: 15px;
-    font-size: 20px;
-    width: 200px;
-    height: 50px;
-    padding: 0 0 0 10px;
- 
-}
-
-
-  /* Erreurs */
-.alert{
-    color: red;
-    position: absolute;
-  
-    left: 12%;
-    top: 30%;
-  }
-  
-  .alert-success{
-    color: rgb(45, 174, 45);
-  }

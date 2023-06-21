@@ -1,146 +1,56 @@
 <?php
 session_start();
 include '../php-processes/dbConnection.php';
-clientPage();
+clientAndNoUserPage();
+
 include 'site-header.php';
 
 $languageList = returnLanguageList()[returnLanguage()]['shop'];
 
+$productList = deObjectifyList(returnProductList(''));
+
 ?>
 
-
+<script>
+    // JSON VARIABLES
+    let productList = <?php echo json_encode($productList) ?>;
+</script>
 
 <!doctype html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
     <link rel="stylesheet" href="../css/shop-styles.css">
-
-    <title>SHOP</title>
+    <title><?php echo $languageList['Shop'] ?></title>
 </head>
-
 <body>
-    <main>
-        <div id="sh-form-body" class="text-font">
-            <section id="shop">
-                <h1><?php echo $languageList["Connected dog collar"] ?></h1>
-                <h2>iCollar - (<?php echo $languageList["Color"] ?>)</h2>
-                <h3>499€</h3>
 
+<div id="sh-main-body-div" class="text-font-500">
 
-                <div class="mainbox">
-                    <img id="chose-color" src="<?php echo  getImage("Collier_blanc.png") ?>" />
-                </div>
+    <h1><?php echo $languageList['Shop'] ?></h1>
 
-                <div class="grid2">
+    <div class="separation-line-1"></div>
 
-                    <button class="box" name="white" onclick="white()">
-                        <figure role="figure">
-                            <figcaption><?php echo $languageList["White"] ?><br><span><?php echo $languageList["In stock"] ?></span></figcaption>
-                            <img src="<?php echo getImage("Collier_blanc.png") ?>" />
-                        </figure>
-                    </button>
-                    <button class="box" name="pink" onclick="pink()">
-                        <figure role="figure">
-                            <figcaption><?php echo $languageList["Pink"] ?><br><span><?php echo $languageList["In stock"] ?></span></figcaption>
-                            <img src="<?php echo getImage("Collier_Rose.png") ?>" />
-                        </figure>
-                    </button>
-                    <button class="box" name="blue" onclick="blue()">
-                        <figure role="figure">
-                            <figcaption><?php echo $languageList["Blue"] ?><br><span><?php echo $languageList["In stock"] ?></span></figcaption>
-                            <img src="<?php echo getImage("Collier_bleu.png") ?>" />
-                        </figure>
-                    </button>
-                    <form action="../php-processes/shop-process.php" method="POST">
-                        <div>
-                            <button type="submit" id="basket" name="addBasket" value="white"><?php echo $languageList["Add to cart"] ?></button>
-                        </div>
-                    </form>
-                    <button class="box" name="black" onclick="black()">
-                        <figure role="figure">
-                            <figcaption><?php echo $languageList["Black"] ?><br><span><?php echo $languageList["In stock"] ?></span></figcaption>
-                            <img src="<?php echo getImage("Collier_noir.png") ?>" />
-                        </figure>
-                    </button>
-                    <button class="box" name="green" onclick="green()">
-                        <figure role="figure">
-                            <figcaption><?php echo $languageList["Green"] ?><br><span><?php echo $languageList["In stock"] ?></span></figcaption>
-                            <img src="<?php echo getImage("Collier_vert.png") ?>" />
-                        </figure>
-                    </button>
-                    <button class="box" name="yellow" onclick="yellow()">
-                        <figure role="figure">
-                            <figcaption><?php echo $languageList["Yellow"] ?><br><span><?php echo $languageList["In stock"] ?></span></figcaption>
-                            <img src="<?php echo getImage("Collier_jaune.png") ?>" />
-                        </figure>
-                    </button>
-                    <form action="../php-processes/shop-process.php" method="POST">
-                        <div>
-                            <button type=" submit" id="buy" name="buy"><?php echo $languageList["Buy now"] ?></button>
-                        </div>
-                    </form>
-                    <p id="deo"></p>
-                </div>
+    <div id="sh-main-div">
+<!--        PRODUCTS WILL BE DISPLAYED HERE-->
+    </div>
 
-                <ul>
-                    <li><?php echo $languageList["GPS localisation"] ?></li>
-                    <li><?php echo $languageList["Heart rate sensor"] ?></li>
-                    <li><?php echo $languageList["Thermal sensor"] ?></li>
-                    <li><?php echo $languageList["Sound sensor"] ?></li>
-                    <li><?php echo $languageList["CO2 concentration"] ?></li>
-                </ul>
+</div>
 
+<?php include '../php-pages/site-footer.php' ?>
 
+<script src="../javaScript/shop-buttons.js"></script>
 
-            </section>
-        </div>
-    </main>
-    <?php include 'site-footer.php' ?>
-    <script type="text/javascript">
-        setMarginTop('site-header-main-header', 'id', 'sh-form-body', 'id', 40)
-    </script>
+<script type="text/javascript">
+    setMarginTop('sih-main-header', 'id', 'sh-main-body-div', 'id', 40)
 
-    <script>
-        function yellow() {
-            document.getElementById("chose-color").src = "../img/products/Collier_jaune.png";
-            document.getElementById("basket").value = "yellow";
-        }
+    // setToWindowHeight('ad-main-body-div', 'id', 0)
+    setMarginTopFooter('sh-main-body-div', 'id', 'site-footer-main-div', 'id', 0)
 
-        function white() {
-            document.getElementById("chose-color").src = "../img/products/Collier_blanc.png";
-            document.getElementById("basket").value = "white";
-        }
-
-        function green() {
-            document.getElementById("chose-color").src = "../img/products/Collier_vert.png";
-            document.getElementById("basket").value = "green";
-        }
-
-
-        function pink() {
-            document.getElementById("chose-color").src = "../img/products/Collier_Rose.png";
-            document.getElementById("basket").value = "pink";
-        }
-
-        function black() {
-            document.getElementById("chose-color").src = "../img/products/Collier_noir.png";
-            document.getElementById("basket").value = "black";
-        }
-
-        function blue() {
-            document.getElementById("chose-color").src = "../img/products/Collier_bleu.png";
-            document.getElementById("basket").value = "blue";
-        }
-    </script>
-
-
+    // IMG STUFF
+    setHeightAndWidth('sh-product-image', 'class', 'sh-product-image-background', 'class', 0)
+    setMargin('sh-product-image', 'class', 'sh-product-image-background', 'class', 0)
+</script>
 
 
 </body>
-
 </html>

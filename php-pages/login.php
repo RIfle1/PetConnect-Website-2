@@ -12,15 +12,9 @@ $captchaLanguage = strtolower(substr(returnLanguage(), 0, 2));
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="../css/sign-styles.css">
-    <title>PetConnect Login</title>
+    <title>Login</title>
 
     <script src="https://code.jquery.com/jquery-3.6.1.min.js"
             integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
@@ -46,7 +40,7 @@ $captchaLanguage = strtolower(substr(returnLanguage(), 0, 2));
             <div class="sign-form-elem"><h1><?php echo $languageList["Sign in"]?></h1></div>
             <div id="login-Invalid">
                 <?php if ($_GET['isInvalid'] ?? ""): ?>
-                    <em>Invalid Login</em>
+                    <em><?php echo $languageList['Invalid Login']?></em>
                 <?php endif; ?>
             </div>
             <div class="sign-form-elem">
@@ -58,7 +52,7 @@ $captchaLanguage = strtolower(substr(returnLanguage(), 0, 2));
                 <label for="lgPassword-input"><?php echo $languageList["Password"]?>:</label>
                 <input type="password" id="lgPassword-input" name="lgPassword-input" required>
             </div>
-            <div class="sign-separation-line-small"></div>
+            <div class="separation-line-small"></div>
 
             <div class="sign-form-elem">
                     <div id="recaptcha-div" class="g-recaptcha"></div>
@@ -68,13 +62,13 @@ $captchaLanguage = strtolower(substr(returnLanguage(), 0, 2));
                 <span><?php echo $commonStringsLanguageList["Please verify that you are not a robot."]?></span>
             </div>
 
-            <div class="sign-separation-line-small"></div>
+            <div class="separation-line-small"></div>
 
             <div class="sign-form-elem">
                 <button id="submit-login-button" type="button"><?php echo $languageList["Login"]?></button>
             </div>
 
-            <div class="sign-separation-line-small"></div>
+            <div class="separation-line-small"></div>
             <div class="sign-form-elem">
                 <a href="password-recovery-input.php"><?php echo $languageList["Forgot Password"]?></a>
             </div>
@@ -87,14 +81,17 @@ $captchaLanguage = strtolower(substr(returnLanguage(), 0, 2));
 
 <?php include '../php-pages/site-footer.php' ?>
 <script type="text/javascript">
-    setMarginTop('site-header-main-header', 'id', 'sign-form-body', 'id', 50)
+    setMarginTop('sih-main-header', 'id', 'sign-form-body', 'id', -50)
+
+    setToWindowHeight('sign-form-body', 'id', 0)
+    setMarginTopFooter('sign-form-body', 'id', 'site-footer-main-div', 'id', 0)
+
 </script>
 
 <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit&hl=<?php echo $captchaLanguage ?>"
         async defer>
 </script>
 
-<script src="../javaScript/css-functions.js"></script>
 <script src='../javaScript/recaptcha-functions.js'></script>
 </body>
 </html>

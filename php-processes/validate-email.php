@@ -1,18 +1,18 @@
 <?php
-include 'dbConnection.php';
+include_once '../php-processes/dbConnection.php';
 
-$email = $_GET["cltEmail-input"];
-$emailSQL1 = "SELECT cltEmail FROM Client WHERE cltEmail='".$email."'";
+$email = $_GET["email-input"];
+$emailSQL1 = "SELECT cltEmail FROM client WHERE cltEmail='".$email."'";
 $emailSQL2 = "SELECT admEmail FROM admin WHERE admEmail='".$email."'";
-$result1 = runSQLResult($emailSQL1);
-$result2 = runSQLResult($emailSQL2);
+$result1 = runSQLQuery($emailSQL1);
+$result2 = runSQLQuery($emailSQL2);
 
 if($result1->num_rows === 0 && $result2->num_rows === 0) {
-   $isAvailable = true;
+    $emailAvailable = true;
 }
 else {
-    $isAvailable = false;
+    $emailAvailable = false;
 }
 
 header("Content-Type: application/json");
-echo json_encode(["available" => $isAvailable]);
+echo json_encode(["emailAvailable" => $emailAvailable]);

@@ -8,6 +8,7 @@ $clientLoggedIn = $_SESSION['clientLoggedIn'];
 $adminLoggedIn = $_SESSION['adminLoggedIn'];
 $loggedIn = $_SESSION['loggedIn'];
 $entityInfo = returnEntityInfo();
+$entityAttributes = returnEntityAttributes();
 
 
 // CHANGE PROFILE PICTURE FUNCTION
@@ -29,34 +30,21 @@ $languageList = returnLanguageList()[returnLanguage()]['profile'];
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="../css/profile-styles.css">
     <title>Profile</title>
 </head>
 
 <body>
-
     <div id="profile-main-div" class="text-font-700">
+        <div id="background-image"></div>
         <div id="profile-top-div">
             <div id="profile-top-div-column-1">
                 <?php if ($loggedIn) : ?>
-                    <?php if ($clientLoggedIn) : ?>
-                        <?php if (strlen($entityInfo['cltPfpName']) > 0) : ?>
-                            <img src="../img/pfp/<?php echo getPfp('cltID', 'client', $entityInfo['cltID'])['cltPfpName'] ?>" alt="Profile picture">
-                        <?php else : ?>
-                            <img src="<?php echo getImage('client.png') ?>" alt="Client Pfp">
-                        <?php endif; ?>
-                    <?php elseif ($adminLoggedIn) : ?>
-                        <?php if (strlen($entityInfo['admPfpName']) > 0) : ?>
-                            <img src="../img/pfp/<?php echo getPfp('admID', 'admin', $entityInfo['admID'])['admPfpName'] ?>" alt="Profile picture">
-                        <?php else : ?>
-                            <img src="<?php echo getImage('client.png') ?>" alt="Client Pfp">
-                        <?php endif; ?>
+                    <?php if (strlen($entityInfo[$entityAttributes['PfpName']]) > 0) : ?>
+                        <img src="<?php echo getPfp($entityAttributes['ID'], $entityAttributes['Table'], $_SESSION['ID']) ?>" alt="Profile picture">
+                    <?php else : ?>
+                        <img src="<?php echo getImage('client.png') ?>" alt="Client Pfp">
                     <?php endif; ?>
                     <div id="profile-pfp-overlay">
                         <form method="POST" action="" enctype="multipart/form-data">
@@ -99,8 +87,8 @@ $languageList = returnLanguageList()[returnLanguage()]['profile'];
                 <a href="<?php restrictedAdminPage('../php-pages/payment-method.php') ?>"><span><?php echo $languageList["Payment Method"] ?></span></a>
                 <a href="<?php restrictedAdminPage('../php-pages/address.php') ?>"><span><?php echo $languageList["Addresses"] ?></span></a>
             <?php elseif ($adminLoggedIn) : ?>
-                <a href="manage-user.php"><span><?php echo $languageList["Manage Users"] ?></span></a>
-                <a href="#"><span><?php echo $languageList["Answer Questions"] ?></span></a>
+                <a href="../php-pages/manage-user.php"><span><?php echo $languageList["Manage Users"] ?></span></a>
+                <a href="assistance-manage.php"><span><?php echo $languageList["Answer Questions"] ?></span></a>
                 <!--            <a href="#"><span>Gérer les données</span></a>-->
             <?php endif; ?>
             <a href="<?php restrictedNoUserPage('../php-pages/connection-security.php') ?>"><span><?php echo $languageList["Connection And Security"] ?></span></a>
@@ -108,9 +96,12 @@ $languageList = returnLanguageList()[returnLanguage()]['profile'];
         </div>
     </div>
 
-    <?php include 'site-footer.php' ?>
+    <?php include '../php-pages/site-footer.php' ?>
     <script type="text/javascript">
-        setMarginTop('site-header-main-header', 'id', 'profile-main-div', 'id', 30)
+        setMarginTop('sih-main-header', 'id', 'profile-main-div', 'id', 20)
+
+        // setToWindowHeight('profile-main-div', 'id', 0)
+        setMarginTopFooter('profile-main-div', 'id', 'site-footer-main-div', 'id', 0)
     </script>
 
 </body>

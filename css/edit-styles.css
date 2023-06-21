@@ -2,6 +2,7 @@
     margin: 0 0 0 0;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
 }
 
@@ -12,9 +13,9 @@
     border: #d9d9d9 solid 1px;
     border-radius: 20px;
     width: 50vw;
-    min-width: 430px;
-    max-width: 600px;
-    margin: 1vh 0 5vh 0;
+    min-width: 450px;
+    max-width: 700px;
+    padding: 20px 0 20px 0;
 }
 
 .cs-form-elem {
@@ -35,7 +36,7 @@
 .cs-form-elem-content {
     display: flex;
     justify-content: center;
-    align-items: left;
+    width: 70%;
     flex-direction: column;
     margin: 15px 15px 15px 15px;
 }
@@ -43,7 +44,6 @@
 .cs-form-elem-button, .cs-form-elem-a {
     display: flex;
     flex-direction: column;
-    margin: 15px 15px 15px 0;
     justify-content: center;
     align-items: center;
 }
@@ -60,13 +60,7 @@
 
 .cs-form-elem span {
     text-align: left;
-    width: 250px;
     padding: 2px 0 2px 0;
-}
-
-span[class*="cs-form-error-span"] {
-    color: #B81111;
-    text-align: center;
 }
 
 .cs-form-elem input {
@@ -74,7 +68,8 @@ span[class*="cs-form-error-span"] {
     border-radius: 10px;
     border: grey solid 1px;
     height: 42px;
-    width: 237px;
+    min-width: 200px;
+    max-width: 300px;
 
     margin: 5px 0 5px 0;
     padding: 0 0 0 10px;
@@ -93,7 +88,9 @@ span[class*="cs-form-error-span"] {
     font-weight: 700;
     font-size: 15px;
     transition: background-color 0.2s ease-in-out;
-    margin: 11px 0 11px 0;
+    margin: 10px;
+
+    cursor: pointer;
 }
 
 #cs-form-temp-span {

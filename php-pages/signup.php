@@ -11,20 +11,15 @@ $captchaLanguage = strtolower(substr(returnLanguage(), 0, 2));
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
 <!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">-->
     <link rel="stylesheet" href="../css/sign-styles.css">
-    <title>PetConnect Signup</title>
+    <title><?php echo $languageList["Create an account"]?></title>
 
     <script src="https://code.jquery.com/jquery-3.6.1.min.js"
             integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
             crossorigin="anonymous">
     </script>
-    <script src="https://unpkg.com/just-validate@latest/dist/just-validate.production.min.js" defer></script>
-    <script src="../javaScript/signup-validation.js" defer></script>
 
     <script type="text/javascript">
         var onloadCallback = function() {
@@ -46,34 +41,34 @@ $captchaLanguage = strtolower(substr(returnLanguage(), 0, 2));
             <h1><?php echo $languageList["Create an account"]?></h1>
         </div>
         <div class="sign-form-elem">
-            <label for="cltUsername-input"><?php echo $languageList["Username:"]?></label>
-            <input type="text" id="cltUsername-input" name="cltUsername-input">
+            <label for="username-input"><?php echo $languageList["Username:"]?></label>
+            <input type="text" id="username-input" name="username-input">
         </div>
         <div class="sign-form-elem">
-            <label for="cltFirstName-input"><?php echo $languageList["First Name:"]?></label>
-            <input type="text" id="cltFirstName-input" name="cltFirstName-input">
+            <label for="firstName-input"><?php echo $languageList["First Name:"]?></label>
+            <input type="text" id="firstName-input" name="firstName-input">
         </div>
         <div class="sign-form-elem">
-            <label for="cltLastName-input"><?php echo $languageList["Last Name:"]?></label>
-            <input type="text" id="cltLastName-input" name="cltLastName-input">
+            <label for="lastName-input"><?php echo $languageList["Last Name:"]?></label>
+            <input type="text" id="lastName-input" name="lastName-input">
         </div>
         <div class="sign-form-elem">
-            <label for="cltEmail-input"><?php echo $languageList["Email:"]?></label>
-            <input type="email" id="cltEmail-input" name="cltEmail-input">
+            <label for="email-input"><?php echo $languageList["Email:"]?></label>
+            <input type="email" id="email-input" name="email-input">
         </div>
         <div class="sign-form-elem">
-            <label for="cltPhoneNumber-input"><?php echo $languageList["Phone Number:"]?></label>
-            <input type="text" id="cltPhoneNumber-input" name="cltPhoneNumber-input">
+            <label for="phoneNumber-input"><?php echo $languageList["Phone Number:"]?></label>
+            <input type="text" id="phoneNumber-input" name="phoneNumber-input">
         </div>
         <div class="sign-form-elem">
-            <label for="cltPassword-input"><?php echo $languageList["Password:"]?></label>
-            <input type="password" id="cltPassword-input" name="cltPassword-input">
+            <label for="password-input"><?php echo $languageList["Password:"]?></label>
+            <input type="password" id="password-input" name="password-input">
         </div>
         <div class="sign-form-elem">
-            <label for="cltPasswordConfirmation-input"><?php echo $languageList["Enter your password again:"]?></label>
-            <input type="password" id="cltPasswordConfirmation-input" name="cltPasswordConfirmation-input">
+            <label for="passwordConfirmation-input"><?php echo $languageList["Enter your password again:"]?></label>
+            <input type="password" id="passwordConfirmation-input" name="passwordConfirmation-input">
         </div>
-        <div class="sign-separation-line-small"></div>
+        <div class="separation-line-small"></div>
 
         <div class="sign-form-elem">
             <div id="recaptcha-div" class="g-recaptcha"></div>
@@ -83,9 +78,9 @@ $captchaLanguage = strtolower(substr(returnLanguage(), 0, 2));
             <span><?php echo $commonStringsLanguageList["Please verify that you are not a robot."]?></span>
         </div>
 
-        <div class="sign-separation-line-small"></div>
+        <div class="separation-line-small"></div>
         <div class="sign-form-elem">
-            <button type="submit" name="submit-button"><?php echo $languageList["Create an Account"]?></button>
+            <button type="button" id="sign-submit-button" name="submit-button"><?php echo $languageList["Create an Account"]?></button>
         </div>
         <div class="sign-form-elem">
             <span><?php echo $languageList["By creating an account, you agree to PetConnect's"]?>
@@ -93,22 +88,28 @@ $captchaLanguage = strtolower(substr(returnLanguage(), 0, 2));
                 <?php echo $languageList["and"]?>
                 <a href="#"><?php echo $languageList["Privacy Notice"]?></a>.</span>
         </div>
-        <div class="sign-separation-line-small"></div>
+        <div class="separation-line-small"></div>
         <div class="sign-form-elem">
             <p><?php echo $languageList["Already have an account?"]?> <a href="login.php"><?php echo $languageList["Sign in"]?> &rarr;</a></p>
         </div>
     </div>
 </form>
 
+<script src="../javaScript/validation-functions.js"></script>
+<script src="../javaScript/signup-validation.js"></script>
+
 <?php include '../php-pages/site-footer.php' ?>
 <script type="text/javascript">
-    setMarginTop('site-header-main-header', 'id', 'signup-form', 'id', 10)
+    setMarginTop('sih-main-header', 'id', 'signup-form', 'id', 20)
+
+    setMarginTopFooter('signup-form', 'id', 'site-footer-main-div', 'id', 200)
+    // NEEDS TO BE FIXED => WHEN ERRORS APPEAR, FOOTER HAS WRONG MARGIN
 </script>
 
 <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit&hl=<?php echo $captchaLanguage ?>"
         async defer>
 </script>
-<script src="../javaScript/css-functions.js"></script>
+
 <script src='../javaScript/recaptcha-functions.js'></script>
 
 </body>

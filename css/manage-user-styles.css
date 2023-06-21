@@ -15,6 +15,8 @@ body {
 }
 
 .mg-table-control-div {
+    display: none;
+
     width: 29%;
     min-height: 463px;
     height: 463px;
@@ -27,12 +29,13 @@ body {
 .mg-table-div {
     overflow-x : auto;
     overflow-y: scroll;
-    width: 70%;
+    width: 100%;
     min-height: 463px;
     height: 463px;
     max-height: 463px;
     border: solid 2px #494848;
-    border-radius: 30px;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
 }
 
 .mg-table-div, .mg-table-control-div {

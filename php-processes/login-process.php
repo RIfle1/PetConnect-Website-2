@@ -8,11 +8,11 @@ $isInvalid = false;
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $sql = "SELECT * FROM client WHERE cltEmail = '" . $_POST["lgEmail-input"] . "'";
-    $result = runSQLResult($sql);
+    $result = runSQLQuery($sql);
     $clientInfo = $result->fetch_assoc();
 
     $sql2 = "SELECT * FROM admin WHERE admEmail = '".$_POST["lgEmail-input"]."'";
-    $result2 = runSQLResult($sql2);
+    $result2 = runSQLQuery($sql2);
     $adminInfo = $result2->fetch_assoc();
 
     if ($clientInfo) {
@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $token = generateToken($clientInfo['cltID']);
 
             $insertTokenSql = "UPDATE client SET cltToken = '".$token."' WHERE cltID='".$clientInfo['cltID']."'";
-            runSQLResult($insertTokenSql);
+            runSQLQuery($insertTokenSql);
 
             session_start();
             session_regenerate_id();
@@ -54,7 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 }
 
                 header("Location: ../php-pages/signup-success.php", true, 303);
-                exit;
+                exit();
 
             } elseif ($clientInfo["cltVerifiedEmail"] === '1') {
                 $_SESSION["ID"] = $clientInfo["cltID"];
@@ -65,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 setcookie("Table-cookie", $_SESSION['Table'], time() + (86400 * 30), "/");
 
                 header("Location: ../php-pages/home.php", true, 303);
-                exit;
+                exit();
             }
 
         }
@@ -92,12 +92,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             setcookie("Table-cookie", $_SESSION['Table'], time() + (86400 * 30), "/");
 
             header("Location: ../php-pages/home.php", true, 303);
-            exit;
+            exit();
         }
     }
     $isInvalid = true;
     header('Location: ../php-pages/login.php?isInvalid='.$isInvalid.'&lgEmail-input='.$_POST["lgEmail-input"], true, 303);
-    exit;
+    exit();
 }
 
 

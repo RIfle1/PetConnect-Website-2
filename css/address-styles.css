@@ -16,7 +16,6 @@
 
 #ad-add-address-div {
     border: dashed 2px #494848;
-    border-radius: 30px;
     justify-content: center;
 
     text-decoration: none;
@@ -35,7 +34,7 @@
     margin: 10px;
 
     height: 266px;
-    width: 266px;
+    width: 400px;
 }
 
 .ad-plus-div {
@@ -81,29 +80,32 @@
     margin: 2px;
 }
 
-.ad-href-div {
+.ad-button-div {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    width: 400px;
+    height: 50px;
 
     border-top: solid 1px #494848;
 
-    margin-top: 230px;
+    margin-top: 210px;
     position: absolute;
 }
 
-.ad-href-div a{
+.ad-button-div a, .ad-button-div button{
     text-decoration: none;
     font-size: 14px;
     margin: 5px;
-    padding: 3px 5px 3px 5px;
+    padding: 5px 8px 5px 8px;
     border-radius: 10px;
+    border: none;
     background-color: #d9d9d9;
     color: #808080;
 }
 
-.ad-href-div a:hover {
+.ad-button-div a:hover, .ad-button-div button:hover {
     color: #69A6E3;
 }
 

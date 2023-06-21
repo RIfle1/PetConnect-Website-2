@@ -107,7 +107,7 @@ function returnLastIDString($id, $table, $idFormat) : string {
 
     $lastID = returnLastIDInt($id, $table, $idFormat);
 
-    $result2 = runSQLResult("SELECT $id FROM $table WHERE $id LIKE '%".$lastID."'");
+    $result2 = runSQLQuery("SELECT $id FROM $table WHERE $id LIKE '%".$lastID."'");
     if (mysqli_num_rows($result2) > 0) {
         $row2 = $result2->fetch_assoc();
         $lastCltID = $row2["cltID"];

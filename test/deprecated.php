@@ -15,7 +15,7 @@ function generateTable($entityName, $orderBy, $ID, $IDLetters): void
 $tableRowNumber = 1;
 $tableCell = 0;
 $entityInfoSql = "SELECT * FROM ".$entityName." ORDER BY $orderBy";
-$entityResult = runSQLResult($entityInfoSql);
+$entityResult = runSQLQuery($entityInfoSql);
 ?>
 <!--<table>-->
 <?php while($entityInfo = $entityResult->fetch_array()): ?>

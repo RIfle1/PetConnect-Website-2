@@ -1,8 +1,8 @@
 <?php
 session_start();
 include 'dbConnection.php';
-include 'verification-functions.php';
-clientPage();
+include 'validation-functions.php';
+//clientPage();
 
 $loggedIn = $_SESSION['loggedIn'];
 $table = $_SESSION['Table'];
@@ -11,18 +11,18 @@ $newPassword = $_GET['newPassword'];
 $entityAttributes = returnEntityAttributes();
 
 $crossCheckPasswordSql = "SELECT * FROM ".$table." WHERE ".$entityAttributes['Token']." = '".$token."'";
-$result = runSQLResult($crossCheckPasswordSql);
+$result = runSQLQuery($crossCheckPasswordSql);
 $entityInfo = $result->fetch_assoc();
 
 $oldPasswordHash = $entityInfo[$entityAttributes['Password']];
 
 if(password_verify($newPassword, $oldPasswordHash)) {
-    $samePassword = true;
+    $passwordAvailable = false;
 }
 else {
-    $samePassword = false;
+    $passwordAvailable = true;
 }
 
 header("Content-Type: application/json");
-echo json_encode(["samePassword" => $samePassword]);
+echo json_encode(["passwordAvailable" => $passwordAvailable]);
 

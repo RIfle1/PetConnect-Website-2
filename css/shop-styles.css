@@ -1,152 +1,170 @@
-
-
-
-* {
-    padding: 0;
-    margin: 0;
-  }
-  
-img{
-    width: 2%;
+#sh-main-body-div {
+    display: flex;
+    flex-direction: column;
+    margin-left: 5vw;
+    margin-right: 5vw;
+    margin-bottom: 50px;
 }
 
-#shop h1{
-    font-weight: 700;
-    font-size: 48px;
-  text-align: center;
-
-    color: #69A6AA;
-
+#sh-main-div {
+    display: flex;
+    justify-content: start;
+    flex-direction: column;
+    margin: 20px 0;
 }
 
-#shop h2{
-    font-weight: 700;
-    font-size: 40px;
-    font-weight: 400;
-    font-size: 48px;
-    color: #69A6AA;
-    padding-left: 8.2em;
-}
+.sh-product-div {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
 
-#shop h3{
-    position: relative;
-    font-weight: 700;
-    font-size: 40px;
-    top: -1.2em;
-    margin-left: 21em;
-}
-
-
-
-.mainbox{
-    position: relative;
-border: 1px solid #494848;
-border-radius: 20px;
-width: 324px;
-height: 300px;
-left: 2em;
-top: -5.2em;
-}
-
-.mainbox img{
-    position: relative;
-    top: 48px;
-    width: 20em;
-}
-
-.grid2{
-    margin-top: -20em;
-    padding-left: 400px;
-    padding-right: 400px;
-    display: grid;
-    grid-template-columns: repeat(4, auto);
-    grid-template-rows: repeat(2, auto);
-    grid-gap: 10px;
-
-}
-
-.box{
-    width: 179px;
-    height: 59px;
-    border: none;
-    border: 1px solid #BBBBBB;
-    background-color: white;
+    color: black;
+    text-align: center;
+    border: solid 2px #494848;
     border-radius: 20px;
+
+    margin: 10px 0;
+
+    width: calc(100% - 4px);
 }
 
-
-
-button[class=box]:hover{
-    background-color: rgb(247, 247, 188);
+.sh-href-container {
+    text-decoration: none;
+    color: black;
 }
 
-button[id="buy"],button[id="basket"]{
-    border: none;
-    width: 297px;
-    height: 62.18px;
-    margin-left: 30px;
-    font-weight: 700;
-    font-size: 20px;
-    color: #FFFFFF;
-    background: #FFB800;
-    border-radius: 72px;
+.sh-product-image-div {
+    display: flex;
+    flex-direction: column;
+
+    flex-basis: 240px;
+    flex-shrink: 1;
 }
 
-button[id="buy"]{
-    background: #FF5C5C;
+.sh-product-image {
+    border-radius: 20px;
+    margin: 20px;
+    width: calc(100% - 40px);
 }
 
-button[id="buy"]:hover,button[id="basket"]:hover{
-    filter:sepia(5)
+.sh-product-image-background {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+
+    background: black;
+    border-radius: 20px;
+
+    transition: visibility 0.4s, opacity 0.4s;
 }
 
-#shop ul{
-    padding-left: 26.6em;
-    padding-top: 2em;
+.sh-product-image-background span {
+    color: white;
+    opacity: 1;
 }
 
-#shop li{
-    float: none;
-    font-weight: 400;
+.sh-product-image:hover + .sh-product-image-background, .sh-product-image-background:hover {
+    visibility: visible;
+    opacity: 0.4;
+}
+
+.sh-product-info-div {
+    display: flex;
+    flex-direction: column;
+
+    margin: 20px;
+
+    flex-basis: 65%;
+    flex-shrink: 10;
+}
+
+.sh-info-name {
+    display: flex;
+    flex-direction: row;
+
+    width: 100%;
+}
+
+.sh-info-name span {
+    width: 100%;
+    text-align: start;
     font-size: 24px;
- 
-
 }
 
-
-
-.box img{
-    position: relative;
-    width: 80px;
-    top:-45px;
-    right: 40px;
+.sh-info-description {
+    text-align: start;
+    margin-top: 20px;
 }
 
-
-figcaption{
-    position: relative;
-    left:35px;
-    top: 5px;
-    font-weight: 400;
-    font-size: 20px;
+.sh-info-description p {
+    width: 100%;
+    margin: 0;
 }
 
+.sh-price-button-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
-figcaption span{
-
-    color: #927979;
+    flex-basis: 10%;
+    flex-shrink: 3;
+    margin: 10px 40px;
 }
 
+.sh-price-div {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: start;
 
-
-
-/* Changements de position lorsque la fenetre est supérieur à 1230px */
-@media screen and (max-width: 1290px){
-    #shop button[id="buy"],button[id="basket"]{
-        position: relative;
-        top: 150px;
-        right: 330px;
-
-    }
+    margin: 10px 0;
 }
+
+.sh-price-span-1 {
+    font-size: 40px;
+    font-weight: 700;
+}
+
+.sh-price-span-2 {
+    font-size: 28px;
+    font-weight: 500;
+}
+
+.sh-button-div {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: start;
+
+    margin: 10px 0;
+}
+
+.sh-button-div button {
+    border-radius: 10px;
+    height: 45px;
+    width: 90px;
+
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    transition: background-color 0.2s ease-in-out;
+
+    border: solid 1px #73B43E;
+    background: #73B43E;
+    color: #E2E2E2;
+
+    cursor: pointer;
+}
+
+.sh-button-div button:hover {
+    background: #E2E2E2;
+    color: #73B43E;
+}
+
 

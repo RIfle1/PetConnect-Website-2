@@ -1,0 +1,143 @@
+.am-main-body-div {
+    display: flex;
+    flex-direction: column;
+    margin-left: 5vw;
+    margin-right: 5vw;
+    margin-bottom: 50px;
+}
+
+.am-main-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.am-question-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    overflow-y: auto;
+    width: 60%;
+    min-height: 463px;
+    height: 650px;
+    border: solid 2px #494848;
+
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+}
+
+.am-control-div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 39%;
+    min-height: 463px;
+    height: 650px;
+    border: solid 2px #494848;
+
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+}
+
+.am-question-span {
+    border: solid 2px #9E9E9E;
+    border-radius: 10px;
+    margin: 10px 10px;
+    padding: 10px;
+
+    width: calc(100% - 50px);
+    cursor: pointer;
+}
+
+.am-question-span:hover {
+    background: #69A6E3;
+}
+
+.am-title-div, .am-title-div-2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 30px;
+    width: 100%;
+
+    border-bottom: 1px solid #494848;
+}
+
+.am-title-div-2 {
+    border-top: 1px solid #494848;
+}
+
+.am-edit-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+}
+
+.am-edit-textarea {
+    margin: 10px;
+    padding: 10px 0 0 10px;
+    height: 135px;
+    width: calc(100% - 40px);
+
+    border: 1px solid #9E9E9E;
+    border-radius: 10px;
+    resize: none;
+
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+
+}
+
+.am-edit-textarea:focus {
+    outline: 2px solid #69A6E3;
+    border-color: white;
+}
+
+.am-control-button {
+    padding: 10px;
+    margin: 10px;
+    border: none;
+    border-radius: 30px;
+    width: 300px;
+    min-width: 200px;
+    text-align: center;
+
+    font-weight: 500;
+    font-size: 15px;
+    font-family: 'Inter', sans-serif;
+
+    transition: background-color 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.am-control-button-1 {
+    background: #d9d9d9;
+}
+
+.am-control-button-1:hover {
+    background: #9E9E9E;
+}
+
+.am-control-button-2 {
+    background: #BCD97F;
+}
+.am-control-button-2:hover {
+    background: #74934A;
+}
+
+.am-control-button-3 {
+    background: #DD7E68;
+}
+
+.am-control-button-3:hover {
+    background: #A93D2F;
+}
+

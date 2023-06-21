@@ -4,7 +4,7 @@ logoutAndRedirect("../php-pages/password-reset-success.php");
 
 if(empty($_GET['success'])) {
     header("Location: ../php-pages/restricted-access.php",true, 303);
-    exit;
+    exit();
 }
 
 include_once 'site-header.php';
@@ -14,13 +14,10 @@ $languageList = returnLanguageList()[returnLanguage()]['password-reset-success']
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
     <!--  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">-->
     <link rel="stylesheet" href="../css/sign-styles.css">
-    <title>PetConnect Signup</title>
+    <title>Signup</title>
 </head>
 <body id='sign-form-real-body' class="text-font-700">
 
@@ -51,7 +48,10 @@ $languageList = returnLanguageList()[returnLanguage()]['password-reset-success']
 
 <?php include '../php-pages/site-footer.php' ?>
 <script type="text/javascript">
-    setMarginTop('site-header-main-header', 'id', 'sign-form-body', 'id', 50)
+    // setMarginTop('sih-main-header', 'id', 'sign-form-body', 'id', -100)
+
+    setToWindowHeight('sign-form-body', 'id', 0)
+    setMarginTopFooter('sign-form-body', 'id', 'site-footer-main-div', 'id', 0)
 </script>
 
 </body>

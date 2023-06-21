@@ -12,6 +12,15 @@
     margin: 10px 15px 10px 15px;
 }
 
+.separation-line-small {
+    width: 80%;
+    padding: 1px;
+    background: radial-gradient(#494848 30%, #D9D9D9, #D9D9D9);
+    border-radius: 1px;
+    margin: 10px 15px 10px 15px;
+}
+
+
 .text-font {
     font-family: 'Inter', sans-serif;
     font-style: normal;
@@ -45,5 +54,51 @@
     font-family: 'Inter', sans-serif;
     font-style: normal;
     font-weight: 700;
+}
+
+span[class*="form-error-span"] {
+    color: #B81111;
+    text-align: center;
+}
+
+/*SCROLLBAR STUFF*/
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+lien{
+    text-align: center;
+}
+
+lien a{
+    color: grey;
+    text-decoration: none;
+}
+
+lien a:hover{
+    text-decoration: underline;
+}
+#actif{
+    color: rgb(208, 5, 208);
+}
+#actif:hover{
+    text-decoration: none;
 }
 

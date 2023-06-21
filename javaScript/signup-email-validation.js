@@ -9,8 +9,6 @@ $("#submit-button").click(function() {
         const verificationCodeInput = $("#verificationCode-input").val();
 
         console.log(verificationCode);
-        console.log(typeof cltVerifiedEmail);
-        // console.log(cltToken);
 
         if(verificationCode === verificationCodeInput) {
             $.ajax({
@@ -20,21 +18,13 @@ $("#submit-button").click(function() {
                     newCltID: newCltID,
                     verificationCode: verificationCode,
                     cltToken: cltToken
-                },
-                success: function(result) {
-                },
-                error: function(requestObject, error, errorThrown) {
-                    alert(error);
-                    alert(errorThrown);
                 }
             })
-            console.log('verified')
             changeSignupSuccessPage();
 
         }
 
         else {
-            console.log('false code')
             $("#sign-form-validate-error").css('display', "flex");
         }
 
@@ -51,9 +41,9 @@ $.getJSON("../php-processes/signup-email-validation.php", function(json) {
 })
 
 function changeSignupSuccessPage() {
-    $("#sign-form-header").html('Email Validated');
-    $("#sign-form-message").html('Your email has been validated. You can now <a href="../php-pages/login.php">Login<a/>.');
+    $("#sign-form-message").remove();
     $("#submit-button-div").remove();
     $("#sign-form-input-div").remove();
     $("#sign-form-validate-error").remove();
+    $("#sign-form-message-success").css("display", "block");
 }

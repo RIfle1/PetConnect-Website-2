@@ -1,25 +1,21 @@
 <?php
 session_start();
 include '../php-processes/dbConnection.php';
-include '../php-processes/verification-functions.php';
+include '../php-processes/validation-functions.php';
 include '../php-processes/php-mailer.php';
 
 // Security stuff
+if (empty($_SESSION['Token']) || empty($_SESSION['resetPassword']) || empty($_SESSION['Table'])) {
+    header("Location: ../php-pages/restricted-access.php", true, 303);
+    exit();
+}
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-
-    if (empty($_SESSION['Token']) || empty($_SESSION['resetPassword']) || empty($_SESSION['Table'])) {
-        header("Location: ../php-pages/restricted-access.php", true, 303);
-        exit;
-    }
 
     $newPassword = $_POST['newPassword-input'];
     $newPasswordConfirmation = $_POST['newPasswordConfirmation-input'];
     $token = $_SESSION['Token'];
 
-    checkPasswordLength($newPassword);
-    checkPasswordLetter($newPassword);
-    checkPasswordNumber($newPassword);
-    checkPasswordMatch($newPassword, $newPasswordConfirmation);
+    validatePassword($newPassword, $newPasswordConfirmation);
 
     $passwordHash = returnPasswordHash($newPassword);
 
@@ -28,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if ($_SESSION['Table'] === 'client') {
         // Check that the new password isn't the same as the old one
         $getPasswordSql = "SELECT cltPassword, cltID FROM client WHERE cltToken = '" . $token . "'";
-        $cltResult = runSQLResult($getPasswordSql);
+        $cltResult = runSQLQuery($getPasswordSql);
         $clientInfo = $cltResult->fetch_assoc();
 
         $cltPassword = $clientInfo['cltPassword'];
@@ -36,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         if (password_verify($newPassword, $cltPassword)) {
             header("Location: ../php-pages/password-reset.php?isInvalid=1&cltEmail=".$_SESSION['cltEmail']."&Token=".$_SESSION['Token'], true,303);
-            exit;
+            exit();
         }
 
         // Generate new token to make previous link unavailable and update password
@@ -45,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     } elseif ($_SESSION['Table'] === 'admin') {
         // Check that the new password isn't the same as the old one
         $getPasswordSql = "SELECT admPassword FROM admin WHERE admToken = '" . $token . "'";
-        $admResult = runSQLResult($getPasswordSql);
+        $admResult = runSQLQuery($getPasswordSql);
         $adminInfo = $admResult->fetch_assoc();
 
         $admPassword = $adminInfo['admPassword'];
@@ -53,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         if (password_verify($newPassword, $admPassword)) {
             header("Location: ../php-pages/password-reset.php?isInvalid=1&admEmail=".$_SESSION['admEmail']."&Token=".$_SESSION['Token'], true,303);
-            exit;
+            exit();
         }
         // Generate new token to make previous link unavailable and update password
         $newAdmToken = generateToken($admID);
@@ -62,11 +58,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 //INSERT SQL INTO DB
     if ($_SESSION['Table'] === 'client' || $_SESSION['Table'] === 'admin') {
-        runSQLResult($updateSql);
+        runSQLQuery($updateSql);
         header('Location: ../php-pages/password-reset-success.php?success=1', true, 303);
     }
     else {
         header('Location: ../php-pages/password-reset-success.php?success=2', true, 303);
     }
-    exit;
+    exit();
 }

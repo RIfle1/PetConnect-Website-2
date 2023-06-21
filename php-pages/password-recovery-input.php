@@ -12,15 +12,9 @@ $captchaLanguage = strtolower(substr(returnLanguage(), 0, 2));
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="../css/sign-styles.css">
-    <title>PetConnect Password Recovery</title>
+    <title><?php echo $languageList["Password Recovery"]?></title>
 
     <script src="https://code.jquery.com/jquery-3.6.1.min.js"
             integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
@@ -52,10 +46,10 @@ $captchaLanguage = strtolower(substr(returnLanguage(), 0, 2));
             </div>
             <?php if(!empty($_GET['isInvalid'])): ?>
                 <div class="sign-form-elem">
-                    <span class="sign-form-error-span"><?php echo 'This email does not have an account';?></span>
+                    <span class="form-error-span"><?php echo 'This email does not have an account';?></span>
                 </div>
             <?php endif; ?>
-            <div class="sign-separation-line-small"></div>
+            <div class="separation-line-small"></div>
 
             <div class="sign-form-elem">
                 <div id="recaptcha-div" class="g-recaptcha"></div>
@@ -65,32 +59,28 @@ $captchaLanguage = strtolower(substr(returnLanguage(), 0, 2));
                 <span><?php echo $commonStringsLanguageList["Please verify that you are not a robot."]?></span>
             </div>
 
-            <div class="sign-separation-line-small"></div>
+            <div class="separation-line-small"></div>
 
             <div class="sign-form-elem">
                 <button id="submit-password-recovery-button" type="button"><?php echo $languageList["Send Verification Link"]?></button>
             </div>
-
-            <div class="sign-separation-line-small"></div>
-
-<!--            <div class="sign-form-elem">-->
-<!--                <a href="login.php">Login</a>-->
-<!--            </div>-->
-
         </div>
     </div>
 </form>
 
 <?php include '../php-pages/site-footer.php' ?>
 <script type="text/javascript">
-    setMarginTop('site-header-main-header', 'id', 'sign-form-body', 'id', 50)
+    // setMarginTop('sih-main-header', 'id', 'sign-form-body', 'id', -45)
+
+    setToWindowHeight('sign-form-body', 'id', 0)
+    setMarginTopFooter('sign-form-body', 'id', 'site-footer-main-div', 'id', 0)
+
 </script>
 
 <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit&hl=<?php echo $captchaLanguage ?>"
         async defer>
 </script>
 
-<script src="../javaScript/css-functions.js"></script>
 <script src='../javaScript/recaptcha-functions.js'></script>
 </body>
 </html>

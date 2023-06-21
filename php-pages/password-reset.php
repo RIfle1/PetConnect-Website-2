@@ -4,17 +4,20 @@ logoutAndRedirect('../php-pages/password-reset.php');
 
 session_start();
 // Security stuff
+
+$languageList = returnLanguageList()[returnLanguage()]['password-reset'];
+
 if((empty($_GET['cltEmail']) || empty($_GET['admEmail'])) && empty($_GET['Token']) && empty($_GET['isInvalid'])) {
-    $_SESSION['errorMsg'] = "We don't know what you want to reset.";
+    $_SESSION['errorMsg'] = $languageList["We don't know what you want to reset."];
     header("Location: restricted-access.php", true, 303);
-    exit;
+    exit();
 }
 
 if(!empty($_GET['cltEmail'])) {
     if(!compareEmailAndToken($_GET['cltEmail'], $_GET['Token'], 'client')){
-        $_SESSION['errorMsg'] = 'The Link you are using to reset your password has expired or has already been used';
+        $_SESSION['errorMsg'] = $languageList['The Link you are using to reset your password has expired or has already been used'];
         header("Location: restricted-access.php", true, 303);
-        exit;
+        exit();
     }
     $_SESSION['Token'] = $_GET['Token'];
     $_SESSION['Table'] = 'client';
@@ -23,9 +26,9 @@ if(!empty($_GET['cltEmail'])) {
 }
 elseif(!empty($_GET['admEmail'])) {
     if(!compareEmailAndToken($_GET['admEmail'], $_GET['Token'], 'admin')){
-        $_SESSION['errorMsg'] = 'The Link you are using to reset your password has expired or has already been used';
+        $_SESSION['errorMsg'] = $languageList['The Link you are using to reset your password has expired or has already been used'];
         header("Location: restricted-access.php", true, 303);
-        exit;
+        exit();
     }
     $_SESSION['Token'] = $_GET['Token'];
     $_SESSION['Table'] = 'admin';
@@ -37,26 +40,12 @@ include 'site-header.php';
 $languageList = returnLanguageList()[returnLanguage()]['password-reset'];
 $commonStringsLanguageList = returnLanguageList()[returnLanguage()]['common-strings'];
 $captchaLanguage = strtolower(substr(returnLanguage(), 0, 2));
-
 ?>
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">-->
     <link rel="stylesheet" href="../css/sign-styles.css">
-    <title>PetConnect Password Recovery</title>
-
-    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
-            integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
-            crossorigin="anonymous">
-    </script>
-
-    <script src="https://unpkg.com/just-validate@latest/dist/just-validate.production.min.js" defer></script>
-    <script src="../javaScript/password-reset-validation.js" defer></script>
+    <title><?php echo $languageList["Password Recovery"]?></title>
 
     <script type="text/javascript">
         var onloadCallback = function() {
@@ -90,11 +79,11 @@ $captchaLanguage = strtolower(substr(returnLanguage(), 0, 2));
 
             <?php if ($_GET['isInvalid'] ?? ""): ?>
                 <div class="sign-form-elem">
-                    <span class="sign-form-error-span"><?php echo $languageList["Your new password has to be different from your old password."]?></span>
+                    <span class="form-error-span"><?php echo $languageList["Your new password has to be different from your old password."]?></span>
                 </div>
             <?php endif; ?>
 
-            <div class="sign-separation-line-small"></div>
+            <div class="separation-line-small"></div>
 
             <div class="sign-form-elem">
                 <div id="recaptcha-div" class="g-recaptcha"></div>
@@ -106,7 +95,7 @@ $captchaLanguage = strtolower(substr(returnLanguage(), 0, 2));
 
             <div class="sign-separation-line-small"></div>
             <div class="sign-form-elem">
-                <button type="submit" id="submit-password-reset-button"><?php echo $languageList["Change Password"]?></button>
+                <button type="button" id="submit-password-reset-button"><?php echo $languageList["Change Password"]?></button>
             </div>
 
 
@@ -116,16 +105,21 @@ $captchaLanguage = strtolower(substr(returnLanguage(), 0, 2));
 
 </form>
 
+<script src="../javaScript/validation-functions.js"></script>
+<script src="../javaScript/password-reset-validation.js"></script>
+
 <?php include '../php-pages/site-footer.php' ?>
 <script type="text/javascript">
-    setMarginTop('site-header-main-header', 'id', 'sign-form-body', 'id', 50)
+    // setMarginTop('sih-main-header', 'id', 'sign-form-body', 'id', -60)
+
+    setToWindowHeight('sign-form-body', 'id', 0)
+    setMarginTopFooter('sign-form-body', 'id', 'site-footer-main-div', 'id', 0)
 </script>
 
 <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit&hl=<?php echo $captchaLanguage ?>"
         async defer>
 </script>
 
-<script src="../javaScript/css-functions.js"></script>
 <script src='../javaScript/recaptcha-functions.js'></script>
 
 </body>
