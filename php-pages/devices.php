@@ -16,21 +16,21 @@ $languageList = returnLanguageList()[returnLanguage()]['devices'];
     <title><?php echo $languageList['My devices'] ?></title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function() {
-            setInterval(function() {
-                $.ajax({
-                    url: 'passerelle.php',
-                    type: 'GET',
-                    dataType: 'html',
-                    success: function(response) {
-                        $('#element_a_actualiser').html(response);
-                    },
-                    error: function() {
-                        console.log('Erreur lors de la récupération des données mises à jour.');
-                    }
-                });
-            }, 5000);
-        });
+        // $(document).ready(function() {
+        //     setInterval(function() {
+        //         $.ajax({
+        //             url: 'passerelle.php',
+        //             type: 'GET',
+        //             dataType: 'html',
+        //             success: function(response) {
+        //                 $('#element_a_actualiser').html(response);
+        //             },
+        //             error: function() {
+        //                 console.log('Erreur lors de la récupération des données mises à jour.');
+        //             }
+        //         });
+        //     }, 5000);
+        // });
     </script>
 </head>
 
@@ -130,49 +130,49 @@ $languageList = returnLanguageList()[returnLanguage()]['devices'];
         </div>
     </div>
     <div id="element_a_actualiser">
-        <?php
+        <!-- <?php
 
 
-        $url = "http://projets-tomcat.isep.fr:8080/appService/?ACTION=GETLOG&TEAM=0G4D";
-        $data = file_get_contents($url);
+                $url = "http://projets-tomcat.isep.fr:8080/appService/?ACTION=GETLOG&TEAM=0G4D";
+                $data = file_get_contents($url);
 
-        $data_tab = str_split($data, 33);
-        echo "Tabular Data:<br />";
-        for ($i = 0, $size = count($data_tab); $i < $size - 1; $i++) {
-            echo "Trame $i: $data_tab[$i]";
-            $capteur = "";
-            $trame = $data_tab[$i];
-            // décodage avec des substring
-            $t = substr($trame, 0, 1);
-            $o = substr($trame, 1, 4);
+                $data_tab = str_split($data, 33);
+                echo "Tabular Data:<br />";
+                for ($i = 0, $size = count($data_tab); $i < $size - 1; $i++) {
+                    echo "Trame $i: $data_tab[$i]";
+                    $capteur = "";
+                    $trame = $data_tab[$i];
+                    // décodage avec des substring
+                    $t = substr($trame, 0, 1);
+                    $o = substr($trame, 1, 4);
 
-            // décodage avec scanf
-            list($t, $o, $r, $c, $n, $v, $a, $x, $year, $month, $day, $hour, $min, $sec) =
-                sscanf($trame, "%1s%4s%1s%1s%2s%4s%4s%2s%4s%2s%2s%2s%2s%2s");
-            //    echo(" || $t,$o,$r,$c,$n,$v,$a,$x,$year,$month,$day,$hour,$min,$sec<br />");
+                    // décodage avec scanf
+                    list($t, $o, $r, $c, $n, $v, $a, $x, $year, $month, $day, $hour, $min, $sec) =
+                        sscanf($trame, "%1s%4s%1s%1s%2s%4s%4s%2s%4s%2s%2s%2s%2s%2s");
+                    //    echo(" || $t,$o,$r,$c,$n,$v,$a,$x,$year,$month,$day,$hour,$min,$sec<br />");
 
-            if (hexdec($c) == 10) {
-                $capteur = "Son";
-            } elseif (hexdec($c) == 3) {
-                $capteur = "Température";
-            } elseif (hexdec($c) == 4) {
-                $capteur = "Humidité";
-            } elseif (hexdec($c) == 5) {
-                $capteur = "CO2";
-            } elseif (hexdec($c) == 6) {
-                $capteur = "BPM";
-            }
+                    if (hexdec($c) == 10) {
+                        $capteur = "Son";
+                    } elseif (hexdec($c) == 3) {
+                        $capteur = "Température";
+                    } elseif (hexdec($c) == 4) {
+                        $capteur = "Humidité";
+                    } elseif (hexdec($c) == 5) {
+                        $capteur = "CO2";
+                    } elseif (hexdec($c) == 6) {
+                        $capteur = "BPM";
+                    }
 
-            echo (" || Value: " . hexdec($v) . "  || Capteur: " . $capteur . " <br />");
-        }
-        echo (" || Last Value of Sound:  " . hexdec($v));
-        echo ('<br /> date: ');
-        $date = new \DateTime();
-        echo $date->format('d/m/Y H:i:s');
+                    echo (" || Value: " . hexdec($v) . "  || Capteur: " . $capteur . " <br />");
+                }
+                echo (" || Last Value of Sound:  " . hexdec($v));
+                echo ('<br /> date: ');
+                $date = new \DateTime();
+                echo $date->format('d/m/Y H:i:s');
 
 
 
-        ?>
+                ?> -->
     </div>
 
     <?php include '../php-pages/site-footer.php' ?>
