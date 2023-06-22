@@ -178,6 +178,37 @@ $prdImg = $deviceInfo[0]['prdImg'];
                     </div>
                 </div>
             </section>
+
+            <br>
+            <hr>
+            <?php
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+
+
+                $team = str_pad(dechex($_POST['team']), 4, '0', STR_PAD_LEFT);
+
+                $ch = curl_init();
+
+                curl_setopt($ch, CURLOPT_URL, "http://projets-tomcat.isep.fr:8080/appService?ACTION=COMMAND&TEAM=G04D&TRAME=$trame");
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+
+
+
+
+                $trame = "1G04D2101" . $team . "000000";
+
+                echo "Trame : " . $trame;
+                echo "Valeur : " . $team;
+            }
+            ?>
+            <form action="" method="post">
+                <label for="team">Numéro d'objet :</label>
+                <input type="text" id="team" name="team">
+                <input type="submit" value="Obtenir le log">
+            </form>
         </div>
 
     </main>
