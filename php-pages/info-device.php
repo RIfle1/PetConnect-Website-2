@@ -188,6 +188,8 @@ $prdImg = $deviceInfo[0]['prdImg'];
 
                 $team = str_pad(dechex($_POST['team']), 4, '0', STR_PAD_LEFT);
 
+                $trame = "1G04D2101" . $team . "000000";
+
                 $ch = curl_init();
 
                 curl_setopt($ch, CURLOPT_URL, "http://projets-tomcat.isep.fr:8080/appService?ACTION=COMMAND&TEAM=G04D&TRAME=$trame");
@@ -196,9 +198,12 @@ $prdImg = $deviceInfo[0]['prdImg'];
                 curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 
 
+                $response = curl_exec($ch);
+                if ($response === false) {
+                    echo 'Erreur cURL : ' . curl_error($ch);
+                }
 
 
-                $trame = "1G04D2101" . $team . "000000";
 
                 echo "Trame : " . $trame;
                 echo "Valeur : " . $team;
@@ -207,7 +212,7 @@ $prdImg = $deviceInfo[0]['prdImg'];
             <form action="" method="post">
                 <label for="team">Numéro d'objet :</label>
                 <input type="text" id="team" name="team">
-                <input type="submit" value="Obtenir le log">
+                <input type="submit" value="Envoyer une requete">
             </form>
         </div>
 
