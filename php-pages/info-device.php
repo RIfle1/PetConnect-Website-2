@@ -186,9 +186,10 @@ $prdImg = $deviceInfo[0]['prdImg'];
 
 
 
-                $team = str_pad(dechex($_POST['team']), 4, '0', STR_PAD_LEFT);
+                $team = str_pad($_POST['team'], 4, '0', STR_PAD_LEFT);
 
-                $trame = "1G04D2101" . $team . "000000";
+                $trame = "1G04D2101" . $team . "00";
+
 
                 $ch = curl_init();
 
